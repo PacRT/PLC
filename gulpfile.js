@@ -4,12 +4,13 @@ var browserify = require('gulp-browserify'),
     gulp = require('gulp'),
     open = require('gulp-open'),
     plumber = require('gulp-plumber'),
+    nodemon = require('gulp-nodemon')
     livereload = require('gulp-livereload');
 
 gulp
     // performs magic
     .task('browserify', function(){
-        gulp.src('src/js/app.js')
+        gulp.src('public/js/app.js')
             .pipe(plumber())
             .pipe(
             browserify({
@@ -26,11 +27,11 @@ gulp
     // moves source files to dist
     .task('copy', function(){
         gulp
-            .src('src/index.html')
+            .src('public/index.html')
             .pipe(gulp.dest('dist'));
 
         gulp
-            .src('src/assets/**/*.*')
+            .src('public/assets/**/*.*')
             .pipe(gulp.dest('dist/assets'));
 
     })
@@ -53,14 +54,23 @@ gulp
             open({app: 'google chrome',uri: 'http://localhost:8080/'})
         );
     })
+    // node api Server
+    .task('node-app', function () {
+        nodemon({ script: 'routes/node-app.js'})
+        .on('restart', function () {
+            console.log('restarted!')
+        })
+    })
+
+
+    // watch for source changes
+    .task('watch', function(){
+        livereload.listen();
+        gulp.watch('public/**/*.*', ['default2']);
+    })
 
 
     // build the application
-    .task('default', ['browserify', 'copy', 'connect', 'open'])
-    .task('default2', ['browserify', 'copy'])
+    .task('default', ['browserify', 'copy', 'connect','open','watch'])
+    .task('default2', ['browserify', 'copy']);
 
-    // watch for source changes
-    .task('watch', ['default'], function(){
-        livereload.listen();
-        gulp.watch('src/**/*.*', ['default2']);
-    });
