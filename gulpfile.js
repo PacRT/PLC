@@ -40,12 +40,6 @@ gulp
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest('dist/assets/css'))
     })
-    //Bundle All App styles
-    .task('app_css',function(){
-        gulp.src(app_css_path)
-            .pipe(concat('app.css'))
-            .pipe(gulp.dest('dist/assets/css'))
-    })
     // performs magic
     .task('browserify', function(){
         gulp.src('public/js/app.js')
@@ -72,7 +66,11 @@ gulp
             .pipe(gulp.dest('dist/assets/css/images'));
         gulp
             .src('public/assets/css/fonts/*.*')
-            .pipe(gulp.dest('dist/assets/css/fonts'));
+            .pipe(gulp.dest('dist/assets/css/fonts'))
+        gulp
+            .src(app_css_path)
+            .pipe(concat('app.css'))
+            .pipe(gulp.dest('dist/assets/css'));
 
     })
 
@@ -111,6 +109,6 @@ gulp
 
 
     // build the application
-    .task('default', ['vendor_css','vendor_js','app_css','browserify', 'copy', 'connect','open','watch'])
+    .task('default', ['vendor_css','vendor_js','browserify', 'copy', 'connect','open','watch'])
     .task('default2', ['browserify', 'copy']);
 

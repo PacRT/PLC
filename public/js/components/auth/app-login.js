@@ -51,7 +51,6 @@ var Login = React.createClass({
           <button type="submit">login</button>
           {errors}
         </form>
-        <FbLoginButton/>
       </div>
     );
   }
