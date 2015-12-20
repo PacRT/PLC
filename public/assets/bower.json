@@ -1,0 +1,17 @@
+{
+  "name": "PLC-Scribble",
+  "authors": [
+    "Hardik Mistry <hardik.mistry@outlook.com>"
+  ],
+  "description": "PaperLess Club Assets",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "react-bootstrap": "~0.28.1",
+    "jquery": "~2.1.4",
+    "react-router": "~1.0.2"
+  }
+}

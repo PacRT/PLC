@@ -1,17 +1,30 @@
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+var Router = require('react-router').Router;
+var render = require('react-dom').render;
 
-var React = require('react');
+APP = require('./components/app').APP;
 
-var TodoApp = require('./components/TodoApp.react');
+var Logout = require('./components/auth/app-logout');
+var Login = require('./components/auth/app-login');
 
-React.render(
-  <TodoApp />,
-  document.getElementById('todoapp')
-);
+var About = require('./components/about/app-about');
+var Dashboard = require('./components/dashboard/app-dashboard');
+
+var rootRoute = {
+    path: '/',
+    component: APP,
+
+
+        childRoutes: [
+            { path : "login",component: Login},
+            { path : "logout",component: Logout},
+            { path : "about",component: About},
+            { path : "dashboard",component: Dashboard},
+        ]
+
+}
+
+render(
+    <Router routes={rootRoute} />,
+    document.getElementById('example')
+)
+

@@ -7,7 +7,45 @@ var browserify = require('gulp-browserify'),
     nodemon = require('gulp-nodemon')
     livereload = require('gulp-livereload');
 
+var root_js_path = './public/assets/bower_components/';
+var root_css_path = './public/assets/css/';
+
+var vendor_js_path = [
+        root_js_path + "jquery/dist/jquery.min.js",
+        root_js_path + "react/react.min.js",
+        root_js_path + "react/react-dom.min.js",
+        root_js_path + "react/react-dom-server.min.js",
+        root_js_path + "react/react-with-addons.min.js"
+    ];
+
+var vendor_css_path = [
+        root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
+    ];
+
+var app_css_path = [
+    root_css_path + "app.css",
+    root_css_path + "base.css"
+]
 gulp
+    //Bundle all Third Party Plugins
+    .task('vendor_js',function(){
+        gulp.src(vendor_js_path)
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest('dist/assets'));
+    })
+
+    //Bundle all Third Party CSS
+    .task('vendor_css',function(){
+        gulp.src(vendor_css_path)
+        .pipe(concat('vendor.css'))
+        .pipe(gulp.dest('dist/assets/css'))
+    })
+    //Bundle All App styles
+    .task('app_css',function(){
+        gulp.src(app_css_path)
+            .pipe(concat('app.css'))
+            .pipe(gulp.dest('dist/assets/css'))
+    })
     // performs magic
     .task('browserify', function(){
         gulp.src('public/js/app.js')
@@ -29,10 +67,12 @@ gulp
         gulp
             .src('public/index.html')
             .pipe(gulp.dest('dist'));
-
         gulp
-            .src('public/assets/**/*.*')
-            .pipe(gulp.dest('dist/assets'));
+            .src('public/assets/css/images/*.*')
+            .pipe(gulp.dest('dist/assets/css/images'));
+        gulp
+            .src('public/assets/css/fonts/*.*')
+            .pipe(gulp.dest('dist/assets/css/fonts'));
 
     })
 
@@ -71,6 +111,6 @@ gulp
 
 
     // build the application
-    .task('default', ['browserify', 'copy', 'connect','open','watch'])
+    .task('default', ['vendor_css','vendor_js','app_css','browserify', 'copy', 'connect','open','watch'])
     .task('default2', ['browserify', 'copy']);
 
