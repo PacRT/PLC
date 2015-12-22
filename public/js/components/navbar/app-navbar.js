@@ -25,7 +25,7 @@ var NavBar = React.createClass({
             <Navbar inverse>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#">PapaerLess Club</a>
+                        <a href="#"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
@@ -36,7 +36,6 @@ var NavBar = React.createClass({
                         <NavItem eventKey={2} href="#">Invite</NavItem>
                         <NavItem eventKey={2} href="#">Dev Zone</NavItem>
                         <NavItem eventKey={2} href="#">My Things</NavItem>
-
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

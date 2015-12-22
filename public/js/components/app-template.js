@@ -4,6 +4,7 @@ var AppStore = require('../stores/app-store.js');
 var AppActions = require('../actions/app-actions.js');
 var Header = require('./header/app-header');
 var NavBar = require('./navbar/app-navbar');
+var UploadZone = require('./uploadzone/app-uploadzone');
 
 function getCart() {
   return AppStore.getCart();
@@ -12,7 +13,6 @@ function getCart() {
 var Template = 
     React.createClass({
         handleClick:function(){
-            console.log("it woeksss!!!!")
             AppActions.addItem();
             console.log(getCart());
         },    
@@ -22,7 +22,7 @@ var Template =
 
 
                     <NavBar />
-                    <button className="btn btn-default" onClick={this.handleClick}>is click workingAdd Item (an example output in the console .. it is using Actions-&lt;Dispatcher-&lt;Store one directional flow) </button>
+                    <UploadZone />
 
                     {this.props.children}
                    <br/><br/>

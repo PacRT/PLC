@@ -20,7 +20,9 @@ var vendor_js_path = [
 
 var vendor_css_path = [
         root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
-    ];
+        root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
+
+];
 
 var app_css_path = [
     root_css_path + "app.css",
@@ -38,7 +40,7 @@ gulp
     .task('vendor_css',function(){
         gulp.src(vendor_css_path)
         .pipe(concat('vendor.css'))
-        .pipe(gulp.dest('dist/assets/css'))
+        .pipe(gulp.dest('dist/assets/css/vendorcss'))
     })
     // performs magic
     .task('browserify', function(){
@@ -65,7 +67,7 @@ gulp
             .src('public/assets/css/images/*.*')
             .pipe(gulp.dest('dist/assets/css/images'));
         gulp
-            .src('public/assets/css/fonts/*.*')
+            .src('public/assets/css/vendorcss/fonts/*.*')
             .pipe(gulp.dest('dist/assets/css/fonts'))
         gulp
             .src(app_css_path)
