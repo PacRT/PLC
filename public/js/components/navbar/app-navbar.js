@@ -31,8 +31,8 @@ var NavBar = React.createClass({
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem eventKey={1} href="#">My Docs</NavItem>
-                        <NavItem eventKey={2} href="#">How to</NavItem>
+                        <NavItem eventKey={1} href="#/mydocs">My Docs</NavItem>
+                        <NavItem eventKey={2} href="#/howto">How to</NavItem>
                         <NavItem eventKey={2} href="#">Invite</NavItem>
                         <NavItem eventKey={2} href="#">Dev Zone</NavItem>
                         <NavItem eventKey={2} href="#">My Things</NavItem>

@@ -34,7 +34,8 @@ var Entity = React.createClass({
         // All the code in the EntityStore is synchronous thanks for that data flow
         // thus the code is more maintainable and much better structurized
         return (
-            <div className="well"> This is Entity Component Uses Proper Flux Architecture for Getting Async Web Api Calls (check console log for more details) </div>
+            <div>
+            <div className="well"> This is Entity Component Uses Proper Flux Architecture for Getting Async Web Api Calls (check console log for more details) </div></div>
             )
     }
 });
