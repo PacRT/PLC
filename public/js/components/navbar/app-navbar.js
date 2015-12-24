@@ -33,7 +33,7 @@ var NavBar = React.createClass({
                     <Nav>
                         <NavItem eventKey={1} href="#/mydocs">My Docs</NavItem>
                         <NavItem eventKey={2} href="#/howto">How to</NavItem>
-                        <NavItem eventKey={2} href="#">Invite</NavItem>
+                        <NavItem eventKey={2} href="#/invite">Invite</NavItem>
                         <NavItem eventKey={2} href="#">Dev Zone</NavItem>
                         <NavItem eventKey={2} href="#">My Things</NavItem>
                     </Nav>

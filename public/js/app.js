@@ -1,30 +1,14 @@
-var Router = require('react-router').Router;
 var render = require('react-dom').render;
-
-APP = require('./components/app').APP;
-
-var Logout = require('./components/auth/app-logout');
-var Login = require('./components/auth/app-login');
-
-var About = require('./components/about/app-about');
-var Dashboard = require('./components/dashboard/app-dashboard');
-var MyDocs = require('./components/mydocs/app-mydocs');
-var HowTo = require('./components/howto/app-howto');
-var rootRoute = {
-    path: '/',
-    component: APP,
-        childRoutes: [
-            { path : "login",component: Login},
-            { path : "logout",component: Logout},
-            { path : "about",component: About},
-            { path : "howto",component: HowTo},
-            { path : "mydocs",component: MyDocs}
-        ]
-
-}
+var Router = require('react-router').Router;
+var createHistory = require('history/lib/createHashHistory');
+//To Prevent random string appearing in react-router
+var history = createHistory({
+    queryKey: false
+});
+var AppRouter = require('./components/app-router');
 
 render(
-    <Router routes={rootRoute} />,
+    <Router history={history} routes={AppRouter} />,
     document.getElementById('example')
 )
 

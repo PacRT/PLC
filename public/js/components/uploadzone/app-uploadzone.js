@@ -12,7 +12,7 @@ var UploadZone = React.createClass({
     render: function () {
 
         var dropZoneStyle = {
-            "text-align" : "center",
+            "textAlign" : "center",
             "position"   : "relative",
             "top"        : "30%"
          };
