@@ -4,7 +4,7 @@
 /** @jsx React.DOM */
 var React = require('react');
 var UnderConstruction = require('../app-underconstruction')
-var MyDocs = React.createClass({
+var HowTo = React.createClass({
 
     render: function () {
         return (
@@ -16,4 +16,4 @@ var MyDocs = React.createClass({
     }
 });
 
-module.exports = MyDocs;
+module.exports = HowTo;

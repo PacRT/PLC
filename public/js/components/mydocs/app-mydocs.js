@@ -10,7 +10,6 @@ var MyDocs = React.createClass({
     render: function () {
         return (
             <div>
-
                 <h1>My Docs</h1>
                <UnderConstruction />
             </div>

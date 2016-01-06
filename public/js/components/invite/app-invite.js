@@ -10,7 +10,7 @@ var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
 
 
-var MyDocs = React.createClass({
+var Invite = React.createClass({
 
     render: function () {
         return (
@@ -41,4 +41,4 @@ var MyDocs = React.createClass({
     }
 });
 
-module.exports = MyDocs;
+module.exports = Invite;

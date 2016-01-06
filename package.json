@@ -27,7 +27,7 @@
     "jquery": "^2.1.4",
     "keymirror": "~0.1.0",
     "less-middleware": "^2.0.1",
-    "material-ui": "^0.14.0-rc2",
+    "material-ui": "0.14.0",
     "method-override": "^2.3.5",
     "morgan": "^1.6.1",
     "multer": "^1.1.0",
