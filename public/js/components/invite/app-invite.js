@@ -5,9 +5,13 @@
 var React = require('react');
 var RaisedButton = require('material-ui/lib/raised-button');
 var TextField = require('material-ui/lib/text-field');
-var Toolbar = require('material-ui/lib/toolbar/toolbar');
-var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
+var Divider = require('material-ui/lib/divider');
+var Badge = require('material-ui/lib/badge');
+var IconButton = require('material-ui/lib/icon-button');
+var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
+var Grid = require('react-bootstrap/lib/Grid');
+var Row = require('react-bootstrap/lib/Row');
+var Col = require('react-bootstrap/lib/Col');
 
 
 var Invite = React.createClass({
@@ -15,26 +19,41 @@ var Invite = React.createClass({
     render: function () {
         return (
             <div>
-                <Toolbar>
-                    <ToolbarGroup key={1}>
-                        <ToolbarTitle text="Invite People You know" />
-                    </ToolbarGroup>
-                </Toolbar>
-                <center>
+                <Grid>
+                    <Row className="show-grid">
+                        <Col xs={12} md={3} mdOffset={4}>
+                           <h4>
+                               Invite People You Know
+                               <IconButton tooltip="Invitations Left" tooltipPosition="bottom-right">
+                                   <Badge
+                                       badgeContent={5}
+                                       secondary={true}
+                                       badgeStyle={{top: 12, right: 12, left:25}}>
 
-                    <TextField
-                        style={{"display": "block"}}
-                        hintText="Required Off Course :)"
-                        floatingLabelText="Email" />
+                                   </Badge>
+                               </IconButton>
+                           </h4>
+                            <Divider />
+                         </Col>
+                        <Col xs={12} md={5} mdOffset={4}>
 
-                    <TextField
-                        style={{"display": "block"}}
-                        hintText="Highly Encouraged"
-                        floatingLabelText="Name" />
-                    <br/>
-                    <RaisedButton label="Invite"  style={{"margin-right": "10px"}} />
-                    <RaisedButton label="Invite More" />
-                </center>
+                            <TextField
+                                style={{"display": "block"}}
+                                hintText="Required Off Course :)"
+                                floatingLabelText="Email" />
+
+                            <TextField
+                                style={{"display": "block"}}
+                                hintText="Highly Encouraged"
+                                floatingLabelText="Name" />
+                            <br/>
+                            <RaisedButton label="Invite"  style={{"margin-right": "10px"}} />
+                            <RaisedButton label="Invite More" />
+                        </Col>
+
+
+                    </Row>
+                </Grid>
 
             </div>
         );
