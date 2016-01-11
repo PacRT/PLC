@@ -16,14 +16,13 @@ var SignUpForm = React.createClass({
             lastName :null,
             phoneNumber: null,
             password: null,
-            confirmPassword: null,
-            statesValue: null,
+            passwordConfirm: null,
             forbiddenWords: ["password", "user", "username"]
         }
     },
 
     handlePasswordInput: function (event) {
-        if(!_.isEmpty(this.state.confirmPassword)){
+        if(!_.isEmpty(this.state.passwordConfirm)){
             this.refs.passwordConfirm.isValid();
         }
         this.refs.passwordConfirm.hideError();
@@ -34,22 +33,20 @@ var SignUpForm = React.createClass({
 
     handleConfirmPasswordInput: function (event) {
         this.setState({
-            confirmPassword: event.target.value
+            passwordConfirm: event.target.value
         });
     },
 
     saveAndContinue: function (e) {
         e.preventDefault();
-        console.log("Put breakpoint here!!!")
+        console.log("Put breakpoint here!!!");
         var canProceed = this.validateEmail(this.state.email)
-            && !_.isEmpty(this.state.statesValue)
             && this.refs.password.isValid()
             && this.refs.passwordConfirm.isValid();
 
         if(canProceed) {
             var data = {
-                email: this.state.email,
-                state: this.state.statesValue
+                email: this.state.email
             }
             alert('Thanks.');
         } else {
@@ -103,12 +100,6 @@ var SignUpForm = React.createClass({
         return !_.isEmpty(value);
     },
 
-    updateStatesValue: function (value) {
-        this.setState({
-            statesValue: value
-        })
-    },
-
     render: function() {
         return (
             <div className="create_account_screen">
@@ -122,6 +113,10 @@ var SignUpForm = React.createClass({
                             text="User Name"
                             ref="userName"
                             type="text"
+                            userValidator="true"
+                            minCharacters="4"
+                            requireCapitals="1"
+                            requireNumbers="1"
                             validate={this.isEmpty}
                             defaultValue={this.state.userName}
                             value={this.state.userName}
@@ -179,7 +174,7 @@ var SignUpForm = React.createClass({
                             requireCapitals="1"
                             requireNumbers="1"
                             forbiddenWords={this.state.forbiddenWords}
-                            value={this.state.passsword}
+                            value={this.state.password}
                             emptyMessage="Password is invalid"
                             onChange={this.handlePasswordInput}
                         />

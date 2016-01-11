@@ -8,6 +8,8 @@ var Icon = require('./Icon.js');
 var InputError = require('./InputError.js');
 var PasswordValidator = require('./PasswordValidator.js');
 
+var UserNameValidator = require('./UserNameValidator.js');
+
 var cx = require('classnames');
 
 
@@ -24,14 +26,17 @@ var Input = React.createClass({
             iconsVisible: !this.props.validator,
             errorMessage: this.props.emptyMessage,
             validator: this.props.validator,
+            userValidator : this.props.userValidator,
             validatorVisible: false,
             type: this.props.type,
             minCharacters: this.props.minCharacters,
+            specialCharacters : this.props.specialCharacters,
             requireCapitals: this.props.requireCapitals,
             requireNumbers: this.props.requireNumbers,
             forbiddenWords: this.props.forbiddenWords,
             isValidatorValid: {
                 minChars: false,
+                specialCharacters : true,
                 capitalLetters: false,
                 numbers: false,
                 words: false,
@@ -49,6 +54,9 @@ var Input = React.createClass({
 
         if(this.props.validator) {
             this.checkRules(event.target.value)
+        }
+        if(this.props.userValidator){
+            this.checkUserRules(event.target.value)
         }
 
         // call input's validation method
@@ -140,7 +148,22 @@ var Input = React.createClass({
             validatorVisible: false
         });
     },
+    checkUserRules : function(value){
+        var specialCharacters = value.match(/[^\w\s\.-]/gi);
 
+        var validData = {
+            minChars: !_.isEmpty(value) ? value.length >= parseInt(this.state.minCharacters): false,
+            specialCharacters : _.isNull(specialCharacters) ? true : false
+        }
+        console.log(validData.specialCharacters);
+        var allValid = validData.minChars && validData.specialCharacters;
+
+        this.setState({
+            isValidatorValid: validData,
+            allValidatorValid: allValid,
+            valid: allValid
+        });
+    },
     // validator function
     checkRules: function(value) {
         var validData = {
@@ -155,7 +178,7 @@ var Input = React.createClass({
             isValidatorValid: validData,
             allValidatorValid: allValid,
             valid: allValid
-        })
+        });
     },
 
     countCapitals: function(value) {
@@ -192,16 +215,29 @@ var Input = React.createClass({
             validator =
                 <PasswordValidator
                     ref="passwordValidator"
-            visible={this.state.validatorVisible}
-            name={this.props.text}
-            value={this.state.value}
-            validData={this.state.isValidatorValid}
-            valid={this.state.allValidatorValid}
-            forbiddenWords={this.state.forbiddenWords}
-            minCharacters={this.props.minCharacters}
-            requireCapitals={this.props.requireCapitals}
-            requireNumbers={this.props.requireNumbers}
-        />
+                    visible={this.state.validatorVisible}
+                    name={this.props.text}
+                    value={this.state.value}
+                    validData={this.state.isValidatorValid}
+                    valid={this.state.allValidatorValid}
+                    forbiddenWords={this.state.forbiddenWords}
+                    minCharacters={this.props.minCharacters}
+                    requireCapitals={this.props.requireCapitals}
+                    requireNumbers={this.props.requireNumbers}
+                />
+        }
+
+        if(this.state.userValidator){
+            validator =
+                <UserNameValidator
+                    ref="userNameValidator"
+                    validData={this.state.isValidatorValid}
+                    visible={this.state.validatorVisible}
+                    name={this.props.text}
+                    value={this.state.value}
+                    minCharacters={this.props.minCharacters}
+                    specialCharacters={this.props.specialCharacters}
+                />
         }
 
         return (
