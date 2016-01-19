@@ -39,7 +39,6 @@ var UserNameValidator = React.createClass({
                     {this.props.name} RULES
                 </h4>
         }
-        console.log(this.props.validData);
         return (
             <div className={validatorClass}>
                 <div className="validator_container">

@@ -2,7 +2,6 @@
 var React = require('react');
 var AppStore = require('../stores/app-store.js');
 var AppActions = require('../actions/app-actions.js');
-var Header = require('./header/app-header');
 
 function getCart() {
   return AppStore.getCart();

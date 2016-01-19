@@ -17,7 +17,6 @@ var Input = React.createClass({
 
     getInitialState: function(){
         var valid = (this.props.isValid && this.props.isValid()) || true;
-
         return {
             valid: valid,
             empty: _.isEmpty(this.props.value),
@@ -34,6 +33,7 @@ var Input = React.createClass({
             requireCapitals: this.props.requireCapitals,
             requireNumbers: this.props.requireNumbers,
             forbiddenWords: this.props.forbiddenWords,
+            isUserExists : false,
             isValidatorValid: {
                 minChars: false,
                 specialCharacters : true,
@@ -53,10 +53,11 @@ var Input = React.createClass({
         });
 
         if(this.props.validator) {
-            this.checkRules(event.target.value)
+            this.checkRules(event.target.value);
         }
         if(this.props.userValidator){
-            this.checkUserRules(event.target.value)
+            console.log(this.props.isUserExists);
+            this.checkUserRules(event.target.value);
         }
 
         // call input's validation method
@@ -88,6 +89,7 @@ var Input = React.createClass({
 
     componentWillReceiveProps: function (newProps) {
         // perform update only when new value exists and not empty
+
         if(newProps.value) {
             if(!_.isUndefined(newProps.value) && newProps.value.length > 0) {
                 if(this.props.validate) {
@@ -96,7 +98,22 @@ var Input = React.createClass({
                 this.setState({
                     value: newProps.value,
                     empty: _.isEmpty(newProps.value)
+
                 });
+
+                if(JSON.parse(newProps.isUserExists)){
+                    this.setState({
+                        valid: false,
+                        errorMessage: this.props.errorMessage,
+                        errorVisible : true,
+                        validatorVisible : false
+                    });
+                }else{
+                    this.setState({
+                        errorVisible : false,
+                        validatorVisible : true
+                    });
+                }
             }
         }
     },
@@ -155,7 +172,6 @@ var Input = React.createClass({
             minChars: !_.isEmpty(value) ? value.length >= parseInt(this.state.minCharacters): false,
             specialCharacters : _.isNull(specialCharacters) ? true : false
         }
-        console.log(validData.specialCharacters);
         var allValid = validData.minChars && validData.specialCharacters;
 
         this.setState({
@@ -227,12 +243,14 @@ var Input = React.createClass({
                 />
         }
 
-        if(this.state.userValidator){
+        if(this.props.userValidator){
+
             validator =
                 <UserNameValidator
                     ref="userNameValidator"
                     validData={this.state.isValidatorValid}
                     visible={this.state.validatorVisible}
+                    valid={this.state.allValidatorValid}
                     name={this.props.text}
                     value={this.state.value}
                     minCharacters={this.props.minCharacters}

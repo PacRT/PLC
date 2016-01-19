@@ -6,6 +6,9 @@ var React = require('react');
 var Input = require('./components/Input.js');
 var _ = require('underscore');
 var Icon = require('./components/Icon.js');
+var UserStore = require('../../stores/app-newUser');
+var UserActions = require('../../actions/app-actions');
+
 
 var SignUpForm = React.createClass({
     getInitialState: function () {
@@ -17,10 +20,21 @@ var SignUpForm = React.createClass({
             phoneNumber: null,
             password: null,
             passwordConfirm: null,
-            forbiddenWords: ["password", "user", "username"]
+            forbiddenWords: ["password", "user", "username"],
+            user : UserStore.getUser()
         }
     },
+    componentDidMount: function() {
+        UserStore.addChangeListener(this._onChange);
+    },
 
+    componentWillUnmount: function() {
+        UserStore.removeChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+        this.setState({user : UserStore.getUser()});
+    },
     handlePasswordInput: function (event) {
         if(!_.isEmpty(this.state.passwordConfirm)){
             this.refs.passwordConfirm.isValid();
@@ -39,7 +53,6 @@ var SignUpForm = React.createClass({
 
     saveAndContinue: function (e) {
         e.preventDefault();
-        console.log("Put breakpoint here!!!");
         var canProceed = this.validateEmail(this.state.email)
             && this.refs.password.isValid()
             && this.refs.passwordConfirm.isValid();
@@ -48,7 +61,7 @@ var SignUpForm = React.createClass({
             var data = {
                 email: this.state.email
             }
-            alert('Thanks.');
+            this._add();
         } else {
             this.refs.userName.isValid();
             this.refs.email.isValid();
@@ -71,18 +84,21 @@ var SignUpForm = React.createClass({
     },
     handleFirstNameInput: function(event){
       this.setState({
-          firstName : event.target.values
+          firstName : event.target.value
       })
     },
     handleLastNameInput: function(event){
         this.setState({
-            lastName : event.target.values
+            lastName : event.target.value
         })
     },
     handleUserNameInput: function(event){
         this.setState({
-            userName : event.target.values
-        })
+            userName : event.target.value
+        });
+        if(event.target.value.length >= 4){
+            UserActions.isUserExists(event.target.value);
+        }
     },
     handleEmailInput: function(event){
         this.setState({
@@ -99,13 +115,15 @@ var SignUpForm = React.createClass({
     isEmpty: function (value) {
         return !_.isEmpty(value);
     },
-
+    _add : function(){
+        UserActions.addUser();
+    },
     render: function() {
         return (
             <div className="create_account_screen">
 
                 <div className="create_account_form">
-                    <h1>Sign Up For PLC</h1>
+                    <center><h1>Sign Up For PLC</h1></center>
                     <p></p>
                     <form onSubmit={this.saveAndContinue}>
 
@@ -118,10 +136,12 @@ var SignUpForm = React.createClass({
                             requireCapitals="1"
                             requireNumbers="1"
                             validate={this.isEmpty}
+                            isUserExists={this.state.user.isUserExists}
                             defaultValue={this.state.userName}
                             value={this.state.userName}
                             onChange={this.handleUserNameInput}
                             emptyMessage="User Name can't be empty"
+                            errorMessage="User Already Exists"
                         />
 
                         <Input
@@ -184,7 +204,7 @@ var SignUpForm = React.createClass({
                             ref="passwordConfirm"
                             type="password"
                             validate={this.isConfirmedPassword}
-                            value={this.state.confirmPassword}
+                            value={this.state.passwordConfirm}
                             onChange={this.handleConfirmPasswordInput}
                             emptyMessage="Please confirm your password"
                             errorMessage="Passwords don't match"
@@ -195,10 +215,8 @@ var SignUpForm = React.createClass({
                             className="button button_wide">
                             CREATE ACCOUNT
                         </button>
-
                     </form>
                 </div>
-
             </div>
         );
     }

@@ -1,12 +1,22 @@
 /** @jsx React.DOM */
 var React = require('react');
 var SignUpForm = require('./signup-form.js');
+var Grid = require('react-bootstrap/lib/Grid');
+var Row = require('react-bootstrap/lib/Row');
+var Col = require('react-bootstrap/lib/Col');
+
 var SignUp = React.createClass({
 
     render: function () {
         return (
-            <div className="application_wrapper">
-                <SignUpForm/>
+            <div>
+                <Grid>
+                    <Row className="show-grid">
+                        <Col xs={6} md={6} mdOffset={3}>
+                                <SignUpForm/>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
         );
     }

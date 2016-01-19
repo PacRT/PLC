@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Router = require('react-router');
-var AuthStore = require('../../stores/app-auth.js');
 var Link = Router.Link;
 var ReactBoostrap = require("react-bootstrap")
 var Navbar = ReactBoostrap.Navbar;
@@ -11,15 +10,7 @@ var MenuItem = ReactBoostrap.MenuItem;
 var NavDropdown = ReactBoostrap.NavDropdown;
 
 var NavBar = React.createClass({
-    getInitialState: function () {
-        return AuthStore.getState();
-    },
-    setStateOnAuth: function (loggedIn) {
-        this.setState(AuthStore.getState());
-    },
-    componentWillMount: function () {
-        AuthStore.authOnChangeHeader(this.setStateOnAuth);
-    },
+
     render: function () {
         return (
             <Navbar inverse>
