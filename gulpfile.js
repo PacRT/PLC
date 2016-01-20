@@ -25,9 +25,9 @@ var vendor_css_path = [
 ];
 
 var app_css_path = [
+    root_css_path + "signup.css",
     root_css_path + "app.css",
-    root_css_path + "base.css",
-    root_css_path + "signup.css"
+    root_css_path + "base.css"
 ]
 gulp
     //Bundle all Third Party Plugins

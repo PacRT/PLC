@@ -3,9 +3,9 @@
  */
 /** @jsx React.DOM */
 var React = require('react');
-var Input = require('./components/Input.js');
+var Input = require('./../utils/Input.js');
 var _ = require('underscore');
-var Icon = require('./components/Icon.js');
+var Icon = require('./../utils/Icon.js');
 var UserStore = require('../../stores/app-newUser');
 var UserActions = require('../../actions/app-actions');
 
