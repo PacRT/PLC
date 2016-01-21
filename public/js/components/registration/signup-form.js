@@ -6,8 +6,8 @@ var React = require('react');
 var Input = require('./../utils/Input.js');
 var _ = require('underscore');
 var Icon = require('./../utils/Icon.js');
-var UserStore = require('../../stores/app-newUser');
-var UserActions = require('../../actions/app-actions');
+var UserStore = require('../../stores/app-registration');
+var RegistrationActions = require('../../actions/app-registration');
 
 
 var SignUpForm = React.createClass({
@@ -97,7 +97,7 @@ var SignUpForm = React.createClass({
             userName : event.target.value
         });
         if(event.target.value.length >= 4){
-            UserActions.isUserExists(event.target.value);
+             RegistrationActions.isUserExists(event.target.value);
         }
     },
     handleEmailInput: function(event){
@@ -116,7 +116,7 @@ var SignUpForm = React.createClass({
         return !_.isEmpty(value);
     },
     _add : function(){
-        UserActions.addUser();
+         RegistrationActions.addUser();
     },
     render: function() {
         return (

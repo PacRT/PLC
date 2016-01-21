@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-var Login = require('../components/auth/app-login');
+var Login = require('../components/auth/app-auth');
 var AuthStore = require('../stores/app-auth.js');
 
 var AuthenticationMixin = {
@@ -8,8 +8,8 @@ var AuthenticationMixin = {
           console.log("authentication mixin!!!!");
 	      if (!AuthStore.getState().loggedIn) {
 	        Login.attemptedTransition = transition;
-	        transition.redirect('/login');
-	        alert('Please login first.');
+	        transition.redirect('/auth');
+	        alert('Please auth first.');
 	      }
 	    }
 	  }

@@ -28,7 +28,7 @@ var NavBar = React.createClass({
                         <NavItem eventKey={2} href="#">Dev Zone</NavItem>
                         <NavItem eventKey={2} href="#">My Things</NavItem>
                         <NavItem eventKey={2} href="#/login">Login</NavItem>
-                        <NavItem eventKey={2} href="#/signup">Sign Up</NavItem>
+                        <NavItem eventKey={2} href="#/registration">Sign Up</NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

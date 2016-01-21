@@ -3,10 +3,10 @@
  */
 var HOST = "127.0.0.1";
 var PORT = 3333;
-var AppConstants = require('../constants/app-constants.js');
+var APIConstants = require('../constants/app-api-url.js');
 
 module.exports = {
     get : function(API){
-        return "http://" + HOST + ":" +PORT + AppConstants.API_PREFIX +API;
+        return "http://" + HOST + ":" + PORT + APIConstants.API_PREFIX + API ;
     }
 }

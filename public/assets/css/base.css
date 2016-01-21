@@ -30,6 +30,7 @@ body {
 	-ms-font-smoothing: antialiased;
 	-o-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	overflow-y: scroll;
 }
 
 button,

@@ -48,7 +48,7 @@ _fb_login_object = {
         _dispatch(AppConstants.FB_OAUTH_TOKEN_SUCCESS,oauth_obj)
     },
     error: function(user, error) {
-        console.log("User canceled the Facebook login or did not fully authorize.");
+        console.log("User canceled the Facebook auth or did not fully authorize.");
         //location.reload();
     }
 }
@@ -76,7 +76,7 @@ function _fbLoginPageLoaded() {
             cookie     : true, 
             xfbml      : true
         });
-        // This Parse FB login fires up when the button is
+        // This Parse FB auth fires up when the button is
         // clicked for the first time by user
         Parse.FacebookUtils.logIn("email, public_profile, user_friends", _fb_login_object);
     };
@@ -96,7 +96,7 @@ function _fbLoginPageLoaded() {
 
 
 function _startFbOauth() { 
-    // !IMPORTANT This Parse FB login fires up when the button is
+    // !IMPORTANT This Parse FB auth fires up when the button is
     // clicked for second and later times .. probably later on
     // (while refactoring) we need to find better approach (more DRY)
     Parse.FacebookUtils.logIn("user_likes,email", _fb_login_object);

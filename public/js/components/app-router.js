@@ -8,8 +8,8 @@ var APP         = require('./app').APP;
 var MyDocs      = require('./mydocs/app-mydocs');
 var HowTo       = require('./howto/app-howto');
 var Invite      = require('./invite/app-invite');
-var Login       = require('./login/app-login');
-var Registration= require('./signup/app-signup');
+var Login       = require('./auth/app-login');
+var Registration= require('./registration/app-registration');
 
 var AppRouter = {
     path: '/',
@@ -19,7 +19,7 @@ var AppRouter = {
         { path : "howto" ,component: HowTo},
         { path : "mydocs",component: MyDocs},
         { path : "invite",component: Invite},
-        { path : "signup",component: Registration}
+        { path : "registration",component: Registration}
     ]
 };
 

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Login = require('../auth/app-login');
+var Login = require('../auth/app-auth');
 var AuthStore = require('../../stores/app-auth.js');
 var DashboardStore = require('../../stores/app-dashboard.js');
 

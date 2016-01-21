@@ -169,7 +169,7 @@ table td {
 }
 .input_group label.input_label .label_text {
   font-size: 18px;
-  font-weight: 100;
+  font-weight: 400;
   letter-spacing: .7px;
 }
 @media only screen and (min-width : 0px) and (max-width : 870px) {
@@ -325,7 +325,7 @@ table td {
   padding: 0 20px 0 20px;
   color: white;
   font-size: 14px;
-  font-weight: 100;
+  font-weight: 400;
   letter-spacing: .6px;
   -webkit-user-select: none;
   -moz-user-select: none;
