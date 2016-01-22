@@ -8,8 +8,12 @@ var express = require("express");
 var router = express.Router();
 var users = ["hardik","smit","shivang","varun"];
 router.get('/isUserExists/:userName',function(req,res){
-    console.log(users.indexOf(req.params.userName))
     res.send(users.indexOf(req.params.userName) != -1 ? true : false);
+});
+
+router.post('/register',function(req,res){
+   console.log(req.body);
+    res.send({"status": 200});
 });
 
 module.exports = router;

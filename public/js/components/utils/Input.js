@@ -101,7 +101,7 @@ var Input = React.createClass({
 
                 });
 
-                if(JSON.parse(newProps.isUserExists)){
+                if(!_.isUndefined(newProps.isUserExists) && JSON.parse(newProps.isUserExists)){
                     this.setState({
                         valid: false,
                         errorMessage: this.props.errorMessage,

@@ -1,14 +1,17 @@
 var render = require('react-dom').render;
 var Router = require('react-router').Router;
-var createHistory = require('history/lib/createHashHistory');
+var hashHistory = require('react-router').hashHistory;
+
+/*var useRouterHistory = require('react-router').useRouterHistory;
+var createHashHistory = require('history').createHashHistory;
+
 //To Prevent random string appearing in react-router
-var history = createHistory({
-    queryKey: false
-});
+var history = useRouterHistory(createHashHistory)({ queryKey: false });*/
+
 var AppRouter = require('./components/app-router');
 
 render(
-    <Router history={history} routes={AppRouter} />,
+    <Router history={hashHistory} routes={AppRouter} />,
     document.getElementById('example')
 )
 

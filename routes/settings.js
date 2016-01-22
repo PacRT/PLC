@@ -11,7 +11,8 @@ var logger = require('morgan'),
 // Module dependencies.
 module.exports = function(app, express) {
     var corsOptions = {
-        origin: 'http://example.com'
+        origin  : 'http://localhost:8080',
+        methods : ['GET', 'PUT', 'POST'],
     };
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +23,5 @@ module.exports = function(app, express) {
     if ('development' == app.get('env')) {
         app.use(errorHandler());
     }
-
     return app;
 };

@@ -21,7 +21,7 @@ var Invite = React.createClass({
             <div>
                 <Grid>
                     <Row className="show-grid">
-                        <Col xs={12} md={3} mdOffset={4}>
+                        <Col xs={12} md={5} mdOffset={4}>
                            <h4>
                                Invite People You Know
                                <IconButton tooltip="Invitations Left" tooltipPosition="bottom-right">

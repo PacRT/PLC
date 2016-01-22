@@ -6,6 +6,8 @@ var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
+var _ = require('underscore');
+var hashHistory = require('react-router').hashHistory;
 
 var AppRegistration = {
     isUserExists : function(userName) {
@@ -14,6 +16,15 @@ var AppRegistration = {
                 actionType : AppConstants.USER_EXISTS,
                 response   : response.text
             });
+        });
+    },
+    registerUser : function(user,cb){
+        API.post(APIConstants.REGISTER_USER,user).then(function(response){
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.USER_EXISTS,
+                response   : response.text
+            });
+            hashHistory.push('invite');
         });
     }
 }
