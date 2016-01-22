@@ -8,9 +8,8 @@ var _ = require('underscore');
 var Icon = require('./../utils/Icon.js');
 var UserStore = require('../../stores/app-registration');
 var RegistrationActions = require('../../actions/app-registration');
-
-
 var SignUpForm = React.createClass({
+
     getInitialState: function () {
         return {
             userName : null,
@@ -21,6 +20,7 @@ var SignUpForm = React.createClass({
             password: null,
             passwordConfirm: null,
             forbiddenWords: ["password", "user", "username"],
+            timeout : null,
             user : UserStore.getUser()
         }
     },
@@ -58,10 +58,7 @@ var SignUpForm = React.createClass({
             && this.refs.passwordConfirm.isValid();
 
         if(canProceed) {
-            var data = {
-                email: this.state.email
-            }
-            this._add();
+            this._registerUser();
         } else {
             this.refs.userName.isValid();
             this.refs.email.isValid();
@@ -96,9 +93,19 @@ var SignUpForm = React.createClass({
         this.setState({
             userName : event.target.value
         });
-        if(event.target.value.length >= 4){
-             RegistrationActions.isUserExists(event.target.value);
-        }
+        this.checkForUserName(event);
+    },
+    checkForUserName : function(event){
+       /* if(event.target.value.length >= 4){
+            RegistrationActions.isUserExists(event.target.value);
+        }*/
+        clearTimeout(this.state.timeout);
+
+        // Make a new timeout set to go off in 800ms
+        this.state.timeout = setTimeout(function () {
+            if(event.target.value.length >=4)
+                RegistrationActions.isUserExists(event.target.value);
+        }, 500);
     },
     handleEmailInput: function(event){
         this.setState({
@@ -115,8 +122,20 @@ var SignUpForm = React.createClass({
     isEmpty: function (value) {
         return !_.isEmpty(value);
     },
-    _add : function(){
-         RegistrationActions.addUser();
+    _registerUser : function(){
+        var user = {
+            userName : this.state.userName,
+            email: this.state.email,
+            firstName: this.state.firstName,
+            lastName :this.state.lastName,
+            phoneNumber: this.state.phoneNumber,
+            password: this.state.password
+        }
+        var _this = this;
+        var transitionCB = function(){
+            _this.context.router.transitionTo('invite');
+        }
+         RegistrationActions.registerUser(user,transitionCB);
     },
     render: function() {
         return (
