@@ -1,3 +1,8 @@
 {
-  "nodePort": 3333
+  "nodePort"    : "3333",
+  "client_host" : "localhost",
+  "client_port" : "8080",
+  "redis_host"  : "",
+  "redis_port"  : ""
+
 }
