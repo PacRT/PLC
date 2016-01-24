@@ -1,11 +1,12 @@
 var browserify = require('gulp-browserify'),
     concat = require('gulp-concat'),
-    connect = require('gulp-connect'),
     gulp = require('gulp'),
-    open = require('gulp-open'),
     plumber = require('gulp-plumber'),
-    nodemon = require('gulp-nodemon')
-    livereload = require('gulp-livereload');
+    nodemon = require('gulp-nodemon'),
+     watchify = require('watchify'),
+    reactify = require('reactify'),
+    browserSync = require('browser-sync').create();
+
 
 var root_js_path = './public/assets/bower_components/';
 var root_css_path = './public/assets/css/';
@@ -44,21 +45,20 @@ gulp
         .pipe(gulp.dest('dist/assets/css/vendorcss'))
     })
     // performs magic
-    .task('browserify', function(){
+    .task('transform', function(){
         gulp.src('public/js/app.js')
             .pipe(plumber())
             .pipe(
-            browserify({
-                transform: 'reactify',
-                debug: !gulp.env.production
-            })
-        )
+                browserify({
+                    transform: 'reactify',
+                    debug: false
+                })
+            )
             .pipe(concat('app.js'))
             .pipe(plumber.stop())
             .pipe(gulp.dest('dist/js'))
-            .pipe(livereload());
+            .pipe(browserSync.stream());
     })
-
     // moves source files to dist
     .task('copy', function(){
         gulp
@@ -77,24 +77,6 @@ gulp
 
     })
 
-    // local development server
-    .task('connect', function(){
-        connect.server({
-            root: ['dist'],
-            port: '8080',
-            base: 'http://localhost',
-            livereload: true
-        });
-    })
-
-    // opens the application in chrome
-    .task('open', function(){
-        gulp
-            .src('dist/index.html')
-            .pipe(
-            open({app: 'google chrome',uri: 'http://localhost:8080/'})
-        );
-    })
     // node api Server
     .task('node-app', function () {
         nodemon({ script: 'routes/node-app.js'})
@@ -103,15 +85,19 @@ gulp
         })
     })
 
-
     // watch for source changes
     .task('watch', function(){
-        livereload.listen();
-        gulp.watch('public/**/*.*', ['default2']);
+        gulp.watch("public/**/*.js",[""])
+            .on("change", browserSync.reload);
     })
 
+    .task('reload',['transform2', 'copy'],browserSync.reload)
 
-    // build the application
-    .task('default', ['vendor_css','vendor_js','browserify', 'copy', 'connect','open','watch'])
-    .task('default2', ['browserify', 'copy']);
+    .task('server', ['vendor_css','vendor_js','transform','copy'], function() {
+        browserSync.init({
+            server: "./dist",
+            port: 7979
+        });
+        gulp.watch("public/**/*.*",["reload"]);
+    });
 
