@@ -20,11 +20,15 @@ var AppRegistration = {
     },
     registerUser : function(user,cb){
         API.post(APIConstants.REGISTER_USER,user).then(function(response){
+            var notification = {
+                open : true,
+                message : "Cool! You've been registered."
+            }
             AppDispatcher.handleViewAction({
-                actionType : AppConstants.USER_EXISTS,
-                response   : response.text
-            });
-            hashHistory.push('invite');
+                actionType : AppConstants.SHOW_NOTIFICATION,
+                response :notification
+            })
+            //hashHistory.push('invite');
         });
     }
 }

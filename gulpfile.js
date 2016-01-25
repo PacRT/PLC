@@ -51,7 +51,7 @@ gulp
             .pipe(
                 browserify({
                     transform: 'reactify',
-                    debug: false
+                    debug: true
                 })
             )
             .pipe(concat('app.js'))
@@ -91,7 +91,7 @@ gulp
             .on("change", browserSync.reload);
     })
 
-    .task('reload',['transform2', 'copy'],browserSync.reload)
+    .task('reload',['transform', 'copy'],browserSync.reload)
 
     .task('server', ['vendor_css','vendor_js','transform','copy'], function() {
         browserSync.init({
