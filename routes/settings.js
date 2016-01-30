@@ -7,11 +7,11 @@ var logger = require('morgan'),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     errorHandler = require('errorhandler'),
-    cors = require('cors');
+    cors = require('cors'),
+    passport = require('passport');
 // Module dependencies.
 module.exports = function(app, express) {
     var corsOptions = {
-        origin  : 'http://localhost:8080',
         methods : ['GET', 'PUT', 'POST'],
     };
     app.use(bodyParser.json());
@@ -19,6 +19,7 @@ module.exports = function(app, express) {
     app.use(cors(corsOptions));
     app.use(logger('dev'));
     app.use(methodOverride());
+    app.use(passport.initialize());
     multer({ dest: './uploads' });
     if ('development' == app.get('env')) {
         app.use(errorHandler());

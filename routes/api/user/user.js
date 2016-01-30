@@ -1,25 +1,25 @@
 /**
  * Created by Hardik on 1/17/16.
  */
-/**
- * Created by Hardik on 12/11/15.
- */
 var express = require("express");
 var router = express.Router();
 var users = ["hardik","smit","shivang","varun","chiradip","sandeep","vijay","sudhakar"];
-var user_api = require('./user_api');
+var user_api = require('./../redis_api/redis_user_api');
+var redis_client = require('../redis_client');
+var client = redis_client.getClient();
+var API_CONSTANTS = require('../../constants/api-constants');
 
-
-router.get('/isUserExists/:userName',function(req,res){
+router.get(API_CONSTANTS.USER_EXISTS,function(req,res){
     res.send(users.indexOf(req.params.userName) != -1 ? true : false);
 });
 
-router.post('/register',function(req,res){
+router.post(API_CONSTANTS.USR_REGISTER,function(req,res){
     var user = req.body;
-    user_api.registerUser(user).then(function(err,response){
-        res.send("finally done with it!!!! fuck you bitch!!!")
+    user_api.registerUser(user).then(function(response){
+        console.log(response);
+        client.publish("RegReqConfEmail", "{\"name\" : \"" + user.name + "\", \"username\": \"" + user.username + "\", \"email\": \"" + user.email + "\", \"status\" : \"" + user.status + "\" }");
+        res.send(true)
     });
-
 });
 
 module.exports = router;

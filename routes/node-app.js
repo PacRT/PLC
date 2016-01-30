@@ -1,6 +1,6 @@
 var http = require('http');
 var express = require('express');
-var constants =  require('./constant')
+var constants =  require('./constants/constant')
 var app = express();
 var settings  = require('./settings')(app, express);
 

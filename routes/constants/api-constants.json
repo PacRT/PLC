@@ -1,0 +1,5 @@
+{
+  "USER_EXISTS"  : "/isUserExists/:userName",
+  "USR_REGISTER" : "/register",
+  "LOGIN"        : "/login"
+}

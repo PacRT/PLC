@@ -12,8 +12,8 @@ var SignUp = React.createClass({
             <div>
                 <Grid>
                     <Row className="show-grid">
-                        <Col xs={6} md={6} mdOffset={3}>
-                                <SignUpForm/>
+                        <Col xs={8} md={6} mdOffset={3}>
+                            <SignUpForm/>
                         </Col>
                     </Row>
                 </Grid>

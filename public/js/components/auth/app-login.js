@@ -5,8 +5,9 @@ var React = require('react');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
-
 var Input = require('../utils/Input.js');
+var injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 var Login = React.createClass({
     getInitialState: function(){
@@ -53,7 +54,7 @@ var Login = React.createClass({
                                 />
                                 <button
                                     type="submit"
-                                    className="button button_wide">
+                                    className="button button_wide"  onTouchTap={this.handleTouchTap}>
                                     Log In
                                 </button>
 
