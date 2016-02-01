@@ -1,0 +1,5 @@
+{
+    "lua_101" : "Username already exists",
+    "lua_102" : "Token Already Exists",
+    "lua_103" : "Email already registered with anothe user name.. yours?"
+}

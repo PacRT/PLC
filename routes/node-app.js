@@ -3,7 +3,6 @@ var express = require('express');
 var constants =  require('./constants/constant')
 var app = express();
 var settings  = require('./settings')(app, express);
-
 app.use(require('./api'))
 // error handling middleware should be loaded after the loading the routes
 

@@ -8,6 +8,7 @@
     "body-parser": "^1.14.1",
     "classnames": "^2.2.3",
     "cors": "^2.7.1",
+    "crypto": "0.0.3",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "flux": "^2.0.1",
