@@ -2,6 +2,7 @@
 var Scripto = require('redis-scripto');
 var redis_client = require('../redis_client');
 var scriptManager = new Scripto(redis_client.getClient());
+var _ = require('underscore');
 var scripts = {
     /**
      * Lua Script Loader
@@ -19,7 +20,7 @@ var scripts = {
                     /**
                      * send custom lua error code from script
                      */
-                    var error_code = (err.toString().split("::: ")[1]).trim();
+                    var error_code = !_.isUndefined(err.toString().split("::: ")[1])? (err.toString().split("::: ")[1]).trim() : "lua_100";
                     reject(error_code.trim());
                 }else{
                     resolve(result);

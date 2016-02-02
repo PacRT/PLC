@@ -12,5 +12,5 @@
 local userid = redis.call('GET', "username:" ..ARGV[1].. ":uid")
 redis.call("SET","username:" ..userid.. ":auth",ARGV[2])
 redis.call("SET","auths:" ..ARGV[2].. ":auth",userid)
-redis.call("EXPIRE","auths:" ..ARGV[2].. ":auth",5000)
+redis.call("EXPIRE","auths:" ..ARGV[2].. ":auth",60 * 60 * 24)
 return ARGV[1] .."|".. ARGV[2]

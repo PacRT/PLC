@@ -1,5 +1,7 @@
 {
+    "lua_100" : "Unknown error occurred!",
     "lua_101" : "Username already exists",
     "lua_102" : "Token Already Exists",
-    "lua_103" : "Email already registered with anothe user name.. yours?"
+    "lua_103" : "Email already registered with anothe user name.. yours?",
+    "lua_104" : "Looks like your session is expired.Please login Again."
 }

@@ -8,11 +8,13 @@ var user_api = require('../../redis_middleware/api/redis_user_api');
 var redis_client = require('../../redis_middleware/redis_client');
 var client = redis_client.getClient();
 var API_CONSTANTS = require('../../constants/api-constants');
+var auth_checker = require('../middleware/auth_checker');
 
 router.get(API_CONSTANTS.USER_EXISTS,function(req,res){
     res.send(users.indexOf(req.params.userName) != -1 ? true : false);
 });
-router.get("/isAuthenticationExists",function(req,res){
+router.post("/isAuthenticationExists",auth_checker,function(req,res){
+    console.log(req.body);
     res.send("cool!!")
 });
 router.post(API_CONSTANTS.USER_REGISTER,function(req,res){
