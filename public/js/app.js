@@ -7,7 +7,6 @@ var createHashHistory = require('history').createHashHistory;
 
 //To Prevent random string appearing in react-router
 var history = useRouterHistory(createHashHistory)({ queryKey: false });*/
-
 var AppRouter = require('./components/app-router');
 
 render(
