@@ -2,7 +2,6 @@
  * Created by Hardik on 12/19/15.
  */
 var Dropzone = require('react-dropzone');
-//var PopularCategories = require('./app-popularCategories')
 
 
 var UploadZone = React.createClass({

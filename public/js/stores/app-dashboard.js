@@ -17,8 +17,6 @@ function _addItem(item){
 }
 
 
-
-
 var AppStore = ReactUpdate(EventEmitter.prototype, {$merge: {
   emitChange:function(){
     this.emit(CHANGE_EVENT);

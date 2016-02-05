@@ -10,7 +10,7 @@ var APP = React.createClass({
       <Template>
           <div className="container">
               <NavBar />
-              {this.props.children || <UploadZone /> }
+              {this.props.children}
               <Notification/>
           </div>
       </Template>

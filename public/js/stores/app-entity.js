@@ -10,8 +10,6 @@ var _entityList = [
     // your state container where
 ];
 
-
-
 function _persistEntityData(response) {
 	console.log("Entity gets async data from web api stores /app-entity.js");
   _entityList = response;
@@ -49,12 +47,5 @@ var EntityStore = ReactUpdate(EventEmitter.prototype, {$merge: {
     return true;
   })
 }});
-
-
-
-
-
-
-
 
 module.exports = EntityStore;
