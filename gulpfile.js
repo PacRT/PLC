@@ -3,11 +3,12 @@ var browserify = require('gulp-browserify'),
     gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     nodemon = require('gulp-nodemon'),
-     watchify = require('watchify'),
+    watchify = require('watchify'),
     reactify = require('reactify'),
     browserSync = require('browser-sync').create();
 
-
+var util = require('util');
+var exec = require('child_process').exec;
 var root_js_path = './public/assets/bower_components/';
 var root_css_path = './public/assets/css/';
 
@@ -99,5 +100,25 @@ gulp
             port: 7979
         });
         gulp.watch("public/**/*.*",["reload"]);
+    }).
+
+    task("redis-server",function(){
+        exec('redis-server',function (error, stdout, stderr) {
+           console.log(stdout);
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+        });
+    }).
+
+    task("seaweedfs-server",function(){
+        exec('./seaweedfs/weed server -master.port=9333 -volume.port=8080 -dir="./seaweedfs/data"',function (error, stdout, stderr) {
+            sys.print('stdout: ' + stdout);
+            sys.print('stderr: ' + stderr);
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
+        });
     });
+
 
