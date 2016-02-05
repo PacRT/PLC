@@ -16,10 +16,9 @@ var crypto = require('crypto');
 var secret = "fea5e81ac8ca77622bed1c2132a021f9";
 var error_codes = require('../../constants/error-constants');
 
-passport.use('local-passport',new LocalStrategy(function(username, password, done) {
+passport.use('local-passport',new LocalStrategy(function(user_name, password, done) {
     process.nextTick(function() {
-        user_api.findByUserName(username).then(function(response){
-
+        user_api.findByUserName(user_name).then(function(response){
             return done(null,response);
         },function(error) {
             console.log(error);
@@ -46,7 +45,7 @@ router.post('',function(req, res, next){
             var response = response.split("|");
             res.send({
                 "user_name" : response[0],
-                "auth_token" : response[1]
+                "api_token" : response[1]
             });
         },function(error){
             res.send({error:true,"errorMsg":error_codes[error]})
