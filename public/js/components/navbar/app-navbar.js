@@ -38,6 +38,17 @@ var NavBar = React.createClass({
         event.preventDefault();
         LoginActions.logoutUser();
     },
+    getBrandName:function(){
+        if (!this.state.userLoggedIn) {
+            return (
+                <a href="#"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
+            )
+        }else{
+            return (
+                <a href="#/home"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
+            )
+        }
+    },
     getNavBar : function(){
         if (!this.state.userLoggedIn) {
                 return (
@@ -52,7 +63,7 @@ var NavBar = React.createClass({
                         <NavItem eventKey={1} href="#/mydocs">My Docs</NavItem>
                         <NavItem eventKey={2} href="#/howto">How to</NavItem>
                         <NavItem eventKey={2} href="#/invite">Invite</NavItem>
-                        <NavItem eventKey={2} href="#devzone">Dev Zone</NavItem>
+                        <NavItem eventKey={2} href="#/devzone">Dev Zone</NavItem>
                         <NavItem eventKey={2} href="#/mythings">My Things</NavItem>
                         <NavItem eventKey={2} onClick={this.logout} href="#/logout">Logout</NavItem>
                     </Nav>
@@ -61,23 +72,22 @@ var NavBar = React.createClass({
      },
     render: function () {
         return (
-            <Navbar inverse>
-                <Navbar.Header>
-                    <Navbar.Brand>
-                        <a href="#"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
-                    </Navbar.Brand>
-                    <Navbar.Toggle />
-                </Navbar.Header>
-                <Navbar.Collapse>
-                    {this.getNavBar()}
-                </Navbar.Collapse>
+            <Navbar inverse className="navbar-fixed-top">
+                <div className="container">
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            {this.getBrandName()}
+                        </Navbar.Brand>
+                        <Navbar.Toggle />
+                    </Navbar.Header>
+                    <Navbar.Collapse>
+                        {this.getNavBar()}
+                    </Navbar.Collapse>
+                </div>
             </Navbar>
         );
     }
 });
-
-
-
 
 module.exports = NavBar;
 

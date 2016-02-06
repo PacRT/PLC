@@ -47,6 +47,8 @@ AppDispatcher.register(function(payload){
         case AppConstants.LOG_OUT:
             _login.api_token = null;
             _login.user_name = null;
+            localStorage.removeItem(AppConstants.API_TOKEN);
+            localStorage.removeItem(AppConstants.USER_NAME);
             LoginStore.emit(CHANGE_EVENT);
             break;
         default:

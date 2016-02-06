@@ -23,6 +23,13 @@ var LoginActions = {
             hashHistory.push('home');
         });
     },
+    continueSession:function(api_token,user_name){
+        AppDispatcher.handleViewAction({
+            actionType : AppConstants.LOG_IN,
+            response :{"user_name":user_name,"api_token":api_token}
+        });
+        hashHistory.push('home');
+    },
     logoutUser:function(){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.LOG_OUT,

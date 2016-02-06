@@ -12,9 +12,15 @@ var Login       = require('./auth/app-login');
 var Registration= require('./registration/app-registration');
 var UploadZone  = require('./uploadzone/app-uploadzone');
 var LoginStore  = require('../stores/app-login-store');
-
+var LoginActions = require('../actions/app-login-actions');
+var AppConstants = require('../constants/app-constants');
+var _ = require("underscore");
+/**
+ * middleware to check if user is logged in or not.
+ * @param nextState
+ * @param replace
+ */
 function requireAuth(nextState, replace) {
-    console.log(nextState);
     if (!LoginStore.isLoggedIn()) {
         replace({
             pathname: '/login',
@@ -27,8 +33,8 @@ var AppRouter = {
     path: '/',
     component: APP,
     childRoutes: [
-        { path : 'home',  component:UploadZone,onEnter:requireAuth},
         { path : "login" ,component: Login},
+        { path : 'home',  component:UploadZone,onEnter:requireAuth},
         { path : "howto" ,component: HowTo,onEnter:requireAuth},
         { path : "mydocs",component: MyDocs,onEnter:requireAuth},
         { path : "invite",component: Invite,onEnter:requireAuth},
@@ -36,5 +42,8 @@ var AppRouter = {
     ]
 };
 
-
+var api_token = localStorage.getItem(AppConstants.API_TOKEN);
+var user_name = localStorage.getItem(AppConstants.USER_NAME);
+if(api_token && user_name)
+    LoginActions.continueSession(api_token,user_name);
 module.exports = AppRouter

@@ -11,6 +11,6 @@ var AppRouter = require('./components/app-router');
 
 render(
     <Router history={hashHistory} routes={AppRouter} />,
-    document.getElementById('example')
+    document.getElementById('paperless-app')
 )
 

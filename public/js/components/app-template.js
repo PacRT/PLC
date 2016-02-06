@@ -15,8 +15,7 @@ var Template =
         },    
         render:function(){
             return (
-            	<div className="container">
-
+            	<div>
                     {this.props.children}
                    { /* this button component uses view action dispatcher api  and it is using flux architecture */ }
                 </div>
