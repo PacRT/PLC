@@ -6,7 +6,7 @@ var router = express.Router();
 var auth_checker = ("./middleware/auth_checker");
 
 /**
- * Register User
+ * Register User.
  */
 router.use('/api/v1/users',require('./user/user.js'));
 /**

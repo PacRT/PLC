@@ -16,7 +16,12 @@ var crypto = require('crypto');
 var secret = "fea5e81ac8ca77622bed1c2132a021f9";
 var error_codes = require('../../constants/error-constants');
 
-passport.use('local-passport',new LocalStrategy(function(user_name, password, done) {
+passport.use('local-passport',new LocalStrategy({
+    usernameField: 'user_name',
+    passwordField: 'password',
+    session: false
+    },function(user_name, password, done) {
+    console.log("");
     process.nextTick(function() {
         user_api.findByUserName(user_name).then(function(response){
             return done(null,response);
@@ -29,13 +34,19 @@ passport.use('local-passport',new LocalStrategy(function(user_name, password, do
 
 router.post('',function(req, res, next){
     passport.authenticate('local-passport', function(err, user, info) {
-        if (err) { return res.send(err); }
-        if (!user) { return res.send(err); }
-        var redis_password = user.split("|")[2];
-        if (redis_password != req.body.password) {
-            res.status(403).send({
+        if (err) {  return res.send(err); }
+        if (!user) {  return res.send("Missing Credentials"); }
+        var redis_data = user.split("|");
+        if (redis_data[2] != req.body.password) {
+            return res.status(403).send({
                 success: false,
-                message: "Incorrect Password."
+                message: "Incorrect Username or Password."
+            });
+        }
+        if(redis_data[1] != req.body.user_name){
+            return res.status(403).send({
+                success: false,
+                message: "Incorrect Username or Password."
             });
         }
         var auth_token = crypto.createHmac('sha256', secret)

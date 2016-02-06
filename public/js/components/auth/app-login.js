@@ -14,8 +14,8 @@ injectTapEventPlugin();
 var Login = React.createClass({
     getInitialState: function(){
         return {
-            userName : null,
-            password : null
+            userName : "varunshah1106",
+            password : "Prmporgposfd"
         }
     },
     handleUserNameInput : function(event){

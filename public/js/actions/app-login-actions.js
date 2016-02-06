@@ -6,6 +6,7 @@ var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
+var hashHistory = require('react-router').hashHistory;
 
 var LoginActions = {
     loginUser:function(user_name,password){
@@ -14,10 +15,11 @@ var LoginActions = {
             "password" : password
         }
         API.post(APIConstants.LOG_IN,data).then(function(response){
+            var result = JSON.parse(response.text);
             AppDispatcher.handleViewAction({
                 actionType : AppConstants.LOG_IN,
-                response :response
-            })
+                response :result
+            });
             hashHistory.push('home');
         });
     },

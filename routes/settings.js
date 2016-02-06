@@ -14,12 +14,12 @@ module.exports = function(app, express) {
     var corsOptions = {
         methods : ['GET', 'PUT', 'POST'],
     };
-    app.use(bodyParser.json());
+    app.use(methodOverride());
+
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
     app.use(cors(corsOptions));
     app.use(logger('dev'));
-    app.use(methodOverride());
-    app.use(passport.initialize());
     multer({ dest: './uploads' });
     if ('development' == app.get('env')) {
         app.use(errorHandler());
