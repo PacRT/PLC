@@ -34,7 +34,7 @@ var LoginActions = {
         AppDispatcher.handleViewAction({
             actionType : AppConstants.LOG_OUT,
         });
-        hashHistory.push('login');
+        hashHistory.push('');
     },
     addItem:function(){
         AppDispatcher.handleViewAction({

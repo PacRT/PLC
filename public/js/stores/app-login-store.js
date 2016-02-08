@@ -21,7 +21,7 @@ var LoginStore  = ObjectAssign({},EventEmitter.prototype,{
         this.on(CHANGE_EVENT, cb);
     },
     removeChangeListener:function(cb){
-        this.on(CHANGE_EVENT, cb);
+        this.removeListener(CHANGE_EVENT, cb);
     },
     getUser : function(){
         return _login.user_name;
