@@ -12,7 +12,8 @@ var logger = require('morgan'),
 // Module dependencies.
 module.exports = function(app, express) {
     var corsOptions = {
-        methods : ['GET', 'PUT', 'POST'],
+        origin  : 'http://localhost:7979',
+        methods : ['GET', 'PUT', 'POST']
     };
     app.use(methodOverride());
 
