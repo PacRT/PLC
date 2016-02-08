@@ -14,7 +14,6 @@ var UploadZone  = require('./uploadzone/app-uploadzone');
 var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
 var AppConstants = require('../constants/app-constants');
-var _ = require("underscore");
 /**
  * middleware to check if user is logged in or not.
  * @param nextState
@@ -33,12 +32,12 @@ var AppRouter = {
     path: '/',
     component: APP,
     childRoutes: [
-        { path : "login" ,component: Login},
-        { path : 'home',  component:UploadZone,onEnter:requireAuth},
-        { path : "howto" ,component: HowTo,onEnter:requireAuth},
-        { path : "mydocs",component: MyDocs,onEnter:requireAuth},
-        { path : "invite",component: Invite,onEnter:requireAuth},
-        { path : "registration",component: Registration}
+        { path : "login"        ,component: Login},
+        { path : 'home'         ,component:UploadZone   ,onEnter:requireAuth},
+        { path : "howto"        ,component: HowTo       ,onEnter:requireAuth},
+        { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
+        { path : "invite"       ,component: Invite      ,onEnter:requireAuth},
+        { path : "registration" ,component: Registration}
     ]
 };
 
