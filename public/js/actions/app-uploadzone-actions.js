@@ -1,0 +1,91 @@
+/** @jsx React.DOM */
+var AppConstants = require('../constants/app-constants.js');
+var AppDispatcher = require('../dispatchers/app-dispatcher.js');
+var APIConstants = require('../constants/app-api-url.js');
+var API = require('../utils/API.js');
+var API_URL = require('../utils/getAPIURL');
+var request = require('superagent-bluebird-promise');
+var Promise = require('bluebird');
+/**
+ *
+ * @type {{getUploadRequest: UploadzoneActions.getUploadRequest, uploadDocs: UploadzoneActions.uploadDocs}}
+ */
+var UploadzoneActions = {
+
+    getUploadRequest:function(){
+        var super_request = API.uploadFileRequest(APIConstants.UPLOAD_DOCS)
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.UPLOAD_REQUEST,
+            response: super_request
+        });
+    },
+    resetProgress:function(){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.RESET_PROGRESS
+        });
+    },
+    showNotification:function(msg){
+        var notification = {
+            open : true,
+            message : msg
+        }
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.SHOW_NOTIFICATION,
+            response: notification
+        });
+    },
+    /**
+     * Upload Docs
+     * @param files
+     */
+    uploadDocs : function(files){
+        var api_url = API_URL.get(APIConstants.UPLOAD_DOCS);
+        var super_requests = [];
+        var promise;
+        var _this = this;
+        _.each(files, function(file){
+            promise = request
+                .post(api_url)
+                .attach(file.name, file)
+                .set("API_TOKEN",localStorage.getItem(AppConstants.API_TOKEN))
+                .set("USER_NAME",localStorage.getItem(AppConstants.USER_NAME))
+                .on('progress', function(e) {
+                    AppDispatcher.handleViewAction({
+                        actionType: AppConstants.UPDATE_PROGRESS,
+                        response: e.percent
+                    });
+                })
+                .promise()
+                .then(function(err,res){
+                    if(err){
+                        _this.showNotification(err.toString());
+                    }
+                    console.log(res);
+                })
+                .catch(function(err){
+                    _this.showNotification(err.toString());
+                });
+            super_requests.push(promise);
+        });
+        Promise
+            .all(super_requests)
+            .then(function(err,response){
+                if(err)
+                    _this.showNotification(err.toString());
+                else
+                    _this.showNotification("Upload Complete.");
+            })
+            .catch(function(err){
+                console.log(err);
+                _this.showNotification(err.toString());
+            });
+       /* API.uploadDocs(files,).then(function(){
+                console.log('all done');
+            })
+            .catch(function(){
+                console.log('done with errors');
+            });*/
+    }
+}
+
+module.exports = UploadzoneActions;
