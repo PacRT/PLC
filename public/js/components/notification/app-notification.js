@@ -5,10 +5,8 @@
 var React = require('react');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Snackbar = require('material-ui/lib/snackbar');
-var NotificationStore = require('../../stores/app-notification');
+var NotificationStore = require('../../stores/app-notification-store');
 var NotificationActions = require('../../actions/app-notification');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 
 var Notification = React.createClass({
     getInitialState: function () {

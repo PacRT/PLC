@@ -6,7 +6,7 @@ var React = require('react');
 var Input = require('./../utils/Input.js');
 var _ = require('underscore');
 var Icon = require('./../utils/Icon.js');
-var UserStore = require('../../stores/app-registration');
+var UserStore = require('../../stores/app-registration-store');
 var RegistrationActions = require('../../actions/app-registration-actions');
 var SignUpForm = React.createClass({
 
