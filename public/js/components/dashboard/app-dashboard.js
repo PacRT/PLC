@@ -1,22 +1,30 @@
 /** @jsx React.DOM */
 var React = require('react');
-var Login = require('../auth/app-auth');
-var AuthStore = require('../../stores/app-login-actions.js');
-var ScheduleList = require('./app-schedulelist');
-var AuthenticationMixin = require('../../mixins/AuthenticationMixin.js');
-
+var ActionRemainder = require('../action-remainder/app-actionremainder');
+var UploadZone = require('../uploadzone/app-uploadzone');
+var Grid = require('react-bootstrap/lib/Grid');
+var Row = require('react-bootstrap/lib/Row');
+var Col = require('react-bootstrap/lib/Col');
 
 var Dashboard = React.createClass({
-  mixins: [ AuthenticationMixin ],
-  render: function () {
-    var token = AuthStore.authGetToken();
-    return (
-      <div>
-        <h1>Dashboard</h1>
-        <ScheduleList />
-      </div>
-    );
-  }
+    render: function () {
+        return (
+            <div>
+                <Grid>
+                    <Row>
+                        <Col md={12} xs={12}>
+                            <Col md={3} xs={12}>
+                                <UploadZone/>
+                            </Col>
+                            <Col md={3} xs={12} mdPush={6}  >
+                                <ActionRemainder/>
+                            </Col>
+                        </Col>
+                    </Row>
+                </Grid>
+            </div>
+        );
+    }
 });
 
 module.exports = Dashboard;

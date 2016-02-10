@@ -20,7 +20,7 @@ var LoginActions = {
                 actionType : AppConstants.LOG_IN,
                 response :result
             });
-            hashHistory.push('home');
+            hashHistory.push('dashboard');
         });
     },
     continueSession:function(api_token,user_name){
@@ -28,7 +28,7 @@ var LoginActions = {
             actionType : AppConstants.LOG_IN,
             response :{"user_name":user_name,"api_token":api_token}
         });
-        hashHistory.push('home');
+        hashHistory.push('dashboard');
     },
     logoutUser:function(){
         AppDispatcher.handleViewAction({

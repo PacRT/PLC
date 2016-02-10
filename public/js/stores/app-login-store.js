@@ -1,9 +1,6 @@
 /**
  * Created by Hardik on 2/4/16.
  */
-/**
- * Created by Hardik on 1/14/16.
- */
 var AppDispatcher = require('../dispatchers/app-dispatcher');
 var AppConstants = require('../constants/app-constants');
 var EventEmitter = require('events').EventEmitter;
