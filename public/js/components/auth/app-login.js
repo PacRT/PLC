@@ -8,8 +8,6 @@ var Col = require('react-bootstrap/lib/Col');
 var Input = require('../utils/Input.js');
 var LoginActions = require('../../actions/app-login-actions');
 var _ = require("underscore");
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 
 var Login = React.createClass({
     getInitialState: function(){

@@ -10,18 +10,10 @@ var Image = require('react-bootstrap/lib/Image');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var ProgressBar = require('react-bootstrap/lib/ProgressBar');
-var RaisedButton = require('material-ui/lib/raised-button');
-var ToolBar = require('material-ui/lib/toolbar/toolbar');
-var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
-var LinearProgress = require('material-ui/lib/linear-progress');
 var Card = require('material-ui/lib/card/card');
 var CardHeader = require('material-ui/lib/card/card-header');
-
 var FileList = require('./app-file-list');
 var PopularCategories = require('./app-popular-categories');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 var UploadzoneStore = require('../../stores/app-uploadzone-store');
 var UploadzoneActions = require('../../actions/app-uploadzone-actions');
 

@@ -11,8 +11,6 @@ var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
 var FontIcon = require('material-ui/lib/font-icon');
 var FlatButton = require('material-ui/lib/flat-button');
-var injectTapEventPlugin = require("react-tap-event-plugin");
-injectTapEventPlugin();
 
 var FileList = React.createClass({
     getFileList :function(){

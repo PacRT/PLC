@@ -1,12 +1,15 @@
 /** @jsx React.DOM */
 var React       = require('react');
-var Template    = require('./app-template');
-var UploadZone  = require('./uploadzone/app-uploadzone');
 var NavBar      = require('./navbar/app-navbar');
 var Notification = require('./notification/app-notification');
 var HomePage    = require('./home/app-home');
+var injectTapEventPlugin = require("react-tap-event-plugin");
+
 var APP = React.createClass({
-  render: function () {
+    componentWillMount:function(){
+        injectTapEventPlugin();
+    },
+    render: function () {
       var style={
           "marginTop":"50px"
       }
