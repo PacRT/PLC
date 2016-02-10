@@ -4,7 +4,6 @@
 var redis_client = require('../redis_client');
 var client = redis_client.getClient();
 var luaScriptManager = require('../lua_script/luaScriptManager');
-var  _ = require("underscore");
 var SCRIPT_FOLDER = "upload_doc";
 
 var upload_doc = {
