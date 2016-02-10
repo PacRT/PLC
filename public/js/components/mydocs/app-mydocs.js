@@ -3,8 +3,6 @@
  */
 /** @jsx React.DOM */
 var React = require('react');
-var UnderConstruction = require('../app-underconstruction')
-var API_URL = require('../../utils/getAPIURL');
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
 var MyDocs = React.createClass({
