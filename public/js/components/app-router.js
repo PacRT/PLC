@@ -10,7 +10,7 @@ var HowTo       = require('./howto/app-howto');
 var Invite      = require('./invite/app-invite');
 var Login       = require('./auth/app-login');
 var Registration= require('./registration/app-registration');
-var UploadZone  = require('./uploadzone/app-uploadzone');
+var DashBoard  = require('./dashboard/app-dashboard');
 var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
 var AppConstants = require('../constants/app-constants');
@@ -33,7 +33,7 @@ var AppRouter = {
     component: APP,
     childRoutes: [
         { path : "login"        ,component: Login},
-        { path : 'home'         ,component:UploadZone   ,onEnter:requireAuth},
+        { path : 'dashboard'    ,component:DashBoard   ,onEnter:requireAuth},
         { path : "howto"        ,component: HowTo       ,onEnter:requireAuth},
         { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
         { path : "invite"       ,component: Invite      ,onEnter:requireAuth},

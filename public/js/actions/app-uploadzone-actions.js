@@ -56,35 +56,30 @@ var UploadzoneActions = {
                     });
                 })
                 .promise()
-                .then(function(err,res){
-                    if(err){
-                        _this.showNotification(err.toString());
-                    }
-                    console.log(res);
+                .then(function(res){
+                    return res;
+                },function(err){
+                    return { "err" : err.message};
                 })
                 .catch(function(err){
-                    _this.showNotification(err.toString());
+                    return { "err" :  err.message};
                 });
             super_requests.push(promise);
         });
         Promise
             .all(super_requests)
-            .then(function(err,response){
-                if(err)
-                    _this.showNotification(err.toString());
-                else
-                    _this.showNotification("Upload Complete.");
+            .then(function(res){
+                if(_.has(res[0],"err")){
+                   return _this.showNotification(res[0]["err"]);
+                }
+                _this.showNotification("Upload Complete.");
+            },function(err){
+                _this.showNotification(err.toString());
             })
             .catch(function(err){
                 console.log(err);
                 _this.showNotification(err.toString());
             });
-       /* API.uploadDocs(files,).then(function(){
-                console.log('all done');
-            })
-            .catch(function(){
-                console.log('done with errors');
-            });*/
     }
 }
 
