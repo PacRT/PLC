@@ -15,7 +15,7 @@ var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
         this.on(CHANGE_EVENT, cb);
     },
     removeChangeListener:function(cb){
-        this.on(CHANGE_EVENT, cb);
+        this.removeListener(CHANGE_EVENT, cb);
     },
     getDocsURL : function() {
         return _myDocs;
