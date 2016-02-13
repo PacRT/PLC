@@ -20,8 +20,12 @@ var ActionRemainderActions = require('../../actions/app-actionremainder-actions'
 var ModalApp = require('./app-actionremainder-modal');
 
 var ActionRemainder = React.createClass({
-    handleActionRemainder : function(arg1){
-        ActionRemainderActions.openModal(true);
+    /**
+     * Opening a modal window to take appropriate action
+     * @boolean openModel
+     */
+    handleActionRemainder : function(openModel){
+        ActionRemainderActions.openModal(openModel);
     },
     render: function () {
         var list_style = {
@@ -41,7 +45,7 @@ var ActionRemainder = React.createClass({
         return (
             <div>
                 <List subheader="Action Remainder">
-                    <ListItem onTouchTap={this.handleActionRemainder.bind(null,"getthis fucker")} style={list_style} primaryText="Car Insurance Renewal"
+                    <ListItem onTouchTap={this.handleActionRemainder.bind(null,true)} style={list_style} primaryText="Car Insurance Renewal"
                               secondaryTextLines={1} secondaryText="2/6"
                               rightIcon={<Announcement style={immediate_action} />}  />
                     <ListItem style={list_style} primaryText="Property"
