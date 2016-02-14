@@ -1,5 +1,3 @@
-var redis_client = require('../redis_client');
-var client = redis_client.getClient();
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_FOLDER = "user";
 
@@ -10,9 +8,13 @@ var User = {
      * @returns {Promise}
      */
     registerUser : function(user) {
-        return new Promise(function (resolve) {
-            luaScriptManager.run('registration',SCRIPT_FOLDER,[],_.values(user)).then(function(err,response){
+        return new Promise(function (resolve,reject) {
+            var ARGV = _.values(user);
+            luaScriptManager.run('registration',SCRIPT_FOLDER,[],ARGV).then(function(err,response){
                 resolve(err,response)
+            },function(err){
+                console.log(err);
+                reject(err);
             });
         });
     },
@@ -23,7 +25,8 @@ var User = {
      */
     findByUserName : function(userName){
         return new Promise(function(resolve,reject){
-            luaScriptManager.run('findByUserName',SCRIPT_FOLDER,[userName],[]).then(function(response){
+            var KEYS = [userName];
+            luaScriptManager.run('findByUserName',SCRIPT_FOLDER,KEYS,[]).then(function(response){
                 resolve(response);
             },function(err){
                 console.log(err);

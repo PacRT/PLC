@@ -1,10 +1,8 @@
 /**
  * Created by Hardik on 2/3/16.
  */
-var redis_client = require('../redis_client');
-var client = redis_client.getClient();
 var luaScriptManager = require('../lua_script/luaScriptManager');
-var SCRIPT_FOLDER = "upload_doc";
+var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["DOCS_API"];
 
 var upload_doc = {
     /**
@@ -15,12 +13,15 @@ var upload_doc = {
      * @param doc_link
      * @returns {Promise}
      */
-    associate_doc : function(owner_id,user_id,timestamp,doc_link) {
-        var keys = [owner_id,user_id];
-        var values = [timestamp,doc_link];
-        return new Promise(function (resolve) {
-            luaScriptManager.run('create_doc_link',SCRIPT_FOLDER,keys,values).then(function(err,response){
+    associate_doc : function(owner_id,user_id,timestamp,doc_link,category,file_name,doc_url) {
+        var KEYS = [owner_id,user_id,"category","file_name"];
+        var ARGV = [timestamp, doc_link, category, file_name, doc_url];
+        return new Promise(function (resolve,reject) {
+            luaScriptManager.run(SCRIPT_CONSTANTS.CREATE_DOC_LINK,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
                 resolve(err,response)
+            },function(err){
+                console.log(err);
+                reject(err);
             });
         });
     }

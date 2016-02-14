@@ -14,9 +14,9 @@ var Auth = {
      * @returns {Promise}
      */
     addAuthToken : function(userName,authToken){
-        var values = [userName,authToken];
+        var ARGV = [userName,authToken];
         return new Promise(function(resolve,reject){
-            luaScriptManager.run('add_auth_token',SCRIPT_FOLDER,[],values).then(function(response){
+            luaScriptManager.run('add_auth_token',SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
             },function(err){
                 console.log(err);
@@ -30,9 +30,9 @@ var Auth = {
      * @param authtoken
      */
     verifyAuthToken : function(userName, authtoken){
-        var values = [userName,authtoken];
+        var ARGV = [userName,authtoken];
         return new Promise(function(resolve,reject){
-            luaScriptManager.run('verify_auth_token',SCRIPT_FOLDER,[],values).then(function(response){
+            luaScriptManager.run('verify_auth_token',SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
             },function(err){
                 console.log(err);

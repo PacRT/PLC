@@ -34,19 +34,24 @@ passport.use('local-passport',new LocalStrategy({
 
 router.post('',function(req, res, next){
     passport.authenticate('local-passport', function(err, user, info) {
-        if (err) {  return res.send(err); }
-        if (!user) {  return res.send("Missing Credentials"); }
+        if (!user && err.indexOf("lua") == -1) {
+            return res.send({
+                error: true,
+                errorMsg: "Incorrect Username or Password."
+            });
+        }
+        if (err) {  return res.send({error:true,"errorMsg":error_codes[err]}) }
         var redis_data = user.split("|");
         if (redis_data[2] != req.body.password) {
-            return res.status(403).send({
-                success: false,
-                message: "Incorrect Username or Password."
+            return res.send({
+                error: true,
+                errorMsg: "Incorrect Username or Password."
             });
         }
         if(redis_data[1] != req.body.user_name){
-            return res.status(403).send({
-                success: false,
-                message: "Incorrect Username or Password."
+            return res.send({
+                error: true,
+                errorMsg: "Incorrect Username or Password."
             });
         }
         var auth_token = crypto.createHmac('sha256', secret)

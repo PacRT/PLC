@@ -6,7 +6,7 @@
 -- To change this template use File | Settings | File Templates.
 --
 local uid = redis.call('GET', "username:" .. KEYS[1] .. ":uid" )
-print(uid);
+if(uid == false) then return "lua_105" end
 local password = redis.call('GET', "uid:" ..uid.. ":password")
 local email = redis.call('GET', "uid:" ..uid.. ":email")
 local name = redis.call('GET', "uid:" ..uid.. ":name")

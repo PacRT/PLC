@@ -7,10 +7,10 @@
 -- ARGV[1] - username
 -- ARGV[2] - token
 -- Please refere error-constants.json for erro code lua_*
--- username:<userid>:auth --> token
--- auths:<token>:auth --> userid
+-- username:<userid>:login --> token
+-- auths:<token>:login --> userid
 local userid = redis.call('GET', "username:" ..ARGV[1].. ":uid")
-redis.call("SET","username:" ..userid.. ":auth",ARGV[2])
-redis.call("SET","auths:" ..ARGV[2].. ":auth",userid)
-redis.call("EXPIRE","auths:" ..ARGV[2].. ":auth",3600 * 24 * 30)
+redis.call("SET","username:" ..userid.. ":login",ARGV[2])
+redis.call("SET","auths:" ..ARGV[2].. ":login",userid)
+redis.call("EXPIRE","auths:" ..ARGV[2].. ":login",3600 * 24 * 30)
 return ARGV[1] .."|".. ARGV[2]

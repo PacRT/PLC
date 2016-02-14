@@ -3,8 +3,10 @@
  */
 var express = require("express");
 var router = express.Router();
+var docs_api = require('../../redis_middleware/api/redis_docs_api');
+var error_codes = require('../../constants/error-constants');
 var redis_client = require('../../redis_middleware/redis_client');
-var client = redis_client.getClient();
+ var client = redis_client.getClient();
 /**
  * need to refactor this
  */
@@ -28,9 +30,23 @@ var zscan = function(indexname, start, acc, fn) {
         }
     });
 };
-router.get('',function(req, res, next){
+router.get('/:cursor',function(req, res, next){
     var user_id = req.get("USER_NAME");
-    fullzscan("owner:" + user_id + ":docs", function(result) {
+    var cursor = req.params["cursor"];
+    docs_api.get_user_docs(user_id,cursor).then(function(response){
+        var docs_links = [];
+        response[1].map(function(link){
+           docs_links.push(link.split("|doc_url|").pop())
+        });
+        var result1 = {
+            "cursor" : response[0],
+            "docs_link" : docs_links
+        };
+        res.send(result1);
+    },function(error){
+        res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+    });
+    /*fullzscan("owner:" + user_id + ":docs", function(result) {
         var doc, doc1, doc2, docFid, docPort, docUrl, docs, fids, len, num, _i, _ref;
         console.log("Result: " + result);
         len = result.length;
@@ -53,7 +69,7 @@ router.get('',function(req, res, next){
         }
         //req.session.fids = fids;
         return res.send(docs);
-    });
+    });*/
 });
 
 module.exports = router;
