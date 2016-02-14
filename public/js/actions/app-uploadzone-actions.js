@@ -38,14 +38,16 @@ var UploadzoneActions = {
      * Upload Docs
      * @param files
      */
-    uploadDocs : function(files){
+    uploadDocs : function(files,category){
         var api_url = API_URL.get(APIConstants.UPLOAD_DOCS);
+        api_url = api_url.replace("#category#",category);
         var super_requests = [];
         var promise;
         var _this = this;
         _.each(files, function(file){
+            var file_api_url = api_url.replace("#file_name#",file.name);
             promise = request
-                .post(api_url)
+                .post(file_api_url)
                 .attach(file.name, file)
                 .set("API_TOKEN",localStorage.getItem(AppConstants.API_TOKEN))
                 .set("USER_NAME",localStorage.getItem(AppConstants.USER_NAME))

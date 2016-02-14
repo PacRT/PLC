@@ -11,6 +11,7 @@ var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var ProgressBar = require('react-bootstrap/lib/ProgressBar');
 var Card = require('material-ui/lib/card/card');
+var LinearProgress = require('material-ui/lib/linear-progress');
 var CardHeader = require('material-ui/lib/card/card-header');
 var FileList = require('./app-file-list');
 var PopularCategories = require('./app-popular-categories');
@@ -67,9 +68,10 @@ var UploadZone = React.createClass({
     },
     uploadFiles:function(){
         if(this.state.files.length)
-            UploadzoneActions.uploadDocs(this.state.files);
+            UploadzoneActions.uploadDocs(this.state.files,this.state.category);
         this.setState({
-            files : []
+            files : [],
+            progress : 0
         });
     },
     cancelUpload:function(){
