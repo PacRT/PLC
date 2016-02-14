@@ -45,18 +45,13 @@ var NavBar = React.createClass({
             )
         }else{
             return (
-                <a href="#/home"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
+                <a href="#/dashboard"><i className="fa fa-paper-plane-o"></i>PaperLess Club</a>
             )
         }
     },
     getNavBar : function(){
         if (!this.state.userLoggedIn) {
-                return (
-                    <Nav>
-                        <NavItem href="#/login">Login</NavItem>
-                        <NavItem href="#/registration">Signup</NavItem>
-                    </Nav>
-                )
+                return ( "" )
             } else {
                 return (
                     <Nav>

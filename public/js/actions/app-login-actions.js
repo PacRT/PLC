@@ -36,10 +36,8 @@ var LoginActions = {
         });
         hashHistory.push('');
     },
-    addItem:function(){
-        AppDispatcher.handleViewAction({
-            actionType: AppConstants.ADD_ITEM
-        })
+    openSignUpForm:function(){
+        hashHistory.push('registration');
     }
 }
 
