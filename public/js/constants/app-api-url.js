@@ -6,6 +6,6 @@ module.exports = {
     USER_EXISTS_API : '/users/isUserExists/#userName#',
     REGISTER_USER   : '/users/register',
     LOG_IN          : '/login',
-    MY_DOCS         : '/docs',
-    UPLOAD_DOCS     : '/upload'
+    MY_DOCS         : '/docs/#cursor#',
+    UPLOAD_DOCS     : '/upload/#file_name#/#category#'
 };

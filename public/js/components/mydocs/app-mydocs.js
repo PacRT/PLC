@@ -8,29 +8,30 @@ var MyDocsActions = require('../../actions/app-mydocs-actions');
 var MyDocs = React.createClass({
     getInitialState: function(){
         return {
-            "docs_url" : []
+            "store" : MyDocsStore.getDocStore()
         }
     },
     componentDidMount: function() {
-        MyDocsActions.getMyDocs();
+        MyDocsActions.getMyDocs(this.state.store.cursor);
         MyDocsStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {
         MyDocsStore.removeChangeListener(this._onChange);
     },
     _onChange: function() {
-        var docs_url = MyDocsStore.getDocsURL();
+        var doc_store = MyDocsStore.getDocStore();
         this.setState({
-            docs_url : docs_url
+            store : doc_store
         });
     },
     render: function () {
+        console.log(this.state.store.docs_link);
         return (
             <div>
                 <h1>My Docs</h1>
                 <div className="col-xs-6 col-md-12">
                     {
-                        this.state.docs_url.map(function(url){
+                        this.state.store.docs_link.map(function(url){
                             return(
                                 <div key={url} className="col-xs-6 col-md-3">
                                     <a href={url} className="thumbnail">

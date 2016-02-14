@@ -8,7 +8,10 @@ var ObjectAssign = require('object-assign');
 
 var CHANGE_EVENT = "change";
 
-var _myDocs = [];
+var _myDocs = {
+    "docs_link" : [],
+    "cursor" : 0
+};
 
 var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
     addChangeListener:function(cb){
@@ -17,7 +20,7 @@ var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
     removeChangeListener:function(cb){
         this.removeListener(CHANGE_EVENT, cb);
     },
-    getDocsURL : function() {
+    getDocStore : function() {
         return _myDocs;
     }
 });
@@ -25,8 +28,9 @@ var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
 AppDispatcher.register(function(payload){
     var action = payload.action;
     switch (action.actionType){
-        case AppConstants.MY_DOCS:
-            _myDocs = action.response;
+        case AppConstants.MY_DOCS_URL:
+            _myDocs.cursor = action.response.cursor;
+            _myDocs.docs_link = action.response.docs_link;
             MyDocsStore.emit(CHANGE_EVENT);
             break;
         default:
