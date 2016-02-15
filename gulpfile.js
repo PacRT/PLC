@@ -6,6 +6,10 @@ var concat = require('gulp-concat'),
     reactify = require('reactify'),
     browserSync = require('browser-sync').create(),
     minify = require('gulp-minify');
+var argv = require('yargs').argv,
+    gulpif = require('gulp-if'),
+    rename = require('gulp-rename'),
+    uglify = require('gulp-uglify');
 var browserify = require('browserify');
 var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream'); // Used to stream bundle for further handling
@@ -20,29 +24,27 @@ var root_js_path = './bower_components/';
 var root_css_path = './public/assets/css/';
 
 var vendor_js_path = [
-        root_js_path + "jquery/dist/jquery.min.js",
-        root_js_path + "react/react.min.js",
-        root_js_path + "react/react-dom.min.js",
-        root_js_path + "react/react-dom-server.min.js",
-        root_js_path + "react/react-with-addons.min.js"
-    ];
+    root_js_path + "jquery/dist/jquery.min.js",
+    root_js_path + "react/react.min.js",
+    root_js_path + "react/react-dom.min.js",
+    root_js_path + "react/react-dom-server.min.js",
+    root_js_path + "react/react-with-addons.min.js"
+];
 
 var vendor_css_path = [
-        root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
-        root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
-
+    root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
+    root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
 ];
 
 var app_css_path = [
     root_css_path + "registration.css",
-    root_css_path + "app.css",
     root_css_path + "base.css"
 ]
 gulp
     //Bundle all Third Party Plugins
     .task('vendor_js',function(){
         gulp.src(vendor_js_path)
-        .pipe(concat('vendor.js'))
+        .pipe(concat('vendor.min.js'))
         .pipe(gulp.dest('dist/assets'));
     })
 
@@ -50,16 +52,16 @@ gulp
     .task('vendor_css',function(){
         gulp.src(vendor_css_path)
         .pipe(concat('vendor.css'))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('dist/assets/css/vendorcss'))
     })
     // performs magic
     .task('transform', function(){
-
         var b = browserify({
             entries: ['public/js/app.js'],
             cache: {},
             packageCache: {},
-            debug : false,
+            debug : argv.prod ? true : false,
             transform : [reactify]
         });
         b.bundle()
@@ -67,8 +69,8 @@ gulp
             .pipe(buffer())
             .pipe(sourcemaps.init())
             // Add transformation tasks to the pipeline here.
-            .pipe(uglify())
-            .on('error', gutil.log)
+            .pipe(gulpif(argv.prod, uglify())).on('error', gutil.log) // keep uglify() and this line together ,if not together,error debugging on minification will be harder....
+            .pipe(rename({suffix: '.min'}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('dist/js/'));
     })
@@ -86,6 +88,8 @@ gulp
         gulp
             .src(app_css_path)
             .pipe(concat('app.css'))
+            //s.pipe(gulpif(argv.prod, uglify())).on('error', gutil.log)
+            .pipe(rename({suffix: '.min'}))
             .pipe(gulp.dest('dist/assets/css'));
 
     })
