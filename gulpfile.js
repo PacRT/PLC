@@ -1,11 +1,18 @@
-var browserify = require('gulp-browserify'),
-    concat = require('gulp-concat'),
+var concat = require('gulp-concat'),
     gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     nodemon = require('gulp-nodemon'),
     watchify = require('watchify'),
     reactify = require('reactify'),
-    browserSync = require('browser-sync').create();
+    browserSync = require('browser-sync').create(),
+    minify = require('gulp-minify');
+var browserify = require('browserify');
+var uglify = require('gulp-uglify');
+var source = require('vinyl-source-stream'); // Used to stream bundle for further handling
+var assign = require('lodash.assign');
+var gutil = require('gulp-util');
+var sourcemaps = require('gulp-sourcemaps');
+var buffer = require('vinyl-buffer');
 
 var util = require('util');
 var exec = require('child_process').exec;
@@ -47,18 +54,23 @@ gulp
     })
     // performs magic
     .task('transform', function(){
-        gulp.src('public/js/app.js')
-            .pipe(plumber())
-            .pipe(
-                browserify({
-                    transform: 'reactify',
-                    debug: true
-                })
-            )
-            .pipe(concat('app.js'))
-            .pipe(plumber.stop())
-            .pipe(gulp.dest('dist/js'))
-            .pipe(browserSync.stream());
+
+        var b = browserify({
+            entries: ['public/js/app.js'],
+            cache: {},
+            packageCache: {},
+            debug : false,
+            transform : [reactify]
+        });
+        b.bundle()
+            .pipe(source('app.js'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init())
+            // Add transformation tasks to the pipeline here.
+            .pipe(uglify())
+            .on('error', gutil.log)
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('dist/js/'));
     })
     // moves source files to dist
     .task('copy', function(){
@@ -89,10 +101,10 @@ gulp
     // watch for source changes
     .task('watch', function(){
         gulp.watch("public/**/*.js",[""])
-            .on("change", browserSync.reload);
+            .on("change", browserSync.reload());
     })
 
-    .task('reload',['transform', 'copy'],browserSync.reload)
+    .task('reload',['transform', 'copy'],browserSync.reload())
 
     .task('server', ['vendor_css','vendor_js','transform','copy'], function() {
         browserSync.init({
