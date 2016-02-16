@@ -4,7 +4,7 @@
 var express = require("express");
 var router = express.Router();
 var request = require("request");
-var weedMaster = "http://127.0.0.1:9333";
+var weedMaster = require("../../constants/constant")["SEAWEEDFS_ENDPOINT"];
 var formidable = require('formidable');
 var upload_api = require('../../redis_middleware/api/redis_upload_api');
 var auth_checker = require('../middleware/auth_checker');
@@ -16,7 +16,7 @@ router.post('/:file_name/:category',function(req, res, next){
     /**
      * Rest API to save file to Weedfs
      */
-    request(weedMaster + "/dir/assign", function(error, response, body) {
+    request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
         var uploadEndpoint, weedRes;
         if (!error) {
             weedRes = JSON.parse(body);

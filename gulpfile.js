@@ -4,9 +4,8 @@ var concat = require('gulp-concat'),
     nodemon = require('gulp-nodemon'),
     watchify = require('watchify'),
     reactify = require('reactify'),
-    browserSync = require('browser-sync').create(),
-    minify = require('gulp-minify');
-var argv = require('yargs').argv,
+    minify = require('gulp-minify'),
+    argv = require('yargs').argv,
     gulpif = require('gulp-if'),
     rename = require('gulp-rename'),
     uglify = require('gulp-uglify');
@@ -17,12 +16,27 @@ var assign = require('lodash.assign');
 var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var buffer = require('vinyl-buffer');
+var streamify = require('gulp-streamify');
+var notify = require('gulp-notify');
+var livereload = require('gulp-livereload');
+var connect = require('gulp-connect');
+var replace = require('gulp-replace');
+
 
 var util = require('util');
 var exec = require('child_process').exec;
 var root_js_path = './bower_components/';
 var root_css_path = './public/assets/css/';
-
+var PROD_CONSTANTS = {
+    "NODE_SERVER" : "paperlessclub.org",
+    "NODE_PORT"   : 3333,
+    "SEAWEEDFS_ENDPOINT" : "paperlessclub.org:9333"
+};
+var DEV_CONSTANTS = {
+    "NODE_SERVER" : "127.0.0.1",
+    "NODE_PORT"   : 3333,
+    "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
+};
 var vendor_js_path = [
     root_js_path + "jquery/dist/jquery.min.js",
     root_js_path + "react/react.min.js",
@@ -55,24 +69,41 @@ gulp
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('dist/assets/css/vendorcss'))
     })
-    // performs magic
     .task('transform', function(){
-        var b = browserify({
+        var start = Date.now();
+        var opts = {
             entries: ['public/js/app.js'],
             cache: {},
             packageCache: {},
-            debug : argv.prod ? true : false,
-            transform : [reactify]
-        });
-        b.bundle()
-            .pipe(source('app.js'))
-            .pipe(buffer())
-            .pipe(sourcemaps.init())
-            // Add transformation tasks to the pipeline here.
-            .pipe(gulpif(argv.prod, uglify())).on('error', gutil.log) // keep uglify() and this line together ,if not together,error debugging on minification will be harder....
-            .pipe(rename({suffix: '.min'}))
-            .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('dist/js/'));
+            transform : [reactify],
+            debug : argv.prod ? false : true ,
+            fullPaths : argv.prod ? false : true
+        };
+        var appBundler = browserify(opts);
+        var bundler = function(){
+            appBundler.bundle()
+                .on('error', gutil.log)
+                .pipe(source('app.js'))
+                //.pipe(gulpif(!argv.prod,sourcemaps.init()))
+                // Add transformation tasks to the pipeline here.
+                .pipe(gulpif(argv.prod, (replace("#NODE_SERVER#", PROD_CONSTANTS.NODE_SERVER))))
+                .pipe(gulpif(argv.prod, (replace("#NODE_PORT#"  , PROD_CONSTANTS.NODE_PORT  ))))
+                .pipe(replace("#NODE_SERVER#", DEV_CONSTANTS.NODE_SERVER))
+                .pipe(replace("#NODE_PORT#"  , DEV_CONSTANTS.NODE_PORT  ))
+                .pipe(gulpif(argv.prod, streamify(uglify()))).on('error', gutil.log) // keep uglify() and this line together ,if not together,error debugging on minification will be harder....
+                .pipe(rename({suffix: '.min'}))
+                //.pipe(gulpif(!argv.prod,sourcemaps.write('./')))
+                .pipe(gulp.dest('dist/js/'))
+                .pipe(livereload())
+                .pipe(notify(function () {
+                    console.log('APP bundle built in ' + (Date.now() - start) + 'ms');
+                }));
+        }
+        if (!argv.prod) {
+            b = watchify(appBundler);
+            appBundler.on('update', bundler);
+        }
+        bundler();
     })
     // moves source files to dist
     .task('copy', function(){
@@ -96,26 +127,27 @@ gulp
 
     // node api Server
     .task('node-app', function () {
+        if(argv.prod){
+            gulp.src('routes/constants/constant.js')
+                .pipe(replace("#SEAWEEDFS_ENDPOINT#",PROD_CONSTANTS.SEAWEEDFS_ENDPOINT))
+                .pipe(gulp.dest('routes/constants'));
+        }else{
+            gulp.src('routes/constants/constant.js')
+                .pipe(replace("#SEEWEEDFS_ENDPOINT#",DEV_CONSTANTS.SEAWEEDFS_ENDPOINT))
+                .pipe(gulp.dest('routes/constants'));
+
+        }
         nodemon({ script: 'routes/node-app.js'})
         .on('restart', function () {
             console.log('restarted!')
         })
     })
-
-    // watch for source changes
-    .task('watch', function(){
-        gulp.watch("public/**/*.js",[""])
-            .on("change", browserSync.reload());
-    })
-
-    .task('reload',['transform', 'copy'],browserSync.reload())
-
     .task('server', ['vendor_css','vendor_js','transform','copy'], function() {
-        browserSync.init({
-            server: "./dist",
+        var server = livereload.listen();
+        connect.server({
+            root: 'dist/',
             port: 7979
         });
-        gulp.watch("public/**/*.*",["reload"]);
     }).
 
     task("redis-server",function(){

@@ -1,8 +1,6 @@
-{
+module.exports = {
   "nodePort"    : "3333",
   "client_host" : "localhost",
   "client_port" : "8080",
-  "redis_host"  : "",
-  "redis_port"  : ""
-
+  "SEAWEEDFS_ENDPOINT" : "#SEEWEEDFS_ENDPOINT#"
 }
