@@ -12,31 +12,31 @@ var SignUpForm = React.createClass({
 
     getInitialState: function () {
         return {
-            userName : null,
+            userName: null,
             email: null,
             firstName: null,
-            lastName :null,
+            lastName: null,
             phoneNumber: null,
             password: null,
             passwordConfirm: null,
             forbiddenWords: ["password", "user", "username"],
-            timeout : null,
-            user : UserStore.getUser()
+            timeout: null,
+            user: UserStore.getUser()
         }
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         UserStore.addChangeListener(this._onChange);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
         UserStore.removeChangeListener(this._onChange);
     },
 
-    _onChange: function() {
-        this.setState({user : UserStore.getUser()});
+    _onChange: function () {
+        this.setState({user: UserStore.getUser()});
     },
     handlePasswordInput: function (event) {
-        if(!_.isEmpty(this.state.passwordConfirm)){
+        if (!_.isEmpty(this.state.passwordConfirm)) {
             this.refs.passwordConfirm.isValid();
         }
         this.refs.passwordConfirm.hideError();
@@ -57,7 +57,7 @@ var SignUpForm = React.createClass({
             && this.refs.password.isValid()
             && this.refs.passwordConfirm.isValid();
 
-        if(canProceed) {
+        if (canProceed) {
             this._registerUser();
         } else {
             this.refs.userName.isValid();
@@ -74,40 +74,41 @@ var SignUpForm = React.createClass({
         return (event == this.state.password)
     },
 
-    handlePhoneNumberInput: function(event) {
+    handlePhoneNumberInput: function (event) {
         this.setState({
             phoneNumber: event.target.value
         })
     },
-    handleFirstNameInput: function(event){
-      this.setState({
-          firstName : event.target.value
-      })
-    },
-    handleLastNameInput: function(event){
+    handleFirstNameInput: function (event) {
         this.setState({
-            lastName : event.target.value
+            firstName: event.target.value
         })
     },
-    handleUserNameInput: function(event){
+    handleLastNameInput: function (event) {
         this.setState({
-            userName : event.target.value
+            lastName: event.target.value
+        })
+    },
+    handleUserNameInput: function (event) {
+        this.setState({
+            userName: event.target.value
         });
         this.checkForUserName(event);
     },
-    checkForUserName : function(event){
-       /* if(event.target.value.length >= 4){
+    checkForUserName: function (event) {
+         /*if(event.target.value.length >= 4){
             RegistrationActions.isUserExists(event.target.value);
-        }*/
+         }*/
         clearTimeout(this.state.timeout);
-
+        var user_name = event.target.value;
+        var _this = this;
         // Make a new timeout set to go off in 800ms
         this.state.timeout = setTimeout(function () {
-            if(event.target.value.length >=4)
-                RegistrationActions.isUserExists(event.target.value);
-        }, 500);
+            if (user_name.length >= 4)
+                RegistrationActions.isUserExists(user_name);
+        }, 500,user_name);
     },
-    handleEmailInput: function(event){
+    handleEmailInput: function (event) {
         this.setState({
             email: event.target.value
         });
@@ -122,22 +123,23 @@ var SignUpForm = React.createClass({
     isEmpty: function (value) {
         return !_.isEmpty(value);
     },
-    _registerUser : function(){
-        var user = {
-            userName : this.state.userName,
-            email: this.state.email,
-            firstName: this.state.firstName,
-            lastName :this.state.lastName,
-            phoneNumber: this.state.phoneNumber,
-            password: this.state.password
-        }
+    _registerUser: function () {
+        var user = [
+            this.state.email,
+            this.state.firstName,
+            this.state.lastName,
+            this.state.password,
+            this.state.phoneNumber,
+            this.state.userName,
+            0
+        ];
         var _this = this;
-        var transitionCB = function(){
+        var transitionCB = function () {
             _this.context.router.transitionTo('invite');
         }
-         RegistrationActions.registerUser(user,transitionCB);
+        RegistrationActions.registerUser(user, transitionCB);
     },
-    render: function() {
+    render: function () {
         return (
             <div className="create_account_screen">
 

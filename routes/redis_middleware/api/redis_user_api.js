@@ -1,5 +1,6 @@
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_FOLDER = "user";
+var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["USER"];
 
 var User = {
     /**
@@ -9,8 +10,9 @@ var User = {
      */
     registerUser : function(user) {
         return new Promise(function (resolve,reject) {
-            var ARGV = _.values(user);
-            luaScriptManager.run('registration',SCRIPT_FOLDER,[],ARGV).then(function(err,response){
+            console.log(user);
+            var ARGV = user.map(function(value){return value.toString()});
+            luaScriptManager.run(SCRIPT_CONSTANTS.REGISTRATION,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(err,response){
                 resolve(err,response)
             },function(err){
                 console.log(err);
@@ -26,7 +28,18 @@ var User = {
     findByUserName : function(userName){
         return new Promise(function(resolve,reject){
             var KEYS = [userName];
-            luaScriptManager.run('findByUserName',SCRIPT_FOLDER,KEYS,[]).then(function(response){
+            luaScriptManager.run(SCRIPT_CONSTANTS.FIND_BY_USER_NAME,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,[]).then(function(response){
+                resolve(response);
+            },function(err){
+                console.log(err);
+                reject(err);
+            });
+        });
+    },
+    isUserNameExists : function(userName){
+        return new Promise(function(resolve,reject){
+            var ARGV = [userName];
+            luaScriptManager.run(SCRIPT_CONSTANTS.IS_USER_EXISTS,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
             },function(err){
                 console.log(err);

@@ -9,9 +9,15 @@ var redis_client = require('../../redis_middleware/redis_client');
 var client = redis_client.getClient();
 var API_CONSTANTS = require('../../constants/api-constants');
 var auth_checker = require('../middleware/auth_checker');
+var error_codes = require('../../constants/error-constants');
+
 
 router.get(API_CONSTANTS.USER_EXISTS,function(req,res){
-    res.send(users.indexOf(req.params.userName) != -1 ? true : false);
+   user_api.isUserNameExists(req.params.userName).then(function(response){
+       res.send(response);
+   },function(error){
+       res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+   });
 });
 router.post("/isAuthenticationExists",auth_checker,function(req,res){
     console.log(req.body);
@@ -23,6 +29,8 @@ router.post(API_CONSTANTS.USER_REGISTER,function(req,res){
         console.log(response);
         client.publish("RegReqConfEmail", "{\"name\" : \"" + user.name + "\", \"username\": \"" + user.username + "\", \"email\": \"" + user.email + "\", \"status\" : \"" + user.status + "\" }");
         res.send(true)
+    },function(error){
+        res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
     });
 });
 
