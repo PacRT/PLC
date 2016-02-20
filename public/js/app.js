@@ -1,6 +1,6 @@
 var render = require('react-dom').render;
 var Router = require('react-router').Router;
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 _ = require('lodash');
 /*var useRouterHistory = require('react-router').useRouterHistory;
 var createHashHistory = require('history').createHashHistory;
@@ -10,7 +10,7 @@ var history = useRouterHistory(createHashHistory)({ queryKey: false });*/
 var AppRouter = require('./components/app-router');
 
 render(
-    <Router history={hashHistory} routes={AppRouter} />,
+    <Router history={browserHistory} routes={AppRouter} />,
     document.getElementById('paperless-app')
 )
 

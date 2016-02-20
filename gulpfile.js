@@ -21,7 +21,7 @@ var notify = require('gulp-notify');
 var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 var replace = require('gulp-replace');
-
+var historyApiFallback = require('connect-history-api-fallback');
 
 var util = require('util');
 var exec = require('child_process').exec;
@@ -143,10 +143,17 @@ gulp
         })
     })
     .task('server', ['vendor_css','vendor_js','transform','copy'], function() {
-        var server = livereload.listen();
+        livereload.listen();
         connect.server({
             root: 'dist/',
-            port: 7979
+            livereload : !argv.prod,
+            port: 7979,
+            middleware: function(connect, opt){
+                console.log("in history fallback!!!")
+                return [historyApiFallback({
+                    logger: console.log.bind(console)
+                })];
+            }
         });
     }).
 
