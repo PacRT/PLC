@@ -6,7 +6,7 @@ var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var LoginActions = {
     loginUser:function(user_name,password){
@@ -20,7 +20,7 @@ var LoginActions = {
                 actionType : AppConstants.LOG_IN,
                 response :result
             });
-            hashHistory.push('dashboard');
+            browserHistory.push('dashboard');
         });
     },
     continueSession:function(api_token,user_name){
@@ -28,16 +28,16 @@ var LoginActions = {
             actionType : AppConstants.LOG_IN,
             response :{"user_name":user_name,"api_token":api_token}
         });
-        hashHistory.push('dashboard');
+        browserHistory.push('dashboard');
     },
     logoutUser:function(){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.LOG_OUT,
         });
-        hashHistory.push('');
+        browserHistory.push('/');
     },
     openSignUpForm:function(){
-        hashHistory.push('registration');
+        browserHistory.push('registration');
     }
 }
 
