@@ -10,6 +10,7 @@ var CHANGE_EVENT = "change";
 
 var _myDocs = {
     "docs_link" : [],
+    "files_name" : [],
     "cursor" : 0
 };
 
@@ -31,6 +32,7 @@ AppDispatcher.register(function(payload){
         case AppConstants.MY_DOCS_URL:
             _myDocs.cursor = action.response.cursor;
             _myDocs.docs_link = action.response.docs_link;
+            _myDocs.files_name = action.response.files_name;
             MyDocsStore.emit(CHANGE_EVENT);
             break;
         default:
