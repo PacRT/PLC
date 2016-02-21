@@ -5,6 +5,8 @@
 var React = require('react');
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
+var SearchBarApp = require('./app-searchbar');
+var DocTile = require('./app-doc-tile');
 var MyDocs = React.createClass({
     getInitialState: function(){
         return {
@@ -26,23 +28,22 @@ var MyDocs = React.createClass({
     },
     render: function () {
         console.log(this.state.store.docs_link);
+        var _this = this;
         return (
             <div>
-                <h1>My Docs</h1>
-                <div className="col-xs-6 col-md-12">
+                <SearchBarApp/>
+
                     {
-                        this.state.store.docs_link.map(function(url){
+                        this.state.store.docs_link.map(function(url,index){
                             return(
-                                <div key={url} className="col-xs-6 col-md-3">
-                                    <a href={url} className="thumbnail">
-                                        <img src={url}/>
-                                    </a>
-                                </div>
+                                <DocTile
+                                    heading={_this.state.store.files_name[index]}
+                                    img={url}
+                                    firstChild={true}
+                                />
                             )
                         })
                     }
-
-                </div>
             </div>
         );
     }
