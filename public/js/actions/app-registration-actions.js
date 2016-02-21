@@ -7,7 +7,7 @@ var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
 var _ = require('underscore');
-var hashHistory = require('react-router').hashHistory;
+var browserHistory = require('react-router').browserHistory;
 
 var AppRegistration = {
     isUserExists : function(userName) {
@@ -28,7 +28,7 @@ var AppRegistration = {
                 actionType : AppConstants.SHOW_NOTIFICATION,
                 response :notification
             })
-            hashHistory.push('invite');
+            browserHistory.push('dashboard');
         });
     }
 }
