@@ -14,12 +14,13 @@ end
 redis.call('ZADD', "owner:"  ..ownuid..":docs", ARGV[1], ARGV[2])
 redis.call('ZADD', "issuer:"  ..issuid..":docs", ARGV[1], ARGV[2])
 redis.call('HMSET', "doc:"..ARGV[2], "owner.uid", ownuid , "issuer.uid", issuid)
+redis.call('SADD',"docs:"..KEYS[1] ,ARGV[2].."|timestamp|"..ARGV[1].."|category|#category#|file_name|"..ARGV[3].."|doc_url|".. ARGV[4])
 print(KEYS[1] .."|".. KEYS[2] .."|".. ARGV[1] .."|".. ARGV[2])
 '''
 r_server = redis.Redis("localhost")
 r_up = r_server.register_script(lua)
 
-def update_redis(owner,issuer,url, dname):
+def update_redis(owner,issuer,url, dname,filename, doc_api_url):
   ts = time.time()
   password = "secret"
   rusername  = owner.split("@")[0]
@@ -29,7 +30,7 @@ def update_redis(owner,issuer,url, dname):
   print("Owner's email: ", owner)
   print("Issuer's email: ", issuer)
   print("Owner's user name: ", rusername)
-  r_up(keys=[rusername, issuer], args=[ts,url])
+  r_up(keys=[rusername, issuer], args=[ts,url,filename,doc_api_url])
 
   # if idomain == 'paperlessclub.org':
   #   iuid = register.get_id(iusername)

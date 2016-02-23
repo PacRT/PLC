@@ -30,7 +30,8 @@ def Load(type, fname, owner, issuer, issdname):
   finalurl = url+ "." +extension
   print("Final URL: " + finalurl)
   print(r.text)
-  updateredis.update_redis(owner, issuer, finalurl, issdname)
+  doc_url = "/docs/"+url.split("//")[1].replace(":",'/')
+  updateredis.update_redis(owner, issuer, finalurl, issdname,fname,doc_url)
 
 def processPart(part, owner, issuer, issdname):
   ctype = part.get_content_type()
