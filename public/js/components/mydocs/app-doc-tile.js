@@ -8,12 +8,6 @@ var StyleResizable = require('material-ui/lib/mixins').StyleResizable;
 var Spacing = require('material-ui/lib/styles').Spacing;
 var Transitions = require('material-ui/lib/styles').Transitions;
 var Typography = require('material-ui/lib/styles').Typography;
-var request = require('superagent-bluebird-promise');
-var ReactCanvas = require('react-canvas');
-
-var Surface = ReactCanvas.Surface;
-var Image = ReactCanvas.Image;
-var Text = ReactCanvas.Text;
 
 var DocTile = React.createClass({
     propTypes: {
