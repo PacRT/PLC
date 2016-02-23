@@ -16,7 +16,7 @@ def getFileId():
   pprint(data)
   fid = data["fid"]
   url = data["url"]
-  final_url = "http://" + url + "/" + fidx
+  final_url = "http://" + url + "/" + fid
   print(final_url)
   return final_url
 
@@ -31,6 +31,7 @@ def Load(type, fname, owner, issuer, issdname):
   print("Final URL: " + finalurl)
   print(r.text)
   doc_url = "/docs/"+finalurl.split("//")[1].replace(":",'/')
+  print(doc_url)
   updateredis.update_redis(owner, issuer, finalurl, issdname,fname,doc_url)
 
 def processPart(part, owner, issuer, issdname):
