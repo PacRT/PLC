@@ -134,7 +134,7 @@ gulp
                 .pipe(gulp.dest('routes/constants'));
         }else{
             gulp.src('routes/constants/constant.js')
-                .pipe(replace("#SEEWEEDFS_ENDPOINT#",DEV_CONSTANTS.SEAWEEDFS_ENDPOINT))
+                .pipe(replace("#SEAWEEDFS_ENDPOINT#",DEV_CONSTANTS.SEAWEEDFS_ENDPOINT))
                 .pipe(gulp.dest('routes/constants'));
 
         }
