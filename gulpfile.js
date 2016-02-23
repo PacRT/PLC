@@ -38,6 +38,7 @@ var DEV_CONSTANTS = {
     "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
 };
 var vendor_js_path = [
+    "./node_modules/pdfjs-dist/build/pdf.combined.js",
     root_js_path + "jquery/dist/jquery.min.js",
     root_js_path + "react/react.min.js",
     root_js_path + "react/react-dom.min.js",

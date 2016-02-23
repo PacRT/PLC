@@ -11,7 +11,9 @@ var MyDocActions = {
     getMyDocs:function(cursor){
         API.get(APIConstants.MY_DOCS.replace("#cursor#",cursor)).then(function(response){
             var result = JSON.parse(response.text);
-            result.docs_link = result.docs_link.map(function(link){ return APIURL.get(link)});
+            result.docs_link = result.docs_link.map(function(link){
+                    return APIURL.get(link);
+            });
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.MY_DOCS_URL,
                 response: result
