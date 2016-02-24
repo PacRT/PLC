@@ -3,49 +3,28 @@
  */
 /** @jsx React.DOM */
 var React = require('react');
-var MyDocsStore = require('../../stores/app-mydocs-store');
-var MyDocsActions = require('../../actions/app-mydocs-actions');
 var SearchBarApp = require('./app-searchbar');
-var DocTile = require('./app-doc-tile');
+var DocGrid = require('./app-doc-grid');
+var Grid = require('react-bootstrap/lib/Grid');
+var Row = require('react-bootstrap/lib/Row');
+var Col = require('react-bootstrap/lib/Col');
+
+var ContainerParent = require('./ContainerParent');
+
 var MyDocs = React.createClass({
-    getInitialState: function(){
-        return {
-            "store" : MyDocsStore.getDocStore()
-        }
-    },
-    componentDidMount: function() {
-        MyDocsActions.getMyDocs(this.state.store.cursor);
-        MyDocsStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function() {
-        MyDocsStore.removeChangeListener(this._onChange);
-    },
-    _onChange: function() {
-        var doc_store = MyDocsStore.getDocStore();
-        this.setState({
-            store : doc_store
-        });
-    },
     render: function () {
-        console.log(this.state.store.docs_link);
-        var _this = this;
         return (
             <div>
                 <SearchBarApp/>
-
-                    {
-                        this.state.store.docs_link.map(function(url,index){
-                            return(
-                                <DocTile
-                                    heading={_this.state.store.files_name[index]}
-                                    img={url}
-                                    firstChild={true}
-                                />
-                            )
-                        })
-                    }
+                <Grid>
+                    <Row>
+                        <Col md={12} xs={12}>
+                            <DocGrid/>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
-        );
+        )
     }
 });
 

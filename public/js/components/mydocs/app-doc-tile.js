@@ -8,48 +8,31 @@ var StyleResizable = require('material-ui/lib/mixins').StyleResizable;
 var Spacing = require('material-ui/lib/styles').Spacing;
 var Transitions = require('material-ui/lib/styles').Transitions;
 var Typography = require('material-ui/lib/styles').Typography;
+var PureMixin = require('react-pure-render/mixin');
+var Col = require('react-bootstrap/lib/Col');
 
 var DocTile = React.createClass({
-    propTypes: {
-        firstChild: React.PropTypes.bool,
-        heading: React.PropTypes.string,
-        lastChild: React.PropTypes.bool
-    },
-    mixins: [StyleResizable],
-    getInitialState: function() {
-        return {
-            zDepth: 0,
-        };
-    },
-    _onMouseEnter: function() {
-        this.setState({
-            zDepth: 4,
-        });
-    },
-    _onMouseLeave: function() {
-        this.setState({
-            zDepth: 0,
-        });
-    },
     getStyles: function() {
         var desktopKeylineIncrement = Spacing.desktopKeylineIncrement;
         var styles = {
             root: {
                 transition: Transitions.easeOut,
-                margin: '15px 15px 15px 0px'
+                margin: '15px 15px 15px 0px',
+                maxHeight : '175px',
+                width: '100%'
             },
             rootWhenMedium: {
                 float: 'left',
-                width: 'auto',
+                width: '100%',
                 margin :"15px 15px 15px 0px"
             },
             image: {
                 //Not sure why this is needed but it fixes a display
                 //issue in chrome
                 marginBottom: -6,
-                display: "block",
-                maxWidth:"100%",
-                maxHeight:"225px",
+                display: "table-cell",
+                maxWidth:"auto",
+                maxHeight:"175px",
                 width: "auto",
                 height: "auto"
             },
@@ -87,31 +70,25 @@ var DocTile = React.createClass({
                 backgroundColor: grey200,
             }
         };
-        if (this.isDeviceSize(StyleResizable.statics.Sizes.MEDIUM) ||
-            this.isDeviceSize(StyleResizable.statics.Sizes.LARGE)) {
-            styles.root = Object.assign(
-                styles.root,
-                styles.rootWhenMedium,
-                this.props.firstChild && styles.rootWhenMediumAndFirstChild,
-                this.props.lastChild && styles.rootWhenMediumAndLastChild
-            );
-        }
-
-
         return styles;
     },
 
     render : function(){
         var styles = this.getStyles();
         var imgOrPdf = "";
-        var pdfStyle = {
-            "width" : "200px",
-            "height" : "200px"
+        var imgStyles = {
+            position: "relative",
+            width:  "100%",
+            height: "128px",
+            backgroundRepeat:   "no-repeat",
+            backgroundSize:     "cover"
         }
+        var encoded_id = encodeURIComponent(this.props.img);
         if(this.props.img.indexOf(".pdf") == -1){
-            imgOrPdf =  <img style={styles.image} src={this.props.img}/>
+            imgStyles["backgroundImage"] = "url("+this.props.img+")";
+            imgOrPdf =  <div style={imgStyles} ></div>
         }else{
-            imgOrPdf =  <canvas id={this.props.img} />
+            imgOrPdf = <canvas className="img-responsive" id={encoded_id} />
             var _this = this;
             var oReq = new XMLHttpRequest();
             oReq.open("GET", this.props.img, true);
@@ -123,22 +100,23 @@ var DocTile = React.createClass({
                     var byteArray = new Uint8Array(arrayBuffer);
                     PDFJS.getDocument(byteArray).then(function(pdf) {
                         pdf.getPage(1).then(function(page) {
-                            var canvas = document.getElementById(_this.props.img);
-                            var desiredWidth = 200;
-                            var viewport = page.getViewport(1.50);
-                            var scale = desiredWidth / viewport.width;
+                            var canvas = document.getElementById(encoded_id);
+                            var desiredHeight = 400;
+                            var viewport = page.getViewport(1);
+                            var scale = desiredHeight / viewport.height;
                             var scaledViewport = page.getViewport(scale);
-                            var width = scaledViewport.width;// || this.width / this.height * params.height;
-                            var height = scaledViewport.height;// || this.height / this.width * params.width;
                             var context = canvas.getContext('2d')
-                            canvas. width = width;
-                            canvas.height = height;
                             var renderContext = {
                                 canvasContext: context,
-                                viewport: scaledViewport
+                                viewport:scaledViewport
                             };
-                            var result = page.render(renderContext);
-                            console.log(result);
+                            page.render(renderContext);
+
+                            function convertCanvasToImage(canvas1) {
+                                var image = new Image();
+                                image.src = canvas1.toDataURL("image/png");
+                                return image;
+                            }
                         })
                     });
                 }
@@ -147,25 +125,24 @@ var DocTile = React.createClass({
 
         };
         var link_style = {
-            "cursor" : "pointer"
+            "cursor" : "pointer",
+            float : "left"
         };
         return (
             <div>
-                <a style={link_style} href={this.props.img} target="_blank">
+
+                <Col md={3} xs={6}>
                     <Paper
-                        zDepth={this.state.zDepth}
-                        onMouseEnter={this._onMouseEnter}
-                        onMouseLeave={this._onMouseLeave}
-                        style={Object.assign(
-                styles.root,
-                this.props.lastChild && styles.rootWhenLastChild)}
+                        onTouchTap={this.props.selectThisTile.bind(this,this.props.tile_index)}
+                        zDepth={this.props.isSelected?3:0}
+                        style={styles.root}
                     >
                         {imgOrPdf}
                         <div>
                             <input disabled value={this.props.heading} style={styles.text_field_style}/>
                         </div>
                     </Paper>
-                </a>
+                </Col>
             </div>
         )
     }
