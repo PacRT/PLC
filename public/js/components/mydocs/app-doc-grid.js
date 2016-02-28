@@ -6,7 +6,6 @@ var MyDocsStore = require('../../stores/app-mydocs-store');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
 var DocTile = require('./app-doc-tile');
 var DocGridContainer = require('./app-doc-grid-container');
-var Child = require('./ContainerParent');
 
 var DocGrid = React.createClass({
     getInitialState: function(){
