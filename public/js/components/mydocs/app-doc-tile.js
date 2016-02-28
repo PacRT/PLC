@@ -10,10 +10,17 @@ var Transitions = require('material-ui/lib/styles').Transitions;
 var Typography = require('material-ui/lib/styles').Typography;
 var PureMixin = require('react-pure-render/mixin');
 var Col = require('react-bootstrap/lib/Col');
-
+var DocTileActions = require('../../actions/app-doc-tile-actions');
+var VerticalMenu = require('./app-tile-action-menu');
 var DocTile = React.createClass({
+    getInitialState : function(){
+        return {
+            tile : ""
+        }
+    },
     getStyles: function() {
         var desktopKeylineIncrement = Spacing.desktopKeylineIncrement;
+
         var styles = {
             root: {
                 transition: Transitions.easeOut,
@@ -61,21 +68,27 @@ var DocTile = React.createClass({
                 marginLeft: 0,
             },
             text_field_style : {
-                "width" : "100%",
+                "width" : "80%",
                 "textOverflow" : "ellipsis",
+                "display" : "block",
+                "whiteSpace" : "nowrap",
                 "paddingLeft" : "10px",
                 "color" :"black",
-                "lineHeight" :"50px",
                 "border" : "none",
-                backgroundColor: grey200,
+                "overflow" : "hidden",
+                "lineHeight" : "50px",
+                "float": "left"
+            },
+            tile_label :{
+                "backgroundColor" : grey200
+            },
+            tile_menu :{
+                width : "20%"
             }
         };
         return styles;
     },
-
-    render : function(){
-        var styles = this.getStyles();
-        var imgOrPdf = "";
+    componentWillMount: function(){
         var imgStyles = {
             position: "relative",
             width:  "100%",
@@ -86,61 +99,45 @@ var DocTile = React.createClass({
         var encoded_id = encodeURIComponent(this.props.img);
         if(this.props.img.indexOf(".pdf") == -1){
             imgStyles["backgroundImage"] = "url("+this.props.img+")";
-            imgOrPdf =  <div style={imgStyles} ></div>
+            this.setState({
+                tile : <div style={imgStyles} id={encoded_id} ></div>
+            })
         }else{
-            imgOrPdf = <canvas className="img-responsive" id={encoded_id} />
-            var _this = this;
-            var oReq = new XMLHttpRequest();
-            oReq.open("GET", this.props.img, true);
-            oReq.responseType = "arraybuffer";
-
-            oReq.onload = function (oEvent) {
-                var arrayBuffer = oReq.response; // Note: not oReq.responseText
-                if (arrayBuffer) {
-                    var byteArray = new Uint8Array(arrayBuffer);
-                    PDFJS.getDocument(byteArray).then(function(pdf) {
-                        pdf.getPage(1).then(function(page) {
-                            var canvas = document.getElementById(encoded_id);
-                            var desiredHeight = 400;
-                            var viewport = page.getViewport(1);
-                            var scale = desiredHeight / viewport.height;
-                            var scaledViewport = page.getViewport(scale);
-                            var context = canvas.getContext('2d')
-                            var renderContext = {
-                                canvasContext: context,
-                                viewport:scaledViewport
-                            };
-                            page.render(renderContext);
-
-                            function convertCanvasToImage(canvas1) {
-                                var image = new Image();
-                                image.src = canvas1.toDataURL("image/png");
-                                return image;
-                            }
-                        })
-                    });
-                }
-            };
-            oReq.send(null);
+            this.setState({
+                tile : <div id={encoded_id} ></div>
+            });
+            function convertCanvasToImage(canvas,id) {
+                var div1 = document.getElementById(id);
+                //div1.style = imgStyles;
+                div1.style["backgroundImage"] = "url("+canvas.toDataURL()+")";
+                div1.style["position"] = "relative";
+                div1.style["width"] = "100%";
+                div1.style["height"] = "128px";
+                div1.style["backgroundRepeat"] = "no-repeat";
+                div1.style["backgroundSize"] = "cover";
+            }
+            DocTileActions.createPDFThumbnail(this.props.img,encoded_id,convertCanvasToImage);
 
         };
-        var link_style = {
-            "cursor" : "pointer",
-            float : "left"
-        };
+    },
+    render : function(){
+        var styles = this.getStyles();
         return (
             <div>
 
-                <Col md={3} xs={6}>
+                <Col md={3} xs={12}  onTouchTap={this.props.selectThisTile.bind(null,this.props.tile_index)}>
                     <Paper
-                        onTouchTap={this.props.selectThisTile.bind(this,this.props.tile_index)}
-                        zDepth={this.props.isSelected?3:0}
+                        zDepth={this.props.isSelected?4:0}
                         style={styles.root}
                     >
-                        {imgOrPdf}
-                        <div>
-                            <input disabled value={this.props.heading} style={styles.text_field_style}/>
+                        {this.state.tile}
+                        <div style={styles.tile_label}>
+                            <div style={styles.text_field_style}>
+                                {this.props.heading}
+                            </div>
+                            <VerticalMenu doc_url={this.props.img} title={this.props.heading} style={styles.tile_menu}/>
                         </div>
+
                     </Paper>
                 </Col>
             </div>

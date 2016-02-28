@@ -20,6 +20,7 @@ var DocGrid = React.createClass({
         MyDocsStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {
+        MyDocsStore.resetDocStore();
         MyDocsStore.removeChangeListener(this._onChange);
     },
     _onChange: function() {

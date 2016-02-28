@@ -8,9 +8,7 @@ var DocGrid = require('./app-doc-grid');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
-
-var ContainerParent = require('./ContainerParent');
-
+var DocPreview = require('./app-doc-preview');
 var MyDocs = React.createClass({
     render: function () {
         return (
@@ -23,6 +21,7 @@ var MyDocs = React.createClass({
                         </Col>
                     </Row>
                 </Grid>
+                <DocPreview/>
             </div>
         )
     }
