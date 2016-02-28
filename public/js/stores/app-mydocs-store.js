@@ -23,7 +23,15 @@ var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
     },
     getDocStore : function() {
         return _myDocs;
+    },
+    resetDocStore : function(){
+        _myDocs = {
+            "docs_link" : [],
+            "files_name" : [],
+            "cursor" : 0
+        }
     }
+
 });
 
 AppDispatcher.register(function(payload){

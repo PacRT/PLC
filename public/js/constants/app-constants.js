@@ -25,6 +25,9 @@ module.exports = {
     IS_UPLOAD_COMPLETE : "IS_UPLOAD_COMPLETE",
     "ACTION_REMAINDER" :{
         OPEN_MODAL : "OPEN_MODAL"
+    },
+    "DOCS" :{
+        OPEN_PREVIEW : "OPEN_PREVIEW"
     }
 
 };
