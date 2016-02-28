@@ -6,20 +6,8 @@ var IconMenu = require('material-ui/lib/menus/icon-menu');
 var MenuItem = require('material-ui/lib/menus/menu-item');
 var IconButton = require('material-ui/lib/icon-button');
 var MoreVertIcon = require('material-ui/lib/svg-icons/navigation/more-vert');
-var SvgIcon =  require('material-ui/lib/svg-icon');
-var Colors = require('material-ui/lib/styles/colors');
-var FontIcon = require('material-ui/lib/font-icon');
-var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
 var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-
 var Delete = require('material-ui/lib/svg-icons/action/delete');
-var Menu = require('material-ui/lib/menus/menu');
-
-var ContentCopy = require('material-ui/lib/svg-icons/content/content-copy');
-var ContentLink = require('material-ui/lib/svg-icons/content/link');
-var Delete = require('material-ui/lib/svg-icons/action/delete');
-var Download = require('material-ui/lib/svg-icons/file/file-download');
-var PersonAdd = require('material-ui/lib/svg-icons/social/person-add');
 var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
 var TileActions = require('../../actions/app-doc-tile-actions');
 
