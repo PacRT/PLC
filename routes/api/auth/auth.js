@@ -9,6 +9,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var user_api = require('../../redis_middleware/api/redis_user_api');
 var auth_api = require('../../redis_middleware/api/redis_auth_api');
 var crypto = require('crypto');
+var bcrypt = require('bcrypt');
 /**
  * need to change this
  * @type {string}
@@ -42,30 +43,36 @@ router.post('',function(req, res, next){
         }
         if (err) {  return res.send({error:true,"errorMsg":error_codes[err]}) }
         var redis_data = user.split("|");
-        if (redis_data[2] != req.body.password) {
-            return res.send({
-                error: true,
-                errorMsg: "Incorrect Username or Password."
-            });
-        }
         if(redis_data[1] != req.body.user_name){
             return res.send({
                 error: true,
                 errorMsg: "Incorrect Username or Password."
             });
         }
-        var auth_token = crypto.createHmac('sha256', secret)
-            .update(user+new Date())
-            .digest('hex');
-        auth_api.addAuthToken(user.split("|")[1],auth_token).then(function(response){
-            var response = response.split("|");
-            res.send({
-                "user_name" : response[0],
-                "api_token" : response[1]
-            });
-        },function(error){
-            res.send({error:true,"errorMsg":error_codes[error]})
+        bcrypt.compare(req.body.password, redis_data[2], function(err, result) {
+            if(result){
+                return generateAuthToken()
+            }else{
+                return res.send({
+                    error: true,
+                    errorMsg: "Incorrect Username or Password."
+                });
+            }
         });
+        function generateAuthToken(){
+            var auth_token = crypto.createHmac('sha256', secret)
+                .update(user+new Date())
+                .digest('hex');
+            auth_api.addAuthToken(user.split("|")[1],auth_token).then(function(response){
+                var response = response.split("|");
+                res.send({
+                    "user_name" : response[0],
+                    "api_token" : response[1]
+                });
+            },function(error){
+                res.send({error:true,"errorMsg":error_codes[error]})
+            });
+        }
     })(req, res, next);
 });
 
