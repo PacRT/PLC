@@ -30,11 +30,16 @@ var LoginActions = {
         });
         browserHistory.push('dashboard');
     },
+    /**
+     * Clear User Session
+     */
     logoutUser:function(){
-        AppDispatcher.handleViewAction({
-            actionType : AppConstants.LOG_OUT,
+        API.get(APIConstants.LOG_OUT.replace("#user_name#",localStorage.getItem(AppConstants.USER_NAME))).then(function(response){
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.LOG_OUT
+            });
+            browserHistory.push('/');
         });
-        browserHistory.push('/');
     },
     openSignUpForm:function(){
         browserHistory.push('registration');

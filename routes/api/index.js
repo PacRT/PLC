@@ -25,6 +25,10 @@ router.use('/api/v1/docs',require('./docs/get_doc_links.js'));
  * Download Requested Doc
  */
 router.use('/api/v1/docs',require('./docs/download_doc.js'));
+/**
+ * Logout User
+ */
+router.use('/api/v1',require('./logout/logout.js'));
 
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})

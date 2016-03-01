@@ -8,6 +8,7 @@ module.exports = {
     USER_EXISTS_API : '/users/isUserExists/#userName#',
     REGISTER_USER   : '/users/register',
     LOG_IN          : '/login',
+    LOG_OUT         : '/logout/#user_name#',
     MY_DOCS         : '/docs/#cursor#',
     UPLOAD_DOCS     : '/upload/#file_name#/#category#'
 };

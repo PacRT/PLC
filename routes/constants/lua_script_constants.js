@@ -12,5 +12,11 @@ module.exports = {
     "REGISTRATION" : "registration",
     "FIND_BY_USER_NAME" : "findByUserName",
     "IS_USER_EXISTS"  : "isUserNameExists"
+  },
+  "AUTH":{
+    "SCRIPT_FOLDER" : "auth",
+    "ADD_TOKEN"     : "add_auth_token",
+    "VERIFY_TOKEN"  : "verify_auth_token",
+    "DELETE_TOKEN"  : 'delete_auth_token'
   }
 }
