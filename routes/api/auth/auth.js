@@ -10,6 +10,7 @@ var user_api = require('../../redis_middleware/api/redis_user_api');
 var auth_api = require('../../redis_middleware/api/redis_auth_api');
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
+var uuid = require('node-uuid');
 /**
  * need to change this
  * @type {string}
@@ -60,9 +61,12 @@ router.post('',function(req, res, next){
             }
         });
         function generateAuthToken(){
-            var auth_token = crypto.createHmac('sha256', secret)
-                .update(user+new Date())
-                .digest('hex');
+            var auth_token = uuid.v1({
+                node: [0x01, 0xef, 0xa1, 0xcd, 0x89, 0xab],
+                clockseq: 0x3aaa,
+                msecs: new Date().getTime(),
+                nsecs: 100
+            });
             auth_api.addAuthToken(user.split("|")[1],auth_token).then(function(response){
                 var response = response.split("|");
                 res.send({
