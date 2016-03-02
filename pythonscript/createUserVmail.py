@@ -7,7 +7,7 @@ p = r.pubsub()
 p.subscribe("createUserDirectory")
 
 def createUserDirectory(json_msg):
-    cnx = mysql.connector.connect(user='postfix', password='postfix' database='postfix')
+    cnx = mysql.connector.connect(user='postfix', password='postfix', database='postfix')
     cursor = cnx.cursor()
     user_name = json_msg['user_name']
     add_user = ("INSERT INTO mailbox (email, maidir) VALUES (%s, %s)")
