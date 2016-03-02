@@ -39,7 +39,7 @@ router.post(API_CONSTANTS.USER_REGISTER,function(req,res){
             user_api.registerUser(user).then(function(response){
                 console.log(response);
                 client.publish("RegReqConfEmail", "{\"name\" : \"" + user.name + "\", \"username\": \"" + user.username + "\", \"email\": \"" + user.email + "\", \"status\" : \"" + user.status + "\" }");
-                client.publish("createUserDirectory", "{\"username\": \"" + user.username + "}");
+                client.publish("createUserDirectory", JSON.stringify({user_name: user.username}));
                 res.send(true)
             },function(error){
                 res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
