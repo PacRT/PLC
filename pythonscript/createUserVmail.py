@@ -13,7 +13,7 @@ def createUserDirectory(json_msg):
        return
     json1 = json.loads(json_msg)
     user_name = json1['user_name']
-    add_user = ("INSERT INTO mailbox (email, maidir) VALUES (%s, %s)")
+    add_user = ("INSERT INTO mailbox (email, maildir) VALUES (%s, %s)")
     data_user = (user_name+'@paperlessclub.org', user_name+'/')
     cursor.execute(add_user, data_user)
     cnx.commit()
