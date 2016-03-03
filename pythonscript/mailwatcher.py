@@ -69,6 +69,8 @@ class EventHandler(pyinotify.ProcessEvent):
     def process_IN_CREATE(self, event):
         if '/tmp/' not in event.pathname:
             print ("Creating:", event.pathname)
+            if not os.path.exists(event.pathname):
+                os.makedirs(event.pathname)
             ExtractAndLoad(event.pathname)
 
 
