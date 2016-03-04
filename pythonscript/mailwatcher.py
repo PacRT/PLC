@@ -47,20 +47,25 @@ def processPart(part, owner, issuer, issdname):
 
 def ExtractAndLoad(obj):
   fp = email.parser.BytesFeedParser()
-  fp.feed(open(obj, "rb").read())
-  msg = fp.close()
-  #if msg.is_multipart():
-  #print('multipart')
-  tovar  = msg['to']
-  owner = email.utils.parseaddr(tovar)[1]
-  print(owner)
-  fromvar = msg['from']
-  issdname = email.utils.parseaddr(fromvar)[0]
-  print(issdname)
-  issuer = email.utils.parseaddr(fromvar)[1]
-  print(issuer)
-  for part in msg.walk():
+  try:
+    fp.feed(open(obj, "rb").read())
+    msg = fp.close()
+    #if msg.is_multipart():
+    #print('multipart')
+    tovar  = msg['to']
+    owner = email.utils.parseaddr(tovar)[1]
+    print(owner)
+    fromvar = msg['from']
+    issdname = email.utils.parseaddr(fromvar)[0]
+    print(issdname)
+    issuer = email.utils.parseaddr(fromvar)[1]
+    print(issuer)
+    for part in msg.walk():
     processPart(part, owner, issuer, issdname)
+  except IsADirectoryError:
+    print("No Need to parse the event..")
+    print("New Directory created!")
+
 
 wm = pyinotify.WatchManager()  # Watch Manager
 mask = pyinotify.IN_DELETE | pyinotify.IN_CREATE  # watched events

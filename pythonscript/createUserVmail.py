@@ -16,7 +16,6 @@ def createUserDirectory(json_msg):
     add_user = ("INSERT INTO mailbox (email, maildir) VALUES (%s, %s)")
     data_user = (user_name+'@paperlessclub.org', user_name+'/')
     cursor.execute(add_user, data_user)
-    os.makedirs('/home/vmail/'+user_name)
     cnx.commit()
     cursor.close()
     cnx.close()
