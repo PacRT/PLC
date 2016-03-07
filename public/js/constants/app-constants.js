@@ -28,6 +28,11 @@ module.exports = {
     },
     "DOCS" :{
         OPEN_PREVIEW : "OPEN_PREVIEW"
+    },
+    "DOC_METADATA":{
+        OPEN_METADATA_MODAL : "OPEN_METADATA_MODAL",
+        CLOSE_METADATA_MODAL : "CLOSE_METADATA_MODAL",
+        GET_METADATA  : "GET_METADATA"
     }
 
 };

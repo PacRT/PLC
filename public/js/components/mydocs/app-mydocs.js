@@ -9,6 +9,8 @@ var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
 var DocPreview = require('./app-doc-preview');
+var EditMetaData = require('./app-edit-metadata-modal');
+
 var MyDocs = React.createClass({
     render: function () {
         return (
@@ -22,6 +24,7 @@ var MyDocs = React.createClass({
                     </Row>
                 </Grid>
                 <DocPreview/>
+                <EditMetaData/>
             </div>
         )
     }

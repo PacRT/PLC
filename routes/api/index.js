@@ -26,6 +26,10 @@ router.use('/api/v1/docs',require('./docs/get_doc_links.js'));
  */
 router.use('/api/v1/docs',require('./docs/download_doc.js'));
 /**
+ * Get Document Metadata
+ */
+router.use('/api/v1/docs',require('./docs/get_doc_metadata.js'));
+/**
  * Logout User
  */
 router.use('/api/v1',require('./logout/logout.js'));

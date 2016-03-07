@@ -41,6 +41,25 @@ var upload_doc = {
                 });
             }
         )
+    },
+    /**
+     * Get metadata associated with Documents
+     * @param doc_url
+     * @returns {Promise}
+     */
+    getDocMetadata : function(doc_url){
+        var ARGV = [doc_url];
+        var KEYS = [];
+        return new Promise(
+            function (resolve, reject) {
+                luaScriptManager.run(SCRIPT_CONSTANTS.GET_DOC_METADATA,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
+                    resolve(err,response);
+                },function(err){
+                    console.log(err);
+                    reject(err);
+                });
+            }
+        )
     }
 
 };
