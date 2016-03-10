@@ -8,12 +8,11 @@ var API = require('../utils/API.js');
 var APIURL = require('../utils/getAPIURL');
 
 var EditMetaDataActions = {
-    openEditMetaDataModal:function(meta_keys,meta_values){
+    openEditMetaDataModal:function(meta_data){
         AppDispatcher.handleViewAction({
             actionType    : AppConstants.OPEN_METADATA_MODAL,
             is_modal_open : true,
-            meta_keys : meta_keys,
-            meta_values : meta_values
+            meta_data     : meta_data
         });
     },
     closeEditMetaDataModal : function(){

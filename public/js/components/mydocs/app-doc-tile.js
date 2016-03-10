@@ -98,7 +98,7 @@ var DocTile = React.createClass({
                 "padding" : "15px 15px 15px 15px",
                 "position" : "absolute",
                 "top"   : "0",
-                "right" : "-5px",
+                "right" : "-1px",
                 "height" : "86%"
             }
 
@@ -142,7 +142,7 @@ var DocTile = React.createClass({
     render: function () {
         var styles = this.getStyles();
         return (
-            <div>
+            <Paper>
                 <Col md={6} xs={12}>
                     <div style={styles.tile_div}>
                         <Paper
@@ -160,11 +160,12 @@ var DocTile = React.createClass({
                             </div>
                         </Paper>
                     </div>
-                    <div style={styles["meta-data-div"]} >
+                    <div style={styles["meta-data-div"]}>
                        <DocMetaData doc_url={this.props.img}/>
                     </div>
                 </Col>
-            </div>
+            </Paper>
+
         )
     }
 });

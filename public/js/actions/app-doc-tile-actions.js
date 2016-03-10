@@ -14,7 +14,7 @@ var DocTileActions = {
      * Create PDF Thumbnail using pdf.js library
      * @param url
      * @param encoded_id
-     * @param done
+     * @function done
      */
     createPDFThumbnail : function(url,encoded_id,done){
         var oReq = new XMLHttpRequest();

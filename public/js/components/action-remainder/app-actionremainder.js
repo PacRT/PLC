@@ -8,14 +8,9 @@
 var React = require('react');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
-var ActionGrade = require('material-ui/lib/svg-icons/action/grade');
 var ActionInfo = require('material-ui/lib/svg-icons/action/info');
 var Announcement = require('material-ui/lib/svg-icons/action/announcement');
-var ContentDrafts = require('material-ui/lib/svg-icons/content/drafts');
-var ContentSend = require('material-ui/lib/svg-icons/content/send');
 var Divider = require('material-ui/lib/divider');
-var IconButton = require('material-ui/lib/icon-button');
-var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
 var ActionRemainderActions = require('../../actions/app-actionremainder-actions');
 var ModalApp = require('./app-actionremainder-modal');
 

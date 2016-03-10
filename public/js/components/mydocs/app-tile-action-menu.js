@@ -10,14 +10,14 @@ var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
 var Delete = require('material-ui/lib/svg-icons/action/delete');
 var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
 var TileActions = require('../../actions/app-doc-tile-actions');
-var EditMetaDataActions = require('../../actions/app-metadata-actions');
-
+var MetaDataActions = require('../../actions/app-metadata-actions');
+var DocMetaDataStore = require('../../stores/app-metadata-store');
 var TileActionsMenu = React.createClass({
     _openPreview : function(){
         TileActions.openPreview({url:this.props.doc_url,title:this.props.title})
     },
-    _openEditModal : function(meta_keys,meta_values){
-        EditMetaDataActions.openEditMetaDataModal(meta_keys, meta_values);
+    _openEditModal : function(doc_url){
+        MetaDataActions.openEditMetaDataModal(DocMetaDataStore.getStore()[doc_url]);
     },
     render: function(){
         var style = {
@@ -33,8 +33,6 @@ var TileActionsMenu = React.createClass({
                 lineHeight: '24px',
             }
         };
-        var meta_keys = this.props.meta_keys
-        var meta_values = this.props.meta_values
         return(
             <IconMenu
                 iconButtonElement={<IconButton iconStyle={{'width':'20px', 'height' : '15px'}}><MoreVertIcon/></IconButton>}
@@ -42,7 +40,7 @@ var TileActionsMenu = React.createClass({
                 targetOrigin={{horizontal: 'left', vertical: 'top'}}>
 
                 <MenuItem primaryText="Preview" onTouchTap={this._openPreview} leftIcon={<RemoveRedEye/>} />
-                <MenuItem onTouchTap={this._openEditModal.bind(null,meta_keys,meta_values)} leftIcon={<Edit/>} primaryText="Edit" />
+                <MenuItem onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
                 <MenuItem leftIcon={<Delete/>} primaryText="Delete" />
 
             </IconMenu>
