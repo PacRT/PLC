@@ -17,7 +17,7 @@ var TileActionsMenu = React.createClass({
         TileActions.openPreview({url:this.props.doc_url,title:this.props.title})
     },
     _openEditModal : function(doc_url){
-        MetaDataActions.openEditMetaDataModal(DocMetaDataStore.getStore()[doc_url]);
+        MetaDataActions.openEditMetaDataModal(doc_url, DocMetaDataStore.getStore()[doc_url]);
     },
     render: function(){
         var style = {

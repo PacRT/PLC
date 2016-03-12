@@ -8,6 +8,7 @@ var FlatButton  = require('material-ui/lib/flat-button');
 var Dialog  = require('material-ui/lib/dialog');
 var EditIcon = require('material-ui/lib/svg-icons/editor/mode-edit');
 var CircularProgress = require('material-ui/lib/circular-progress');
+var TextField = require('material-ui/lib/text-field');
 
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
@@ -22,6 +23,17 @@ var AppEditMedataModal = React.createClass({
     componentWillUnmount: function() {
         EditMetaDataStore.removeChangeListener(this._onChange);
     },
+    _editModal : function(){
+        category = this.refs.category.getValue();
+        file_name = this.refs.file_name.getValue();
+        meta = {
+            'category' : category,
+            'file_name' : file_name,
+            'doc_url' : EditMetaDataStore.getDocURL(),
+        };
+        EditMetaDataActions.updateDocMetaData(meta);
+        EditMetaDataActions.closeEditMetaDataModal();
+    },
     _closeModal : function(){
         EditMetaDataActions.closeEditMetaDataModal();
     },
@@ -30,7 +42,7 @@ var AppEditMedataModal = React.createClass({
         var is_modal_open =  EditMetaDataStore.is_modal_open();
         this.setState({
             "store" : metadata_store,
-            "is_modal_open"  : is_modal_open
+            "is_modal_open" : is_modal_open
         });
     },
     _getStyles: function () {
@@ -74,7 +86,7 @@ var AppEditMedataModal = React.createClass({
                 label="Submit"
                 primary={true}
                 disabled={false}
-                onTouchTap={this._closeModal}
+                onTouchTap={this._editModal}
             />
         ];
         var DialogBody = "";
@@ -82,17 +94,29 @@ var AppEditMedataModal = React.createClass({
             DialogBody = <CircularProgress style={styles.circularProgressStyle}/>
         }else{
             DialogBody =  this.state.store["_keys"].map(function (key, index) {
-                return (
-                    <div style={styles.meta_container} key={index}>
-                        <div style={styles.key_div_style}>
-                            { key }
+                if(key=='owner.uid' || key=="issuer.uid"){
+                    return (
+                        <div style={styles.meta_container} key={index}>
+                            <TextField
+                              ref={key}
+                              defaultValue={ _this.state.store["_values"][index] }
+                              floatingLabelText={ key }
+                              disabled={true}
+                            />
                         </div>
-                        <div style={styles.val_div_style}>
-                            { _this.state.store["_values"][index] }
-                        </div>
-                    </div>
-                )
-
+                    )
+                }
+                else{
+                  return (
+                      <div style={styles.meta_container} key={index}>
+                          <TextField
+                            ref={key}
+                            defaultValue={ _this.state.store["_values"][index] }
+                            floatingLabelText={ key }
+                          />
+                      </div>
+                  )
+                }
             })
         }
         return (
