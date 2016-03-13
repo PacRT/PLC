@@ -15,6 +15,8 @@ router.post('/updateMetaData/', function(req, res, next){
     ARGV.push(req.body['file_name']);
     KEYS.push('category');
     KEYS.push('file_name');
+    ARGV.push(req.headers['user_name']);
+    KEYS.push('username');
     docs_api.updateDocMetaData(ARGV, KEYS).then(function(response){
         res.send({
           'message': 'Document meta updated successfully'
