@@ -60,8 +60,27 @@ var upload_doc = {
                 });
             }
         )
+    },
+    /**
+     * Update metadata associated with documents
+    * @param meta
+    * @returns {Promise}
+    */
+    updateDocMetaData: function(meta){
+        var ARGV = [meta];
+        var KEYS = [];
+        return new Promise(
+            function(resolve, reject){
+                luaScriptManager.run(SCRIPT_CONSTANTS.UPDATE_DOC_METADATA, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function(err, response){
+                    resolve(err, response);
+                },
+                function(err){
+                    console.log(err);
+                    reject(err);
+                });
+            }
+        )
     }
-
 };
 
 module.exports = upload_doc;

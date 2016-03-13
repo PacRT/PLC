@@ -35,15 +35,6 @@ var EditMetaDataActions = {
     },
     updateDocMetaData : function(meta){
         API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
-            var result = JSON.parse(response.text);
-            var notification = {
-                open : true,
-                message : "We have updated your document metadata"
-            };
-            AppDispatcher.handleViewAction({
-                actionType : AppConstants.SHOW_NOTIFICATION,
-                response : notification
-            });
             AppDispatcher.handleViewAction({
                 actionType : AppConstants.UPDATE_METADATA,
                 meta : meta

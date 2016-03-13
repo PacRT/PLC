@@ -30,6 +30,10 @@ router.use('/api/v1/docs',require('./docs/download_doc.js'));
  */
 router.use('/api/v1/docs',require('./docs/get_doc_metadata.js'));
 /**
+ * Edit/update document Metadata
+ */
+router.use('/api/v1/docs',require('./docs/edit_doc_metadata.js'));
+/**
  * Logout User
  */
 router.use('/api/v1',require('./logout/logout.js'));
