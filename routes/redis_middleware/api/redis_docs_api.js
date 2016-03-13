@@ -66,9 +66,10 @@ var upload_doc = {
     * @param meta
     * @returns {Promise}
     */
-    updateDocMetaData: function(meta){
-        var ARGV = [meta];
-        var KEYS = [];
+    updateDocMetaData: function(ARGV, KEYS){
+        console.log('########################');
+        console.log(ARGV);
+        console.log(KEYS);
         return new Promise(
             function(resolve, reject){
                 luaScriptManager.run(SCRIPT_CONSTANTS.UPDATE_DOC_METADATA, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function(err, response){

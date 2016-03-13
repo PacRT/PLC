@@ -35,6 +35,10 @@ var EditMetaDataActions = {
     },
     updateDocMetaData : function(meta){
         API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
+            meta = {
+                "meta" : meta
+            };
+            console.log(meta);
             AppDispatcher.handleViewAction({
                 actionType : AppConstants.UPDATE_METADATA,
                 meta : meta
