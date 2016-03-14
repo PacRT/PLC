@@ -11,5 +11,6 @@ module.exports = {
     LOG_OUT          : '/logout/#user_name#',
     MY_DOCS          : '/docs/#cursor#',
     UPLOAD_DOCS      : '/upload/#file_name#/#category#',
-    GET_DOC_METADATA : '/docs/metadata/#doc_url#'
+    GET_DOC_METADATA : '/docs/metadata/#doc_url#',
+    UPDATE_DOC_METADATA : '/docs/updateMetaData',
 };

@@ -57,7 +57,6 @@ var AppDocMetaData = React.createClass({
         var styles = this._getStyles();
         var MetaDataJSX = "";
         if (_.isEmpty(this.state.store[this.props.doc_url])) {
-            console.log("circular")
             MetaDataJSX = <CircularProgress style={styles.circularProgressStyle}/>
         } else if (!_.isUndefined(this.state.store[this.props.doc_url]) && this.state.store[this.props.doc_url]["_keys"].length) {
             MetaDataJSX = this.state.store[this.props.doc_url]["_keys"].map(function (key, index) {

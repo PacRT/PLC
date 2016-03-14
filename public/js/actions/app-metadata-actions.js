@@ -8,11 +8,12 @@ var API = require('../utils/API.js');
 var APIURL = require('../utils/getAPIURL');
 
 var EditMetaDataActions = {
-    openEditMetaDataModal:function(meta_data){
+    openEditMetaDataModal:function(doc_url, meta_data){
         AppDispatcher.handleViewAction({
             actionType    : AppConstants.OPEN_METADATA_MODAL,
             is_modal_open : true,
-            meta_data     : meta_data
+            meta_data     : meta_data,
+            doc_url       : doc_url
         });
     },
     closeEditMetaDataModal : function(){
@@ -31,6 +32,18 @@ var EditMetaDataActions = {
                 doc_url     : doc_url
             });
         });
+    },
+    updateDocMetaData : function(meta){
+        API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
+            meta = {
+                "meta" : meta
+            };
+            console.log(meta);
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.UPDATE_METADATA,
+                meta : meta
+            });
+        })
     }
 }
 
