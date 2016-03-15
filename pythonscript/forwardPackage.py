@@ -20,12 +20,17 @@ class PacketForward(object):
         self.email = 'varunshah1106@gmail.com'
 
     def fetch_data(self):
-        os.mkdir(self.package_id)
+        try:
+            os.mkdir(self.package_id)
+        except OSError:
+            pass
         os.chdir(self.package_id)
         urllib.urlretrieve(self.doc_url, "temp")
         os.chdir('..')
         shutil.make_archive(self.package_id, 'zip', base_dir = self.package_id)
         self.forward_packet()
+        shutil.rmtree(self.package_id)
+        os.remove(self.package_id + '.zip')
 
     def forward_packet(self):
         msg = MIMEMultipart()
