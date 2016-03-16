@@ -62,10 +62,11 @@ var upload_doc = {
         )
     },
     /**
-     * Update metadata associated with documents
-    * @param meta
-    * @returns {Promise}
-    */
+     *  Update metadata associated with documents
+     * @param ARGV
+     * @param KEYS
+     * @returns {Promise}
+     */
     updateDocMetaData: function(ARGV, KEYS){
         console.log('########################');
         console.log(ARGV);
@@ -75,7 +76,28 @@ var upload_doc = {
                 luaScriptManager.run(SCRIPT_CONSTANTS.UPDATE_DOC_METADATA, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function(err, response){
                     resolve(err, response);
                 },
-                function(err){
+                function(err)
+                {console.log(err);
+                    reject(err);
+                });
+            }
+        )
+    },
+    /**
+     * Get Documents by type as requested by User
+     * @param user_id
+     * @param cursor
+     * @param category
+     * @returns {Promise}
+     */
+    get_doc_by_type : function(user_id,cursor,category){
+        var ARGV = [user_id, cursor, category];
+        var KEYS = [];
+        return new Promise(
+            function(resolve,reject){
+                luaScriptManager.run(SCRIPT_CONSTANTS.GET_DOC_BY_TYPE,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
+                    resolve(err,response);
+                },function(err){
                     console.log(err);
                     reject(err);
                 });

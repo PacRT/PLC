@@ -7,7 +7,8 @@ module.exports = {
     "CREATE_DOC_LINK" : "create_doc_link",
     "GET_USER_DOCS" : "get_user_docs",
     "GET_DOC_METADATA" : "get_doc_metadata",
-    "UPDATE_DOC_METADATA" : "update_doc_metadata"
+    "UPDATE_DOC_METADATA" : "update_doc_metadata",
+    "GET_DOC_BY_TYPE"  : "get_doc_by_type"
   },
   "USER" :{
     "SCRIPT_FOLDER" : "user",

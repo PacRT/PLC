@@ -34,6 +34,10 @@ router.use('/api/v1/docs',require('./docs/get_doc_metadata.js'));
  */
 router.use('/api/v1/docs',require('./docs/edit_doc_metadata.js'));
 /**
+ * Get Documents by Type
+ */
+router.use('/api/v1/docs',require('./docs/get_doc_by_category.js'));
+/**
  * Logout User
  */
 router.use('/api/v1',require('./logout/logout.js'));
