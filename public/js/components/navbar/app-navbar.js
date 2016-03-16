@@ -56,7 +56,7 @@ var NavBar = React.createClass({
             )
         } else {
             return (
-                <Link to="/dashboard"><i className="fa fa-paper-plane-o"></i>PaperLess Club</Link>
+                <Link to="dashboard"><i className="fa fa-paper-plane-o"></i>PaperLess Club</Link>
             )
         }
     },
@@ -78,12 +78,13 @@ var NavBar = React.createClass({
                         <li><Link to="/logout" onClick={this.logout}>Log out</Link></li>
                     </ul>*/}
                     <Nav>
-                        <NavItem eventKey={1} href="#" onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
-                        <NavItem eventKey={2} href="#" onClick={this._goToLocation.bind(null, 'howto')}>How to</NavItem>
-                        <NavItem eventKey={2} href="#" onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
-                        <NavItem eventKey={2} onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
-                        <NavItem eventKey={2} onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
-                        <NavItem eventKey={2} onClick={this.logout}>Logout</NavItem>
+                        <NavItem eventKey={1}  onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'createpackage')}>Create Package</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'howto')}>How to</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
+                        <NavItem eventKey={2}  onClick={this.logout}>Logout</NavItem>
                     </Nav>
 
                 </Nav>
@@ -93,17 +94,15 @@ var NavBar = React.createClass({
     render: function () {
         return (
             <Navbar inverse className="navbar-fixed-top">
-                <div className="container">
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            {this.getBrandName()}
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    <Navbar.Collapse>
-                        {this.getNavBar()}
-                    </Navbar.Collapse>
-                </div>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        {this.getBrandName()}
+                    </Navbar.Brand>
+                    <Navbar.Toggle />
+                </Navbar.Header>
+                <Navbar.Collapse>
+                    {this.getNavBar()}
+                </Navbar.Collapse>
             </Navbar>
         );
     }

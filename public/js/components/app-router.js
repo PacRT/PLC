@@ -13,6 +13,7 @@ var Registration= require('./registration/app-registration');
 var DashBoard  = require('./dashboard/app-dashboard');
 var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
+var CreateForwardPackage   = require('./create-forward-package/app-create-forward-package');
 var AppConstants = require('../constants/app-constants');
 /**
  * middleware to check if user is logged in or not.
@@ -37,7 +38,9 @@ var AppRouter = {
         { path : "howto"        ,component: HowTo       ,onEnter:requireAuth},
         { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
         { path : "invite"       ,component: Invite      ,onEnter:requireAuth},
-        { path : "registration" ,component: Registration}
+        { path : "registration" ,component: Registration},
+        { path : "createpackage" ,component: CreateForwardPackage}
+
     ]
 };
 
