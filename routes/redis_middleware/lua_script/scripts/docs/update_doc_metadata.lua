@@ -4,8 +4,11 @@
 -- Date: 3/12/16
 -- Time: 9:51 PM
 -- To change this template use File | Settings | File Templates.
-local ARGV_LENGTH = ARGV.length - 1
-for i=10,1,-1
+print(print(#ARGV, table.getn(ARGV)) )
+print(print(#KEYS, table.getn(KEYS)) )
+
+for i=#ARGV,3,-1
 do
-   print(i)
+   redis.call('HMSET', "doc:"..ARGV[1],KEYS[i],ARGV[i])
 end
+return true
