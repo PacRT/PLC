@@ -13,4 +13,5 @@ module.exports = {
     UPLOAD_DOCS      : '/upload/#file_name#/#category#',
     GET_DOC_METADATA : '/docs/metadata/#doc_url#',
     UPDATE_DOC_METADATA : '/docs/updateMetaData',
+    GET_DOC_BY_TYPE  : '/docs/#cursor#/#category#'
 };

@@ -30,7 +30,6 @@ var DocGrid = React.createClass({
     },
     render: function () {
         var _this = this;
-        console.log(this.state.store.docs_link);
         return (
             <div>
                 <DocGridContainer>
