@@ -16,7 +16,7 @@ var scripts = {
             scriptManager.loadFromFile(script + ".lua", __dirname +"/scripts/"+folder+"/"+ script + ".lua");
             scriptManager.run(script + ".lua", keys, values, function (err, result) {
                 console.log("@@@@@@@@@@@@@@@");
-                console.log(err);
+                console.log(err,"script",script);
                 console.log(result);
                 console.log("@@@@@@@@@@@@@@@");
                 if(err){
