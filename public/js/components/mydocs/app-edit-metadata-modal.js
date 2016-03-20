@@ -24,11 +24,9 @@ var AppEditMedataModal = React.createClass({
         EditMetaDataStore.removeChangeListener(this._onChange);
     },
     _editModal : function(){
-        category = this.refs.category.getValue();
-        file_name = this.refs.file_name.getValue();
         meta = {
-            'category' : category,
-            'file_name' : file_name,
+            'category' : this.refs.category.getValue(),
+            'file_name' : this.refs.file_name.getValue(),
             'doc_url' : EditMetaDataStore.getDocURL(),
         };
         EditMetaDataActions.updateDocMetaData(meta);

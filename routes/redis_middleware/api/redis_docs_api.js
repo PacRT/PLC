@@ -62,22 +62,23 @@ var upload_doc = {
         )
     },
     /**
-     *  Update metadata associated with documents
-     * @param ARGV
-     * @param KEYS
-     * @returns {Promise}
-     */
-    updateDocMetaData: function(ARGV, KEYS){
-        console.log('########################');
-        console.log(ARGV);
-        console.log(KEYS);
+     * Update metadata associated with documents
+    * @param doc_url
+    * @param category
+    * @param file_name
+    * @param username
+    * @returns {Promise}
+    */
+    updateDocMetaData: function(doc_url, category, file_name, username){
+        var ARGV = [doc_url, category, file_name, username];
+        var KEYS = ['doc_url', 'category', 'file_name', 'username'];
         return new Promise(
             function(resolve, reject){
                 luaScriptManager.run(SCRIPT_CONSTANTS.UPDATE_DOC_METADATA, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function(err, response){
                     resolve(err, response);
                 },
-                function(err)
-                {console.log(err);
+                function(err){
+                    console.log(err);
                     reject(err);
                 });
             }
