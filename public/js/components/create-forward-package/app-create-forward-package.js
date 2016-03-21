@@ -43,7 +43,14 @@ var CreatePackageApp = React.createClass({
         })
     },
     openForwardPkg: function () {
-        CreateForwardPkgActions.openForwardPkgModal();
+        var create_packages = [
+            {
+                "package_name" : this.state.package_type,
+                "package_docs" : this.state.packages_added
+            }
+
+        ]
+        CreateForwardPkgActions.openForwardPkgModal(create_packages);
     },
     _getStyles: function () {
         return {
@@ -93,15 +100,23 @@ var CreatePackageApp = React.createClass({
 
     },
     onCheckBox: function(index, event) {
-        packages_added = this.state.packages_added;
+        var packages_added = this.state.packages_added;
         if(event.target.checked){
-            packages_added.push(this.state.files_name[index])
+            var doc_obj = {
+                "file_name" : this.state.files_name[index],
+                "doc_url"   : this.state.docs_link[index]
+            }
+            packages_added.push(doc_obj)
         }
         else{
-            packages_added = _.without(packages_added, this.state.files_name[index])
+            var file_name = this.state.files_name[index];
+            packages_added = _.reject(packages_added,function(package){
+                return package["file_name"] == file_name;
+            });
+            checboxes[index] = false;
         };
         this.setState({
-            packages_added: packages_added
+            packages_added    : packages_added,
         });
     },
     render: function () {
@@ -116,10 +131,11 @@ var CreatePackageApp = React.createClass({
               ListedItems.push(
                 <ListItem
                     key={index}
-                    primaryText={package}
+                    primaryText={package.file_name}
                 />
               )
         });
+        var added_doc_url = _.map(_this.state.packages_added, 'doc_url');
         return (
             <div>
                 <Col md={12}>
@@ -136,12 +152,9 @@ var CreatePackageApp = React.createClass({
                         />
                         {
                             this.state.docs_link.length == 0 ? "" : this.state.docs_link.map(function (url, index) {
-                                if(_this.state.packages_added.indexOf(_this.state.files_name[index]) != -1){
-                                    checked = true
-                                }
-                                else{
-                                    checked = false
-                                };
+                                var checked = false;
+                                if(added_doc_url.indexOf(url) != -1)
+                                    checked = true;
                                 return (
                                     <Col style={styles.listDivWrapper} key={index} md={6}>
                                         <List>
@@ -151,7 +164,8 @@ var CreatePackageApp = React.createClass({
                                                           <Tooltip show={true} label="tooltip label" horizontalPosition="left"
                                                             verticalPosition="top" touch={true} />
                                                            <div style={styles.innerDivStyle}>{_this.state.files_name[index]}</div></div>}
-                                                      leftCheckbox={<Checkbox iconStyle={styles.checkBoxStyle} defaultChecked={checked} onCheck={_this.onCheckBox.bind(null, index)}/>}/>
+                                                      leftCheckbox={<Checkbox iconStyle={styles.checkBoxStyle} checked={checked}
+                                                        onCheck={_this.onCheckBox.bind(null, index)}/>}/>
                                         </List>
                                     </Col>
                                 )

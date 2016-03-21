@@ -23,9 +23,10 @@ var AppCreateForwardPackage = {
 
         });
     },
-    openForwardPkgModal : function(){
+    openForwardPkgModal : function(packages){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.OPEN_FORWARD_PACKAGE_MODAL,
+            packages   : packages,
             modal_open : true
         })
     },

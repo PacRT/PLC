@@ -8,7 +8,8 @@ var ObjectAssign = require('object-assign');
 var CHANGE_EVENT = "change";
 
 var _forward_pkg_store = {
-    "docs_link" : []
+    "packages" : [],
+    "recipients" : []
 };
 var _modal_open = false;
 var ForwardPackageModalStore  = ObjectAssign({},EventEmitter.prototype,{
@@ -32,10 +33,13 @@ AppDispatcher.register(function(payload){
     switch (action.actionType){
         case AppConstants.OPEN_FORWARD_PACKAGE_MODAL:
             _modal_open =  action.modal_open;
+            _forward_pkg_store.packages = action.packages;
             ForwardPackageModalStore.emit(CHANGE_EVENT);
             break;
         case AppConstants.CLOSE_FORWARD_PACKAGE_MODAL:
             _modal_open =  action.modal_open;
+            _forward_pkg_store.packages = [];
+            _forward_pkg_store.recipients = [];
             ForwardPackageModalStore.emit(CHANGE_EVENT);
             break;
         default:
