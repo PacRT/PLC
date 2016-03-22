@@ -1,7 +1,6 @@
 /**
  * Created by Hardik on 1/30/16.
  */
-var redis_client = require('../redis_client');
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["AUTH"];
 
@@ -39,6 +38,11 @@ var Auth = {
             });
         });
     },
+    /**
+     * Deleting auth token once user is logged out
+     * @param userName
+     * @returns {Promise}
+     */
     deleteAuthToken : function(userName){
         var ARGV = [userName];
         return new Promise(function(resolve,reject){

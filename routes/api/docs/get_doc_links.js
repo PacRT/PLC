@@ -5,8 +5,6 @@ var express = require("express");
 var router = express.Router();
 var docs_api = require('../../redis_middleware/api/redis_docs_api');
 var error_codes = require('../../constants/error-constants');
-var redis_client = require('../../redis_middleware/redis_client');
- var client = redis_client.getClient();
 /**
  * need to refactor this
  */
