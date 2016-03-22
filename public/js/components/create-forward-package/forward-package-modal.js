@@ -6,6 +6,8 @@ var CreateForwardPkgStore = require('../../stores/app-forward-package-modal-stor
 var createForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var FlatButton = require('material-ui/lib/flat-button');
 var Dialog = require('material-ui/lib/dialog');
+var TextField = require('material-ui/lib/text-field');
+
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {
@@ -31,7 +33,12 @@ var ForwardPackageModal = React.createClass({
         })
     },
     _createAndForwardPkg : function(){
-        createForwardPkgActions.createPackages(this.state.store.packages);
+        var packages = this.state.store.packages;
+        var recipients = this.refs.recipients.getValue().split(";");
+        packages.map(function(package){
+            package["recepients"] = recipients;
+        });
+        createForwardPkgActions.createPackages(packages);
     },
     render : function(){
         var  actions = [
@@ -47,7 +54,11 @@ var ForwardPackageModal = React.createClass({
                 onTouchTap={this._createAndForwardPkg}
             />
         ];
-        var DialogBody = "";
+        var DialogBody = <TextField
+            floatingLabelText={"Recipients' Email"}
+            ref={"recipients"}
+            defaultValue={""}
+        />;
         return(
             <Dialog
                 style={{maxHeight:'100%','maxWidth':'100%'}}

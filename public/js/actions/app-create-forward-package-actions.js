@@ -15,6 +15,11 @@ var AppCreateForwardPackage = {
         GET_DOC_BY_TYPE = GET_DOC_BY_TYPE.replace("category",category);
         API.get(GET_DOC_BY_TYPE).then(function(response){
             var result = JSON.parse(response.text);
+            result.docs_link = result.docs_link.map(function(doc_url){
+                doc_url = doc_url.split("docs")[1].split("/");
+                doc_url = "http://" + doc_url[1] + ":" + doc_url[2] + "/" + doc_url[3];
+                return doc_url;
+            })
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.DOC_BY_TYPE,
                 cursor: result.cursor,
