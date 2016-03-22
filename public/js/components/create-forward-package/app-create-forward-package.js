@@ -23,7 +23,8 @@ var CreatePackageApp = React.createClass({
             files_name: store.files_name,
             cursor: store.cursor,
             packages_added: [],
-            package_type: ""
+            package_type: "",
+            packages: []
         }
     },
     componentDidMount: function () {
@@ -48,7 +49,6 @@ var CreatePackageApp = React.createClass({
                 "package_name" : this.state.package_type,
                 "package_docs" : this.state.packages_added
             }
-
         ]
         CreateForwardPkgActions.openForwardPkgModal(create_packages);
     },
@@ -97,7 +97,16 @@ var CreatePackageApp = React.createClass({
         });
     },
     _addMorePackage: function () {
-
+        packages = this.state.packages;
+        packages.push({
+            "package_type" : this.state.package_type,
+            "packages_added" : this.state.packages_added
+        });
+        this.setState({
+            packages: packages,
+            packages_added: [],
+            package_type: ""
+        });
     },
     onCheckBox: function(index, event) {
         var packages_added = this.state.packages_added;
@@ -106,17 +115,16 @@ var CreatePackageApp = React.createClass({
                 "file_name" : this.state.files_name[index],
                 "doc_url"   : this.state.docs_link[index]
             }
-            packages_added.push(doc_obj)
+            packages_added.push(doc_obj);
         }
         else{
             var file_name = this.state.files_name[index];
             packages_added = _.reject(packages_added,function(package){
                 return package["file_name"] == file_name;
             });
-            checboxes[index] = false;
         };
         this.setState({
-            packages_added    : packages_added,
+            packages_added: packages_added,
         });
     },
     render: function () {
@@ -127,13 +135,26 @@ var CreatePackageApp = React.createClass({
         ];
         var _this = this;
         var ListedItems = [];
-        _.each(this.state.packages_added, function(package, index){
-              ListedItems.push(
-                <ListItem
-                    key={index}
-                    primaryText={package.file_name}
-                />
-              )
+        _.each(this.state.packages, function(package, index){
+              var package_type = package.package_type;
+              var packages_added = package.packages_added;
+              var nestedItems = [];
+              //_.each(packages_added, function(package_added, j){})
+              _.each(packages_added, function(package_added, j){
+                  nestedItems.push(
+                      <ListItem
+                        key={j}
+                        primaryText={package_added.file_name}
+                      />
+                  )
+              });
+              var listed_item = <ListItem
+                  primaryText={package_type}
+                  initiallyOpen={true}
+                  primaryTogglesNestedList={true}
+                  nestedItems={nestedItems}
+              />;
+              ListedItems.push(listed_item);
         });
         var added_doc_url = _.map(_this.state.packages_added, 'doc_url');
         return (
@@ -186,12 +207,13 @@ var CreatePackageApp = React.createClass({
                     </Col>
                     <Col md={4}>
                         <List subheader="Packages Created So far!">
-                            <ListItem
-                                primaryText={this.state.package_type}
-                                initiallyOpen={true}
-                                primaryTogglesNestedList={true}
-                                nestedItems={ListedItems}
-                            />
+                            {
+                              _.each(ListedItems, function(item, index){
+                                  return({
+                                      item
+                                  })
+                              })
+                            }
                         </List>
                     </Col>
                 </Col>
