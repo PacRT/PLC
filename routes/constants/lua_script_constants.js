@@ -21,5 +21,9 @@ module.exports = {
     "ADD_TOKEN"     : "add_auth_token",
     "VERIFY_TOKEN"  : "verify_auth_token",
     "DELETE_TOKEN"  : 'delete_auth_token'
+  },
+  "CREATE_PKG" : {
+    "SCRIPT_FOLDER"  : "create_pkg",
+    "CREATE_PKG"     : "create_pkg"
   }
 }

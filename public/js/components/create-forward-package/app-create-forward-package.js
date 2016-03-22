@@ -44,13 +44,7 @@ var CreatePackageApp = React.createClass({
         })
     },
     openForwardPkg: function () {
-        var create_packages = [
-            {
-                "package_name" : this.state.package_type,
-                "package_docs" : this.state.packages_added
-            }
-        ]
-        CreateForwardPkgActions.openForwardPkgModal(create_packages);
+        CreateForwardPkgActions.openForwardPkgModal(this.state.packages);
     },
     _getStyles: function () {
         return {

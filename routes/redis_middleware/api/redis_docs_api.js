@@ -70,7 +70,7 @@ var upload_doc = {
     * @returns {Promise}
     */
     updateDocMetaData: function(doc_url, category, file_name, username){
-        var ARGV = [doc_url, username, category, file_name, ];
+        var ARGV = [doc_url, username, category, file_name];
         var KEYS = ['doc_url', 'username', 'category', 'file_name'];
         return new Promise(
             function(resolve, reject){

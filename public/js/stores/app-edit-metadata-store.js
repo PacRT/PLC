@@ -45,8 +45,7 @@ AppDispatcher.register(function(payload){
             EditMetaDataStore.emit(CHANGE_EVENT);
             break;
         case AppConstants.UPDATE_DOC_METADATA:
-            meta = action["meta"];
-            console.log(meta);
+            var meta = action["meta"];
             EditMetaDataStore.emit(CHANGE_EVENT);
             break;
     }

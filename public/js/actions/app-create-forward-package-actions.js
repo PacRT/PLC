@@ -3,6 +3,7 @@
  */
 /** @jsx React.DOM */
 var AppConstants = require('../constants/app-constants.js')["DOCS"];
+var GlobalConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
@@ -35,6 +36,25 @@ var AppCreateForwardPackage = {
             actionType : AppConstants.CLOSE_FORWARD_PACKAGE_MODAL,
             modal_open : false
         })
+    },
+    createPackages : function(packages){
+        var data = {
+            "packages" : packages
+        }
+        API.post(APIConstants.CREATE_FORWARD_PACKAGE,data).then(function(response){
+            var notification = {
+                open : true,
+                message : "Your Package has been forwarded"
+            }
+            AppDispatcher.handleViewAction({
+                actionType : GlobalConstants.SHOW_NOTIFICATION,
+                response   : notification
+            });
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.CLOSE_FORWARD_PACKAGE_MODAL,
+                modal_open : false
+            });
+        });
     }
 }
 

@@ -41,7 +41,10 @@ router.use('/api/v1/docs',require('./docs/get_doc_by_category.js'));
  * Logout User
  */
 router.use('/api/v1',require('./logout/logout.js'));
-
+/**
+ * Create and Forward Packages
+ */
+router.use('/api/v1',require('./create-forward-package/create-package.js'));
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})
 });

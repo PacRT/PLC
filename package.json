@@ -27,6 +27,7 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "pdfjs-dist": "^1.4.83",
+    "random-js": "^1.0.8",
     "react": "^0.14.3",
     "react-addons-update": "^0.14.3",
     "react-bootstrap": "^0.28.1",

@@ -30,6 +30,9 @@ var ForwardPackageModal = React.createClass({
             is_modal_open : is_modal_open
         })
     },
+    _createAndForwardPkg : function(){
+        createForwardPkgActions.createPackages(this.state.store.packages);
+    },
     render : function(){
         var  actions = [
             <FlatButton
@@ -41,7 +44,7 @@ var ForwardPackageModal = React.createClass({
                 label="Submit"
                 primary={true}
                 disabled={false}
-                onTouchTap={this._closeModal}
+                onTouchTap={this._createAndForwardPkg}
             />
         ];
         var DialogBody = "";
