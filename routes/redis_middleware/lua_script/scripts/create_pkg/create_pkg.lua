@@ -16,5 +16,4 @@ for key,value in pairs(package) do
     end
     redis.call("HMSET","package:"..pkg_id,key,value)
 end
-
 return pkg_id

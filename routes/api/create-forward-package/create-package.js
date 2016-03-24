@@ -25,7 +25,9 @@ router.post('/createPackage',function(req,res,next){
 
     Promise.all(create_pkg_promises)
         .then(function (result) {
-            res.send(result)
+            res.send(result);
+            console.log(result);
+            client.publish("forwardPackage", JSON.stringify({"packages": result}));
             //publish an event
         });
 });
