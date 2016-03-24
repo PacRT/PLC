@@ -35,7 +35,6 @@ var CreatePackageApp = React.createClass({
         CreateForwardPkgStore.removeChangeListener(this._onChange);
     },
     _onChange: function () {
-        console.log('change');
         var store = CreateForwardPkgStore.getCreateFwdPkgStore();
         this.setState({
             docs_link: store.docs_link,
@@ -44,7 +43,12 @@ var CreatePackageApp = React.createClass({
         })
     },
     openForwardPkg: function () {
-        CreateForwardPkgActions.openForwardPkgModal(this.state.packages);
+        packages = this.state.packages;
+        packages.push({
+            "package_type" : this.state.package_type,
+            "packages_added" : this.state.packages_added
+        });
+        CreateForwardPkgActions.openForwardPkgModal(packages);
     },
     _getStyles: function () {
         return {
@@ -85,21 +89,25 @@ var CreatePackageApp = React.createClass({
         CreateForwardPkgActions.getDocsByType(this.state.cursor, 3);
     },
     handleChange: function (value) {
-        console.log('change-1');
         this.setState({
             value: value
         });
     },
     _addMorePackage: function () {
-        packages = this.state.packages;
+        var packages = this.state.packages;
         packages.push({
             "package_type" : this.state.package_type,
             "packages_added" : this.state.packages_added
         });
+        CreateForwardPkgStore.resetDocStore();
+        var store = CreateForwardPkgStore.getCreateFwdPkgStore();
         this.setState({
             packages: packages,
             packages_added: [],
-            package_type: ""
+            package_type: "",
+            docs_link: store.docs_link,
+            files_name: store.files_name,
+            cursor: store.cursor
         });
     },
     onCheckBox: function(index, event) {
@@ -164,6 +172,7 @@ var CreatePackageApp = React.createClass({
                             floatingLabelText="Search Package Types"
                             filter={AutoComplete.fuzzyFilter}
                             dataSource={fruit}
+                            searchText={this.state.package_type}
                         />
                         {
                             this.state.docs_link.length == 0 ? "" : this.state.docs_link.map(function (url, index) {
