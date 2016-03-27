@@ -4,5 +4,6 @@
     "lua_102" : "Token Already Exists",
     "lua_103" : "Email already registered with anothe user name.. yours?",
     "lua_104" : "Looks like your session is expired.Please login Again.",
-    "lua_105" : "User or Password does not exists"
+    "lua_105" : "User or Password does not exists",
+    "lua_106" : "User does not exists."
 }

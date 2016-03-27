@@ -22,6 +22,24 @@ var createFwdPkgAPI = {
                 reject(err);
             });
         });
+    },
+    /**
+     * Add Package to User's Docs
+     * @param package_ids array
+     * @param issuer_id string
+     * @returns {Promise}
+     */
+    add_package : function(package_ids,issuer_id) {
+        var ARGV = [issuer_id, JSON.stringify(package_ids)];
+        var KEYS = [];
+        return new Promise(function (resolve, reject) {
+            luaScriptManager.run(SCRIPT_CONSTANTS.ADD_PKG, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function (response) {
+                resolve(response);
+            }, function (err) {
+                console.log(err);
+                reject(err);
+            });
+        });
     }
 };
 

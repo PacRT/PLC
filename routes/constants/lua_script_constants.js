@@ -24,6 +24,7 @@ module.exports = {
   },
   "CREATE_PKG" : {
     "SCRIPT_FOLDER"  : "create_pkg",
-    "CREATE_PKG"     : "create_pkg"
+    "CREATE_PKG"     : "create_pkg",
+    "ADD_PKG"        : "add_pkg"
   }
 }

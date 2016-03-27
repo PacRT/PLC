@@ -29,7 +29,20 @@ router.post('/createPackage',function(req,res,next){
             console.log(result);
             client.publish("forwardPackage", JSON.stringify({"packages": result}));
             //publish an event
+            create_forward_package_api.add_package(result,req.headers["user_name"]).then(function(response){
+                res.send(response);
+            },function(error){
+                res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+            });
         });
+});
+
+router.post('/addPackage',function(req,res,next){
+    create_forward_package_api.add_package(req.body["package_ids"],req.headers["user_name"]).then(function(response){
+        res.send(response);
+    },function(error){
+        res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+    });
 });
 
 module.exports = router;
