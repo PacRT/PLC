@@ -52,25 +52,26 @@ var AppDocMetaData = React.createClass({
         }
     },
     render: function () {
-
         var _this = this;
         var styles = this._getStyles();
         var MetaDataJSX = "";
         if (_.isEmpty(this.state.store[this.props.doc_url])) {
             MetaDataJSX = <CircularProgress style={styles.circularProgressStyle}/>
         } else if (!_.isUndefined(this.state.store[this.props.doc_url]) && this.state.store[this.props.doc_url]["_keys"].length) {
-            MetaDataJSX = this.state.store[this.props.doc_url]["_keys"].map(function (key, index) {
+            var keys = this.state.store[this.props.doc_url]["_keys"].slice(2);
+            keys[keys.indexOf('file_name')] = 'name';
+            var values = this.state.store[this.props.doc_url]["_values"].slice(2);
+            MetaDataJSX = keys.map(function (key, index) {
                 return (
                     <div style={styles.meta_container} key={index}>
                         <div style={styles.key_div_style}>
                             { key }
                         </div>
                         <div style={styles.val_div_style}>
-                            { _this.state.store[_this.props.doc_url]["_values"][index] }
+                            { values[index] }
                         </div>
                     </div>
                 )
-
             });
         }
         return (

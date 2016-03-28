@@ -11,12 +11,12 @@ var Col = require('react-bootstrap/lib/Col');
 var DocTileActions = require('../../actions/app-doc-tile-actions');
 var VerticalMenu = require('./app-tile-action-menu');
 var DocMetaData = require('./app-doc-meta-data');
+
+
 var DocTile = React.createClass({
     getInitialState: function () {
         return {
-            tile: "",
-            _keys : [],
-            _values : []
+            tile: ""
         }
     },
     getStyles: function () {
