@@ -2,7 +2,7 @@
 
 ## TO-Do:
 
-- remove owner_id, issuer_id from MyDocs page
+- ~~remove owner_id, issuer_id from MyDocs page~~
 - provide Add Fields option to documents
 - alert for incomplete/missing fields in Edit document modal
 - Send Email invitation link with package if user not in PLC
