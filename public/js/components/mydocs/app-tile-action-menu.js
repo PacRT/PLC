@@ -12,6 +12,7 @@ var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
 var TileActions = require('../../actions/app-doc-tile-actions');
 var MetaDataActions = require('../../actions/app-metadata-actions');
 var DocMetaDataStore = require('../../stores/app-metadata-store');
+
 var TileActionsMenu = React.createClass({
     _openPreview : function(){
         TileActions.openPreview({url:this.props.doc_url,title:this.props.title})
@@ -26,23 +27,26 @@ var TileActionsMenu = React.createClass({
                 marginBottom: 32,
                 float: 'left',
                 position: 'relative',
-                zIndex: 0,
+                zIndex: 0
             },
             rightIcon: {
                 textAlign: 'center',
-                lineHeight: '24px',
-            }
+                lineHeight: '24px'
+            },
+            iconStyle: {}
         };
+        if(this.props.isPreviewMode) {
+            style["iconStyle"]["visibility"] = "hidden";
+        }
         return(
             <IconMenu
+                style={style.iconStyle}
                 iconButtonElement={<IconButton iconStyle={{'width':'20px', 'height' : '15px'}}><MoreVertIcon/></IconButton>}
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'top'}}>
-
                 <MenuItem primaryText="Preview" onTouchTap={this._openPreview} leftIcon={<RemoveRedEye/>} />
                 <MenuItem onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
                 <MenuItem leftIcon={<Delete/>} primaryText="Delete" />
-
             </IconMenu>
         )
 

@@ -81,7 +81,8 @@ var DocTile = React.createClass({
                 "float": "left"
             },
             tile_label: {
-                "backgroundColor": grey200
+                "backgroundColor": grey200,
+                height: "47px"
             },
             tile_menu: {
                 width: "20%"
@@ -103,6 +104,9 @@ var DocTile = React.createClass({
             }
 
         };
+        if(this.props.isPreviewMode) {
+            styles.tile_div["width"] = "100%";
+        }
         return styles;
     },
     componentWillMount: function () {
@@ -141,6 +145,16 @@ var DocTile = React.createClass({
     },
     render: function () {
         var styles = this.getStyles();
+        if(this.props.isSelected && this.props.isPreviewMode){
+            styles["tile_label"]["backgroundColor"] = "black" ;
+            styles["text_field_style"]["color"] = grey200;
+            styles["tile_label"]["opacity"] = 0.7;
+
+        }
+        else{
+            styles["tile_label"]["backgroundColor"] = grey200;
+            styles["text_field_style"]["color"] = "black";
+        }
         return (
             <Paper>
                 <Col md={6} xs={12}>
@@ -155,14 +169,17 @@ var DocTile = React.createClass({
                                 <div style={styles.text_field_style}>
                                     {this.props.heading}
                                 </div>
-                                <VerticalMenu doc_url={this.props.img} title={this.props.heading}
-                                              style={styles.tile_menu}/>
+                                <VerticalMenu doc_url={this.props.img} title={this.props.heading} isPreviewMode={this.props.isPreviewMode}/>
                             </div>
                         </Paper>
                     </div>
-                    <div style={styles["meta-data-div"]}>
-                       <DocMetaData doc_url={this.props.img}/>
-                    </div>
+                    {
+                        this.props.isPreviewMode ? "" :
+                            <div style={styles["meta-data-div"]}>
+                                <DocMetaData doc_url={this.props.img}/>
+                            </div>
+                    }
+
                 </Col>
             </Paper>
 

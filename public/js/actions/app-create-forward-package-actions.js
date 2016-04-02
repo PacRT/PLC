@@ -20,10 +20,14 @@ var AppCreateForwardPackage = {
                 doc_url = "http://" + doc_url[1] + ":" + doc_url[2] + "/" + doc_url[3];
                 return doc_url;
             })*/
+            var transformed_links = result.docs_link.map(function(link){
+                return APIURL.get(link);
+            });
             AppDispatcher.handleViewAction({
                 actionType: AppConstants.DOC_BY_TYPE,
                 cursor: result.cursor,
                 docs_link : result.docs_link,
+                transformed_links : transformed_links,
                 files_name : result.files_name
             });
 
@@ -60,6 +64,12 @@ var AppCreateForwardPackage = {
                 modal_open : false
             });
         });
+    },
+    updateSelectedTile : function(selected_tiles){
+        AppDispatcher.handleViewAction({
+            actionType : AppConstants.UPDATE_TILE_SELECTION,
+            selected_tiles : selected_tiles
+        })
     }
 }
 

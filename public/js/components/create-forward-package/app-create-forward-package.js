@@ -14,6 +14,8 @@ var CreateForwardPkgStore = require('../../stores/app-create-forward-package-sto
 var RaisedButton = require('material-ui/lib/raised-button');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var ForwardPkgModal = require('./forward-package-modal');
+var SelectGridContainer = require("./app-select-grid-container");
+var DocTile = require("../mydocs/app-doc-tile");
 
 var CreatePackageApp = React.createClass({
     getInitialState: function () {
@@ -21,10 +23,12 @@ var CreatePackageApp = React.createClass({
         return {
             docs_link: store.docs_link,
             files_name: store.files_name,
+            transformed_links : store.transformed_links,
             cursor: store.cursor,
             packages_added: [],
             package_type: "",
-            packages: []
+            packages: [],
+            selected_tile : store.selected_tiles
         }
     },
     componentDidMount: function () {
@@ -39,14 +43,16 @@ var CreatePackageApp = React.createClass({
         this.setState({
             docs_link: store.docs_link,
             files_name: store.files_name,
-            cursor: store.cursor
+            transformed_links : store.transformed_links,
+            cursor: store.cursor,
+            selected_tile : store.selected_tiles
         })
     },
     openForwardPkg: function () {
-        packages = this.state.packages;
+        var packages = this.state.packages;
         packages.push({
-            "package_type" : this.state.package_type,
-            "packages_added" : this.state.packages_added
+            "package_type": this.state.package_type,
+            "packages_added": this.state.packages_added
         });
         CreateForwardPkgActions.openForwardPkgModal(packages);
     },
@@ -79,6 +85,10 @@ var CreatePackageApp = React.createClass({
             raisedButton: {
                 marginLeft: "15px",
                 marginTop: "15px"
+            },
+            packageList : {
+                right : "40px",
+                "position" : "fixed"
             }
         }
     },
@@ -95,9 +105,18 @@ var CreatePackageApp = React.createClass({
     },
     _addMorePackage: function () {
         var packages = this.state.packages;
+        var packages_added = [];
+        var _this = this;
+        this.state.selected_tile.map(function(index){
+            var doc_obj = {
+                "file_name": _this.state.files_name[index],
+                "doc_url": _this.state.docs_link[index]
+            };
+            packages_added.push(doc_obj);
+        });
         packages.push({
-            "package_type" : this.state.package_type,
-            "packages_added" : this.state.packages_added
+            "package_type": this.state.package_type,
+            "packages_added": packages_added
         });
         CreateForwardPkgStore.resetDocStore();
         var store = CreateForwardPkgStore.getCreateFwdPkgStore();
@@ -110,23 +129,23 @@ var CreatePackageApp = React.createClass({
             cursor: store.cursor
         });
     },
-    onCheckBox: function(index, event) {
+    onCheckBox: function (index, event) {
         var packages_added = this.state.packages_added;
-        if(event.target.checked){
+        if (event.target.checked) {
             var doc_obj = {
-                "file_name" : this.state.files_name[index],
-                "doc_url"   : this.state.docs_link[index]
-            }
+                "file_name": this.state.files_name[index],
+                "doc_url": this.state.docs_link[index]
+            };
             packages_added.push(doc_obj);
         }
-        else{
+        else {
             var file_name = this.state.files_name[index];
-            packages_added = _.reject(packages_added,function(package){
+            packages_added = _.reject(packages_added, function (package) {
                 return package["file_name"] == file_name;
             });
         };
         this.setState({
-            packages_added: packages_added,
+            packages_added: packages_added
         });
     },
     render: function () {
@@ -137,28 +156,27 @@ var CreatePackageApp = React.createClass({
         ];
         var _this = this;
         var ListedItems = [];
-        _.each(this.state.packages, function(package, index){
-              var package_type = package.package_type;
-              var packages_added = package.packages_added;
-              var nestedItems = [];
-              //_.each(packages_added, function(package_added, j){})
-              _.each(packages_added, function(package_added, j){
-                  nestedItems.push(
-                      <ListItem
+        _.each(this.state.packages, function (package, index) {
+            var package_type = package.package_type;
+            var packages_added = package.packages_added;
+            var nestedItems = [];
+            //_.each(packages_added, function(package_added, j){})
+            _.each(packages_added, function (package_added, j) {
+                nestedItems.push(
+                    <ListItem
                         key={j}
                         primaryText={package_added.file_name}
-                      />
-                  )
-              });
-              var listed_item = <ListItem
-                  primaryText={package_type}
-                  initiallyOpen={true}
-                  primaryTogglesNestedList={true}
-                  nestedItems={nestedItems}
-              />;
-              ListedItems.push(listed_item);
+                    />
+                )
+            });
+            var listed_item = <ListItem
+                primaryText={package_type}
+                initiallyOpen={true}
+                primaryTogglesNestedList={true}
+                nestedItems={nestedItems}
+            />;
+            ListedItems.push(listed_item);
         });
-        var added_doc_url = _.map(_this.state.packages_added, 'doc_url');
         return (
             <div>
                 <Col md={12}>
@@ -174,50 +192,43 @@ var CreatePackageApp = React.createClass({
                             dataSource={fruit}
                             searchText={this.state.package_type}
                         />
-                        {
-                            this.state.docs_link.length == 0 ? "" : this.state.docs_link.map(function (url, index) {
-                                var checked = false;
-                                if(added_doc_url.indexOf(url) != -1)
-                                    checked = true;
-                                return (
-                                    <Col style={styles.listDivWrapper} key={index} md={6}>
-                                        <List>
-                                            <ListItem style={styles.innerDivStyle}
-                                                      innerDivStyle={styles.innerDivStyle}
-                                                      primaryText={<div>
-                                                          <Tooltip show={true} label="tooltip label" horizontalPosition="left"
-                                                            verticalPosition="top" touch={true} />
-                                                           <div style={styles.innerDivStyle}>{_this.state.files_name[index]}</div></div>}
-                                                      leftCheckbox={<Checkbox iconStyle={styles.checkBoxStyle} checked={checked}
-                                                        onCheck={_this.onCheckBox.bind(null, index)}/>}/>
-                                        </List>
-                                    </Col>
-                                )
-                            })
-                        }
-                        <Col md={12}>
-                            {
-                                this.state.docs_link.length == 0 ? "" :
-                                    <div className="pull-right">
-                                        <RaisedButton style={styles.raisedButton} onTouchTap={this._addMorePackage}
-                                                      label="Add More"/>
-                                        <RaisedButton style={styles.raisedButton} onTouchTap={this.openForwardPkg}
-                                                      label="Forward"/>
-                                    </div>
 
-                            }
-                        </Col>
+                        {
+                            this.state.docs_link.length == 0 ? "" :<SelectGridContainer>
+                                {
+                                    this.state.transformed_links.map(function (url, index) {
+                                        return(
+                                            <DocTile
+                                                key={index}
+                                                tile_index={index}
+                                                heading={_this.state.files_name[index]}
+                                                img={url}
+                                                isPreviewMode={true}
+                                            />
+                                        )
+                                    })
+                                }
+
+                            </SelectGridContainer>
+                        }
                     </Col>
-                    <Col md={4}>
+                    <Col md={4} style={styles.packageList}>
                         <List subheader="Packages Created So far!">
                             {
-                              _.each(ListedItems, function(item, index){
-                                  return({
-                                      item
-                                  })
-                              })
+                                _.each(ListedItems, function (item, index) {
+                                    return ({
+                                        item
+                                    })
+                                })
                             }
                         </List>
+
+                                <div className="pull-right">
+                                    <RaisedButton style={styles.raisedButton} onTouchTap={this._addMorePackage}
+                                                  label="Add More" disabled={this.state.docs_link.length == 0}/>
+                                    <RaisedButton style={styles.raisedButton} onTouchTap={this.openForwardPkg}
+                                                  label="Forward" disable={ListedItems.length == 0}/>
+                                </div>
                     </Col>
                 </Col>
                 <ForwardPkgModal/>
