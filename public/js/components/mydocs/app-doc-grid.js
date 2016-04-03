@@ -36,12 +36,13 @@ var DocGrid = React.createClass({
                     {
                         this.state.store.docs_link.map(function(url,index){
                             return(
-                                    <DocTile
-                                        key={index}
-                                        tile_index={index}
-                                        heading={_this.state.store.files_name[index]}
-                                        img={url}
-                                    />
+                                <DocTile
+                                    key={index}
+                                    tile_index={index}
+                                    heading={_this.state.store.files_name[index]}
+                                    img={url}
+                                    isPreviewMode={false}
+                                />
                             )
                         })
                     }

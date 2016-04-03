@@ -12,7 +12,9 @@ var _docs_by_type = {
     "docs_link" : [],
     "files_name" : [],
     "cursor" : 0,
-    "packages" : []
+    "packages" : [],
+    "transformed_links" : [],
+    "selected_tiles"    : []
 };
 
 var CreateForwardPkgStore  = ObjectAssign({},EventEmitter.prototype,{
@@ -29,7 +31,9 @@ var CreateForwardPkgStore  = ObjectAssign({},EventEmitter.prototype,{
         _docs_by_type = {
             "docs_link" : [],
             "files_name" : [],
-            "cursor" : 0
+            "cursor" : 0,
+            "transformed_links" : [],
+            "selected_tiles"    : []
         }
     }
 
@@ -42,8 +46,12 @@ AppDispatcher.register(function(payload){
             _docs_by_type.cursor = action.cursor;
             _docs_by_type.docs_link = action.docs_link;
             _docs_by_type.files_name = action.files_name;
+            _docs_by_type.transformed_links = action.transformed_links;
             CreateForwardPkgStore.emit(CHANGE_EVENT);
             break;
+        case AppConstants.UPDATE_TILE_SELECTION:
+            _docs_by_type.selected_tiles = action.selected_tiles;
+            CreateForwardPkgStore.emit(CHANGE_EVENT);
         default:
             return true;
 
