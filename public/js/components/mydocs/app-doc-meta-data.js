@@ -5,11 +5,18 @@ var React = require('React');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var MetaDataActions = require('../../actions/app-metadata-actions');
 var MetaDataStore = require('../../stores/app-metadata-store');
+var TextField = require('material-ui/lib/text-field');
+var FlatButton  = require('material-ui/lib/flat-button');
+var EditMetaDataActions = require('../../actions/app-metadata-actions');
+
 
 var AppDocMetaData = React.createClass({
     getInitialState: function () {
         return {
-            store: MetaDataStore.getStore()
+            store: MetaDataStore.getStore(),
+            category: '',
+            file_name: '',
+            doc_url: ''
         }
     },
     componentDidMount: function () {
@@ -23,6 +30,27 @@ var AppDocMetaData = React.createClass({
         this.setState({
             store: MetaDataStore.getStore()
         });
+    },
+    _editModal : function(){
+        var meta = {};
+        var change = false;
+        var values = this.state.store[this.props.doc_url]["_values"].slice(2);
+        if(this.state.category != ''){
+            meta['category'] = this.state.category;
+            meta['doc_url'] = this.state.doc_url;
+            meta['file_name'] = values[1];
+            change = true;
+        };
+        if(this.state.file_name != ''){
+            meta['file_name'] = this.state.file_name;
+            meta['doc_url'] = this.state.doc_url;
+            meta['category'] = values[0];
+            change = true;
+        };
+        console.log(meta);
+        if(change){
+            EditMetaDataActions.updateDocMetaData(meta);
+        };
     },
     _getStyles: function () {
         return {
@@ -42,7 +70,7 @@ var AppDocMetaData = React.createClass({
             },
             meta_container : {
                 "display": "flex",
-                "lineHeight": "30px"
+                "lineHeight": "30px",
              },
             circularProgressStyle : {
                 display: "block",
@@ -50,6 +78,21 @@ var AppDocMetaData = React.createClass({
                 "paddingTop": "14%"
             }
         }
+    },
+    _handleTextFieldChange: function(key, doc_url, event){
+        if(key=='category'){
+            this.setState({
+                category: event.target.value
+            });
+        }
+        else{
+            this.setState({
+                file_name: event.target.value
+            })
+        };
+        this.setState({
+            doc_url: doc_url
+        });
     },
     render: function () {
         var _this = this;
@@ -61,15 +104,15 @@ var AppDocMetaData = React.createClass({
             var keys = this.state.store[this.props.doc_url]["_keys"].slice(2);
             keys[keys.indexOf('file_name')] = 'name';
             var values = this.state.store[this.props.doc_url]["_values"].slice(2);
+            var doc_url = this.props.doc_url
             MetaDataJSX = keys.map(function (key, index) {
                 return (
                     <div style={styles.meta_container} key={index}>
-                        <div style={styles.key_div_style}>
-                            { key }
-                        </div>
-                        <div style={styles.val_div_style}>
-                            { values[index] }
-                        </div>
+                        <TextField
+                          defaultValue={ values[index] }
+                          floatingLabelText={ key }
+                          onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
+                        />
                     </div>
                 )
             });
@@ -77,9 +120,14 @@ var AppDocMetaData = React.createClass({
         return (
             <div>
                 {MetaDataJSX}
+                <FlatButton
+                    label="Save"
+                    primary={true}
+                    disabled={false}
+                    onTouchTap={this._editModal}
+                />
             </div>
         )
-
     }
 });
 

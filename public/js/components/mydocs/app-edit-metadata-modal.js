@@ -29,6 +29,7 @@ var AppEditMedataModal = React.createClass({
             'file_name' : this.refs.file_name.getValue(),
             'doc_url' : EditMetaDataStore.getDocURL(),
         };
+        console.log(meta);
         EditMetaDataActions.updateDocMetaData(meta);
         EditMetaDataActions.closeEditMetaDataModal();
     },
@@ -50,7 +51,6 @@ var AppEditMedataModal = React.createClass({
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap"
-
             },
             key_div_style: {
                 flex: "0 0 100px",
@@ -92,19 +92,7 @@ var AppEditMedataModal = React.createClass({
             DialogBody = <CircularProgress style={styles.circularProgressStyle}/>
         }else{
             DialogBody =  this.state.store["_keys"].map(function (key, index) {
-                if(key=='owner.uid' || key=="issuer.uid"){
-                    return (
-                        <div style={styles.meta_container} key={index}>
-                            <TextField
-                              ref={key}
-                              defaultValue={ _this.state.store["_values"][index] }
-                              floatingLabelText={ key }
-                              disabled={true}
-                            />
-                        </div>
-                    )
-                }
-                else{
+                if(key!=='owner.uid' && key!="issuer.uid"){
                   return (
                       <div style={styles.meta_container} key={index}>
                           <TextField

@@ -9,6 +9,7 @@ import json
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
+from email.MIMEText import MIMEText
 from email import Encoders
 
 
@@ -76,7 +77,12 @@ class PacketForward(object):
             TO = recepient
             s, msg = self.get_email_settings(server='GMAIL')
             msg['To'] = TO
-
+            body = '''
+            To keep your sender’s assets secure, PLC allows access via secure email link only for a limited time of <2 days?>.
+            If you like to access the assets beyond these time limits, please create a free PLC account using this <simple login>
+            and continue accessing these assets while experiencing a rich set of other features securely on the site.
+            '''
+            msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open(self.dir_name + '.zip', 'rb').read())
