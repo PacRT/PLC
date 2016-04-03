@@ -1,6 +1,6 @@
 # PLC Boilerplate
 
-## TO-Do:
+## To-Do:
 
 - ~~remove owner_id, issuer_id from MyDocs page~~
 - provide Add Fields option to documents
@@ -12,3 +12,20 @@
 - editable tags for category in docs
 - change `field_name` to `name`
 - In `My Things` tab, show things owned by the user eg. if the user has an iPhone, or a camera - future goal to convert it to digital assets
+
+## Installation:
+
+### Install tools:
+
+- `redis`
+- `seaweedfs` : https://bintray.com/chrislusf/seaweedfs/seaweedfs
+- `nodejs` : https://nodejs.org/en/download/package-manager/
+- `bower` : `npm install bower -g`
+- `gulp` : `npm install gulp -g`
+
+### Run tools:
+
+- `redis-server`
+- Refer to setup instructions on https://github.com/chrislusf/seaweedfs/wiki/Getting-Started for how to setup seaweedfs. It has steps for standalone as well as docker setup.
+- To start backend server, do `gulp node-app`
+- To start frontend, do `gulp server`
