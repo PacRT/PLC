@@ -45,6 +45,10 @@ router.use('/api/v1',require('./logout/logout.js'));
  * Create and Forward Packages
  */
 router.use('/api/v1',require('./create-forward-package/create-package.js'));
+/**
+ * Get Docs shared with user
+ */
+router.use('/api/v1/inbox',require('./inbox/inbox.js'));
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})
 });

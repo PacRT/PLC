@@ -8,7 +8,8 @@ module.exports = {
     "GET_USER_DOCS" : "get_user_docs",
     "GET_DOC_METADATA" : "get_doc_metadata",
     "UPDATE_DOC_METADATA" : "update_doc_metadata",
-    "GET_DOC_BY_TYPE"  : "get_doc_by_type"
+    "GET_DOC_BY_TYPE"  : "get_doc_by_type",
+    "GET_SHARED_DOCS" : "get_shared_docs"
   },
   "USER" :{
     "SCRIPT_FOLDER" : "user",
@@ -25,6 +26,6 @@ module.exports = {
   "CREATE_PKG" : {
     "SCRIPT_FOLDER"  : "create_pkg",
     "CREATE_PKG"     : "create_pkg",
-    "ADD_PKG"        : "add_pkg"
+    "ADD_PKG"        : "add_pkg",
   }
 }

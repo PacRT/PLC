@@ -8,11 +8,12 @@ var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
 var TextField = require('material-ui/lib/text-field');
 
 var  SearchBarApp = React.createClass({
+
     render :function(){
         return(
             <div>
                 <Toolbar>
-                    <ToolbarTitle text="My Docs" float="left" />
+                    <ToolbarTitle text={this.props.title} float="left" />
                     <ToolbarGroup float="right">
                         <ToolbarSeparator />
                         <TextField

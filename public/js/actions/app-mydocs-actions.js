@@ -8,8 +8,8 @@ var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
 var APIURL = require('../utils/getAPIURL');
 var MyDocActions = {
-    getMyDocs:function(cursor){
-        API.get(APIConstants.MY_DOCS.replace("#cursor#",cursor)).then(function(response){
+    getMyDocs:function(cursor,view){
+        API.get(APIConstants[view].replace("#cursor#",cursor)).then(function(response){
             var result = JSON.parse(response.text);
             result.docs_link = result.docs_link.map(function(link){
                     return APIURL.get(link);

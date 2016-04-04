@@ -15,7 +15,7 @@ var DocGrid = React.createClass({
         }
     },
     componentDidMount: function() {
-        MyDocsActions.getMyDocs(this.state.store.cursor);
+        MyDocsActions.getMyDocs(this.state.store.cursor,this.props.view);
         MyDocsStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {

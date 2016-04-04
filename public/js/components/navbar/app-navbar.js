@@ -84,6 +84,7 @@ var NavBar = React.createClass({
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
                         <NavItem eventKey={2}  onClick={this.logout}>Logout</NavItem>
                     </Nav>
 

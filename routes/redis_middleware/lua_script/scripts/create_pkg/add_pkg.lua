@@ -41,11 +41,11 @@ for i=1,#pkg_ids do
         for k=1,#docs do
             local doc_url = docs[k]["doc_url"]
             print(doc_url)
-            local is_doc_exists  = redis.call("SSCAN","docs:"..user_name,0,"MATCH","*|"..doc_url)
+            local is_doc_exists  = redis.call("SSCAN","inbox:"..user_name,0,"MATCH","*|"..doc_url)
             if next(is_doc_exists[2]) == nil then
                 local doc_sets_issuer =  redis.call("SSCAN","docs:"..issuer_id,0,"MATCH","*|"..doc_url)
                 print(doc_sets_issuer[2][1])
-                redis.call('SADD',"docs:"..user_name ,doc_sets_issuer[2][1])
+                redis.call('SADD',"inbox:"..user_name ,doc_sets_issuer[2][1])
             else print("do something") end
         end
     end

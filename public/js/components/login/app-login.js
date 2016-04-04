@@ -20,8 +20,8 @@ var Colors = require('material-ui/lib/styles/colors');
 var Login = React.createClass({
     getInitialState: function(){
         return {
-            userName : "hardik91",
-            password : "Hadik"
+            userName : "messi10",
+            password : "Ornithopter1"
         }
     },
     handleUserNameInput : function(event){

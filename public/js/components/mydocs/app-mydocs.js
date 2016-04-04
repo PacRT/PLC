@@ -15,11 +15,11 @@ var MyDocs = React.createClass({
     render: function () {
         return (
             <div>
-                <SearchBarApp/>
+                <SearchBarApp title="My Docs"/>
                 <Grid>
                     <Row>
                         <Col md={12} xs={12}>
-                            <DocGrid/>
+                            <DocGrid view="MY_DOCS"/>
                         </Col>
                     </Row>
                 </Grid>

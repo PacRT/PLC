@@ -15,6 +15,7 @@ var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
 var CreateForwardPackage   = require('./create-forward-package/app-create-forward-package');
 var AppConstants = require('../constants/app-constants');
+var Inbox = require('./inbox/app-inbox');
 /**
  * middleware to check if user is logged in or not.
  * @param nextState
@@ -39,7 +40,8 @@ var AppRouter = {
         { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
         { path : "invite"       ,component: Invite      ,onEnter:requireAuth},
         { path : "registration" ,component: Registration},
-        { path : "createpackage" ,component: CreateForwardPackage}
+        { path : "createpackage" ,component: CreateForwardPackage},
+        { path : "inbox" ,component: Inbox}
 
     ]
 };

@@ -104,6 +104,26 @@ var upload_doc = {
                 });
             }
         )
+    },
+    /**
+     * Get Docs shared with user
+     * @param user_id
+     * @param cursor
+     * @returns {Promise}
+     */
+    get_shared_docs : function(user_id,cursor){
+        var ARGV = [user_id,cursor];
+        var KEYS = [];
+        return new Promise(
+            function (resolve, reject) {
+                luaScriptManager.run(SCRIPT_CONSTANTS.GET_SHARED_DOCS,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
+                    resolve(err,response);
+                },function(err){
+                    console.log(err);
+                    reject(err);
+                });
+            }
+        )
     }
 };
 
