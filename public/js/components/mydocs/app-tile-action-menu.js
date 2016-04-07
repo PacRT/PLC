@@ -45,8 +45,8 @@ var TileActionsMenu = React.createClass({
                 anchorOrigin={{horizontal: 'left', vertical: 'top'}}
                 targetOrigin={{horizontal: 'left', vertical: 'top'}}>
                 <MenuItem primaryText="Preview" onTouchTap={this._openPreview} leftIcon={<RemoveRedEye/>} />
-                <MenuItem onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
-                <MenuItem leftIcon={<Delete/>} primaryText="Delete" />
+                <MenuItem disabled={this.props.view == "INBOX"} onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
+                <MenuItem disabled={this.props.view == "INBOX"} leftIcon={<Delete/>} primaryText="Delete" />
             </IconMenu>
         )
 

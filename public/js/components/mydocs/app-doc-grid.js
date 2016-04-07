@@ -41,6 +41,7 @@ var DocGrid = React.createClass({
                                     tile_index={index}
                                     heading={_this.state.store.files_name[index]}
                                     img={url}
+                                    view={_this.props.view}
                                     isPreviewMode={false}
                                 />
                             )

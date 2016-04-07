@@ -109,6 +109,7 @@ var AppDocMetaData = React.createClass({
                 return (
                     <div style={styles.meta_container} key={index}>
                         <TextField
+                          disabled={_this.props.view == "INBOX"}
                           defaultValue={ values[index] }
                           floatingLabelText={ key }
                           onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
@@ -121,6 +122,7 @@ var AppDocMetaData = React.createClass({
             <div>
                 {MetaDataJSX}
                 <FlatButton
+                    disabled={this.props.view == "INBOX"}
                     label="Save"
                     primary={true}
                     disabled={false}

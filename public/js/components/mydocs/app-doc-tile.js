@@ -169,14 +169,14 @@ var DocTile = React.createClass({
                                 <div style={styles.text_field_style}>
                                     {this.props.heading}
                                 </div>
-                                <VerticalMenu doc_url={this.props.img} title={this.props.heading} isPreviewMode={this.props.isPreviewMode}/>
+                                <VerticalMenu view={this.props.view}  doc_url={this.props.img} title={this.props.heading} isPreviewMode={this.props.isPreviewMode}/>
                             </div>
                         </Paper>
                     </div>
                     {
                         this.props.isPreviewMode ? "" :
                             <div style={styles["meta-data-div"]}>
-                                <DocMetaData doc_url={this.props.img}/>
+                                <DocMetaData view={this.props.view}  doc_url={this.props.img}/>
                             </div>
                     }
 
