@@ -47,7 +47,7 @@ var Invite = React.createClass({
                                 hintText="Highly Encouraged"
                                 floatingLabelText="Name" />
                             <br/>
-                            <RaisedButton label="Invite"  style={{"margin-right": "10px"}} />
+                            <RaisedButton label="Invite"  style={{"marginRight": "10px"}} />
                             <RaisedButton label="Invite More" />
                         </Col>
 

@@ -5,6 +5,7 @@ import shutil
 import smtplib
 import redis
 import json
+import uuid
 
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -20,12 +21,15 @@ PAPERLESS_USERNAME = 'registrar@paperlessclub.org'
 PAPERLESS_SERVER = 'paperlessclub.org'
 
 LUA = '''
---local recepients = redis.call('HMGET', "package:"..KEYS[1], "recepients")
---local packages_added = redis.call('HMGET', "package:" ..KEYS[1], "packages_added")
-local packages = redis.call('HGETALL', "package:" ..KEYS[1])
---return recepients .. '&&' ..packages_added
-return packages
+local recepients = redis.call('HMGET', "package:"..KEYS[1], "recepients")
+local packages_added = redis.call('HMGET', "package:" ..KEYS[1], "packages_added")
+local packages = {}
+packages['recepients'] = cjson.decode(recepients[1])
+packages['packages_added'] = cjson.decode(packages_added[1])
+return cjson.encode(packages)
 '''
+
+# redis.call('SET', "invitation:"..uuid, "email":recepient)
 
 
 class PacketForward(object):
@@ -33,10 +37,14 @@ class PacketForward(object):
         self.package_ids = []
         self.packages_added = []
         for package_id in packages:
-            resp = fetcher(keys=[package_id], args = [])
-            self.package_ids.append(resp[3])
-            self.packages_added.append(json.loads(resp[1].replace("\\", "")))
-            self.recepients = json.loads(resp[7])
+            resp = json.loads(fetcher(keys=[package_id], args = []))
+            if not resp['packages_added']:
+                pass
+            self.recepients = resp['recepients']
+            self.package_ids.append(package_id)
+            self.packages_added.append(resp['packages_added'])
+            #self.packages_added.append(json.loads(resp[3].replace("\\", "")))
+            #self.recepients = json.loads(resp[7])
         self.dir_name = 'package-' + str(ord(os.urandom(1)))
 
     def fetch_packages(self):
@@ -50,9 +58,10 @@ class PacketForward(object):
             os.chdir(package_id)
             packages_added = self.packages_added[index]
             for package in packages_added:
-                doc_url = package['doc_url']
+                doc_url = package['doc_url'].split('/')
+                url = 'http://localhost:8080/' + doc_url[-1]
                 file_name = package['file_name']
-                urllib.urlretrieve(doc_url, file_name)
+                urllib.urlretrieve(url, file_name)
             os.chdir('..')
         os.chdir('..')
         shutil.make_archive(self.dir_name, 'zip', base_dir=self.dir_name)
@@ -74,13 +83,14 @@ class PacketForward(object):
 
     def forward_packet(self):
         for recepient in self.recepients:
+            self.add_to_redis(recepient)
             TO = recepient
             s, msg = self.get_email_settings(server='GMAIL')
             msg['To'] = TO
             body = '''
-            To keep your sender’s assets secure, PLC allows access via secure email link only for a limited time of <2 days?>.
-            If you like to access the assets beyond these time limits, please create a free PLC account using this <simple login>
-            and continue accessing these assets while experiencing a rich set of other features securely on the site.
+            To keep your sender's assets secure, PLC allows access via secure email link only for a limited time of 24 hours.
+            If you like to access the assets beyond these limits, please create a free PLC account using the link below and
+            continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
@@ -99,6 +109,11 @@ class PacketForward(object):
         shutil.rmtree(self.dir_name)
         os.remove(self.dir_name + '.zip')
 
+    @staticmethod
+    def add_to_redis(email):
+        id = str(uuid.uuid4())
+        store_invitation = "redis.call('SET', \"invitation:\"..{0}.. \":email\", {1})".format(id, email)
+
 
 def main():
     r = redis.Redis()
@@ -107,6 +122,7 @@ def main():
     fetcher = r.register_script(LUA)
     for message in p.listen():
         if type(message['data']) == str:
+            print message['data']
             data = json.loads(message['data'])['packages']
             forwarder = PacketForward(data, fetcher)
             forwarder.fetch_packages()
