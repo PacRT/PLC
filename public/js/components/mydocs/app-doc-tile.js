@@ -96,7 +96,7 @@ var DocTile = React.createClass({
                 "float" : "left",
                 "margin" : "15px 0px 15px 0px",
                 "backgroundColor" :"#eeeeee",
-                "padding" : "15px 15px 15px 15px",
+                "padding" : "0px 15px 0px 15px",
                 "position" : "absolute",
                 "top"   : "0",
                 "right" : "-1px",

@@ -113,6 +113,7 @@ var AppDocMetaData = React.createClass({
                           defaultValue={ values[index] }
                           floatingLabelText={ key }
                           onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
+                          style={{marginTop:"-4px"}}
                         />
                     </div>
                 )
@@ -121,13 +122,15 @@ var AppDocMetaData = React.createClass({
         return (
             <div>
                 {MetaDataJSX}
-                <FlatButton
-                    disabled={this.props.view == "INBOX"}
-                    label="Save"
-                    primary={true}
-                    disabled={false}
-                    onTouchTap={this._editModal}
-                />
+                <div className="pull-right">
+                  <FlatButton
+                      disabled={this.props.view == "INBOX"}
+                      label="Ok"
+                      primary={true}
+                      disabled={false}
+                      onTouchTap={this._editModal}
+                  />
+                </div>
             </div>
         )
     }
