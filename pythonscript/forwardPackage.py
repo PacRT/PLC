@@ -29,7 +29,8 @@ packages['packages_added'] = cjson.decode(packages_added[1])
 return cjson.encode(packages)
 '''
 
-# redis.call('SET', "invitation:"..uuid, "email":recepient)
+r = redis.Redis()
+p = r.pubsub()
 
 
 class PacketForward(object):
@@ -43,8 +44,6 @@ class PacketForward(object):
             self.recepients = resp['recepients']
             self.package_ids.append(package_id)
             self.packages_added.append(resp['packages_added'])
-            #self.packages_added.append(json.loads(resp[3].replace("\\", "")))
-            #self.recepients = json.loads(resp[7])
         self.dir_name = 'package-' + str(ord(os.urandom(1)))
 
     def fetch_packages(self):
@@ -83,7 +82,8 @@ class PacketForward(object):
 
     def forward_packet(self):
         for recepient in self.recepients:
-            self.add_to_redis(recepient)
+            id = str(uuid.uuid4())
+            self.add_to_redis(id, recepient)
             TO = recepient
             s, msg = self.get_email_settings(server='GMAIL')
             msg['To'] = TO
@@ -92,6 +92,7 @@ class PacketForward(object):
             If you like to access the assets beyond these limits, please create a free PLC account using the link below and
             continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
+            body = body + "http://localhost:8080/signup/{0}".format(id)
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
@@ -106,27 +107,26 @@ class PacketForward(object):
                 pass
             s.close()
 
-        shutil.rmtree(self.dir_name)
-        os.remove(self.dir_name + '.zip')
-
     @staticmethod
-    def add_to_redis(email):
-        id = str(uuid.uuid4())
-        store_invitation = "redis.call('SET', \"invitation:\"..{0}.. \":email\", {1})".format(id, email)
+    def add_to_redis(id, email):
+        store_invitation = '''redis.call('SET', "invitation:"..KEYS[1].. ":email", KEYS[2])'''
+        fetcher = r.register_script(store_invitation)
+        fetcher(keys=[id, email], args=[])
 
 
 def main():
-    r = redis.Redis()
-    p = r.pubsub()
     p.subscribe("forwardPackage")
     fetcher = r.register_script(LUA)
     for message in p.listen():
         if type(message['data']) == str:
-            print message['data']
             data = json.loads(message['data'])['packages']
             forwarder = PacketForward(data, fetcher)
             forwarder.fetch_packages()
             forwarder.forward_packet()
+            dir_name = forwarder.dir_name
+            shutil.rmtree(dir_name)
+            os.remove(dir_name + '.zip')
+
 
 if __name__ == '__main__':
     main()
