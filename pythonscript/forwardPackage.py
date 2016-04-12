@@ -92,7 +92,7 @@ class PacketForward(object):
             If you like to access the assets beyond these limits, please create a free PLC account using the link below and
             continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
-            body = body + "http://localhost:8080/signup/{0}".format(id)
+            body = body + "http://localhost:8080/registration#/{0}".format(id)
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
