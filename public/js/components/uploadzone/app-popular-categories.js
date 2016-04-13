@@ -28,7 +28,7 @@ var PopularCategories = React.createClass({
                 <SelectField value={this.props.category} onChange={this.props.handle} style={drop_menu_style} floatingLabelText="Categories">
                     {
                         this.state.categories.map(function(key,index) {
-                            return <MenuItem key={index+1} value={index+1} primaryText={key}/>
+                            return <MenuItem key={index+1} value={key} primaryText={key}/>
                         })
                     }
                 </SelectField>

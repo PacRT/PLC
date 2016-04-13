@@ -131,7 +131,8 @@ var SignUpForm = React.createClass({
             this.state.password,
             this.state.phoneNumber,
             this.state.userName,
-            0
+            0,
+            this.props.invitationId.split("#/")[1]
         ];
         var _this = this;
         var transitionCB = function () {
@@ -142,7 +143,6 @@ var SignUpForm = React.createClass({
     render: function () {
         return (
             <div className="create_account_screen">
-
                 <div className="create_account_form">
                     <center><h1>Sign Up For PLC</h1></center>
                     <p></p>

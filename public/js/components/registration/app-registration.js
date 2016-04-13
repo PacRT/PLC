@@ -15,12 +15,13 @@ var SignUp = React.createClass({
                     <Grid>
                         <Row className="show-grid">
                             <Col xs={8} md={6} mdOffset={3}>
-                                <SignUpForm/>
+                                <SignUpForm invitationId={this.props.location.hash}/>
                             </Col>
                         </Row>
                     </Grid>
                 </Jumbotron>
             </div>
+
         );
     }
 });

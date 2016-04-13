@@ -10,7 +10,8 @@ local issuer_id = ARGV[1]
 local pkg_ids = cjson.decode(ARGV[2])
 local checkUserExists = function(email_id)
     local uid = redis.call("EXISTS","email:"..email_id..":uid")
-    if uid then
+    print(uid)
+    if not uid == 0  then
         local user_id =  redis.call("GET","email:"..email_id..":uid")
         local user_name = redis.call("GET","uid:"..user_id..":username")
         return user_name

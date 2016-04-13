@@ -11,6 +11,10 @@ local pwd = ARGV[4]
 local phone = ARGV[5]
 local uname = ARGV[6]
 local status = ARGV[7]
+local invitation = ARGV[8]
+local invitation_email_id = redis.call('GET',"invitation:" ..invitation.. ":email")
+if invitation_email_id == false then error("::: lua_107") end
+if invitation_email_id ~= email then error("::: lua_108") end
 local unamecheck_uid = redis.call('GET', "username:" ..uname.. ":uid")
 if unamecheck_uid then error("::: lua_101") end
 local emailcheck_uid = redis.call('GET', "email:" ..email.. ":uid")

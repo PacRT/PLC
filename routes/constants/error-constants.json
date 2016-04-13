@@ -5,5 +5,7 @@
     "lua_103" : "Email already registered with anothe user name.. yours?",
     "lua_104" : "Looks like your session is expired.Please login Again.",
     "lua_105" : "User or Password does not exists",
-    "lua_106" : "User does not exists."
+    "lua_106" : "User does not exists.",
+    "lua_107" : "Invitation Expired!",
+    "lua_108" : "Invitation does not belong to your email Id!"
 }
