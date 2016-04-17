@@ -27,4 +27,14 @@ redis.call('SET', "email:" ..ARGV[1].. ":uid", uid)
 local name = ARGV[2].." "..ARGV[3]
 redis.call('SET', "uid:" ..uid.. ":name", name) -- ARGV[2] .. ARGV[3] is the fullname of the user
 redis.call('SET', "uid:" ..uid.. ":status", status) -- ARGV[5] is the status of user - active/inactive/premium etc.]]
+local inbox_pending = redis.call('EXISTS','inbox:'..email)
+if(inbox_pending ~= false) then
+    local documents = redis.call("SMEMBERS","inbox:"..email)
+    for k=1,#documents do
+        print(type(documents[k]))
+        redis.call("SADD","inbox:"..uname,documents[k])
+    end
+    redis.call("DEL","inbox:"..email)
+
+end
 return ARGV[6] ..":".. uid ..":".. ARGV[1]

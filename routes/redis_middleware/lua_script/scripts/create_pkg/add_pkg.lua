@@ -11,11 +11,16 @@ local pkg_ids = cjson.decode(ARGV[2])
 local checkUserExists = function(email_id)
     local uid = redis.call("EXISTS","email:"..email_id..":uid")
     print(uid)
-    if not uid == 0  then
+    if uid == 1  then
         local user_id =  redis.call("GET","email:"..email_id..":uid")
         local user_name = redis.call("GET","uid:"..user_id..":username")
+        print("!!!!!!!!!!!!!!")
+        print(user_name)
+        print("!!!!!!!!!!!!!!")
         return user_name
-    else return error("::: lua_106") end
+    else
+        return false
+    end
 end
 
 
@@ -38,16 +43,25 @@ for i=1,#pkg_ids do
     local recepients = cjson.decode(redis.call("HGET", "package:"..pkg_ids[i],"recepients"))
     local docs =  cjson.decode(redis.call("HGET", "package:"..pkg_ids[i],"packages_added"))
     for j=1,#recepients do
+
         local user_name = checkUserExists(recepients[j])
+        print("@@@@@@@@@@@@@@")
+        print(user_name)
+        print("@@@@@@@@@@@@@@")
         for k=1,#docs do
             local doc_url = docs[k]["doc_url"]
-            print(doc_url)
-            local is_doc_exists  = redis.call("SSCAN","inbox:"..user_name,0,"MATCH","*|"..doc_url)
-            if next(is_doc_exists[2]) == nil then
+            if(user_name ~= false) then
+                local is_doc_exists  = redis.call("SSCAN","inbox:"..user_name,0,"MATCH","*|"..doc_url)
+                if next(is_doc_exists[2]) == nil then
+                    local doc_sets_issuer =  redis.call("SSCAN","docs:"..issuer_id,0,"MATCH","*|"..doc_url)
+                    print(doc_sets_issuer[2][1])
+                    redis.call('SADD',"inbox:"..user_name ,doc_sets_issuer[2][1])
+                    print("added packages!!!")
+                else print("do something") end
+            else
                 local doc_sets_issuer =  redis.call("SSCAN","docs:"..issuer_id,0,"MATCH","*|"..doc_url)
-                print(doc_sets_issuer[2][1])
-                redis.call('SADD',"inbox:"..user_name ,doc_sets_issuer[2][1])
-            else print("do something") end
+                redis.call('SADD',"inbox:"..recepients[j] ,doc_sets_issuer[2][1])
+            end
         end
     end
 end
