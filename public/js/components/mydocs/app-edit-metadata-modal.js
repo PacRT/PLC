@@ -29,7 +29,6 @@ var AppEditMedataModal = React.createClass({
             'file_name' : this.refs.file_name.getValue(),
             'doc_url' : EditMetaDataStore.getDocURL(),
         };
-        console.log(meta);
         EditMetaDataActions.updateDocMetaData(meta);
         EditMetaDataActions.closeEditMetaDataModal();
     },
@@ -82,7 +81,6 @@ var AppEditMedataModal = React.createClass({
             />,
             <FlatButton
                 label="Submit"
-                primary={true}
                 disabled={false}
                 onTouchTap={this._editModal}
             />
