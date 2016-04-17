@@ -76,12 +76,12 @@ var AppEditMedataModal = React.createClass({
         var  actions = [
             <FlatButton
                 label="Cancel"
-                secondary={true}
                 onTouchTap={this._closeModal}
             />,
             <FlatButton
                 label="Submit"
                 disabled={false}
+                secondary={true}
                 onTouchTap={this._editModal}
             />
         ];

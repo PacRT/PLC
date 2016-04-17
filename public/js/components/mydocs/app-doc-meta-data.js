@@ -6,7 +6,7 @@ var CircularProgress = require('material-ui/lib/circular-progress');
 var MetaDataActions = require('../../actions/app-metadata-actions');
 var MetaDataStore = require('../../stores/app-metadata-store');
 var TextField = require('material-ui/lib/text-field');
-var RaisedButton  = require('material-ui/lib/raised-button');
+var FlatButton  = require('material-ui/lib/flat-button');
 var EditMetaDataActions = require('../../actions/app-metadata-actions');
 
 
@@ -123,10 +123,11 @@ var AppDocMetaData = React.createClass({
             <div>
                 {MetaDataJSX}
                 <div className="pull-right">
-                  <RaisedButton
+                  <FlatButton
                       disabled={this.props.view == "INBOX"}
                       label="Ok"
                       disabled={false}
+                      secondary={true}
                       onTouchTap={this._editModal}
                   />
                 </div>

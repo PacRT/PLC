@@ -33,6 +33,7 @@ var DocPreview = React.createClass({
         var  actions = [
             <FlatButton
                 label="Ok"
+                secondary={true}
                 disabled={false}
                 onTouchTap={this.handleClose}
             />
