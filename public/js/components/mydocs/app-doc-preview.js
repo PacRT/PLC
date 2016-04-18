@@ -33,7 +33,7 @@ var DocPreview = React.createClass({
         var  actions = [
             <FlatButton
                 label="Ok"
-                primary={true}
+                secondary={true}
                 disabled={false}
                 onTouchTap={this.handleClose}
             />
@@ -53,6 +53,7 @@ var DocPreview = React.createClass({
                     style={{maxHeight:'100%','maxWidth':'100%'}}
                     title={this.state.preview_store.document_title}
                     actions={actions}
+
                     modal={true}
                     open={this.state.is_preview_open}>
                     {previewJSX}

@@ -8,13 +8,13 @@ var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
 var TextField = require('material-ui/lib/text-field');
 
 var  SearchBarApp = React.createClass({
-
     render :function(){
         return(
-            <div>
+            <div style={{paddingLeft:'30px'}}>
                 <Toolbar>
                     <ToolbarTitle text={this.props.title} float="left" />
-                    <ToolbarGroup float="right">
+                    {/*
+                      <ToolbarGroup float="right">
                         <ToolbarSeparator />
                         <TextField
                             hintText="Search..."
@@ -25,6 +25,7 @@ var  SearchBarApp = React.createClass({
                             <MenuItem value={3} primaryText="Date" />
                         </DropDownMenu>
                     </ToolbarGroup>
+                    */}
                 </Toolbar>
             </div>
         )

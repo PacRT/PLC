@@ -145,7 +145,6 @@ var AppDocMetaData = React.createClass({
                     </div>: <TableRow>
 
                 </TableRow>}
-
             </div>
         )
     }

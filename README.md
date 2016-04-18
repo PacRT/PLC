@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PLC Boilerplate
 
 ## To-Do:
@@ -29,3 +30,6 @@
 - Refer to setup instructions on https://github.com/chrislusf/seaweedfs/wiki/Getting-Started for how to setup seaweedfs. It has steps for standalone as well as docker setup.
 - To start backend server, do `gulp node-app`
 - To start frontend, do `gulp server`
+=======
+# Please switch to 'develop' branch for PLC code
+>>>>>>> f0969214a6669a45a30a3da2e8146de6057f4693
