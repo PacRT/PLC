@@ -11,6 +11,8 @@ var Col = require('react-bootstrap/lib/Col');
 var DocTileActions = require('../../actions/app-doc-tile-actions');
 var VerticalMenu = require('./app-tile-action-menu');
 var DocMetaData = require('./app-doc-meta-data');
+var TableRow= require('material-ui/lib/table/table-row');
+var TableRowColumn= require('material-ui/lib/table/table-row-column');
 
 
 var DocTile = React.createClass({
@@ -117,6 +119,7 @@ var DocTile = React.createClass({
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
         }
+
         var encoded_id = encodeURIComponent(this.props.img);
         if (this.props.img.indexOf(".pdf") == -1) {
             imgStyles["backgroundImage"] = "url(" + this.props.img + ")";
@@ -143,18 +146,8 @@ var DocTile = React.createClass({
         }
         ;
     },
-    render: function () {
+    _getMyDocsView : function(){
         var styles = this.getStyles();
-        if(this.props.isSelected && this.props.isPreviewMode){
-            styles["tile_label"]["backgroundColor"] = "black" ;
-            styles["text_field_style"]["color"] = grey200;
-            styles["tile_label"]["opacity"] = 0.7;
-
-        }
-        else{
-            styles["tile_label"]["backgroundColor"] = grey200;
-            styles["text_field_style"]["color"] = "black";
-        }
         return (
             <Paper>
                 <Col md={6} xs={12}>
@@ -182,7 +175,38 @@ var DocTile = React.createClass({
 
                 </Col>
             </Paper>
+        )
+    },
+    _getInboxView:function(){
+        var styles = this.getStyles();
+        return (
+            <div>
+                <TableRowColumn>
+                    <Col md={4} xs={12}>
+                        <Paper style={styles.root}>
+                            {this.state.tile}
+                        </Paper>
+                    </Col>
+                    <DocMetaData view={this.props.view}  doc_url={this.props.img}/>
+                </TableRowColumn>
 
+            </div>
+
+        )
+    },
+    render: function () {
+        var styles = this.getStyles();
+        if(this.props.isSelected && this.props.isPreviewMode){
+            styles["tile_label"]["backgroundColor"] = "black" ;
+            styles["text_field_style"]["color"] = grey200;
+            styles["tile_label"]["opacity"] = 0.7;
+        }
+        else{
+            styles["tile_label"]["backgroundColor"] = grey200;
+            styles["text_field_style"]["color"] = "black";
+        }
+        return (
+            this.props.view == "INBOX" ? this._getInboxView() : this._getMyDocsView()
         )
     }
 });

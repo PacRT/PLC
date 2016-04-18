@@ -8,6 +8,8 @@ var MetaDataStore = require('../../stores/app-metadata-store');
 var TextField = require('material-ui/lib/text-field');
 var FlatButton  = require('material-ui/lib/flat-button');
 var EditMetaDataActions = require('../../actions/app-metadata-actions');
+var TableRowColumn= require('material-ui/lib/table/table-row-column');
+var TableRow= require('material-ui/lib/table/table-row');
 
 
 var AppDocMetaData = React.createClass({
@@ -106,31 +108,44 @@ var AppDocMetaData = React.createClass({
             var values = this.state.store[this.props.doc_url]["_values"].slice(2);
             var doc_url = this.props.doc_url
             MetaDataJSX = keys.map(function (key, index) {
-                return (
-                    <div style={styles.meta_container} key={index}>
-                        <TextField
-                          disabled={_this.props.view == "INBOX"}
-                          defaultValue={ values[index] }
-                          floatingLabelText={ key }
-                          onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
-                          style={{marginTop:"-4px"}}
-                        />
-                    </div>
-                )
+                if(_this.props.view != "INBOX"){
+                    return (
+                        <div style={styles.meta_container} key={index}>
+                            <TextField
+                                disabled={_this.props.view == "INBOX"}
+                                defaultValue={ values[index] }
+                                floatingLabelText={ key }
+                                onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
+                                style={{marginTop:"-4px"}}
+                            />
+                        </div>
+                    )
+                }else{
+                    return(
+                        <TableRowColumn>
+                            { values[index] }
+                        </TableRowColumn>
+                    )
+                }
+
             });
         }
         return (
             <div>
                 {MetaDataJSX}
-                <div className="pull-right">
-                  <FlatButton
-                      disabled={this.props.view == "INBOX"}
-                      label="Ok"
-                      primary={true}
-                      disabled={false}
-                      onTouchTap={this._editModal}
-                  />
-                </div>
+                {this.props.view != "INBOX" ?
+                    <div className="pull-right">
+                        <FlatButton
+                            disabled={this.props.view == "INBOX"}
+                            label="Ok"
+                            primary={true}
+                            disabled={false}
+                            onTouchTap={this._editModal}
+                        />
+                    </div>: <TableRow>
+
+                </TableRow>}
+
             </div>
         )
     }

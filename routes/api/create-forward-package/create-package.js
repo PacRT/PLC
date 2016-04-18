@@ -26,7 +26,6 @@ router.post('/createPackage',function(req,res,next){
     Promise.all(create_pkg_promises)
         .then(function (result) {
             res.send(result);
-            console.log(result);
             client.publish("forwardPackage", JSON.stringify({"packages": result}));
             //publish an event
             create_forward_package_api.add_package(result,req.headers["user_name"]).then(function(response){

@@ -6,6 +6,11 @@ var MyDocsStore = require('../../stores/app-mydocs-store');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
 var DocTile = require('./app-doc-tile');
 var DocGridContainer = require('./app-doc-grid-container');
+var TableBody= require('material-ui/lib/table/table-body');
+var Table = require('material-ui/lib/table/table');
+var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
+var TableRow= require('material-ui/lib/table/table-row');
+var TableHeader= require('material-ui/lib/table/table-header');
 
 var DocGrid = React.createClass({
     getInitialState: function(){
@@ -35,16 +40,41 @@ var DocGrid = React.createClass({
                 <DocGridContainer>
                     {
                         this.state.store.docs_link.map(function(url,index){
-                            return(
-                                <DocTile
-                                    key={index}
-                                    tile_index={index}
-                                    heading={_this.state.store.files_name[index]}
-                                    img={url}
-                                    view={_this.props.view}
-                                    isPreviewMode={false}
-                                />
-                            )
+                            if(_this.props.view != "INBOX"){
+                                return(
+                                    <DocTile
+                                        key={index}
+                                        tile_index={index}
+                                        heading={_this.state.store.files_name[index]}
+                                        img={url}
+                                        view={_this.props.view}
+                                        isPreviewMode={false}
+                                    />
+                                )
+                            }else{
+                                return(
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHeaderColumn>Thumbnail</TableHeaderColumn>
+                                                <TableHeaderColumn>Type</TableHeaderColumn>
+                                                <TableHeaderColumn>Document</TableHeaderColumn>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            <DocTile
+                                                key={index}
+                                                tile_index={index}
+                                                heading={_this.state.store.files_name[index]}
+                                                img={url}
+                                                view={_this.props.view}
+                                                isPreviewMode={false}
+                                            />
+                                        </TableBody>
+                                    </Table>
+                                )
+                            }
+
                         })
                     }
                 </DocGridContainer>
