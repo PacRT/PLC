@@ -106,7 +106,9 @@ var AppDocMetaData = React.createClass({
             var keys = this.state.store[this.props.doc_url]["_keys"].slice(2);
             keys[keys.indexOf('file_name')] = 'name';
             var values = this.state.store[this.props.doc_url]["_values"].slice(2);
-            var doc_url = this.props.doc_url
+            var doc_url = this.props.doc_url;
+            var last_index = values.length - 1;
+                
             MetaDataJSX = keys.map(function (key, index) {
                 if(_this.props.view != "INBOX"){
                     return (
@@ -121,8 +123,16 @@ var AppDocMetaData = React.createClass({
                         </div>
                     )
                 }else{
+                    var style= "";
+                    if(last_index === index){
+                        style = {
+                            "paddingLeft" : "288px"
+                        }
+
+
+                    }
                     return(
-                        <TableRowColumn>
+                        <TableRowColumn style={style}>
                             { values[index] }
                         </TableRowColumn>
                     )
@@ -142,9 +152,7 @@ var AppDocMetaData = React.createClass({
                             disabled={false}
                             onTouchTap={this._editModal}
                         />
-                    </div>: <TableRow>
-
-                </TableRow>}
+                    </div>:""}
             </div>
         )
     }

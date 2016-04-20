@@ -52,15 +52,9 @@ var DocGrid = React.createClass({
                                     />
                                 )
                             }else{
+
                                 return(
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHeaderColumn>Thumbnail</TableHeaderColumn>
-                                                <TableHeaderColumn>Type</TableHeaderColumn>
-                                                <TableHeaderColumn>Document</TableHeaderColumn>
-                                            </TableRow>
-                                        </TableHeader>
+                                <Table style={{"marginBottom" : "10px"}}>
                                         <TableBody>
                                             <DocTile
                                                 key={index}

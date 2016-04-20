@@ -44,12 +44,11 @@ var ForwardPackageModal = React.createClass({
         var  actions = [
             <FlatButton
                 label="Cancel"
-                secondary={true}
                 onTouchTap={this._closeModal}
             />,
             <FlatButton
                 label="Submit"
-                primary={true}
+                secondary={true}
                 disabled={false}
                 onTouchTap={this._createAndForwardPkg}
             />

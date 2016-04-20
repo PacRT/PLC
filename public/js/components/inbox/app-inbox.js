@@ -21,11 +21,20 @@ var AppInbox = React.createClass({
             <div>
                 <SearchBarApp title="Inbox"/>
                 <Grid>
-                    <Row>
-                        <Col md={12} xs={12}>
+
+                        <Col md={12} xs={12} style={{"paddingLeft" : "30px","marginTop": "10px"}}>
+                            <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderColumn>Thumbnail</TableHeaderColumn>
+                                    <TableHeaderColumn>Type</TableHeaderColumn>
+                                    <TableHeaderColumn>Document</TableHeaderColumn>
+                                </TableRow>
+                            </TableHeader>
+                                </Table>
                             <DocGrid view="INBOX"/>
                         </Col>
-                    </Row>
+
                 </Grid>
                 <DocPreview/>
             </div>

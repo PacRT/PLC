@@ -17,14 +17,14 @@ var MyDocs = React.createClass({
         return (
             <div>
                 <SearchBarApp title="My Docs"/>
-                <Grid>
-                    <Row>
+                    <Grid>
+
                         <Col md={12} xs={12}>
                             <DocGrid view="MY_DOCS"/>
                         </Col>
-                    </Row>
-                </Grid>
-                <DocPreview/>
+
+                    </Grid>
+                    <DocPreview/>
                 <EditMetaData/>
             </div>
         )

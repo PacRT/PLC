@@ -119,7 +119,10 @@ var DocTile = React.createClass({
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
         }
-
+        if(this.props.view == "INBOX"){
+            imgStyles["width"] =  "34%";
+            imgStyles["height"] = "92px";
+        }
         var encoded_id = encodeURIComponent(this.props.img);
         if (this.props.img.indexOf(".pdf") == -1) {
             imgStyles["backgroundImage"] = "url(" + this.props.img + ")";
@@ -183,9 +186,9 @@ var DocTile = React.createClass({
             <div>
                 <TableRowColumn>
                     <Col md={4} xs={12}>
-                        <Paper style={styles.root}>
+
                             {this.state.tile}
-                        </Paper>
+
                     </Col>
                     <DocMetaData view={this.props.view}  doc_url={this.props.img}/>
                 </TableRowColumn>

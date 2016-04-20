@@ -76,15 +76,15 @@ var NavBar = React.createClass({
                         <li><Link to="/devzone">Dev Zone</Link></li>
                         <li><Link to="/mythings">My Things</Link></li>
                         <li><Link to="/logout" onClick={this.logout}>Log out</Link></li>
+
+                     <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
+                     <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
                     </ul>*/}
                     <Nav>
                         <NavItem eventKey={1}  onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
+                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'createpackage')}>Create Package</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'howto')}>How to</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
                         <NavItem eventKey={2}  onClick={this.logout}>Logout</NavItem>
                     </Nav>
 

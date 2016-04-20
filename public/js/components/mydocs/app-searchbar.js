@@ -10,7 +10,7 @@ var TextField = require('material-ui/lib/text-field');
 var  SearchBarApp = React.createClass({
     render :function(){
         return(
-            <div style={{paddingLeft:'30px'}}>
+            <div style={{paddingLeft:'44px'}}>
                 <Toolbar>
                     <ToolbarTitle text={this.props.title} float="left" />
                     {/*
