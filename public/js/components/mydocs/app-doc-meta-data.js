@@ -108,7 +108,7 @@ var AppDocMetaData = React.createClass({
             var values = this.state.store[this.props.doc_url]["_values"].slice(2);
             var doc_url = this.props.doc_url;
             var last_index = values.length - 1;
-                
+
             MetaDataJSX = keys.map(function (key, index) {
                 if(_this.props.view != "INBOX"){
                     return (
@@ -148,7 +148,7 @@ var AppDocMetaData = React.createClass({
                         <FlatButton
                             disabled={this.props.view == "INBOX"}
                             label="Ok"
-                            primary={true}
+                            secondary={true}
                             disabled={false}
                             onTouchTap={this._editModal}
                         />

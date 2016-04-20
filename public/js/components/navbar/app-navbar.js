@@ -84,7 +84,6 @@ var NavBar = React.createClass({
                         <NavItem eventKey={1}  onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'createpackage')}>Create Package</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'howto')}>How to</NavItem>
                         <NavItem eventKey={2}  onClick={this.logout}>Logout</NavItem>
                     </Nav>
 
@@ -110,6 +109,3 @@ var NavBar = React.createClass({
 });
 
 module.exports = NavBar;
-
-
-
