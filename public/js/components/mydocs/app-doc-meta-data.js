@@ -26,6 +26,7 @@ var AppDocMetaData = React.createClass({
         MetaDataActions.getDocMetaData(this.props.doc_url);
     },
     componentWillUnmount: function () {
+        MetaDataStore.resetStore();
         MetaDataStore.removeChangeListener(this._onChange);
     },
     _onChange: function () {
@@ -148,7 +149,7 @@ var AppDocMetaData = React.createClass({
                         <FlatButton
                             disabled={this.props.view == "INBOX"}
                             label="Ok"
-                            primary={true}
+                            secondary={true}
                             disabled={false}
                             onTouchTap={this._editModal}
                         />

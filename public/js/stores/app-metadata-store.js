@@ -20,6 +20,11 @@ var MetaDataStore  = ObjectAssign({},EventEmitter.prototype,{
     getStore : function(doc_url){
         return _metadata_store;
     },
+    resetStore : function(){
+      _metadata_store = {};
+        _is_modal_open = false;
+        _edit_doc_metadata = "";
+    },
     is_modal_open : function(){
         return _is_modal_open;
     }
