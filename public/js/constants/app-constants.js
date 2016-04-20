@@ -40,4 +40,7 @@ module.exports = {
         GET_METADATA  : "GET_METADATA",
         UPDATE_METADATA : "UPDATE_METADATA",
     },
+    "INBOX" : {
+        INBOX_METADATA : "INBOX_METADATA"
+    }
 };

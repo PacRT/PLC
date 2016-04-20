@@ -35,12 +35,11 @@ var ActionRemainderModal = React.createClass({
         var  actions = [
             <FlatButton
                 label="Cancel"
-                secondary={true}
                 onTouchTap={this.handleClose}
             />,
             <FlatButton
                 label="Submit"
-                primary={true}
+                secondary={true}
                 disabled={false}
                 onTouchTap={this.handleClose}
             />,

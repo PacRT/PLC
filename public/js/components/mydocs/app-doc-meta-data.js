@@ -26,6 +26,7 @@ var AppDocMetaData = React.createClass({
         MetaDataActions.getDocMetaData(this.props.doc_url);
     },
     componentWillUnmount: function () {
+        MetaDataStore.resetStore();
         MetaDataStore.removeChangeListener(this._onChange);
     },
     _onChange: function () {

@@ -16,10 +16,20 @@ var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableBody= require('material-ui/lib/table/table-body');
 
 var AppInbox = React.createClass({
+    getInitialState : function(){
+      return {
+          "key" : Math.random()
+      }
+    },
+    componentDidMount:function(){
+        this.setState({
+            "key" : Math.random()
+        });
+    },
     render : function(){
         return (
             <div>
-                <SearchBarApp title="Inbox"/>
+                <SearchBarApp title="Inbox" />
                 <Grid>
 
                         <Col md={12} xs={12} style={{"paddingLeft" : "30px","marginTop": "10px"}}>
@@ -32,7 +42,7 @@ var AppInbox = React.createClass({
                                 </TableRow>
                             </TableHeader>
                                 </Table>
-                            <DocGrid view="INBOX"/>
+                            <DocGrid view="INBOX" key={this.state.key}/>
                         </Col>
 
                 </Grid>
