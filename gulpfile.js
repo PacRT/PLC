@@ -91,7 +91,6 @@ gulp
                 .pipe(gulpif(argv.prod, (replace("#NODE_PORT#"  , PROD_CONSTANTS.NODE_PORT  ))))
                 .pipe(replace("#NODE_SERVER#", DEV_CONSTANTS.NODE_SERVER))
                 .pipe(replace("#NODE_PORT#"  , DEV_CONSTANTS.NODE_PORT  ))
-                .pipe(gulpif(argv.prod, streamify(uglify()))).on('error', gutil.log) // keep uglify() and this line together ,if not together,error debugging on minification will be harder....
                 .pipe(rename({suffix: '.min'}))
                 //.pipe(gulpif(!argv.prod,sourcemaps.write('./')))
                 .pipe(gulp.dest('dist/js/'))
