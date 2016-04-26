@@ -12,7 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 from email import Encoders
-
+from cassandraclient import CassandraClient
 
 GMAIL_USERNAME = 'paperlessclub91@gmail.com'
 GMAIL_PASSWORD = 'paperlessclub'
@@ -92,7 +92,7 @@ class PacketForward(object):
             If you like to access the assets beyond these limits, please create a free PLC account using the link below and
             continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
-            body = body + "http://localhost:8080/registration#/{0}".format(id)
+            body = body + "http://localhost:7979/registration#/{0}".format(id)
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
@@ -109,6 +109,25 @@ class PacketForward(object):
 
     @staticmethod
     def add_to_redis(id, email):
+        print id
+        print email
+        cli = CassandraClient()
+        rows = cli.select(table_name = 'invitation')
+        for row in rows:
+            if row.email == email:
+                return {
+                    'error': 'Email already exists.',
+                    'status': 400
+                }
+        cli.insert(
+            table_name = 'invitation',
+            data = {
+                'id': str(uuid.uuid4()),
+                'email': email,
+                'token_id': id
+            }
+        )
+        query = "INSERT INTO {0} (email, name, password, username, status, id) VALUES {1}".format(table_name, values)
         store_invitation = '''redis.call('SET', "invitation:"..KEYS[1].. ":email", KEYS[2])'''
         fetcher = r.register_script(store_invitation)
         fetcher(keys=[id, email], args=[])
