@@ -45,6 +45,7 @@ function dbentry(req) {
     var docPort = doc2.substring(doc2.indexOf(":") + 1);
     var docFid = doc1.substring(doc1.indexOf("/") + 1);
     var doc_api_url = "/docs/" + docUrl + "/" + docPort + "/" + docFid;
+    console.log('associate_doc');
     upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url).then(function(response){
         console.log(response);
     },function(error) {

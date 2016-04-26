@@ -1,6 +1,8 @@
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_FOLDER = "user";
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["USER"];
+var zerorpc = require("zerorpc");
+
 
 var User = {
     /**
@@ -9,6 +11,21 @@ var User = {
      * @returns {Promise}
      */
     registerUser : function(user) {
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        if (user[7] == null){
+            user[7] = ""
+        };
+        var data = user.map(function(value){
+            return value.toString();
+        });
+        client.invoke("signUp", data, function(error, response) {
+            console.log('veraun');
+            console.log(response);
+            console.log(response[0]);
+            console.log(response[1]);
+        });
+
         return new Promise(function (resolve,reject) {
             console.log(user);
             var ARGV = user.map(function(value){return value.toString()});
