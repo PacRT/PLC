@@ -3,6 +3,8 @@
  */
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["AUTH"];
+var zerorpc = require("zerorpc");
+
 
 var Auth = {
     /**
@@ -13,6 +15,15 @@ var Auth = {
      */
     addAuthToken : function(userName,authToken){
         var ARGV = [userName,authToken];
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName,
+            'token': authToken
+        };
+        client.invoke("addAuthToken", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function(resolve,reject){
             luaScriptManager.run(SCRIPT_CONSTANTS.ADD_TOKEN,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
@@ -29,6 +40,15 @@ var Auth = {
      */
     verifyAuthToken : function(userName, authtoken){
         var ARGV = [userName,authtoken];
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName,
+            'token': authToken
+        };
+        client.invoke("verifyAuthToken", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function(resolve,reject){
             luaScriptManager.run(SCRIPT_CONSTANTS.VERIFY_TOKEN,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
@@ -44,6 +64,14 @@ var Auth = {
      * @returns {Promise}
      */
     deleteAuthToken : function(userName){
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName
+        };
+        client.invoke("deleteAuthToken", data, function(error, response) {
+            console.log(response);
+        });
         var ARGV = [userName];
         return new Promise(function(resolve,reject){
             luaScriptManager.run(SCRIPT_CONSTANTS.DELETE_TOKEN,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){

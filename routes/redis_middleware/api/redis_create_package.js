@@ -3,6 +3,8 @@
  */
 var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["CREATE_PKG"];
+var zerorpc = require("zerorpc");
+
 
 var createFwdPkgAPI = {
     /**
@@ -14,6 +16,15 @@ var createFwdPkgAPI = {
     create_and_fwd_pkg : function(userName,package) {
         var ARGV = [userName, package];
         var KEYS = [];
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName,
+            'package': package
+        };
+        client.invoke("createPackage", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function (resolve, reject) {
             luaScriptManager.run(SCRIPT_CONSTANTS.CREATE_PKG, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function (response) {
                 resolve(response);
