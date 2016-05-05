@@ -7,4 +7,3 @@
 --
 local docs_link = redis.call("SSCAN", "inbox:"..ARGV[1] ,ARGV[2])
 return docs_link
-

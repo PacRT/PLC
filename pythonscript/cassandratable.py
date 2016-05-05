@@ -141,3 +141,20 @@ cs_cli.create_table(
     },
     primary_key = 'username'
 )
+cs_cli.create_table(
+    table_name = 'inbox',
+    columns = {
+        'id': 'uuid',
+        'email': 'text',
+        'issuer_id': 'text'
+    },
+    primary_key = 'id'
+)
+# self.cli.insert(
+#     table_name = 'inbox',
+#     data = {
+#         'id': str(uuid.uuid4()),
+#         'email': recepient,
+#         'issuer_id': issuer_id
+#     }
+# )
