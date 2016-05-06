@@ -58,7 +58,7 @@ class PacketForward(object):
             packages_added = self.packages_added[index]
             for package in packages_added:
                 doc_url = package['doc_url'].split('/')
-                url = 'http://localhost:8080/' + doc_url[-1]
+                url = 'http://paperlessclub.org:7979/' + doc_url[-1]
                 file_name = package['file_name']
                 urllib.urlretrieve(url, file_name)
             os.chdir('..')
@@ -92,7 +92,7 @@ class PacketForward(object):
             If you like to access the assets beyond these limits, please create a free PLC account using the link below and
             continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
-            body = body + "http://localhost:8080/registration#/{0}".format(id)
+            body = body + "http://paperlessclub.org:7979/registration#/{0}".format(id)
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
