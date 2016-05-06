@@ -20,8 +20,8 @@ var Colors = require('material-ui/lib/styles/colors');
 var Login = React.createClass({
     getInitialState: function(){
         return {
-            userName : "messi10",
-            password : "Ornithopter1"
+            userName : "",
+            password : ""
         }
     },
     handleUserNameInput : function(event){
@@ -99,7 +99,7 @@ var Login = React.createClass({
                     </CardText>
                     <CardActions style={LoginButtonStyle}>
                         <FlatButton className="pull-right" label="Login" onTouchTap={this._handleSubmit}/>
-                        <FlatButton className="pull-right" label="Sign Up" onTouchTap={this._openSignup}x/>
+                        {/*   <FlatButton className="pull-right" label="Sign Up" onTouchTap={this._openSignup}x/>*/}
 
                     </CardActions>
                 </Card>
