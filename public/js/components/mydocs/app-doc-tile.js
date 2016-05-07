@@ -65,7 +65,7 @@ var DocTile = React.createClass({
             },
             rootWhenMediumAndLastChild: {
                 marginRight: 0,
-                marginBottom: 0,
+                marginBottom: 0
             },
             rootWhenMediumAndFirstChild: {
                 marginLeft: 0,
@@ -151,6 +151,15 @@ var DocTile = React.createClass({
     },
     _getMyDocsView : function(){
         var styles = this.getStyles();
+        if(this.props.isSelected && this.props.isPreviewMode){
+            styles["tile_label"]["backgroundColor"] = "black" ;
+            styles["text_field_style"]["color"] = grey200;
+            styles["tile_label"]["opacity"] = 0.7;
+        }
+        else{
+            styles["tile_label"]["backgroundColor"] = grey200;
+            styles["text_field_style"]["color"] = "black";
+        }
         return (
             <Paper>
                 <Col md={6} xs={12}>
@@ -182,6 +191,15 @@ var DocTile = React.createClass({
     },
     _getInboxView:function(){
         var styles = this.getStyles();
+        if(this.props.isSelected && this.props.isPreviewMode){
+            styles["tile_label"]["backgroundColor"] = "black" ;
+            styles["text_field_style"]["color"] = grey200;
+            styles["tile_label"]["opacity"] = 0.7;
+        }
+        else{
+            styles["tile_label"]["backgroundColor"] = grey200;
+            styles["text_field_style"]["color"] = "black";
+        }
         return (
             <div>
                 <TableRowColumn>
@@ -199,15 +217,7 @@ var DocTile = React.createClass({
     },
     render: function () {
         var styles = this.getStyles();
-        if(this.props.isSelected && this.props.isPreviewMode){
-            styles["tile_label"]["backgroundColor"] = "black" ;
-            styles["text_field_style"]["color"] = grey200;
-            styles["tile_label"]["opacity"] = 0.7;
-        }
-        else{
-            styles["tile_label"]["backgroundColor"] = grey200;
-            styles["text_field_style"]["color"] = "black";
-        }
+
         return (
             this.props.view == "INBOX" ? this._getInboxView() : this._getMyDocsView()
         )

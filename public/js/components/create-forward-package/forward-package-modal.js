@@ -7,6 +7,7 @@ var createForwardPkgActions = require('../../actions/app-create-forward-package-
 var FlatButton = require('material-ui/lib/flat-button');
 var Dialog = require('material-ui/lib/dialog');
 var TextField = require('material-ui/lib/text-field');
+var SendContent = require('material-ui/lib/svg-icons/content/send');
 
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
@@ -43,13 +44,13 @@ var ForwardPackageModal = React.createClass({
     render : function(){
         var  actions = [
             <FlatButton
-                label="Cancel"
+                label="Close"
                 onTouchTap={this._closeModal}
             />,
             <FlatButton
-                label="Submit"
                 secondary={true}
                 disabled={false}
+                icon={<SendContent />}
                 onTouchTap={this._createAndForwardPkg}
             />
         ];
