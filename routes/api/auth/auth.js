@@ -67,6 +67,7 @@ router.post('',function(req, res, next){
                 msecs: new Date().getTime(),
                 nsecs: 100
             });
+            
             auth_api.addAuthToken(user.split("|")[1],auth_token).then(function(response){
                 var response = response.split("|");
                 res.send({

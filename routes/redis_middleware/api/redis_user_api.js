@@ -43,6 +43,14 @@ var User = {
      * @returns {Promise}
      */
     findByUserName : function(userName){
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName
+        };
+        client.invoke("findByUserName", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function(resolve,reject){
             var KEYS = [userName];
             luaScriptManager.run(SCRIPT_CONSTANTS.FIND_BY_USER_NAME,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,[]).then(function(response){
@@ -54,6 +62,14 @@ var User = {
         });
     },
     isUserNameExists : function(userName){
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'username': userName
+        };
+        client.invoke("isUserNameExists", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function(resolve,reject){
             var ARGV = [userName];
             luaScriptManager.run(SCRIPT_CONSTANTS.IS_USER_EXISTS,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){

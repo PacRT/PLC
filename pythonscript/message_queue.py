@@ -220,17 +220,6 @@ class MessageQueue(object):
         }
 
     def create_doc_link(self, data):
-        """
-        -- KEYS[1] is owner's UID, ARGV[1] is score/timestamp and ARGV[2] is docurl
-        --KEYS[3] - category KEYS[4] - File-name
-        redis.call('ZADD', "owner:"..KEYS[1]..":docs", ARGV[1], ARGV[2])
-        print("m hrere")
-        -- KEYS[2] is issuer's UID, ARGV[1] is score/timestamp and ARGV[2] is docurl
-        redis.call('ZADD', "issuer:"  ..KEYS[2]..":docs", ARGV[1], ARGV[2])
-        redis.call('HMSET', "doc:"..ARGV[2], "owner.uid", KEYS[1], "issuer.uid", KEYS[2],KEYS[3],ARGV[3],KEYS[4],ARGV[4])
-        redis.call('SADD',"docs:"..KEYS[1] ,ARGV[2].."|timestamp|"..ARGV[1].."|category|"..ARGV[3].."|file_name|"..ARGV[4].."|doc_url|".. ARGV[5])
-        print(KEYS[1] .."|".. KEYS[2] .."|".. ARGV[1] .."|".. ARGV[2]  .."|".. KEYS[3]  .."|".. ARGV[3]  .."|".. KEYS[4]  .."|".. ARGV[4])
-        """
         owner_id = data['owner_id']
         score = data['score']
         doc_url = data['doc_url']
@@ -284,14 +273,10 @@ class MessageQueue(object):
         }
 
     def get_doc_by_type(self, data):
-        """
-        local docs_link = redis.call("SSCAN", "docs:"..ARGV[1] ,ARGV[2], "MATCH" , "*category|"..ARGV[3].."*")
-        return docs_link
-        """
         doc_urls = []
         rows = self.cli.select(table_name='docs')
         for row in rows:
-            if rows.category == data['category']:
+            if rows.category == data['category'] and row.owner_id == data['owner_id']:
                 doc_urls.append(row.doc_url)
         return {
             'status': 200,
@@ -301,11 +286,13 @@ class MessageQueue(object):
     def get_user_docs(self):
         docs = []
         rows = self.cli.select(table_name='docs')
+        owner_id = data['user_id']
         for row in rows:
-            docs.append({
-                'score': row.score,
-                'doc_url': row.doc_url
-            })
+            if row.owner_id == owner_id:
+                docs.append({
+                    'score': row.score,
+                    'doc_url': row.doc_url
+                })
         return {
             'status': 200,
             'docs': docs
@@ -333,29 +320,9 @@ class MessageQueue(object):
         pass
 
     def add_pkg(self, data):
-        # """
-        #         for k=1,#docs do
-        #             local doc_url = docs[k]["doc_url"]
-        #             if(user_name ~= false) then
-        #                 local is_doc_exists  = redis.call("SSCAN","inbox:"..user_name,0,"MATCH","*|"..doc_url)
-        #                 if next(is_doc_exists[2]) == nil then
-        #                     local doc_sets_issuer =  redis.call("SSCAN","docs:"..issuer_id,0,"MATCH","*|"..doc_url)
-        #                     print(doc_sets_issuer[2][1])
-        #                     redis.call('SADD',"inbox:"..user_name ,doc_sets_issuer[2][1])
-        #                     print("added packages!!!")
-        #                 else print("do something") end
-        #             else
-        #                 local doc_sets_issuer =  redis.call("SSCAN","docs:"..issuer_id,0,"MATCH","*|"..doc_url)
-        #                 redis.call('SADD',"inbox:"..recepients[j] ,doc_sets_issuer[2][1])
-        #             end
-        #         end
-        #     end
-        # end
-        # return ARGV
-        # """
         issuer_id = data['issuer_id']
         package_ids = data['package_ids']
-        email_id = data['email_id']
+        # email_id = data['email_id']
         for package_id in package_ids:
             rows = self.cli.select(table_name = 'package')
             for row in rows:

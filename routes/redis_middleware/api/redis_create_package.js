@@ -43,6 +43,15 @@ var createFwdPkgAPI = {
     add_package : function(package_ids,issuer_id) {
         var ARGV = [issuer_id, JSON.stringify(package_ids)];
         var KEYS = [];
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        var data = {
+            'issuer_id': issuer_id,
+            'package_ids': package_ids
+        };
+        client.invoke("add_pkg", data, function(error, response) {
+            console.log(response);
+        });
         return new Promise(function (resolve, reject) {
             luaScriptManager.run(SCRIPT_CONSTANTS.ADD_PKG, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function (response) {
                 resolve(response);
