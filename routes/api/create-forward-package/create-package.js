@@ -28,11 +28,13 @@ router.post('/createPackage',function(req,res,next){
             res.send(result);
             client.publish("forwardPackage", JSON.stringify({"packages": result}));
             //publish an event
-            create_forward_package_api.add_package(result,req.headers["user_name"]).then(function(response){
-                res.send(response);
-            },function(error){
-                res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
-            });
+            client.publish("addPackage", JSON.stringify({"packages": result,"user_name" : req.headers["user_name"]}));
+            res.send(response);
+            // create_forward_package_api.add_package(result,req.headers["user_name"]).then(function(response){
+            //     res.send(response);
+            // },function(error){
+            //     res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+            // });
         });
 });
 
