@@ -1,8 +1,7 @@
 import redis
 import json
-
 LUA = '''
-redis.replicate_commands()
+redis.set_repl(redis.REPL_ALL);
 local issuer_id = ARGV[1]
 local pkg_ids = cjson.decode(ARGV[2])
 local checkUserExists = function(email_id)
@@ -72,8 +71,9 @@ def main():
     p.subscribe("addPackage")
     fetcher = r.register_script(LUA)
     for message in p.listen():
-        print(message['data'])
+        print("in add packages!!!")
         if type(message['data']) == str:
+            print("in add packages!!!")
             user_id = json.loads(message['data'])['user_name']
             packages = json.dumps(json.loads(message['data'])['packages'])
             fetcher(keys=[], args = [user_id,packages])
