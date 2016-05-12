@@ -62,7 +62,12 @@ class PacketForward(object):
                 urllib.urlretrieve(url, file_name)
             os.chdir('..')
         os.chdir('..')
-        shutil.make_archive(self.dir_name, 'zip', base_dir=self.dir_name)
+        try:
+            shutil.make_archive(self.dir_name, 'zip', base_dir=self.dir_name)
+        except Exception as e:
+            print e
+            print self.dir_name
+            print self.dir_name == ''
 
     def get_email_settings(self, server):
         msg = MIMEMultipart()
