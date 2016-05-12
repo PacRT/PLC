@@ -1,7 +1,7 @@
 import redis
 import json
 LUA = '''
-redis.set_repl(redis.REPL_ALL);
+redis.replicate_commands()
 local issuer_id = ARGV[1]
 local pkg_ids = cjson.decode(ARGV[2])
 local checkUserExists = function(email_id)
