@@ -102,7 +102,7 @@ class PacketForward(object):
             part = MIMEBase('application', "octet-stream")
             part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
             Encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'self.dir_name + '.zip'))
+            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
             msg.attach(part)
 
             try:
