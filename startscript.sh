@@ -2,8 +2,12 @@
 echo "\nrunning ... script"
 echo $PWD
 echo "Killing Front End and Nodejs process---started"
-kill -9 $(lsof -ti tcp:7979)
-kill -9 $(lsof -ti tcp:3333)
+$react_pid = lsof -ti tcp:7979
+kill -9 $react_pid
+$node_pid = lsof -ti tcp:3333
+kill -9 $node_pid
+$weed_pid = lsof -ti tcp:9333
+kill -9 $weed_pid
 echo "Killing Front End and Nodejs process---ended"
 echo "********************************************************** Starting generate_super_user"
 sh shellscript/generate_super_user.sh
