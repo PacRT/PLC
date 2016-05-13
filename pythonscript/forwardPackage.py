@@ -47,13 +47,13 @@ class PacketForward(object):
 
     def fetch_packages(self):
         try:
-            os.mkdir(self.dir_name)
+            os.mkdir('/tmp/'+self.dir_name)
         except OSError:
             pass
-        os.chdir(self.dir_name)
+        os.chdir('/tmp/'+sself.dir_name)
         for index, package_id in enumerate(self.package_ids):
-            os.mkdir(package_id)
-            os.chdir(package_id)
+            os.mkdir('/tmp/'+package_id)
+            os.chdir('/tmp/'+package_id)
             packages_added = self.packages_added[index]
             for package in packages_added:
                 doc_url = package['doc_url'].split('/')
@@ -63,7 +63,7 @@ class PacketForward(object):
             os.chdir('..')
         os.chdir('..')
         try:
-            shutil.make_archive(self.dir_name, 'zip', base_dir=self.dir_name)
+            shutil.make_archive('/tmp/'+self.dir_name, 'zip', base_dir='/tmp/'+self.dir_name)
         except Exception as e:
             print e
             print self.dir_name
@@ -100,9 +100,9 @@ class PacketForward(object):
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
-            part.set_payload(open(self.dir_name + '.zip', 'rb').read())
+            part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
             Encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(self.dir_name + '.zip'))
+            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'self.dir_name + '.zip'))
             msg.attach(part)
 
             try:
