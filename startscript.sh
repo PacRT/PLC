@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 echo "\nrunning ... script"
 echo $PWD
-
+echo "Killing Front End and Nodejs process---started"
+kill -9 $(lsof -ti tcp:7979)
+kill -9 $(lsof -ti tcp:3333)
+echo "Killing Front End and Nodejs process---ended"
 echo "********************************************************** Starting generate_super_user"
 sh shellscript/generate_super_user.sh
 echo "********************************************************** Ending generate_super_user"
