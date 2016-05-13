@@ -9,12 +9,11 @@ echo "********************************************************** Starting Node a
 echo 'hardik123' | sudo -S command
 
 echo "Killing Front End and Nodejs process---started"
-react_pid = sudo lsof -ti tcp:7979
-kill -9 $react_pid
-node_pid = sudo lsof -ti tcp:3333
-kill -9 $node_pid
-weed_pid = sudo  -ti tcp:9333
-kill -9 $weed_pid
+
+sudo lsof -ti:9333 | xargs kill -9
+sudo lsof -ti:3333 | xargs kill -9
+sudo lsof -ti:7979 | xargs kill -9
+
 echo "Killing Front End and Nodejs process---ended"
 
 sudo weed server -master.port=9333 -volume.port=8080 -dir="/data"
