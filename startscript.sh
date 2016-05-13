@@ -7,8 +7,8 @@ sh shellscript/generate_super_user.sh
 echo "********************************************************** Ending generate_super_user"
 
 echo "********************************************************** Starting Node app and UI"
-
 echo 'hardik123' | sudo -S command
+sudo weed server -master.port=9333 -volume.port=8080 -dir="/data"
 cd pythonscript
 chmod +x confirmemail.py
 chmod +x createUserVmail.py
