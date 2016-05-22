@@ -21,17 +21,26 @@ var Auth = {
             'username': userName,
             'token': authToken
         };
-        client.invoke("addAuthToken", data, function(error, response) {
-            console.log(response);
-        });
         return new Promise(function(resolve,reject){
+            client.invoke("addAuthToken", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
+        });
+
+        /*return new Promise(function(resolve,reject){
             luaScriptManager.run(SCRIPT_CONSTANTS.ADD_TOKEN,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){
                 resolve(response);
             },function(err){
                 console.log(err);
                 reject(err);
             });
-        });
+        });*/
     },
     /**
      * Verifying AuthToken
@@ -69,9 +78,18 @@ var Auth = {
         var data = {
             'username': userName
         };
-        client.invoke("deleteAuthToken", data, function(error, response) {
-            console.log(response);
+        return new Promise(function(resolve,reject){
+            client.invoke("deleteAuthToken", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
+
         var ARGV = [userName];
         return new Promise(function(resolve,reject){
             luaScriptManager.run(SCRIPT_CONSTANTS.DELETE_TOKEN,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(response){

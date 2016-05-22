@@ -2,7 +2,7 @@ var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_FOLDER = "user";
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["USER"];
 var zerorpc = require("zerorpc");
-
+var _ = require("underscore");
 
 var User = {
     /**
@@ -19,14 +19,20 @@ var User = {
         var data = user.map(function(value){
             return value.toString();
         });
-        client.invoke("signUp", data, function(error, response) {
-            console.log('veraun');
-            console.log(response);
-            console.log(response[0]);
-            console.log(response[1]);
+        return new Promise(function (resolve,reject) {
+            client.invoke("signUp", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
 
-        return new Promise(function (resolve,reject) {
+
+       /* return new Promise(function (resolve,reject) {
             console.log(user);
             var ARGV = user.map(function(value){return value.toString()});
             luaScriptManager.run(SCRIPT_CONSTANTS.REGISTRATION,SCRIPT_CONSTANTS.SCRIPT_FOLDER,[],ARGV).then(function(err,response){
@@ -35,7 +41,7 @@ var User = {
                 console.log(err);
                 reject(err);
             });
-        });
+        });*/
     },
     /**
      * Find User Name by Id
@@ -48,10 +54,19 @@ var User = {
         var data = {
             'username': userName
         };
-        client.invoke("findByUserName", data, function(error, response) {
-            console.log(response);
-        });
         return new Promise(function(resolve,reject){
+            client.invoke("findByUserName", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
+        });
+
+        /*return new Promise(function(resolve,reject){
             var KEYS = [userName];
             luaScriptManager.run(SCRIPT_CONSTANTS.FIND_BY_USER_NAME,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,[]).then(function(response){
                 resolve(response);
@@ -59,7 +74,7 @@ var User = {
                 console.log(err);
                 reject(err);
             });
-        });
+        });*/
     },
     isUserNameExists : function(userName){
         var client = new zerorpc.Client();

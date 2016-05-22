@@ -25,10 +25,15 @@ router.post("/isAuthenticationExists",auth_checker,function(req,res){
 });
 router.post(API_CONSTANTS.USER_REGISTER,function(req,res){
     var user = req.body;
+    console.info("###############");
+    console.info(user);
     async.waterfall([
         function(cb){
             bcrypt.genSalt(10, function(err, salt) {
+
                 bcrypt.hash(user[3], salt, function(err, hash) {
+                    console.info(err);
+                    console.info(hash);
                     if(err) return cb(err,'')
                     cb(null,hash)
                 });
@@ -38,11 +43,11 @@ router.post(API_CONSTANTS.USER_REGISTER,function(req,res){
             user[3] = passwordHash;
             user_api.registerUser(user).then(function(response){
                 console.log(response);
-                client.publish("RegReqConfEmail", "{\"name\" : \"" + user.name + "\", \"username\": \"" + user.username + "\", \"email\": \"" + user.email + "\", \"status\" : \"" + user.status + "\" }");
-                client.publish("createUserDirectory","{\"user_name\" :\"" + response.split(":")[0]+"\"}");
+                // client.publish("RegReqConfEmail", "{\"name\" : \"" + user.name + "\", \"username\": \"" + user.username + "\", \"email\": \"" + user.email + "\", \"status\" : \"" + user.status + "\" }");
+                // client.publish("createUserDirectory","{\"user_name\" :\"" + response.split(":")[0]+"\"}");
                 res.send(true)
             },function(error){
-                res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
+                res.status(600).send(JSON.stringify({error:true,"errorMsg": error["error"]}));
             });
         }
     ],function(err, result){

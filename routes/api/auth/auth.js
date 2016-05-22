@@ -11,6 +11,7 @@ var auth_api = require('../../redis_middleware/api/redis_auth_api');
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
 var uuid = require('node-uuid');
+var _ = require('underscore');
 /**
  * need to change this
  * @type {string}
@@ -23,7 +24,6 @@ passport.use('local-passport',new LocalStrategy({
     passwordField: 'password',
     session: false
     },function(user_name, password, done) {
-    console.log("");
     process.nextTick(function() {
         user_api.findByUserName(user_name).then(function(response){
             return done(null,response);
@@ -36,21 +36,15 @@ passport.use('local-passport',new LocalStrategy({
 
 router.post('',function(req, res, next){
     passport.authenticate('local-passport', function(err, user, info) {
-        if (!user && err.indexOf("lua") == -1) {
+        console.log(user);
+        if (!_.has(user,"user")) {
             return res.send({
                 error: true,
                 errorMsg: "Incorrect Username or Password."
             });
         }
-        if (err) {  return res.send({error:true,"errorMsg":error_codes[err]}) }
-        var redis_data = user.split("|");
-        if(redis_data[1] != req.body.user_name){
-            return res.send({
-                error: true,
-                errorMsg: "Incorrect Username or Password."
-            });
-        }
-        bcrypt.compare(req.body.password, redis_data[2], function(err, result) {
+        if (_.has(user,"error")) {  return res.send({error:true,"errorMsg": user["error"]}) }
+        bcrypt.compare(req.body.password, user["user"]["password"], function(err, result) {
             if(result){
                 return generateAuthToken()
             }else{
@@ -61,18 +55,11 @@ router.post('',function(req, res, next){
             }
         });
         function generateAuthToken(){
-            var auth_token = uuid.v1({
-                node: [0x01, 0xef, 0xa1, 0xcd, 0x89, 0xab],
-                clockseq: 0x3aaa,
-                msecs: new Date().getTime(),
-                nsecs: 100
-            });
-            
-            auth_api.addAuthToken(user.split("|")[1],auth_token).then(function(response){
-                var response = response.split("|");
+            auth_api.addAuthToken(user["user"]["username"]).then(function(response){
+                console.log("asdfasdfasdfasdfdsaf");
                 res.send({
-                    "user_name" : response[0],
-                    "api_token" : response[1]
+                    "user_name" : user["user"]["username"],
+                    "api_token" : response["auth_token"]
                 });
             },function(error){
                 res.send({error:true,"errorMsg":error_codes[error]})

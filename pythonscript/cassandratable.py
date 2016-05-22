@@ -102,7 +102,7 @@ cs_cli.create_table(
     table_name = 'authentication',
     columns = {
         'username': 'text',
-        'auth_token': 'uuid'
+        'auth_token': 'text'
     },
     primary_key = 'username'
 )
