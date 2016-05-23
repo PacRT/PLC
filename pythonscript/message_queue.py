@@ -63,58 +63,60 @@ class MessageQueue(object):
         }
 
     def createDoc(self, data):
-        id = str(uuid.uuid4())
-        category = self.stringify(data["category"])
-        file_name = self.stringify(data["filename"])
-        doc_url = self.stringify(data["doc_url"])
-        owner_id = self.stringify(data["owner_id"])
-        issuer_id = self.stringify(data["issuer_id"])
-        score = self.stringify(data["score"])
-        doc_link = self.stringify(data["doc_link"])
+        category = data["category"]
+        file_name = data["file_name"]
+        doc_url = data["doc_url"]
+        owner_id = data["owner_id"]
+        issuer_id = data["issuer_id"]
+        score = data["score"]
+        doc_link = data["doc_link"]
         # Insert in owner table
         self.cli.insert(
             table_name = "owner",
             data = {
-                "id": id,
                 "owner_id": owner_id,
                 "score": score,
                 "doc_url": doc_url
-            }
+            },
+            uuid = True
         )
         # Insert in issuer table
         self.cli.insert(
             table_name = "issuer",
             data = {
-                "id": id,
+
                 "issuer_id": issuer_id,
                 "score": score,
                 "doc_url": doc_url
-            }
+            },
+            uuid = True
         )
         # Insert in doc table
         self.cli.insert(
             table_name = "doc",
             data = {
-                "id": id,
                 "owner_id": owner_id,
                 "issuer_id": issuer_id,
                 "doc_url": doc_url,
                 "category": category,
-                "filename": file_name
-            }
+                "filename": file_name,
+                "doc_link" :  doc_link
+            },
+            uuid = True
         )
         # Insert in docs table
         self.cli.insert(
             table_name = "docs",
             data = {
-                "id": id,
                 "owner_id": owner_id,
                 "score": score,
                 "category": category,
                 "filename": file_name,
                 "issuer_id": issuer_id,
-                "doc_url": doc_url
-            }
+                "doc_url": doc_url,
+                "doc_link" : doc_link
+            },
+            uuid = True
         )
         return {
             "status": 200
@@ -239,48 +241,47 @@ class MessageQueue(object):
         doc_url = data["doc_url"]
         issuer_id = data["issuer_id"]
         category = data["category"]
-        file_name = data["filename"]
-        uid = str(uuid.uuid4())
+        file_name = data["file_name"]
         self.cli.insert(
             table_name = "owner",
             data = {
-                "id": uid,
                 "owner_id": owner_id,
                 "score": score,
                 "doc_url": doc_url
-            }
+            },
+           uuid = True
         )
         self.cli.insert(
             table_name = "issuer",
             data = {
-                "id": uid,
                 "issuer_id": issuer_id,
                 "score": score,
                 "doc_url": doc_url
-            }
+            },
+           uuid = True
         )
         self.cli.insert(
             table_name = "doc",
             data = {
-                "id": uid,
                 "owner_id": owner_id,
                 "doc_url": doc_url,
                 "issuer_id": issuer_id,
                 "category": category,
                 "filename": file_name
-            }
+            },
+           uuid = True
         )
         self.cli.insert(
             table_name = "docs",
             data = {
-                "id": uid,
                 "owner_id": owner_id,
                 "score": score,
                 "category": category,
                 "filename": file_name,
                 "issuer_id": issuer_id,
                 "doc_url": doc_url
-            }
+            },
+           uuid = True
         )
         return {
             "status": 200
@@ -297,33 +298,35 @@ class MessageQueue(object):
             "doc_urls": doc_urls
         }
 
-    def get_user_docs(self):
-        docs = []
+    def get_user_docs(self, data):
+        docs_link = []
+        files_name = []
         rows = self.cli.select(table_name="docs")
         owner_id = data["user_id"]
+        print(owner_id);
         for row in rows:
-            if row.owner_id == owner_id:
-                docs.append({
-                    "score": row.score,
-                    "doc_url": row.doc_url
-                })
+            print(row.owner_id)
+            if str(row.owner_id) == owner_id:
+                docs_link.append(row.doc_url)
+                files_name.append(row.filename)
+        result = {
+         "docs_link": docs_link,
+         "files_name" : files_name
+        }
         return {
             "status": 200,
-            "docs": docs
+            "result" : result
         }
 
     def get_doc_metadata(self, data):
         doc_url = data["doc_url"]
+        doc = {}
         rows = self.cli.select(table_name = "doc")
         for row in rows:
-            if row.doc_url == doc_url:
+            if row.doc_link == doc_url:
                 doc = {
-                    "id": row.id,
-                    "owner_id": row.owner_id,
-                    "issuer_id": row.issuer_id,
-                    "doc_url": row.doc_url,
-                    "category": row.category,
-                    "filename": row.filename
+                    "Category": row.category,
+                    "Document Name": row.filename
                 }
         return {
             "doc": doc,
