@@ -40,15 +40,18 @@ var DEV_CONSTANTS = {
 var vendor_js_path = [
     "./node_modules/pdfjs-dist/build/pdf.combined.js",
     root_js_path + "jquery/dist/jquery.min.js",
+    "./node_modules/materialize-tags/dist/js/materialize-tags.min.js",
     root_js_path + "react/react.min.js",
     root_js_path + "react/react-dom.min.js",
     root_js_path + "react/react-dom-server.min.js",
-    root_js_path + "react/react-with-addons.min.js"
+    root_js_path + "react/react-with-addons.min.js",
+
 ];
 
 var vendor_css_path = [
     root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
     root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
+   "./node_modules/materialize-tags/dist/css/materialize-tags.min.css"
 ];
 
 var app_css_path = [

@@ -8,7 +8,8 @@ var FlatButton = require('material-ui/lib/flat-button');
 var Dialog = require('material-ui/lib/dialog');
 var TextField = require('material-ui/lib/text-field');
 var SendContent = require('material-ui/lib/svg-icons/content/send');
-
+var Tags = require('materialize-tags');
+console.log(Tags);
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {
@@ -42,6 +43,10 @@ var ForwardPackageModal = React.createClass({
         createForwardPkgActions.createPackages(packages);
     },
     render : function(){
+        console.log("rendering");
+        setTimeout(function(){
+            $('#recipients').materialtags({});
+        },500)
         var  actions = [
             <FlatButton
                 label="Close"
@@ -66,10 +71,14 @@ var ForwardPackageModal = React.createClass({
                 actions={actions}
                 modal={true}
                 open={this.state.is_modal_open}>
-                {
-                    DialogBody
-                }
+                <div class="input-field">
+                    <label for="tags" class="hola">Email Ids</label>
+                    <input type="text" id="recipients" value="" data-role="materialtags" />
+                </div>
+
+
             </Dialog>
+
         )
 
     }
