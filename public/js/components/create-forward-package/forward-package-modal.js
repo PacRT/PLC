@@ -9,6 +9,7 @@ var Dialog = require('material-ui/lib/dialog');
 var TextField = require('material-ui/lib/text-field');
 var SendContent = require('material-ui/lib/svg-icons/content/send');
 var Tags = require('materialize-tags');
+
 console.log(Tags);
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
@@ -36,9 +37,8 @@ var ForwardPackageModal = React.createClass({
     },
     _createAndForwardPkg : function(){
         var packages = this.state.store.packages;
-        var recipients = this.refs.recipients.getValue().split(";");
         packages.map(function(package){
-            package["recepients"] = recipients;
+            package["recepients"] = $("#recipients").materialtags('items');
         });
         createForwardPkgActions.createPackages(packages);
     },
