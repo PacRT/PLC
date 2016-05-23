@@ -1,6 +1,8 @@
 import zerorpc, uuid, json
 from cassandraclient import CassandraClient
-
+from cql_builder.builder import QueryBuilder
+from forwardPackage import PacketForward
+from cql_builder.condition import all_eq,eq
 
 class MessageQueue(object):
     def __init__(self):
@@ -15,22 +17,43 @@ class MessageQueue(object):
         status = data[6]
         token_id = data[7]
         id = uuid.uuid4()
-        rows = self.cli.select(table_name = "invitation", columns = ["token_id"])
-        token_ids = []
-        for row in rows:
-            token_ids.append(row[0])
-        if token_id not in token_ids:
+        select = (QueryBuilder.select_from('invitation')
+                    .columns('email', 'token_id')
+                    .where(all_eq(
+                            email= email,
+                            token_id= token_id
+                      ))
+        )
+        query,args = select.statement()
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        if not rows:
             return {
                 "error": "Invalid signup link.",
                 "status": 400
             }
-        rows = self.cli.select(table_name = "user")
-        for row in rows:
-            if row.email == email or row.username == username:
-                return {
-                    "error": "Invalid email/username",
-                    "status": 400
-                }
+        select = (QueryBuilder.select_from('user')
+                            .columns('email', 'username')
+                            .where(eq('email', email))
+                )
+        query,args = select.statement()
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        if rows:
+            return {
+                "error": "Email Already Exits",
+                "status": 400
+            }
+
+        select = (QueryBuilder.select_from('user')
+                 .columns('email', 'username')
+                 .where(eq('username', username))
+        )
+        query,args = select.statement()
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        if rows:
+            return {
+                "error": "UserName Already Exits",
+                "status": 400
+            }
 
         self.cli.insert(
             table_name = "user",
@@ -204,33 +227,26 @@ class MessageQueue(object):
         username = data["username"]
         package = json.loads(data["package"])
         package_ids = []
-        rows = self.cli.select(table_name = "packages")
-        for row in rows:
-            if row.username == username:
-                package_ids.append(row.package_ids)
-        package_ids.append(package["package_id"])
-        package_ids = ", ".join(package_ids)
-        self.cli.insert(
-            table_name = "packages",
-            data = {
-                "username": self.stringify(username),
-                "package_ids": self.stringify(package_ids)
-            }
+        package_id = uuid.uuid4();
+        insert = (QueryBuilder.insert_into("package")
+            .values(
+                id = uuid.uuid4(),
+                package_type = package["package_type"],
+                packages_added = json.dumps(package["packages_added"]),
+                package_id = package_id,
+                recepients = package["recepients"],
+                sender_id = username
+            )
         )
-        package_id = package["package_id"]
-        print package
-        print type(package)
-        print self.stringify(package["recepients"])
-        self.cli.insert(
-            table_name = "package",
-            data = {
-                "id": str(uuid.uuid4()),
-                "package_type": self.stringify(package["package_type"]),
-                "packages_added": self.stringify(package["packages_added"]),
-                "recepients": self.stringify(package["recepients"]),
-                "package_id": self.stringify(package_id)
-            }
-        )
+        query, args = insert.statement();
+        self.cli.queryBuilderInsert(query,args);
+
+
+        ##Forward Package
+        pkg_forwarder = PacketForward(package_id)
+        pkg_forwarder.get_pkg()
+        pkg_forwarder.fetch_packages()
+        pkg_forwarder.forward_packet()
         return {
             "status": 200
         }

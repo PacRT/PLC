@@ -1,5 +1,6 @@
 from cassandra import AlreadyExists
 from cassandra.cluster import Cluster
+from cql_builder.builder import QueryBuilder
 #from cassandra.query import SimpleStatement
 
 
@@ -55,3 +56,9 @@ class CassandraClient(object):
         print(query)
         rows = self.session.execute(query)
         return rows
+
+    def queryBuilderInsert(self, query, args):
+        return self.session.execute(query,args)
+
+    def queryBuilderSelect(self,query, args):
+        return self.session.execute(query, args)

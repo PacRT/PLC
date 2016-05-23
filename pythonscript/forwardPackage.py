@@ -12,6 +12,9 @@ from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 from email import Encoders
 from cassandraclient import CassandraClient
+from cql_builder.builder import QueryBuilder
+from cql_builder.condition import eq
+
 
 GMAIL_USERNAME = 'paperlessclub91@gmail.com'
 GMAIL_PASSWORD = 'paperlessclub'
@@ -33,31 +36,45 @@ p = r.pubsub()
 
 
 class PacketForward(object):
-    def __init__(self, packages, fetcher):
+    def __init__(self, package_id):
+        self.cli = CassandraClient();
         self.package_ids = []
+        self.pkg_id = package_id;
         self.packages_added = []
-        for package_id in packages:
-            resp = json.loads(fetcher(keys=[package_id], args = []))
-            if not resp['packages_added']:
-                pass
-            self.recepients = resp['recepients']
-            self.package_ids.append(package_id)
-            self.packages_added.append(resp['packages_added'])
+        ##add Cassandra
         self.dir_name = 'package-' + str(ord(os.urandom(1)))
+
+
+#         self.recepients = resp['recepients']
+#         self.package_ids.append(package_id)
+#         self.packages_added.append(resp['packages_added'])
+
+    def get_pkg(self):
+        select = (QueryBuilder.select_from('package')
+                    .columns('package_type', 'packages_added', 'recepients','sender_id')
+                    .where(eq('package_id',self.pkg_id))
+                )
+        query,args = select.statement()
+        self.packages_added = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        for pkg in self.packages_added:
+            package_type,packages_added,recepients,sender_id = pkg
+            self.packages_added = packages_added
+            self.recepients = recepients
 
     def fetch_packages(self):
         try:
             os.mkdir('/tmp/'+self.dir_name)
         except OSError:
             pass
-        os.chdir('/tmp/'+sself.dir_name)
+        os.chdir('/tmp/'+self.dir_name)
         for index, package_id in enumerate(self.package_ids):
             os.mkdir('/tmp/'+package_id)
             os.chdir('/tmp/'+package_id)
             packages_added = self.packages_added[index]
             for package in packages_added:
-                doc_url = package['doc_url'].split('/')
-                url = 'http://paperlessclub.org:7979/' + doc_url[-1]
+                doc_url = package['docs_link'].split('/')
+                url = 'http://localhost:7979/' + doc_url[-1]
+                print(url)
                 file_name = package['file_name']
                 urllib.urlretrieve(url, file_name)
             os.chdir('..')
@@ -86,8 +103,11 @@ class PacketForward(object):
 
     def forward_packet(self):
         for recepient in self.recepients:
+            print("&&&&&&&&&&&&&&&&&&&")
+            print(recepient)
+            print("&&&&&&&&&&&&&&&&&&&")
             id = str(uuid.uuid4())
-            self.add_to_redis(id, recepient)
+            self.add_invitation(id, recepient)
             TO = recepient
             s, msg = self.get_email_settings(server='GMAIL')
             msg['To'] = TO
@@ -112,7 +132,7 @@ class PacketForward(object):
             s.close()
 
     @staticmethod
-    def add_to_redis(id, email):
+    def add_invitation(id, email):
         print id
         print email
         cli = CassandraClient()
@@ -123,19 +143,16 @@ class PacketForward(object):
                     'error': 'Email already exists.',
                     'status': 400
                 }
-        cli.insert(
-            table_name = 'invitation',
-            data = {
-                'id': str(uuid.uuid4()),
-                'email': email,
-                'token_id': id
-            }
-        )
-        query = "INSERT INTO {0} (email, name, password, username, status, id) VALUES {1}".format(table_name, values)
-        store_invitation = '''redis.call('SET', "invitation:"..KEYS[1].. ":email", KEYS[2])'''
-        fetcher = r.register_script(store_invitation)
-        fetcher(keys=[id, email], args=[])
 
+        insert = (QueryBuilder.insert_into("invitation")
+            .values(
+                id = uuid.uuid4(),
+                email = email,
+                token_id = id
+            )
+        )
+        query, args = insert.statement();
+        cli.queryBuilderInsert(query,args);
 
 def main():
     p.subscribe("forwardPackage")

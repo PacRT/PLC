@@ -22,17 +22,26 @@ var createFwdPkgAPI = {
             'username': userName,
             'package': package
         };
-        client.invoke("createPackage", data, function(error, response) {
-            console.log(response);
+
+        return new Promise(function(resolve,reject){
+            client.invoke("createPackage", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
-        return new Promise(function (resolve, reject) {
+       /* return new Promise(function (resolve, reject) {
             luaScriptManager.run(SCRIPT_CONSTANTS.CREATE_PKG, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function (response) {
                 resolve(response);
             }, function (err) {
                 console.log(err);
                 reject(err);
             });
-        });
+        });*/
     },
     /**
      * Add Package to User's Docs
