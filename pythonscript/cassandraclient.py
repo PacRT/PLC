@@ -17,7 +17,12 @@ class CassandraClient(object):
         for value in data.values():
             values.append(str(value))
         columns = ','.join(data.keys())
-        params = [ '\'' + x + '\'' for x in data.values() ]
+        params = []
+        for x in data.values():
+            if isinstance( x, int ):
+                params.append('\'' + str(x) + '\'')
+            else:
+                params.append('\'' + x + '\'')
         values = ','.join(params)
         if uuid:
             columns = columns + ',' + 'id'
