@@ -9,7 +9,6 @@ var Checkbox = require('material-ui/lib/checkbox');
 var List = require('material-ui/lib/lists/list');
 var Tooltip = require('material-ui/lib/tooltip');
 var Col = require('react-bootstrap/lib/Col');
-var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var CreateForwardPkgStore = require('../../stores/app-create-forward-package-store');
 var RaisedButton = require('material-ui/lib/raised-button');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
