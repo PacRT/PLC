@@ -129,8 +129,9 @@ cs_cli.create_table(
     columns = {
         'package_type': 'text',
         'packages_added': 'text',
-        'recepients': 'text',
+        'recepients': 'list<text>',
         'package_id': 'uuid',
+        'sender_id' : 'text',
         'id': 'uuid'
     },
     primary_key = 'id'
