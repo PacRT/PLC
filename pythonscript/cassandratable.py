@@ -81,7 +81,8 @@ cs_cli.create_table(
         'issuer_id': 'text',
         'doc_url': 'text',
         'category': 'text',
-        'filename': 'text'
+        'filename': 'text',
+        'doc_link' : 'text'
     },
     primary_key = 'id'
 )
@@ -94,7 +95,8 @@ cs_cli.create_table(
         'category': 'text',
         'filename': 'text',
         'issuer_id': 'text',
-        'doc_url': 'text'
+        'doc_url': 'text',
+        'doc_link' : 'text'
     },
     primary_key = 'id'
 )
