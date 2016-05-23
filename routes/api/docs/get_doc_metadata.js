@@ -10,14 +10,10 @@ router.get('/metadata/:vs/:prt/:fid',function(req, res, next){
     console.log(req.params.doc_url);
     var doc_url = "http://" + req.params.vs + ":" + req.params.prt + "/" + req.params.fid;
     docs_api.getDocMetadata(doc_url).then(function(response){
-        var meta_keys = [];
-        var meta_values = [];
-        response.map(function(ele,index){
-            index%2 == 0 ? meta_keys.push(ele) : meta_values.push(ele)
-        });
+
         var meta_data = {
-            "meta_keys" : meta_keys,
-            "meta_values" : meta_values
+            "meta_keys" : _.keys(response.doc),
+            "meta_values" :_.values(response.doc)
         }
         res.send(meta_data)
     },function(error){

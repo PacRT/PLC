@@ -42,18 +42,27 @@ var upload_doc = {
      * get docs associated with User
      * @param user_id
      */
-    get_user_docs : function(user_id,cursor){
-        var ARGV = [user_id,cursor];
-        var KEYS = [];
+    get_user_docs : function(user_id){
+        /*var ARGV = [user_id,cursor];
+        var KEYS = [];*/
         var client = new zerorpc.Client();
         client.connect("tcp://127.0.0.1:4242");
         var data = {
             'user_id': user_id
         };
-        client.invoke("get_user_docs", data, function(error, response) {
-            console.log(response);
+        return new Promise(function (resolve, reject) {
+            client.invoke("get_user_docs", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
-        return new Promise(
+
+        /*return new Promise(
             function (resolve, reject) {
                 luaScriptManager.run(SCRIPT_CONSTANTS.GET_USER_DOCS,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
                     resolve(err,response);
@@ -62,7 +71,7 @@ var upload_doc = {
                     reject(err);
                 });
             }
-        )
+        )*/
     },
     /**
      * Get metadata associated with Documents
@@ -77,10 +86,18 @@ var upload_doc = {
         var data = {
             'doc_url': doc_url
         };
-        client.invoke("get_doc_metadata", data, function(error, response) {
-            console.log(response);
+        return new Promise(function (resolve, reject) {
+            client.invoke("get_doc_metadata", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
-        return new Promise(
+        /*return new Promise(
             function (resolve, reject) {
                 luaScriptManager.run(SCRIPT_CONSTANTS.GET_DOC_METADATA,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
                     resolve(err,response);
@@ -89,7 +106,7 @@ var upload_doc = {
                     reject(err);
                 });
             }
-        )
+        )*/
     },
     /**
      * Update metadata associated with documents

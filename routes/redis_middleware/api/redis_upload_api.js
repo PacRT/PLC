@@ -20,7 +20,7 @@ var upload_doc = {
         client.connect("tcp://127.0.0.1:4242");
         var data = {
             'owner_id': owner_id,
-            'user_id': user_id,
+            'issuer_id': user_id,
             'score': timestamp,
             'doc_link': doc_link,
             'category': category,
@@ -29,10 +29,18 @@ var upload_doc = {
         };
         // var data = [owner_id, user_id, timestamp, doc_link, category, file_name, doc_url];
         console.log(data);
-        client.invoke("createDoc", data, function(error, response) {
-            console.log(response);
+        return new Promise(function(resolve,reject){
+            client.invoke("createDoc", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
-        var KEYS = [owner_id,user_id,"category","file_name"];
+       /* var KEYS = [owner_id,user_id,"category","file_name"];
         var ARGV = [timestamp, doc_link, category, file_name, doc_url];
         return new Promise(function (resolve,reject) {
             luaScriptManager.run(SCRIPT_CONSTANTS.CREATE_DOC_LINK,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
@@ -41,7 +49,7 @@ var upload_doc = {
                 console.log(err);
                 reject(err);
             });
-        });
+        });*/
     }
 
 };
