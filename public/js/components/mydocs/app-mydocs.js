@@ -4,6 +4,8 @@
 /** @jsx React.DOM */
 var React = require('react');
 var SearchBarApp = require('./app-searchbar');
+var ActionBarApp = require('./app-action-bar');
+
 var DocGrid = require('./app-doc-grid');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
@@ -26,6 +28,7 @@ var MyDocs = React.createClass({
                     </Grid>
                     <DocPreview/>
                 <EditMetaData/>
+                <ActionBarApp title="Take An Action"/>
             </div>
         )
     }

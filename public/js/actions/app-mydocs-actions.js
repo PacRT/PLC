@@ -20,6 +20,12 @@ var MyDocActions = {
             });
 
         });
+    },
+    updateDocSelection : function(selected_tiles){
+        AppDispatcher.handleViewAction({
+            actionType : AppConstants["DOCS"]["UPDATE_DOC_SELECTION"],
+            selected_docs : selected_tiles
+        })
     }
 }
 

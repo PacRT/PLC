@@ -151,6 +151,11 @@ var DocTile = React.createClass({
     },
     _getMyDocsView : function(){
         var styles = this.getStyles();
+        if(this.props.isSelected){
+            styles["tile_label"]["backgroundColor"] = "#4285f4" ;
+            styles["text_field_style"]["color"] = grey200;
+            styles["tile_label"]["opacity"] = 0.95;
+        }
         return (
             <Paper>
                 <Col md={6} xs={12}>
@@ -199,7 +204,7 @@ var DocTile = React.createClass({
     },
     render: function () {
         var styles = this.getStyles();
-        if(this.props.isSelected && this.props.isPreviewMode){
+        if(this.props.isSelected){
             styles["tile_label"]["backgroundColor"] = "black" ;
             styles["text_field_style"]["color"] = grey200;
             styles["tile_label"]["opacity"] = 0.7;
