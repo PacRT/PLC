@@ -11,7 +11,8 @@ var APP = React.createClass({
     },
     render: function () {
       var style={
-          "marginTop":"50px"
+          "paddingTop" : "2em",
+          "marginTop"  : "2em"
       }
     return (
       <div>
