@@ -24,6 +24,13 @@ var DocPreviewStore  = ObjectAssign({},EventEmitter.prototype,{
     },
     isPreviewOpen : function(){
         return _is_preview_open;
+    },
+    resetDocPreviewStore : function(){
+        _doc_preview_store = {
+            "document_url" : "",
+            "document_title" : ""
+        };
+       _is_preview_open = false;
     }
 
 });

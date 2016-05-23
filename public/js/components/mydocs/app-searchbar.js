@@ -13,19 +13,15 @@ var  SearchBarApp = React.createClass({
             <div style={{paddingLeft:'44px'}}>
                 <Toolbar>
                     <ToolbarTitle text={this.props.title} float="left" />
-                    {/*
+
                       <ToolbarGroup float="right">
                         <ToolbarSeparator />
                         <TextField
-                            hintText="Search..."
+                            hintText="Search In My Docs"
+                            style={{"paddingLeft": "1em"}}
                         />
-                        <DropDownMenu className="pull-right" value={1}>
-                            <MenuItem value={1} primaryText="File Name" />
-                            <MenuItem value={2} primaryText="Category" />
-                            <MenuItem value={3} primaryText="Date" />
-                        </DropDownMenu>
                     </ToolbarGroup>
-                    */}
+                    
                 </Toolbar>
             </div>
         )

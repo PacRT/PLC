@@ -104,9 +104,9 @@ var AppDocMetaData = React.createClass({
         if (_.isEmpty(this.state.store[this.props.doc_url])) {
             MetaDataJSX = <CircularProgress style={styles.circularProgressStyle}/>
         } else if (!_.isUndefined(this.state.store[this.props.doc_url]) && this.state.store[this.props.doc_url]["_keys"].length) {
-            var keys = this.state.store[this.props.doc_url]["_keys"].slice(2);
+            var keys = this.state.store[this.props.doc_url]["_keys"]
             keys[keys.indexOf('file_name')] = 'name';
-            var values = this.state.store[this.props.doc_url]["_values"].slice(2);
+            var values = this.state.store[this.props.doc_url]["_values"]
             var doc_url = this.props.doc_url;
             var last_index = values.length - 1;
 

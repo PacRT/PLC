@@ -17,6 +17,7 @@ var DocPreview = React.createClass({
         DocPreviewStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {
+        DocPreviewStore.resetDocPreviewStore();
         DocPreviewStore.removeChangeListener(this._onChange);
     },
     _onChange: function() {
