@@ -20,7 +20,7 @@ var ActionRemainder = React.createClass({
      * @boolean openModel
      */
     handleActionRemainder : function(openModel){
-        ActionRemainderActions.openModal(openModel);
+        //ActionRemainderActions.openModal(openModel);
     },
     render: function () {
         var list_style = {

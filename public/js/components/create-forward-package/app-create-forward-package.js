@@ -15,6 +15,7 @@ var CreateForwardPkgActions = require('../../actions/app-create-forward-package-
 var ForwardPkgModal = require('./forward-package-modal');
 var SelectGridContainer = require("./app-select-grid-container");
 var DocTile = require("../mydocs/app-doc-tile");
+var categories = require('../../constants/app-upload-categories-constants');
 
 var CreatePackageApp = React.createClass({
     getInitialState: function () {
@@ -95,7 +96,7 @@ var CreatePackageApp = React.createClass({
         this.setState({
             package_type: value
         });
-        CreateForwardPkgActions.getDocsByType(this.state.cursor, 3);
+        CreateForwardPkgActions.getDocsByType(this.state.cursor, value);
     },
     handleChange: function (value) {
         this.setState({
@@ -149,10 +150,7 @@ var CreatePackageApp = React.createClass({
     },
     render: function () {
         var styles = this._getStyles();
-        var fruit = [
-            "Tax Package",
-            "Education Package"
-        ];
+        var packages = categories;
         var _this = this;
         var ListedItems = [];
         _.each(this.state.packages, function (package, index) {
@@ -188,7 +186,7 @@ var CreatePackageApp = React.createClass({
                             style={styles.search_bar}
                             floatingLabelText="Search Package Types"
                             filter={AutoComplete.fuzzyFilter}
-                            dataSource={fruit}
+                            dataSource={packages}
                             searchText={this.state.package_type}
                         />
 

@@ -1,4 +1,3 @@
-import requests
 import urllib
 import os
 import shutil
@@ -48,22 +47,27 @@ class PacketForward(object):
 
     def fetch_packages(self):
         try:
-            os.mkdir(self.dir_name)
+            os.mkdir('/tmp/'+self.dir_name)
         except OSError:
             pass
-        os.chdir(self.dir_name)
+        os.chdir('/tmp/'+sself.dir_name)
         for index, package_id in enumerate(self.package_ids):
-            os.mkdir(package_id)
-            os.chdir(package_id)
+            os.mkdir('/tmp/'+package_id)
+            os.chdir('/tmp/'+package_id)
             packages_added = self.packages_added[index]
             for package in packages_added:
                 doc_url = package['doc_url'].split('/')
-                url = 'http://localhost:8080/' + doc_url[-1]
+                url = 'http://paperlessclub.org:7979/' + doc_url[-1]
                 file_name = package['file_name']
                 urllib.urlretrieve(url, file_name)
             os.chdir('..')
         os.chdir('..')
-        shutil.make_archive(self.dir_name, 'zip', base_dir=self.dir_name)
+        try:
+            shutil.make_archive('/tmp/'+self.dir_name, 'zip', base_dir='/tmp/'+self.dir_name)
+        except Exception as e:
+            print e
+            print self.dir_name
+            print self.dir_name == ''
 
     def get_email_settings(self, server):
         msg = MIMEMultipart()
@@ -92,13 +96,13 @@ class PacketForward(object):
             If you like to access the assets beyond these limits, please create a free PLC account using the link below and
             continue accessing these assets while experiencing a rich set of other features securely on the site.
             '''
-            body = body + "http://localhost:7979/registration#/{0}".format(id)
+            body = body + "http://paperlessclub.org:7979/registration#/{0}".format(id)
             msg.attach(MIMEText(body, 'plain'))
             # Attach file
             part = MIMEBase('application', "octet-stream")
-            part.set_payload(open(self.dir_name + '.zip', 'rb').read())
+            part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
             Encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(self.dir_name + '.zip'))
+            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
             msg.attach(part)
 
             try:

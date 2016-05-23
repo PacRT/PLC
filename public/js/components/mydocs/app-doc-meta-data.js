@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 3/4/16.
  */
-var React = require('React');
+var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var MetaDataActions = require('../../actions/app-metadata-actions');
 var MetaDataStore = require('../../stores/app-metadata-store');

@@ -15,8 +15,9 @@ router.get('/:cursor/:category',function(req, res, next){
         var file_name = [];
         response[1].map(function(link){
             file_name.push(link.substring(link.indexOf("|file_name|") + 11,link.indexOf("|doc_url|")));
-            docs_links.push(link.split("|timestamp|")[0]);
+            docs_links.push(link.split("|doc_url|")[1]);
         });
+        console.info(docs_links);
         var result1 = {
             "cursor" : response[0],
             "docs_link" : docs_links,
