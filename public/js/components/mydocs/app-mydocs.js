@@ -21,14 +21,15 @@ var MyDocs = React.createClass({
                 <SearchBarApp title="My Docs"/>
                     <Grid>
 
-                        <Col md={12} xs={12}>
+                        <Col md={12} xs={12} style={{"paddingBottom" : "5em"}}>
                             <DocGrid view="MY_DOCS"/>
+                            <ActionBarApp title="Take An Action"/>
                         </Col>
 
                     </Grid>
                     <DocPreview/>
                 <EditMetaData/>
-                <ActionBarApp title="Take An Action"/>
+
             </div>
         )
     }

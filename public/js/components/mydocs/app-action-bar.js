@@ -16,7 +16,9 @@ var ForwardPkgModal = require('../create-forward-package/forward-package-modal')
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
-            store: MyDocsStore.getDocStore()
+            store: MyDocsStore.getDocStore(),
+            is_drawer_open : false
+
         }
     },
     componentDidMount: function () {
@@ -36,7 +38,7 @@ var ActionBarApp = React.createClass({
         var pkg_json = {
             "package_type" : "Package1",
             "packages_added" : [],
-            "recepients" : ["hmistry251@gmail.com","hardik.mistry@outlook.com"]
+            "recepients" : []
 
         };
         for(var index in this.state.store.selected_docs){
@@ -47,16 +49,20 @@ var ActionBarApp = React.createClass({
             pkg_json["packages_added"].push(doc_json);
         }
         packages.push(pkg_json);
-        CreateForwardPkgActions.openForwardPkgModal(packages);
+        var is_open = this.state.is_drawer_open;
+        CreateForwardPkgActions.openForwardPkgModal(packages,!is_open);
+        this.setState({
+            "is_drawer_open" : !is_open
+        })
     },
     render :function(){
         return(
-            <div style={{paddingLeft:'44px',position:"absolute",width:"79%","paddingBottom":"4em"}}>
+            <div style={{paddingLeft:'1em',position:"fixed",width:"77%","bottom":0}}>
                 <Toolbar>
                     <ToolbarGroup>
                         <FlatButton label="Reports"  />
                         <FlatButton label="Forward"  />
-                        <FlatButton label="Create Package" onTouchTap={this._createPkg}  />
+                        <FlatButton label="Forward Docs" onTouchTap={this._createPkg}  />
                         <FlatButton label="FedEx"  />
                         <FlatButton label="UPS"  />
                         <FlatButton label="Messages"  />

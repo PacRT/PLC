@@ -42,11 +42,11 @@ var AppCreateForwardPackage = {
             }
         });
     },
-    openForwardPkgModal : function(packages){
+    openForwardPkgModal : function(packages, is_drawer_open){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.OPEN_FORWARD_PACKAGE_MODAL,
             packages   : packages,
-            modal_open : true
+            modal_open : is_drawer_open
         })
     },
     closeForwardPkgModal : function(){

@@ -79,7 +79,13 @@ var AppDocMetaData = React.createClass({
                 display: "block",
                 margin: "auto",
                 "paddingTop": "14%"
-            }
+            },
+            floatingLabelStyle: {
+                "z-index" : 0
+            },
+            floatingLabelFocusStyle: {
+                "z-index" : 0
+            },
         }
     },
     _handleTextFieldChange: function(key, doc_url, event){
@@ -120,7 +126,9 @@ var AppDocMetaData = React.createClass({
                                 floatingLabelText={ key }
                                 onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
                                 style={{marginTop:"-4px"}}
-                            />
+                                floatingLabelStyle={styles.floatingLabelStyle}
+                                floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                        />
                         </div>
                     )
                 }else{

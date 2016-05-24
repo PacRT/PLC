@@ -9,8 +9,9 @@ var Dialog = require('material-ui/lib/dialog');
 var TextField = require('material-ui/lib/text-field');
 var SendContent = require('material-ui/lib/svg-icons/content/send');
 var Tags = require('materialize-tags');
+var Drawer = require('material-ui/lib/left-nav');
+var AppBar = require('material-ui/lib/app-bar');
 
-console.log(Tags);
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {
@@ -42,6 +43,19 @@ var ForwardPackageModal = React.createClass({
         });
         createForwardPkgActions.createPackages(packages);
     },
+    getStyles:function(){
+      var drawerStyle = {
+          "height" : "65%",
+          "width"  : "400px",
+          "top"    : "garbage",
+          "right"  : "2em",
+          "bottom" : "0",
+          "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms"
+      }
+        return {
+            "drawerStyle" : drawerStyle
+        };
+    },
     render : function(){
         console.log("rendering");
         setTimeout(function(){
@@ -64,20 +78,25 @@ var ForwardPackageModal = React.createClass({
             ref={"recipients"}
             defaultValue={""}
         />;
+        var styles = this.getStyles();
         return(
-            <Dialog
-                style={{maxHeight:'100%','maxWidth':'100%'}}
-                title="Forward it to Email/Paperless Account"
-                actions={actions}
-                modal={true}
-                open={this.state.is_modal_open}>
-                <div class="input-field">
-                    <label for="tags" class="hola">Email Ids</label>
-                    <input type="text" id="recipients" value="" data-role="materialtags" />
-                </div>
+
+            <Drawer id="popup" width={500} style={styles["drawerStyle"]} openRight={true} open={this.state.is_modal_open}>
+                <AppBar title="Forward Docs"/>
+                {/*<Dialog
+                 style={{maxHeight:'100%','maxWidth':'100%'}}
+                 title="Forward it to Email/Paperless Account"
+                 actions={actions}
+                 modal={true}
+                 open={this.state.is_modal_open}>
+                 <div class="input-field">
+                 <label for="tags" class="hola">Email Ids</label>
+                 <input type="text" id="recipients" value="" data-role="materialtags" />
+                 </div>
 
 
-            </Dialog>
+                 </Dialog>*/}
+            </Drawer>
 
         )
 
