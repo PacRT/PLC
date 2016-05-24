@@ -11,19 +11,7 @@ router.get('/:cursor/:category',function(req, res, next){
     var cursor = req.params["cursor"];
     var category = req.params["category"];
     docs_api.get_doc_by_type(user_id,cursor,category).then(function(response){
-        var docs_links = [];
-        var file_name = [];
-        response[1].map(function(link){
-            file_name.push(link.substring(link.indexOf("|file_name|") + 11,link.indexOf("|doc_url|")));
-            docs_links.push(link.split("|doc_url|")[1]);
-        });
-        console.info(docs_links);
-        var result1 = {
-            "cursor" : response[0],
-            "docs_link" : docs_links,
-            "files_name" : file_name
-        };
-        res.send(result1);
+        res.send(response["result"]);
     },function(error){
         res.status(600).send(JSON.stringify({error:true,"errorMsg":error_codes[error]}));
     });

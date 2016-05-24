@@ -303,14 +303,30 @@ class MessageQueue(object):
         }
 
     def get_doc_by_type(self, data):
-        doc_urls = []
-        rows = self.cli.select(table_name="docs")
+        docs_link = []
+        files_name = []
+        print(data)
+        select = (QueryBuilder.select_from('docs')
+                    .columns('doc_url', 'filename')
+                    .where(all_eq(
+                            category= data["category"],
+                            owner_id= data["owner_id"]
+                      ))
+        )
+        query,args = select.statement()
+        print(query);
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
         for row in rows:
-            if rows.category == data["category"] and row.owner_id == data["owner_id"]:
-                doc_urls.append(row.doc_url)
+            doc_url,file_name = row
+            docs_link.append(doc_url)
+            files_name.append(file_name)
+        result = {
+            "docs_link": docs_link,
+            "files_name" : files_name
+        }
         return {
-            "status": 200,
-            "doc_urls": doc_urls
+           "status": 200,
+           "result" : result
         }
 
     def get_user_docs(self, data):

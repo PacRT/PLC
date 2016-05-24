@@ -149,10 +149,18 @@ var upload_doc = {
             'owner_id': user_id,
             'category': category
         };
-        client.invoke("get_doc_by_type", data, function(error, response) {
-            console.log(response);
+        return new Promise(function (resolve, reject) {
+            client.invoke("get_doc_by_type", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
         });
-        return new Promise(
+       /* return new Promise(
             function(resolve,reject){
                 luaScriptManager.run(SCRIPT_CONSTANTS.GET_DOC_BY_TYPE,SCRIPT_CONSTANTS.SCRIPT_FOLDER,KEYS,ARGV).then(function(err,response){
                     resolve(err,response);
@@ -161,7 +169,7 @@ var upload_doc = {
                     reject(err);
                 });
             }
-        )
+        )*/
     },
     /**
      * Get Docs shared with user
