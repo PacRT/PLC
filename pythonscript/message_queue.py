@@ -241,7 +241,6 @@ class MessageQueue(object):
         query, args = insert.statement();
         self.cli.queryBuilderInsert(query,args);
 
-
         ##Forward Package
         pkg_forwarder = PacketForward(package_id)
         pkg_forwarder.get_pkg()

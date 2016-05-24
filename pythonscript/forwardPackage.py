@@ -62,22 +62,23 @@ class PacketForward(object):
             self.recepients = recepients
 
     def fetch_packages(self):
+        print("fetching packages");
         try:
             os.mkdir('/tmp/'+self.dir_name)
         except OSError:
             pass
         os.chdir('/tmp/'+self.dir_name)
-        for index, package_id in enumerate(self.package_ids):
-            os.mkdir('/tmp/'+package_id)
-            os.chdir('/tmp/'+package_id)
-            packages_added = self.packages_added[index]
-            for package in packages_added:
-                doc_url = package['docs_link'].split('/')
-                url = 'http://localhost:7979/' + doc_url[-1]
-                print(url)
-                file_name = package['file_name']
-                urllib.urlretrieve(url, file_name)
-            os.chdir('..')
+        os.mkdir(str(self.pkg_id))
+        os.chdir(str(self.pkg_id))
+        packages = json.loads(self.packages_added)
+        for package in packages:
+            print(package)
+            #"/docs/localhost/8080/1,1b92843d40.JPG"
+            parts = package['docs_link'].split('/')
+            url = "http://"+parts[2]+":"+parts[3]+"/"+parts[4]
+            print(url)
+            file_name = package['file_name']
+            urllib.urlretrieve(url, file_name)
         os.chdir('..')
         try:
             shutil.make_archive('/tmp/'+self.dir_name, 'zip', base_dir='/tmp/'+self.dir_name)
