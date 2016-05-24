@@ -4,15 +4,16 @@
 /** @jsx React.DOM */
 var React = require('react');
 var Dropzone = require('react-dropzone');
-var Dropzone = require('react-dropzone');
 var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var ProgressBar = require('react-bootstrap/lib/ProgressBar');
-var Card = require('material-ui/lib/card/card');
-var LinearProgress = require('material-ui/lib/linear-progress');
-var CardHeader = require('material-ui/lib/card/card-header');
+
+var Card = require('material-ui/Card').Card;
+var LinearProgress = require('material-ui/LinearProgress');
+var CardHeader = require('material-ui/Card/CardHeader');
+
 var FileList = require('./app-file-list');
 var PopularCategories = require('./app-popular-categories');
 var UploadzoneStore = require('../../stores/app-uploadzone-store');

@@ -2,12 +2,12 @@
  * Created by hmistry on 5/22/16.
  */
 var React = require('react');
-var Toolbar = require('material-ui/lib/toolbar/toolbar');
-var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var ToolbarSeparator = require('material-ui/lib/toolbar/toolbar-separator');
-var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
-var TextField = require('material-ui/lib/text-field');
-var FlatButton = require('material-ui/lib/flat-button');
+var Toolbar = require('material-ui/Toolbar/Toolbar');
+var ToolbarGroup = require('material-ui/Toolbar/ToolbarGroup');
+var ToolbarSeparator = require('material-ui/Toolbar/ToolbarSeparator');
+var ToolbarTitle = require('material-ui/Toolbar/ToolbarTitle');
+var TextField = require('material-ui/TextField/TextField');
+var FlatButton = require('material-ui/FlatButton/FlatButton');
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var CreateForwardPkgStore = require('../../stores/app-create-forward-package-store');
@@ -36,7 +36,7 @@ var ActionBarApp = React.createClass({
         var pkg_json = {
             "package_type" : "Package1",
             "packages_added" : [],
-            "recepients" : ["hmistry251@gmail.com","hardik.mistry@outlook.com"]
+            "recepients" : []
 
         };
         for(var index in this.state.store.selected_docs){
@@ -51,7 +51,7 @@ var ActionBarApp = React.createClass({
     },
     render :function(){
         return(
-            <div style={{paddingLeft:'44px',position:"absolute",width:"79%","paddingBottom":"4em"}}>
+            <div style={{paddingLeft:'44px',position:"fixed",width:"79%","bottom":0}}>
                 <Toolbar>
                     <ToolbarGroup>
                         <FlatButton label="Reports"  />

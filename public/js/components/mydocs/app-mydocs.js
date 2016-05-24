@@ -12,7 +12,6 @@ var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
 var DocPreview = require('./app-doc-preview');
 var EditMetaData = require('./app-edit-metadata-modal');
-var Table = require('material-ui/lib/table/table');
 
 var MyDocs = React.createClass({
     render: function () {

@@ -4,11 +4,11 @@
 var React = require('react');
 var EditMetaDataStore= require('../../stores/app-edit-metadata-store');
 var EditMetaDataActions = require('../../actions/app-metadata-actions');
-var FlatButton  = require('material-ui/lib/flat-button');
-var Dialog  = require('material-ui/lib/dialog');
-var EditIcon = require('material-ui/lib/svg-icons/editor/mode-edit');
-var CircularProgress = require('material-ui/lib/circular-progress');
-var TextField = require('material-ui/lib/text-field');
+var FlatButton  = require('material-ui/FlatButton/FlatButton');
+var Dialog  = require('material-ui/Dialog/Dialog');
+var EditIcon = require('material-ui/svg-icons/editor/mode-edit');
+var CircularProgress = require('material-ui/CircularProgress/CircularProgress');
+var TextField = require('material-ui/TextField/TextField');
 
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){

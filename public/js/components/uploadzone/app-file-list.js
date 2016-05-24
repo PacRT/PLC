@@ -5,12 +5,12 @@
  * Created by Hardik on 12/20/15.
  */
 var React = require('react');
-var Paper = require('material-ui/lib/paper');
-var Divider = require('material-ui/lib/divider');
+var Paper = require('material-ui/Paper/Paper');
+var Divider = require('material-ui/Divider/Divider');
 var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
-var FontIcon = require('material-ui/lib/font-icon');
-var FlatButton = require('material-ui/lib/flat-button');
+var FontIcon = require('material-ui/FontIcon/FontIcon');
+var FlatButton = require('material-ui/FlatButton/FlatButton');
 
 var FileList = React.createClass({
     getFileList :function(){

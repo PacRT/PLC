@@ -3,8 +3,8 @@
  */
 var React = require('react');
 var DocPreviewStore =  require('../../stores/app-doc-preview-store');
-var Dialog  = require('material-ui/lib/dialog');
-var FlatButton  = require('material-ui/lib/flat-button');
+var Dialog  = require('material-ui/Dialog/Dialog');
+var FlatButton  = require('material-ui/FlatButton/FlatButton');
 
 var DocPreview = React.createClass({
     getInitialState: function(){

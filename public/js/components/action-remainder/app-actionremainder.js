@@ -6,11 +6,11 @@
  */
 /** @jsx React.DOM */
 var React = require('react');
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var ActionInfo = require('material-ui/lib/svg-icons/action/info');
-var Announcement = require('material-ui/lib/svg-icons/action/announcement');
-var Divider = require('material-ui/lib/divider');
+var List = require('material-ui/List/List');
+var ListItem = require('material-ui/List/ListItem');
+var ActionInfo = require('material-ui/svg-icons/action/info');
+var Announcement = require('material-ui/svg-icons/action/announcement');
+var Divider = require('material-ui/Divider/Divider');
 var ActionRemainderActions = require('../../actions/app-actionremainder-actions');
 var ModalApp = require('./app-actionremainder-modal');
 

@@ -2,13 +2,13 @@
  * Created by Hardik on 2/26/16.
  */
 var React = require('react');
-var IconMenu = require('material-ui/lib/menus/icon-menu');
-var MenuItem = require('material-ui/lib/menus/menu-item');
-var IconButton = require('material-ui/lib/icon-button');
-var MoreVertIcon = require('material-ui/lib/svg-icons/navigation/more-vert');
-var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-var Delete = require('material-ui/lib/svg-icons/action/delete');
-var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
+var IconMenu = require('material-ui/IconMenu/IconMenu');
+var MenuItem = require('material-ui/MenuItem/MenuItem');
+var IconButton = require('material-ui/IconButton/IconButton');
+var MoreVertIcon = require('material-ui/svg-icons/navigation/more-vert');
+var Edit = require('material-ui/svg-icons/editor/mode-edit');
+var Delete = require('material-ui/svg-icons/action/delete');
+var RemoveRedEye = require('material-ui/svg-icons/image/remove-red-eye');
 var TileActions = require('../../actions/app-doc-tile-actions');
 var MetaDataActions = require('../../actions/app-metadata-actions');
 var DocMetaDataStore = require('../../stores/app-metadata-store');

@@ -2,8 +2,8 @@
  * Created by Hardik on 12/20/15.
  */
 var React = require('react');
-var SelectField = require('material-ui/lib/select-field');
-var MenuItem = require('material-ui/lib/menus/menu-item');
+var SelectField = require('material-ui/SelectField/SelectField');
+var MenuItem = require('material-ui/MenuItem/MenuItem');
 var categories = require('../../constants/app-upload-categories-constants');
 
 var PopularCategories = React.createClass({

@@ -4,12 +4,12 @@
 var React = require('react');
 
 var AppBar = require('material-ui/lib/app-bar');
-var IconButton = require('material-ui/lib/icon-button');
-var Spacing = require('material-ui/lib/styles');
+var IconButton = require('material-ui/IconButton/IconButton');
+var Spacing = require('material-ui/styles');
 var StyleResizable = require('material-ui/lib/mixins');
 
-var Colors = require('material-ui/lib/styles/Colors');
-var getMuiTheme = require('material-ui/lib/styles/getMuiTheme');
+var Colors = require('material-ui/styles/colors');
+var getMuiTheme = require('material-ui/styles/getMuiTheme');
 
 var AppLeftNav = require('./app-leftnav');
 

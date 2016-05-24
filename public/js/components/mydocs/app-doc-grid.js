@@ -6,11 +6,11 @@ var MyDocsStore = require('../../stores/app-mydocs-store');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
 var DocTile = require('./app-doc-tile');
 var DocGridContainer = require('./app-doc-grid-container');
-var TableBody= require('material-ui/lib/table/table-body');
-var Table = require('material-ui/lib/table/table');
-var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableHeader= require('material-ui/lib/table/table-header');
+var TableBody= require('material-ui/Table/TableBody');
+var Table = require('material-ui/Table/Table');
+var TableHeaderColumn = require('material-ui/Table/TableHeaderColumn');
+var TableRow= require('material-ui/Table/TableRow');
+var TableHeader= require('material-ui/Table/TableHeader');
 
 var DocGrid = React.createClass({
     getInitialState: function(){

@@ -3,8 +3,8 @@
  */
 /** @jsx React.DOM */
 var React = require('react');
-var RaisedButton = require('material-ui/lib/raised-button');
-var Snackbar = require('material-ui/lib/snackbar');
+var RaisedButton = require('material-ui/RaisedButton/RaisedButton');
+var Snackbar = require('material-ui/Snackbar/Snackbar');
 var NotificationStore = require('../../stores/app-notification-store');
 var NotificationActions = require('../../actions/app-notification');
 

@@ -8,12 +8,12 @@ var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
 var DocPreview = require('../mydocs/app-doc-preview');
-var Table = require('material-ui/lib/table/table');
-var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableHeader= require('material-ui/lib/table/table-header');
-var TableRowColumn= require('material-ui/lib/table/table-row-column');
-var TableBody= require('material-ui/lib/table/table-body');
+var Table = require('material-ui/Table/Table');
+var TableHeaderColumn = require('material-ui/Table/TableHeaderColumn');
+var TableRow= require('material-ui/Table/TableRow');
+var TableHeader= require('material-ui/Table/TableHeader');
+var TableRowColumn= require('material-ui/Table/TableRowColumn');
+var TableBody= require('material-ui/Table/TableBody');
 
 var AppInbox = React.createClass({
     getInitialState : function(){

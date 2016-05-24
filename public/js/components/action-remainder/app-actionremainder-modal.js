@@ -4,8 +4,8 @@
 /** @jsx React.DOM */
 var React = require('react');
 var ModalStore =  require('../../stores/app-actionremainder-store');
-var Dialog  = require('material-ui/lib/dialog');
-var FlatButton  = require('material-ui/lib/flat-button');
+var Dialog  = require('material-ui/Dialog/Dialog');
+var FlatButton  = require('material-ui/FlatButton/FlatButton');
 
 var ActionRemainderModal = React.createClass({
     getInitialState: function(){

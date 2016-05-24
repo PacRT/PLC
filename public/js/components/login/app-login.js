@@ -8,14 +8,14 @@ var Col = require('react-bootstrap/lib/Col');
 var Input = require('../utils/Input.js');
 var LoginActions = require('../../actions/app-login-actions');
 var _ = require("underscore");
-var TextField = require('material-ui/lib/text-field');
-var AccountCircle =  require('material-ui/lib/svg-icons/action/account-circle');
-var Card =  require('material-ui/lib/card/card');
-var CardActions =  require('material-ui/lib/card/card-actions');
-var CardMedia =  require('material-ui/lib/card/card-media');
-var FlatButton =  require('material-ui/lib/flat-button');
-var CardText =  require('material-ui/lib/card/card-text');
-var Colors = require('material-ui/lib/styles/colors');
+var TextField = require('material-ui/TextField/TextField');
+var AccountCircle =  require('material-ui/svg-icons/action/account-circle');
+var Card =  require('material-ui/Card/Card');
+var CardActions =  require('material-ui/Card/CardActions');
+var CardMedia =  require('material-ui/Card/CardMedia');
+var FlatButton =  require('material-ui/FlatButton/FlatButton');
+var CardText =  require('material-ui/Card/CardText');
+var Colors = require('material-ui/styles/colors');
 
 var Login = React.createClass({
     getInitialState: function(){

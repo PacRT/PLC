@@ -4,13 +4,13 @@
 var React = require('react');
 var CreateForwardPkgStore = require('../../stores/app-forward-package-modal-store');
 var createForwardPkgActions = require('../../actions/app-create-forward-package-actions');
-var FlatButton = require('material-ui/lib/flat-button');
-var Dialog = require('material-ui/lib/dialog');
-var TextField = require('material-ui/lib/text-field');
-var SendContent = require('material-ui/lib/svg-icons/content/send');
+var FlatButton = require('material-ui/FlatButton/FlatButton');
+var Dialog = require('material-ui/Dialog/Dialog');
+var TextField = require('material-ui/TextField/TextField');
+var RaisedButton = require('material-ui/RaisedButton/RaisedButton');
+var SendContent = require('material-ui/svg-icons/content/send');
 var Tags = require('materialize-tags');
 
-console.log(Tags);
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {
@@ -46,7 +46,7 @@ var ForwardPackageModal = React.createClass({
         console.log("rendering");
         setTimeout(function(){
             $('#recipients').materialtags({});
-        },500)
+        },0);
         var  actions = [
             <FlatButton
                 label="Close"
@@ -65,7 +65,7 @@ var ForwardPackageModal = React.createClass({
             defaultValue={""}
         />;
         return(
-            <Dialog
+        {/*<Dialog
                 style={{maxHeight:'100%','maxWidth':'100%'}}
                 title="Forward it to Email/Paperless Account"
                 actions={actions}
@@ -77,7 +77,7 @@ var ForwardPackageModal = React.createClass({
                 </div>
 
 
-            </Dialog>
+            </Dialog>*/}
 
         )
 

@@ -2,17 +2,17 @@
  * Created by Hardik on 2/20/16.
  */
 var React = require("react");
-var grey200 = require('material-ui/lib/styles/colors').grey200;
-var Paper = require('material-ui/lib/paper');
-var Spacing = require('material-ui/lib/styles').Spacing;
-var Transitions = require('material-ui/lib/styles').Transitions;
-var Typography = require('material-ui/lib/styles').Typography;
+var grey200 = require('material-ui/styles/colors').grey200;
+var Paper = require('material-ui/Paper/Paper');
+var Spacing = require('material-ui/styles').Spacing;
+var Transitions = require('material-ui/styles').Transitions;
+var Typography = require('material-ui/styles').Typography;
 var Col = require('react-bootstrap/lib/Col');
 var DocTileActions = require('../../actions/app-doc-tile-actions');
 var VerticalMenu = require('./app-tile-action-menu');
 var DocMetaData = require('./app-doc-meta-data');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableRowColumn= require('material-ui/lib/table/table-row-column');
+var TableRow= require('material-ui/Table/TableRow');
+var TableRowColumn= require('material-ui/Table/TableRowColumn');
 
 
 var DocTile = React.createClass({

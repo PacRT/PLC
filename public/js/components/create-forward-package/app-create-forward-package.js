@@ -2,15 +2,14 @@
  * Created by Hardik on 3/10/16.
  */
 var React = require('react');
-var AutoComplete = require('material-ui/lib/auto-complete');
-var ListItem = require('material-ui/lib/lists/list-item');
-var Divider = require('material-ui/lib/divider');
-var Checkbox = require('material-ui/lib/checkbox');
-var List = require('material-ui/lib/lists/list');
-var Tooltip = require('material-ui/lib/tooltip');
+var AutoComplete = require('material-ui/AutoComplete');
+var ListItem = require('material-ui/List/List');
+var Divider = require('material-ui/Divider');
+var Checkbox = require('material-ui/Checkbox/Checkbox');
+var List = require('material-ui/List/ListItem');
 var Col = require('react-bootstrap/lib/Col');
 var CreateForwardPkgStore = require('../../stores/app-create-forward-package-store');
-var RaisedButton = require('material-ui/lib/raised-button');
+var RaisedButton = require('material-ui/RaisedButton/RaisedButton');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var ForwardPkgModal = require('./forward-package-modal');
 var SelectGridContainer = require("./app-select-grid-container");
