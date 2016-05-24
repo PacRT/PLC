@@ -145,15 +145,7 @@ var AppDocMetaData = React.createClass({
             <div>
                 {MetaDataJSX}
                 {this.props.view != "INBOX" ?
-                    <div className="pull-right">
-                        <FlatButton
-                            disabled={this.props.view == "INBOX"}
-                            label="Ok"
-                            secondary={true}
-                            disabled={false}
-                            onTouchTap={this._editModal}
-                        />
-                    </div>:""}
+                    "":""}
             </div>
         )
     }
