@@ -49,6 +49,10 @@ router.use('/api/v1',require('./create-forward-package/create-package.js'));
  * Get Docs shared with user
  */
 router.use('/api/v1/inbox',require('./inbox/inbox.js'));
+/**
+ * search docs index in elastic search
+ */
+router.use('/api/v1/doc_search',require('./docs/search_docs'));
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})
 });
