@@ -12,6 +12,7 @@
     "classnames": "^2.2.3",
     "cors": "^2.7.1",
     "crypto": "0.0.3",
+    "elasticsearch": "^11.0.1",
     "errorhandler": "^1.4.3",
     "express": "^4.13.4",
     "flux": "^2.0.1",
