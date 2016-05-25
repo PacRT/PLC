@@ -9,6 +9,9 @@ var Dialog  = require('material-ui/lib/dialog');
 var EditIcon = require('material-ui/lib/svg-icons/editor/mode-edit');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var TextField = require('material-ui/lib/text-field');
+var List = require('material-ui/lib/lists/list');
+var ListItem = require('material-ui/lib/lists/list-item');
+
 
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
@@ -75,11 +78,11 @@ var AppEditMedataModal = React.createClass({
         var styles = this._getStyles();
         var  actions = [
             <FlatButton
-                label="Cancel"
+                label="Close"
                 onTouchTap={this._closeModal}
             />,
             <FlatButton
-                label="Submit"
+                label="Save"
                 disabled={false}
                 secondary={true}
                 onTouchTap={this._editModal}
