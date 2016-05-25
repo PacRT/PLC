@@ -49,6 +49,14 @@ AppDispatcher.register(function(payload){
             _myDocs.selected_docs = action.selected_docs;
             MyDocsStore.emit(CHANGE_EVENT);
             break;
+        case AppConstants["DOCS"]["RESET_DOC_STORE"]:
+            _myDocs = {
+                "docs_link" : [],
+                "files_name" : [],
+                "cursor" : 0,
+                "selected_docs" : []
+            }
+            MyDocsStore.emit(CHANGE_EVENT);
         default:
             return true;
 

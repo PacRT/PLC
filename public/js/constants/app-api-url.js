@@ -15,5 +15,6 @@ module.exports = {
     GET_DOC_METADATA : '/docs/metadata/#doc_url#',
     UPDATE_DOC_METADATA : '/docs/updateMetaData',
     GET_DOC_BY_TYPE  : '/docs/#cursor#/#category#',
-    CREATE_FORWARD_PACKAGE   : '/createPackage'
+    CREATE_FORWARD_PACKAGE   : '/createPackage',
+    FILTER_DOCS      : '/doc_search/#query#'
 };

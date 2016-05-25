@@ -81,10 +81,10 @@ var AppDocMetaData = React.createClass({
                 "paddingTop": "14%"
             },
             floatingLabelStyle: {
-                "z-index" : 0
+                "zIndex" : 0
             },
             floatingLabelFocusStyle: {
-                "z-index" : 0
+                "zIndex" : 0
             },
         }
     },
