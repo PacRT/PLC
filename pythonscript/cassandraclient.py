@@ -1,12 +1,16 @@
 from cassandra import AlreadyExists
 from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
 from cql_builder.builder import QueryBuilder
 #from cassandra.query import SimpleStatement
 
 
 class CassandraClient(object):
     def __init__(self):
-        cluster = Cluster(['127.0.0.1'])
+        auth_provider = PlainTextAuthProvider(
+                    username='cassandra', password='cassandra')
+        cluster = Cluster(['127.0.0.1'], auth_provider=auth_provider)
+
         self.session = cluster.connect()
         self.session.set_keyspace('plc')
 
