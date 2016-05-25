@@ -8,7 +8,10 @@ var ObjectAssign = require('object-assign');
 var CHANGE_EVENT = "change";
 
 var _forward_pkg_store = {
-    "packages" : [],
+    "packages" : [{
+        "packages_added" : [],
+        "recepients" : []
+    }],
     "recipients" : []
 };
 var _modal_open = false;
@@ -38,8 +41,12 @@ AppDispatcher.register(function(payload){
             break;
         case AppConstants.CLOSE_FORWARD_PACKAGE_MODAL:
             _modal_open =  action.modal_open;
-            _forward_pkg_store.packages = [];
-            _forward_pkg_store.recipients = [];
+            _forward_pkg_store = {
+                "packages": [{
+                    "packages_added": [],
+                    "recepients": []
+                }]
+            }
             ForwardPackageModalStore.emit(CHANGE_EVENT);
             break;
         default:

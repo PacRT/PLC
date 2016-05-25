@@ -24,7 +24,6 @@ var DocGridContainer = React.createClass({
         var _this = this;
         var childrenWithProps = React.Children.map(this.props.children,function(child,index) {
             var isSelected = _this.state.selected_tiles.indexOf(index) != -1 ? true : false;
-            console.log(_this.state.selected_tiles,index)
             return React.cloneElement(child, {
                 selectThisTile: _this._selectThisTile, "isSelected" : isSelected
             });
