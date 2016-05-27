@@ -8,8 +8,8 @@ var error_codes = require('../../constants/error-constants');
 
 router.get('/metadata/:vs/:prt/:fid',function(req, res, next){
     console.log(req.params.doc_url);
-    var doc_url = "http://" + req.params.vs + ":" + req.params.prt + "/" + req.params.fid;
-    docs_api.getDocMetadata(doc_url).then(function(response){
+    var doc_link = "http://" + req.params.vs + ":" + req.params.prt + "/" + req.params.fid;
+    docs_api.getDocMetadata(doc_link).then(function(response){
 
         var meta_data = {
             "meta_keys" : _.keys(response.doc),

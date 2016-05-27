@@ -78,13 +78,13 @@ var upload_doc = {
      * @param doc_url
      * @returns {Promise}
      */
-    getDocMetadata : function(doc_url){
-        var ARGV = [doc_url];
-        var KEYS = [];
+    getDocMetadata : function(doc_link){
+       /* var ARGV = [doc_url];
+        var KEYS = [];*/
         var client = new zerorpc.Client();
         client.connect("tcp://127.0.0.1:4242");
         var data = {
-            'doc_url': doc_url
+            'doc_link': doc_link
         };
         return new Promise(function (resolve, reject) {
             client.invoke("get_doc_metadata", data, function(error, response) {
@@ -121,7 +121,25 @@ var upload_doc = {
         var KEYS = ['doc_url', 'username', 'category', 'file_name'];
         var client = new zerorpc.Client();
         client.connect("tcp://127.0.0.1:4242");
-        return new Promise(
+        var data = {
+            "doc_url" : doc_url,
+            "owner_id" : username,
+            "category" : category,
+            "filename" : file_name
+        };
+        console.log(data);
+        return new Promise(function (resolve, reject) {
+            client.invoke("update_doc_metadata", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
+        });
+        /*return new Promise(
             function(resolve, reject){
                 luaScriptManager.run(SCRIPT_CONSTANTS.UPDATE_DOC_METADATA, SCRIPT_CONSTANTS.SCRIPT_FOLDER, KEYS, ARGV).then(function(err, response){
                     resolve(err, response);
@@ -131,7 +149,7 @@ var upload_doc = {
                     reject(err);
                 });
             }
-        )
+        )*/
     },
     /**
      * Get Documents by type as requested by User

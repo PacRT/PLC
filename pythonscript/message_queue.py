@@ -350,15 +350,18 @@ class MessageQueue(object):
         }
 
     def get_doc_metadata(self, data):
-        doc_url = data["doc_url"]
         doc = {}
-        rows = self.cli.select(table_name = "doc")
+        select = (QueryBuilder.select_from('docs')
+                            .columns('category','filename')
+                            .where(eq('doc_link',data['doc_link']))
+                )
+        query,args = select.statement()
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
         for row in rows:
-            if row.doc_link == doc_url:
-                doc = {
-                    "Category": row.category,
-                    "Document Name": row.filename
-                }
+            doc = {
+                "Category": row.category,
+                "Document Name": row.filename
+            }
         return {
             "doc": doc,
             "status": 200
@@ -407,7 +410,30 @@ class MessageQueue(object):
                         pass
 
     def update_doc_metadata(self, data):
-        pass
+        print(data)
+        select = (QueryBuilder.select_from('docs')
+                            .columns('id')
+                            .where(all_eq(doc_url=data['doc_url'], owner_id=data['owner_id']))
+                )
+        query,args = select.statement()
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        if rows:
+            for row in rows:
+                id = row[0]
+            update = (QueryBuilder.update('docs')
+                     .set(category = data['category'])
+                     .set(filename = data['filename'])
+                     .where(eq('id',id))
+                 )
+            query,args = update.statement()
+            print(query,args)
+            self.cli.queryBuilderInsert(query,args)
+        else:
+            return {
+                "error": "Invalid signup link.",
+                "status": 400
+            }
+
 
     def hello(self, name):
         return "Hello {0}".format(name)

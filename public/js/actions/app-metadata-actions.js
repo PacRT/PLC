@@ -6,7 +6,7 @@ var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
 var APIURL = require('../utils/getAPIURL');
-
+var MyDocsActions = require('./app-mydocs-actions');
 var EditMetaDataActions = {
     openEditMetaDataModal:function(doc_url, meta_data){
         AppDispatcher.handleViewAction({
@@ -35,14 +35,7 @@ var EditMetaDataActions = {
     },
     updateDocMetaData : function(meta){
         API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
-            meta = {
-                "meta" : meta
-            };
-            console.log(meta);
-            AppDispatcher.handleViewAction({
-                actionType : AppConstants.UPDATE_METADATA,
-                meta : meta
-            });
+            MyDocsActions.getMyDocs(0,"MY_DOCS");
         })
     }
 }

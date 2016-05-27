@@ -101,7 +101,7 @@ var UploadZone = React.createClass({
                     <Row>
                         <Col xs={12} md={3}>
                             <Dropzone onDrop={this.onDrop} style={dropzone_style}>
-                                <Card>
+                                <Card style={{"boxShadow": "none"}}>
                                     <CardHeader
                                         style={cardheader_style}
                                         title="Document Upload Zone"
@@ -111,17 +111,18 @@ var UploadZone = React.createClass({
                                     <LinearProgress mode="determinate" value={this.state.progress}/>
                                 ) : null}
                             </Dropzone>
-                            <PopularCategories category={this.state.category} handle={this.handleChange}/>
-                            {
-                                this.state.is_upload_complete ? null :
-                                    (
-                                        <FileList files={this.state.files}
-                                                  removeHandle={this.removeFile}
-                                                  cancelHandle={this.cancelUpload}
-                                                  uploadHandle={this.uploadFiles}
-                                        />
-                                    )
-                            }
+
+                                <PopularCategories category={this.state.category} handle={this.handleChange}/>
+                                {
+                                    this.state.is_upload_complete ? null :
+                                        (
+                                            <FileList files={this.state.files}
+                                                      removeHandle={this.removeFile}
+                                                      cancelHandle={this.cancelUpload}
+                                                      uploadHandle={this.uploadFiles}
+                                            />
+                                        )
+                                }
 
                         </Col>
                         <Col xs={12} md={9}>

@@ -27,10 +27,10 @@ var AppEditMedataModal = React.createClass({
         EditMetaDataStore.removeChangeListener(this._onChange);
     },
     _editModal : function(){
-        meta = {
-            'category' : this.refs.category.getValue(),
-            'file_name' : this.refs.file_name.getValue(),
-            'doc_url' : EditMetaDataStore.getDocURL(),
+        var meta = {
+            'category' : this.state.store["_values"][0],
+            'file_name' : this.state.store["_values"][1],
+            'doc_url' : EditMetaDataStore.getDocURL()
         };
         EditMetaDataActions.updateDocMetaData(meta);
         EditMetaDataActions.closeEditMetaDataModal();
@@ -45,6 +45,14 @@ var AppEditMedataModal = React.createClass({
             "store" : metadata_store,
             "is_modal_open" : is_modal_open
         });
+    },
+    _handleTextFieldChange:function(index,event){
+        var updated_value = event.target.value;
+        var store = this.state.store;
+        store["_values"][index] = updated_value;
+        this.setState({
+            store : store
+        })
     },
     _getStyles: function () {
         return {
@@ -99,6 +107,7 @@ var AppEditMedataModal = React.createClass({
                           <TextField
                             ref={key}
                             defaultValue={ _this.state.store["_values"][index] }
+                            onChange={_this._handleTextFieldChange.bind(null,index)}
                             floatingLabelText={ key }
                           />
                       </div>
