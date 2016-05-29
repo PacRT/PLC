@@ -39,15 +39,19 @@ var TileActionsMenu = React.createClass({
             style["iconStyle"]["visibility"] = "hidden";
         }
         return(
-            <IconMenu
-                style={style.iconStyle}
-                iconButtonElement={<IconButton iconStyle={{'width':'20px', 'height' : '15px'}}><MoreVertIcon/></IconButton>}
-                anchorOrigin={{horizontal: 'left', vertical: 'top'}}
-                targetOrigin={{horizontal: 'left', vertical: 'top'}}>
-                <MenuItem primaryText="Preview" onTouchTap={this._openPreview} leftIcon={<RemoveRedEye/>} />
-                <MenuItem disabled={this.props.view == "INBOX"} onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
-                <MenuItem disabled={this.props.view == "INBOX"} leftIcon={<Delete/>} primaryText="Delete" />
-            </IconMenu>
+            <div>
+                <RemoveRedEye style={{"fill" : "#ffffff","float":"right","margin" : "8px 10px 0px 10px"}} onTouchTap={this._openPreview}/>
+                <Edit style={{"fill" : "#ffffff","float":"right", "margin" : "8px 10px 0px 10px"}} onTouchTap={this._openEditModal.bind(null,this.props.doc_url)}/>
+                {/* <IconMenu
+                    style={style.iconStyle}
+                    iconButtonElement={<IconButton iconStyle={{'width':'20px', 'height' : '15px'}}><MoreVertIcon/></IconButton>}
+                    anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+                    targetOrigin={{horizontal: 'left', vertical: 'top'}}>
+                    <MenuItem primaryText="Preview" onTouchTap={this._openPreview} leftIcon={<RemoveRedEye/>} />
+                    <MenuItem disabled={this.props.view == "INBOX"} onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} leftIcon={<Edit/>} primaryText="Edit" />
+                    <MenuItem disabled={this.props.view == "INBOX"} leftIcon={<Delete/>} primaryText="Delete" />
+                </IconMenu>*/}
+            </div>
         )
 
     }

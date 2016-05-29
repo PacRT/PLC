@@ -110,7 +110,7 @@ var ForwardPackageModal = React.createClass({
                 <AppBar id="appBar" style={styles["appBar"]} title="Forward Docs"
                         iconElementRight={<SendContent style={styles["send"]}
                         onTouchTap={this._createAndForwardPkg} />}
-                        iconElementLeft={<IconButton><NavigationClose onTouchTap={this._closeModal} /></IconButton>}
+                        iconElementLeft={<IconButton onTouchTap={this._closeModal}><NavigationClose  /></IconButton>}
                 />
                 <div className="col-md-12">
                         <List subheader="Added Docs">

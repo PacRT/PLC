@@ -29,7 +29,8 @@ var DocTile = React.createClass({
                 transition: Transitions.easeOut,
                 margin: '15px 15px 15px 0px',
                 maxHeight: '175px',
-                width: '100%'
+                width: '100%',
+                "position" : "relative"
             },
             rootWhenMedium: {
                 float: 'left',
@@ -61,17 +62,16 @@ var DocTile = React.createClass({
                 lineHeight: desktopKeylineIncrement + 'px',
             },
             rootWhenLastChild: {
-                marginBottom: 0,
+                marginBottom: 0
             },
             rootWhenMediumAndLastChild: {
                 marginRight: 0,
                 marginBottom: 0
             },
             rootWhenMediumAndFirstChild: {
-                marginLeft: 0,
+                marginLeft: 0
             },
             text_field_style: {
-                "width": "80%",
                 "textOverflow": "ellipsis",
                 "display": "block",
                 "whiteSpace": "nowrap",
@@ -83,8 +83,12 @@ var DocTile = React.createClass({
                 "float": "left"
             },
             tile_label: {
-                "backgroundColor": grey200,
-                height: "47px"
+                "backgroundColor": "rgba(0, 0, 0, 0.87)",
+                "height": "45px",
+                "position" : "absolute",
+                "opacity" : 0.75,
+                "bottom" : 0,
+                "width" : "100%"
             },
             tile_menu: {
                 width: "20%"
@@ -97,7 +101,7 @@ var DocTile = React.createClass({
                 "width" : "50%",
                 "float" : "left",
                 "margin" : "15px 0px 15px 0px",
-                "backgroundColor" :"#eeeeee",
+                "backgroundColor" :"#ffffff",
                 "padding" : "0px 15px 0px 15px",
                 "position" : "absolute",
                 "top"   : "0",
@@ -115,7 +119,7 @@ var DocTile = React.createClass({
         var imgStyles = {
             position: "relative",
             width: "100%",
-            height: "128px",
+            height: "175px",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
         }
@@ -139,7 +143,7 @@ var DocTile = React.createClass({
                 div1.style["backgroundImage"] = "url(" + canvas.toDataURL() + ")";
                 div1.style["position"] = "relative";
                 div1.style["width"] = "100%";
-                div1.style["height"] = "128px";
+                div1.style["height"] = "175px";
                 div1.style["backgroundRepeat"] = "no-repeat";
                 div1.style["backgroundSize"] = "cover";
             }
@@ -157,7 +161,7 @@ var DocTile = React.createClass({
             styles["tile_label"]["opacity"] = 0.95;
         }
         else{
-            styles["tile_label"]["backgroundColor"] = grey200;
+            styles["tile_label"]["backgroundColor"] = "rgba(0, 0, 0, 0.87)";
             styles["text_field_style"]["color"] = "black";
         }
         return (
@@ -171,9 +175,6 @@ var DocTile = React.createClass({
                         >
                             {this.state.tile}
                             <div style={styles.tile_label}>
-                                <div style={styles.text_field_style}>
-                                    {this.props.heading}
-                                </div>
                                 <VerticalMenu view={this.props.view}  doc_url={this.props.img} title={this.props.heading} isPreviewMode={this.props.isPreviewMode}/>
                             </div>
                         </Paper>

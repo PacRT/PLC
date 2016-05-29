@@ -10,7 +10,7 @@ var TextField = require('material-ui/lib/text-field');
 var FlatButton = require('material-ui/lib/flat-button');
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
-var CreateForwardPkgStore = require('../../stores/app-create-forward-package-store');
+var ForwardPkgModalStore = require('../../stores/app-forward-package-modal-store');
 var ForwardPkgModal = require('../create-forward-package/forward-package-modal');
 
 var ActionBarApp = React.createClass({
@@ -22,15 +22,18 @@ var ActionBarApp = React.createClass({
         }
     },
     componentDidMount: function () {
-        MyDocsStore.addChangeListener(this._onChange);
+        MyDocsStore.addChangeListener(this._onChange)
+        ForwardPkgModalStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function () {
         MyDocsStore.resetDocStore();
         MyDocsStore.removeChangeListener(this._onChange);
+        ForwardPkgModalStore.removeChangeListener(this._onChange);
     },
     _onChange: function () {
         this.setState({
-            store: MyDocsStore.getDocStore()
+            store: MyDocsStore.getDocStore(),
+            is_drawer_open : ForwardPkgModalStore.isModalOpen()
         });
     },
     _createPkg : function(){
@@ -57,7 +60,8 @@ var ActionBarApp = React.createClass({
     },
     render :function(){
         return(
-            <div style={{paddingLeft:'1em',position:"fixed",width:"77%","bottom":0}}>
+         <div>
+             <div style={{paddingLeft:'1em',position:"fixed",width:"77.2%","bottom":0}}>
                 <Toolbar>
                     <ToolbarGroup>
                         <FlatButton label="Reports"  />
@@ -70,6 +74,36 @@ var ActionBarApp = React.createClass({
                 </Toolbar>
                 <ForwardPkgModal/>
             </div>
+             {/*<div style={{paddingLeft:'1em',position:"fixed",width:"77%","bottom":0}}>
+                <ul className="dock">
+                    <li>
+                        <a href="#" title="Full RSS Feed">
+                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Reports&w=100&h=50&txttrack=1"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Feed via Emal">
+                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Forward&w=100&h=50&txttrack=1"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Follow me on Twitter">
+                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Forward%20Docs&w=100&h=50&txttrack=1"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="I'm on Facebook">
+                            <img src="http://placehold.it/100X50?txt=FedEx?txttrack=1"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Save me">
+                            <img src="http://placehold.it/100?text=UPS?text"/>
+                        </a>
+                    </li>
+                </ul>
+             </div>*/}
+         </div>
         )
     }
 });

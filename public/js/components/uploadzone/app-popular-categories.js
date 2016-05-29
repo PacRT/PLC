@@ -25,9 +25,9 @@ var PopularCategories = React.createClass({
 
         return (
             <div>
-                <SelectField floatingLabelStyle={{"color": "rgba(0, 0, 0, 0.87)","fontWeight":"500"}}
+                <SelectField floatingLabelStyle={{"color": "rgba(0, 0, 0, 0.870588)","fontWeight":"500"}}
                              underlineStyle={{"border-color" : "rgba(0, 0, 0, 0.87)"}}
-                             iconStyle={{"fill": "rgba(0, 0, 0, 0.87)"}}
+                             iconStyle={{"fill": "rgba(0, 0, 0, 0.870588)"}}
                              value={this.props.category} onChange={this.props.handle}
                              style={drop_menu_style} floatingLabelText="Categories">
                     {

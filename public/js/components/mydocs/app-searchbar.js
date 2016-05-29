@@ -67,8 +67,8 @@ var  SearchBarApp = React.createClass({
                             onChange={this.handleFilterValueChange}
                             hintText="Search In My Docs"
                             style={{"paddingLeft": "1em"}}
-                            underlineStyle={{"border-color":"rgba(0, 0, 0, 0.87)"}}
-                            hintStyle={{"color":"rgba(0, 0, 0, 0.87)"}}
+                            underlineStyle={{"borderColor":"rgba(0, 0, 0, 0.870588)"}}
+                            hintStyle={{"color":"rgba(0, 0, 0, 0.870588)"}}
                         />
                     </ToolbarGroup>
                     

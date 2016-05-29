@@ -73,7 +73,7 @@ var AppDocMetaData = React.createClass({
             },
             meta_container : {
                 "display": "flex",
-                "lineHeight": "30px",
+                "lineHeight": "30px"
              },
             circularProgressStyle : {
                 display: "block",
@@ -125,7 +125,7 @@ var AppDocMetaData = React.createClass({
                                 defaultValue={ values[index] }
                                 floatingLabelText={ key }
                                 onChange={ _this._handleTextFieldChange.bind(null, key, doc_url) }
-                                style={{marginTop:"-4px"}}
+                                style={{marginTop:"-4px", "fontSize" : "15px"}}
                                 floatingLabelStyle={styles.floatingLabelStyle}
                                 floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                         />
