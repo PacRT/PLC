@@ -10,6 +10,7 @@ var FlatButton  = require('material-ui/lib/flat-button');
 var EditMetaDataActions = require('../../actions/app-metadata-actions');
 var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableRow= require('material-ui/lib/table/table-row');
+var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
 
 
 var AppDocMetaData = React.createClass({
@@ -129,6 +130,7 @@ var AppDocMetaData = React.createClass({
                                 floatingLabelStyle={styles.floatingLabelStyle}
                                 floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                         />
+                            <Edit style={{"height":"20px","width":"20px","position" : "relative","top":"35px","fill":"rgba(0, 0, 0, 0.298039)"}}/>
                         </div>
                     )
                 }else{
@@ -137,8 +139,6 @@ var AppDocMetaData = React.createClass({
                         style = {
                             "paddingLeft" : "288px"
                         }
-
-
                     }
                     return(
                         <TableRowColumn style={style}>
