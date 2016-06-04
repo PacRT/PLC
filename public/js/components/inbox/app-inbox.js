@@ -15,6 +15,7 @@ var TableHeader= require('material-ui/lib/table/table-header');
 var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableBody= require('material-ui/lib/table/table-body');
 
+var AppThreadList = require('./app-thread-list');
 var AppInbox = React.createClass({
     getInitialState : function(){
       return {
@@ -29,24 +30,7 @@ var AppInbox = React.createClass({
     render : function(){
         return (
             <div>
-                <SearchBarApp title="Inbox" />
-                <Grid>
-
-                        <Col md={12} xs={12} style={{"paddingLeft" : "30px","marginTop": "10px"}}>
-                            <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHeaderColumn>Thumbnail</TableHeaderColumn>
-                                    <TableHeaderColumn>Type</TableHeaderColumn>
-                                    <TableHeaderColumn>Document</TableHeaderColumn>
-                                </TableRow>
-                            </TableHeader>
-                                </Table>
-                            <DocGrid view="INBOX" key={this.state.key}/>
-                        </Col>
-
-                </Grid>
-                <DocPreview/>
+                <AppThreadList/>
             </div>
         )
     }

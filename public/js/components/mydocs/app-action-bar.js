@@ -22,7 +22,7 @@ var ActionBarApp = React.createClass({
         }
     },
     componentDidMount: function () {
-        MyDocsStore.addChangeListener(this._onChange)
+        MyDocsStore.addChangeListener(this._onChange);
         ForwardPkgModalStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function () {
@@ -62,47 +62,31 @@ var ActionBarApp = React.createClass({
         return(
          <div>
              <div style={{paddingLeft:'1em',position:"fixed",width:"77.2%","bottom":0}}>
-                <Toolbar>
+                <Toolbar style={{"background":"none"}}>
                     <ToolbarGroup>
-                        <FlatButton label="Reports"  />
+                        <div style={{paddingLeft:'1em',position:"fixed",width:"66.2%","bottom":0,"textAlign": "center"}}>
+                            <div className="dock">
+                                <ul>
+                                    <li><a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a></li>
+                                    <li>
+                                        <a onClick={this._createPkg}><img  src="/assets/css/images/send-button.png" alt="Forward Docs"></img>
+                                        </a>
+
+                                    </li>
+                                    <li><a><img src="/assets/css/images/envelope.png" alt="Messages"/></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        {/* <FlatButton label="Reports"  />
                         <FlatButton label="Forward"  />
                         <FlatButton label="Forward Docs" onTouchTap={this._createPkg}  />
                         <FlatButton label="FedEx"  />
                         <FlatButton label="UPS"  />
-                        <FlatButton label="Messages"  />
+                        <FlatButton label="Messages"  />*/}
                     </ToolbarGroup>
                 </Toolbar>
                 <ForwardPkgModal/>
             </div>
-             {/*<div style={{paddingLeft:'1em',position:"fixed",width:"77%","bottom":0}}>
-                <ul className="dock">
-                    <li>
-                        <a href="#" title="Full RSS Feed">
-                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Reports&w=100&h=50&txttrack=1"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="Feed via Emal">
-                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Forward&w=100&h=50&txttrack=1"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="Follow me on Twitter">
-                            <img src="https://placeholdit.imgix.net/~text?txtsize=12&txt=Forward%20Docs&w=100&h=50&txttrack=1"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="I'm on Facebook">
-                            <img src="http://placehold.it/100X50?txt=FedEx?txttrack=1"/>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" title="Save me">
-                            <img src="http://placehold.it/100?text=UPS?text"/>
-                        </a>
-                    </li>
-                </ul>
-             </div>*/}
          </div>
         )
     }

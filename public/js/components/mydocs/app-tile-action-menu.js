@@ -40,8 +40,12 @@ var TileActionsMenu = React.createClass({
         }
         return(
             <div>
-                <RemoveRedEye style={{"fill" : "#ffffff","float":"right","margin" : "8px 10px 0px 10px"}} onTouchTap={this._openPreview}/>
-                <Edit style={{"fill" : "#ffffff","float":"right", "margin" : "8px 10px 0px 10px"}} onTouchTap={this._openEditModal.bind(null,this.props.doc_url)}/>
+                <IconButton onTouchTap={this._openPreview} style={{"float":"right"}}  tooltip="Preview" tooltipPosition="bottom-center"  iconStyle={{"fill" : "#ffffff"}}>
+                    <RemoveRedEye />
+                </IconButton>
+                <IconButton onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} style={{"float":"right"}} tooltip="Edit" tooltipPosition="bottom-center" iconStyle={{"fill" : "#ffffff"}}>
+                    <Edit/>
+                </IconButton>
                 {/* <IconMenu
                     style={style.iconStyle}
                     iconButtonElement={<IconButton iconStyle={{'width':'20px', 'height' : '15px'}}><MoreVertIcon/></IconButton>}
