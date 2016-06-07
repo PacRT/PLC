@@ -15,22 +15,41 @@ var TableHeader= require('material-ui/lib/table/table-header');
 var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableBody= require('material-ui/lib/table/table-body');
 
+
+var InboxActions = require('../../actions/app-inbox-actions');
+var InboxStore = require('../../stores/app-inbox-store');
+
 var AppThreadList = require('./app-thread-list');
 var AppInbox = React.createClass({
     getInitialState : function(){
       return {
-          "key" : Math.random()
+          "key" : Math.random(),
+          "store" : []
       }
     },
-    componentDidMount:function(){
+    componentDidMount: function() {
+        InboxActions.getThreads();
+        InboxStore.addChangeListener(this._onChange);
+    },
+    componentWillUnmount: function() {
+        InboxStore.resetStore();
+        InboxStore.removeChangeListener(this._onChange);
+    },
+    _onChange: function() {
+        var inbox_store = InboxStore.getStore();
         this.setState({
-            "key" : Math.random()
+            store : inbox_store
         });
+    },
+    _markThreadRead : function(threadIndex){
+      InboxActions.markThreadRead(threadIndex);
     },
     render : function(){
         return (
             <div>
-                <AppThreadList/>
+                <AppThreadList threads={this.state.store}
+                               markThreadRead={this._markThreadRead}
+                />
             </div>
         )
     }

@@ -43,6 +43,8 @@ module.exports = {
         UPDATE_METADATA : "UPDATE_METADATA",
     },
     "INBOX" : {
-        INBOX_METADATA : "INBOX_METADATA"
+        INBOX_METADATA : "INBOX_METADATA",
+        GET_THREADS : "GET_THREADS",
+        MARK_THREAD_READ : "MARK_THREAD_READ"
     }
 };

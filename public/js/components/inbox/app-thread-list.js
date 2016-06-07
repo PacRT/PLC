@@ -15,6 +15,8 @@ var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var Checkbox = require('material-ui/lib/checkbox');
 
+
+var Thread = require('./app-thread');
 var AppThreadList = React.createClass({
     getInitialState : function(){
         return {
@@ -26,10 +28,32 @@ var AppThreadList = React.createClass({
             "key" : Math.random()
         });
     },
+    _getStyles : function(){
+      return {
+          "list" : {
+              "paddingBottom" : "0px"
+          }
+      }
+    },
     render : function(){
+        console.info(this.props.threads);
+        var _this = this;
+        var styles = this._getStyles();
         return (
             <div>
-                <List>
+                <List style={styles["list"]}>
+                    {
+                        this.props.threads.map(function(thread,index){
+                            return (<Thread markThreadRead={_this.props.markThreadRead}
+                                            key={thread.thread_id}
+                                            thread_index={index}
+                                            thread={thread}
+                                    />)
+                        })
+                    }
+                </List>
+
+                {/*<List>
                     <ListItem
                         leftIcon={<ThreadUnread style={{"fill":"rgb(66, 133, 244)"}} />}
                         initiallyOpen={false}
@@ -170,7 +194,7 @@ var AppThreadList = React.createClass({
                             />
                         ]}
                     />
-                </List>
+                </List>*/}
             </div>
         )
     }

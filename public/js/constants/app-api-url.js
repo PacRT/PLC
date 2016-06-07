@@ -10,7 +10,7 @@ module.exports = {
     LOG_IN           : '/login',
     LOG_OUT          : '/logout/#user_name#',
     MY_DOCS          : '/docs/#cursor#',
-    INBOX            : '/inbox/#cursor#',
+    GET_THREADS            : '/inbox/getThreads',
     UPLOAD_DOCS      : '/upload/#file_name#/#category#',
     GET_DOC_METADATA : '/docs/metadata/#doc_url#',
     UPDATE_DOC_METADATA : '/docs/updateMetaData',
