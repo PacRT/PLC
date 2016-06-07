@@ -467,8 +467,12 @@ class MessageQueue(object):
             query, args = insert.statement()
             self.cli.queryBuilderInsert(query,args)
         else:
-           print(Thread.objects.count())
-
+            thread_id = rows[0][0]
+            print(thread_id)
+            Thread.objects(thread_id=thread_id).update(packages__append=data["packages_ids"],
+                                                   date_updated=datetime.datetime.now(),
+                                                   is_read=False
+                                                   )
     def getThreads(self, data):
         return "Threads Returned"
 
