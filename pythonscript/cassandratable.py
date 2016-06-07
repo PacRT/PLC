@@ -153,6 +153,20 @@ cs_cli.create_table(
     },
     primary_key = 'id'
 )
+
+cs_cli.create_table(
+    table_name = 'thread',
+    columns = {
+        'thread_id': 'uuid',
+        'date_updated': 'timestamp',
+        'is_read': 'boolean',
+        'packages' : 'list<text>',
+        'receiver' : 'text',
+        'sender'   : 'text',
+        'thread_name' : 'text'
+    },
+    primary_key = 'thread_id'
+)
 # self.cli.insert(
 #     table_name = 'inbox',
 #     data = {
