@@ -3,6 +3,9 @@ from cassandraclient import CassandraClient
 from cql_builder.builder import QueryBuilder
 from forwardPackage import PacketForward
 from cql_builder.condition import all_eq,eq
+from ThreadModel import Thread
+import datetime
+
 
 class MessageQueue(object):
     def __init__(self):
@@ -437,6 +440,37 @@ class MessageQueue(object):
 
     def hello(self, name):
         return "Hello {0}".format(name)
+
+    def createThread(self,data):
+        print(data)
+        receiver = data['receiver']
+        select = (QueryBuilder.select_from('thread')
+                .columns("thread_id")
+                .where(eq('receiver' ,receiver))
+        )
+        query,args = select.statement()
+        print(query,args)
+        rows = self.cli.queryBuilderSelect(query + ' ALLOW FILTERING',args)
+        if not rows:
+            thread_id = uuid.uuid4()
+            insert = (QueryBuilder.insert_into("thread")
+                        .values(
+                            thread_id = thread_id,
+                            date_updated = datetime.datetime.now(),
+                            is_read = False,
+                            packages = data["packages_ids"],
+                            receiver = data['receiver'],
+                            sender = data['sender'],
+                            thread_name= "Thread_" + str(thread_id)
+                        )
+                    )
+            query, args = insert.statement()
+            self.cli.queryBuilderInsert(query,args)
+        else:
+           print(Thread.objects.count())
+
+    def getThreads(self, data):
+        return "Threads Returned"
 
     @staticmethod
     def checkUserExists(email_id):

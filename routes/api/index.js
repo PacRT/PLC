@@ -46,9 +46,13 @@ router.use('/api/v1',require('./logout/logout.js'));
  */
 router.use('/api/v1',require('./create-forward-package/create-package.js'));
 /**
- * Get Docs shared with user
+ * Get Threads Shared With User
  */
-router.use('/api/v1/inbox',require('./inbox/inbox.js'));
+router.use('/api/v1/inbox',require('./inbox/inbox_get_threads.js'));
+/**
+ * Create Thread when user receives Packages
+ */
+router.use('/api/v1/inbox',require('./inbox/inbox_create_thread.js'));
 /**
  * search docs index in elastic search
  */
