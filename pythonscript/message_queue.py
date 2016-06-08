@@ -3,9 +3,13 @@ from cassandraclient import CassandraClient
 from cql_builder.builder import QueryBuilder
 from forwardPackage import PacketForward
 from cql_builder.condition import all_eq,eq
-from ThreadModel import Thread
+from TableModels import Thread
 import datetime
 
+from TableModels import Thread
+from TableModels import SenderList
+from TableModels import User
+from TableModels import Package
 
 class MessageQueue(object):
     def __init__(self):
@@ -238,7 +242,8 @@ class MessageQueue(object):
                 packages_added = json.dumps(package["packages_added"]),
                 package_id = package_id,
                 recepients = package["recepients"],
-                sender_id = username
+                sender_id = username,
+                date_updated = datetime.datetime.now()
             )
         )
         query, args = insert.statement();
@@ -461,20 +466,44 @@ class MessageQueue(object):
                             packages = data["packages_ids"],
                             receiver = data['receiver'],
                             sender = data['sender'],
-                            thread_name= "Thread_" + str(thread_id)
+                            thread_name= "Thread_" + str(random.random())
                         )
                     )
             query, args = insert.statement()
             self.cli.queryBuilderInsert(query,args)
         else:
             thread_id = rows[0][0]
-            print(thread_id)
             Thread.objects(thread_id=thread_id).update(packages__append=data["packages_ids"],
                                                    date_updated=datetime.datetime.now(),
                                                    is_read=False
                                                    )
     def getThreads(self, data):
-        return "Threads Returned"
+        sender_list = SenderList.objects(user_id = data['user_id'])
+        threads = []
+        for senders in sender_list:
+            thread_obj = {}
+            for sender in senders['sender_list']:
+                user_email = User.objects(username = data['user_id']).allow_filtering()[0]['email'];
+                q = Thread.objects(Thread.receiver == user_email).allow_filtering()
+                q = q.filter(sender=sender)
+                for thread in q:
+                    thread_obj['sender'] = sender
+                    thread_obj['date_updated'] = str(thread['date_updated'])
+                    thread_obj['thread_id'] = str(thread['thread_id'])
+                    thread_obj['packages'] = []
+                    for pkg_id in thread['packages']:
+                        package_obj = {}
+                        package_result = Package.objects(package_id = pkg_id).allow_filtering()
+                        for pkg in package_result:
+                            package_obj = {
+                                'package_name' : pkg['package_type'],
+                                'package_id'   : str(pkg['package_id']),
+                                'docs'         : json.loads(str(pkg['packages_added'])),
+                                'date_updated' : str(pkg['date_updated'])
+                            }
+                            thread_obj['packages'].append(package_obj)
+            threads.append(thread_obj)
+        return json.dumps(threads)
 
     @staticmethod
     def checkUserExists(email_id):
