@@ -41,7 +41,7 @@ var AppThread = React.createClass({
         var doc_item_style = this.getStyles()["doc_item"];
         for(var i=0; i < package.docs.length; i++){
             var doc = package.docs[i];
-            var docItem = <ListItem   key={doc.url}  innerDivStyle={doc_item_style} primaryText={<p> {doc.name} </p>}  />
+            var docItem = <ListItem   key={doc.docs_link}  innerDivStyle={doc_item_style} primaryText={<p> {doc.file_name} </p>}  />
             docList.push(docItem);
         }
         return docList;
