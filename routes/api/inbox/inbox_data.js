@@ -12,12 +12,12 @@ module.exports =
                 "package_id": "uuid()asdasdasdasd",
                 "docs": [
                     {
-                        "name": "name1",
-                        "url": "url"
+                        "file_name": "name1",
+                        "docs_link": "url"
                     },
                     {
-                        "name": "name2",
-                        "url": "url2"
+                        "file_name": "name2",
+                        "docs_link": "url2"
                     }
                 ]
             },
@@ -27,12 +27,12 @@ module.exports =
                 "package_id": "uuid()asdasdddwqd",
                 "docs": [
                     {
-                        "name": "name3",
-                        "url": "url3"
+                        "file_name": "name3",
+                        "docs_link": "url3"
                     },
                     {
-                        "name": "name4",
-                        "url": "url4"
+                        "file_name": "name4",
+                        "docs_link": "url4"
                     }
                 ]
             }
@@ -51,12 +51,12 @@ module.exports =
         "date_updated": "21-APR-2016",
         "docs": [
             {
-                "name": "name5",
-                "url": "url5"
+                "file_name": "name5",
+                "docs_link": "url5"
             },
             {
-                "name": "name6",
-                "url": "url6"
+                "file_name": "name6",
+                "docs_link": "url6"
             }
         ]
     },
@@ -66,12 +66,12 @@ module.exports =
         "package_id": "uuid()298y98fahf9sai",
         "docs": [
             {
-                "name": "name6",
-                "url": "url6"
+                "file_name": "name6",
+                "docs_link": "url6"
             },
             {
-                "name": "name7",
-                "url": "url7"
+                "file_name": "name7",
+                "docs_link": "url7"
             }
         ]
     }
