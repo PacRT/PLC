@@ -132,7 +132,8 @@ cs_cli.create_table(
         'recepients': 'list<text>',
         'package_id': 'uuid',
         'sender_id' : 'text',
-        'id': 'uuid'
+        'id': 'uuid',
+        'date_updated' : 'timestamp'
     },
     primary_key = 'id'
 )
@@ -160,12 +161,22 @@ cs_cli.create_table(
         'thread_id': 'uuid',
         'date_updated': 'timestamp',
         'is_read': 'boolean',
-        'packages' : 'list<text>',
+        'packages' : 'list<uuid>',
         'receiver' : 'text',
         'sender'   : 'text',
         'thread_name' : 'text'
     },
     primary_key = 'thread_id'
+)
+
+cs_cli.create_table(
+    table_name = 'sender_list',
+    columns = {
+        user_id : 'text',
+        list_id : 'text',
+        sender_list : 'set<text>'
+    },
+    primary_key =  'user_id'
 )
 # self.cli.insert(
 #     table_name = 'inbox',
