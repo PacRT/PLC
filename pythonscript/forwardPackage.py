@@ -5,6 +5,8 @@ import smtplib
 import redis
 import json
 import uuid
+import datetime
+import random
 
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -14,7 +16,10 @@ from email import Encoders
 from cassandraclient import CassandraClient
 from cql_builder.builder import QueryBuilder
 from cql_builder.condition import eq
-
+from TableModels import User
+from TableModels import Thread
+from TableModels import SenderList
+from TableModels import Package
 
 GMAIL_USERNAME = 'paperlessclub91@gmail.com'
 GMAIL_PASSWORD = 'paperlessclub'
@@ -37,10 +42,11 @@ p = r.pubsub()
 
 class PacketForward(object):
     def __init__(self, package_id):
-        self.cli = CassandraClient();
+        self.cli = CassandraClient()
         self.package_ids = []
-        self.pkg_id = package_id;
+        self.pkg_id = package_id
         self.packages_added = []
+        self.sender_id = ""
         ##add Cassandra
         self.dir_name = 'package-' + str(ord(os.urandom(1)))
 
@@ -60,6 +66,7 @@ class PacketForward(object):
             package_type,packages_added,recepients,sender_id = pkg
             self.packages_added = packages_added
             self.recepients = recepients
+            self.sender_id = sender_id
 
     def fetch_packages(self):
         print("fetching packages");
@@ -107,30 +114,65 @@ class PacketForward(object):
             print("&&&&&&&&&&&&&&&&&&&")
             print(recepient)
             print("&&&&&&&&&&&&&&&&&&&")
-            id = str(uuid.uuid4())
-            self.add_invitation(id, recepient)
-            TO = recepient
-            s, msg = self.get_email_settings(server='GMAIL')
-            msg['To'] = TO
-            body = '''
-            To keep your sender's assets secure, PLC allows access via secure email link only for a limited time of 24 hours.
-            If you like to access the assets beyond these limits, please create a free PLC account using the link below and
-            continue accessing these assets while experiencing a rich set of other features securely on the site.
-            '''
-            body = body + "http://paperlessclub.org:7979/registration#/{0}".format(id)
-            msg.attach(MIMEText(body, 'plain'))
-            # Attach file
-            part = MIMEBase('application', "octet-stream")
-            part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
-            Encoders.encode_base64(part)
-            part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
-            msg.attach(part)
+            users = User.objects(email=recepient)
+            if users.count() == 1:
+                for user in users:
+                    print user.email
+                    threads = Thread.objects(receiver = user.email).allow_filtering()
+                    if threads.count() == 1:
+                         Thread.objects(thread_id=threads[0]["thread_id"]).update(
+                                                                                packages__append=[self.pkg_id],
+                                                                                date_updated=datetime.datetime.now(),
+                                                                                is_read=False
+                                                                           )
+                    else:
+                        thread_id = uuid.uuid4()
+                        print(random.shuffle(["abc","def","ert","123","dgs","zcxqw","plp","123as"]))
+                        Thread.create(
+                            thread_id = thread_id,
+                            date_updated = datetime.datetime.now(),
+                            is_read = False,
+                            packages = [self.pkg_id],
+                            receiver = user.email,
+                            sender = self.sender_id,
+                            thread_name= "Thread_" + str(thread_id)
+                        )
 
-            try:
-                s.sendmail(msg['From'], TO, msg.as_string())
-            except:
-                pass
-            s.close()
+                    sender_list = SenderList.objects(user_id = user.username)
+                    if sender_list.count() == 0:
+                        SenderList.create(
+                            user_id = user.username,
+                            list_id = uuid.uuid4(),
+                            sender_list = {self.sender_id}
+                        )
+                    else:
+                        print(sender_list[0]["sender_list"])
+                        SenderList.objects(user_id=user.username).update(sender_list__add = {self.sender_id})
+            else:
+                id = str(uuid.uuid4())
+                self.add_invitation(id, recepient)
+                TO = recepient
+                s, msg = self.get_email_settings(server='GMAIL')
+                msg['To'] = TO
+                body = '''
+                To keep your sender's assets secure, PLC allows access via secure email link only for a limited time of 24 hours.
+                If you like to access the assets beyond these limits, please create a free PLC account using the link below and
+                continue accessing these assets while experiencing a rich set of other features securely on the site.
+                '''
+                body = body + "http://paperlessclub.org:7979/registration#/{0}".format(id)
+                msg.attach(MIMEText(body, 'plain'))
+                # Attach file
+                part = MIMEBase('application', "octet-stream")
+                part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
+                Encoders.encode_base64(part)
+                part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
+                msg.attach(part)
+
+                try:
+                    s.sendmail(msg['From'], TO, msg.as_string())
+                except:
+                    pass
+                s.close()
 
     @staticmethod
     def add_invitation(id, email):
