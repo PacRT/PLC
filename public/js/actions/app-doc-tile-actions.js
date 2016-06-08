@@ -65,10 +65,11 @@ var DocTileActions = {
                 break;
         }
     },
-    openPreview : function(url){
+    openPreview : function(url,hybrid){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.OPEN_PREVIEW,
-            response :url
+            response :url,
+            hybrid : hybrid
         });
     }
 }

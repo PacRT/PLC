@@ -11,8 +11,11 @@ var CircularProgress = require('material-ui/lib/circular-progress');
 var TextField = require('material-ui/lib/text-field');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
+var DocPreview = require('./app-doc-preview');
 
-
+var Grid = require('react-bootstrap').Grid;
+var Row = require('react-bootstrap').Row;
+var Col = require('react-bootstrap').Col;
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
         return  {
@@ -117,14 +120,19 @@ var AppEditMedataModal = React.createClass({
         }
         return (
             <Dialog
-                style={{maxHeight:'100%','maxWidth':'100%'}}
+                contentStyle={{ "maxHeight" :'100%','maxWidth':'none','width':'80%'}}
                 title="Edit"
                 actions={actions}
                 modal={true}
                 open={this.state.is_modal_open}>
-                {
-                    DialogBody
-                }
+                    <Row className="show-grid">
+                        <Col xs={6} md={8}>
+                            <DocPreview  hybridView={true}/>
+                        </Col>
+                        <Col xs={6} md={4}>
+                            {DialogBody}
+                        </Col>
+                    </Row>
             </Dialog>
         )
     }

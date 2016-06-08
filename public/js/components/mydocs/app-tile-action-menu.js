@@ -15,9 +15,12 @@ var DocMetaDataStore = require('../../stores/app-metadata-store');
 
 var TileActionsMenu = React.createClass({
     _openPreview : function(){
-        TileActions.openPreview({url:this.props.doc_url,title:this.props.title})
+        var hybrid = false;
+        TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)
     },
     _openEditModal : function(doc_url){
+        var hybrid = true;
+        TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)
         MetaDataActions.openEditMetaDataModal(doc_url, DocMetaDataStore.getStore()[doc_url]);
     },
     render: function(){

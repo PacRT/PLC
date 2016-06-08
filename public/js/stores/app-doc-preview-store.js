@@ -41,7 +41,7 @@ AppDispatcher.register(function(payload){
         case AppConstants.OPEN_PREVIEW:
             _doc_preview_store.document_url =  action.response.url;
             _doc_preview_store.document_title =  action.response.title;
-            _is_preview_open = true;
+            _is_preview_open = !action.hybrid;
             DocPreviewStore.emit(CHANGE_EVENT);
             break;
         default:

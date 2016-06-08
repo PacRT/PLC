@@ -27,7 +27,7 @@ var MyDocs = React.createClass({
                         </Col>
 
                     </Grid>
-                    <DocPreview/>
+                    <DocPreview hybridView={false}/>
                 <EditMetaData/>
 
             </div>

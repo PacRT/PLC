@@ -48,17 +48,21 @@ var DocPreview = React.createClass({
         }else{
             previewJSX = <img src={ this.state.preview_store.document_url } width='100%'/>
         }
+        
         return (
             <div>
-                <Dialog
-                    style={{maxHeight:'100%','maxWidth':'100%'}}
-                    title={this.state.preview_store.document_title}
-                    actions={actions}
+                {this.props.hybridView ?
+                    previewJSX :
+                    <Dialog
+                        style={{maxHeight:'100%','maxWidth':'100%'}}
+                        title={this.state.preview_store.document_title}
+                        actions={actions}
 
-                    modal={true}
-                    open={this.state.is_preview_open}>
-                    {previewJSX}
-                </Dialog>
+                        modal={true}
+                        open={this.state.is_preview_open}>
+                        {previewJSX}
+                    </Dialog>
+                }
             </div>
         );
     }
