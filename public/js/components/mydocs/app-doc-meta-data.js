@@ -19,7 +19,10 @@ var AppDocMetaData = React.createClass({
             store: MetaDataStore.getStore(),
             category: '',
             file_name: '',
-            doc_url: ''
+            doc_url: '',
+            hover : false,
+            show_button : false
+
         }
     },
     componentDidMount: function () {
@@ -38,7 +41,7 @@ var AppDocMetaData = React.createClass({
     _editModal : function(){
         var meta = {};
         var change = false;
-        var values = this.state.store[this.props.doc_url]["_values"].slice(2);
+        var values = this.state.store[this.props.doc_url]["_values"];
         if(this.state.category != ''){
             meta['category'] = this.state.category;
             meta['doc_url'] = this.state.doc_url;
@@ -51,7 +54,6 @@ var AppDocMetaData = React.createClass({
             meta['category'] = values[0];
             change = true;
         };
-        console.log(meta);
         if(change){
             EditMetaDataActions.updateDocMetaData(meta);
         };
@@ -87,27 +89,41 @@ var AppDocMetaData = React.createClass({
             floatingLabelFocusStyle: {
                 "zIndex" : 0
             },
+            save:{"display":"none"},
+            editIcon : {"height":"20px","width":"20px","position" : "relative","top":"35px","fill":"rgba(0, 0, 0, 0.298039)","display":"none"}
         }
     },
+    _showEditIcon : function(showIcon){
+        this.setState({
+            "hover" : showIcon
+        })
+    },
     _handleTextFieldChange: function(key, doc_url, event){
-        if(key=='category'){
+        if(key=='Category'){
             this.setState({
                 category: event.target.value
             });
-        }
-        else{
+        }else{
             this.setState({
                 file_name: event.target.value
             })
         };
         this.setState({
-            doc_url: doc_url
+            doc_url: doc_url,
+            show_button :  true
         });
     },
     render: function () {
         var _this = this;
         var styles = this._getStyles();
         var MetaDataJSX = "";
+        if(this.state.hover){
+            styles['editIcon']['display'] = "block";
+        }
+        if(this.state.show_button){
+            styles['save']['display'] = "block";
+        }
+
         if (_.isEmpty(this.state.store[this.props.doc_url])) {
             MetaDataJSX = <CircularProgress style={styles.circularProgressStyle}/>
         } else if (!_.isUndefined(this.state.store[this.props.doc_url]) && this.state.store[this.props.doc_url]["_keys"].length) {
@@ -129,8 +145,12 @@ var AppDocMetaData = React.createClass({
                                 style={{marginTop:"-4px", "fontSize" : "15px"}}
                                 floatingLabelStyle={styles.floatingLabelStyle}
                                 floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                        />
-                            <Edit style={{"height":"20px","width":"20px","position" : "relative","top":"35px","fill":"rgba(0, 0, 0, 0.298039)"}}/>
+                                onFocus={_this._showEditIcon.bind(null,true)}
+                                onBlur={_this._showEditIcon.bind(null,false)}
+
+                            />
+                            <Edit style={styles['editIcon']}/>
+
                         </div>
                     )
                 }else{
@@ -153,7 +173,15 @@ var AppDocMetaData = React.createClass({
             <div>
                 {MetaDataJSX}
                 {this.props.view != "INBOX" ?
-                    "":""}
+                    <div className="pull-right" style={styles['save']}>
+                        <FlatButton
+                            disabled={this.props.view == "INBOX"}
+                            label="Save Changes"
+                            secondary={true}
+                            disabled={false}
+                            onTouchTap={this._editModal}
+                        />
+                    </div>:""}
             </div>
         )
     }
