@@ -131,6 +131,7 @@ var ForwardPackageModal = React.createClass({
 
                         </List>
                     <TextField
+                        fullWidth={true}
                         onChange={ this._handleTextFieldChange }
                         defaultvalue={this.state.package_name}
                         floatingLabelText="Package Name To Save"

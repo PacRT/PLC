@@ -481,12 +481,13 @@ class MessageQueue(object):
         sender_list = SenderList.objects(user_id = data['user_id'])
         threads = []
         for senders in sender_list:
-            thread_obj = {}
             for sender in senders['sender_list']:
+                print(senders)
                 user_email = User.objects(username = data['user_id']).allow_filtering()[0]['email'];
                 q = Thread.objects(Thread.receiver == user_email).allow_filtering()
                 q = q.filter(sender=sender)
                 for thread in q:
+                    thread_obj = {}
                     thread_obj['sender'] = sender
                     thread_obj['date_updated'] = str(thread['date_updated'])
                     thread_obj['thread_id'] = str(thread['thread_id'])
@@ -502,7 +503,7 @@ class MessageQueue(object):
                                 'date_updated' : str(pkg['date_updated'])
                             }
                             thread_obj['packages'].append(package_obj)
-            threads.append(thread_obj)
+                threads.append(thread_obj)
         return json.dumps(threads)
 
     @staticmethod

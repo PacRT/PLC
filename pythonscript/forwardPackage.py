@@ -117,8 +117,7 @@ class PacketForward(object):
             users = User.objects(email=recepient)
             if users.count() == 1:
                 for user in users:
-                    print user.email
-                    threads = Thread.objects(receiver = user.email).allow_filtering()
+                    threads = Thread.objects(receiver = user.email,sender= self.sender_id).allow_filtering()
                     if threads.count() == 1:
                          Thread.objects(thread_id=threads[0]["thread_id"]).update(
                                                                                 packages__append=[self.pkg_id],
@@ -127,7 +126,6 @@ class PacketForward(object):
                                                                            )
                     else:
                         thread_id = uuid.uuid4()
-                        print(random.shuffle(["abc","def","ert","123","dgs","zcxqw","plp","123as"]))
                         Thread.create(
                             thread_id = thread_id,
                             date_updated = datetime.datetime.now(),
@@ -146,7 +144,6 @@ class PacketForward(object):
                             sender_list = {self.sender_id}
                         )
                     else:
-                        print(sender_list[0]["sender_list"])
                         SenderList.objects(user_id=user.username).update(sender_list__add = {self.sender_id})
             else:
                 id = str(uuid.uuid4())
@@ -176,8 +173,6 @@ class PacketForward(object):
 
     @staticmethod
     def add_invitation(id, email):
-        print id
-        print email
         cli = CassandraClient()
         rows = cli.select(table_name = 'invitation')
         for row in rows:

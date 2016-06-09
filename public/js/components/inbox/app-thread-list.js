@@ -14,7 +14,7 @@ var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var Checkbox = require('material-ui/lib/checkbox');
-
+var Jumbotron = require('react-bootstrap').Jumbotron;
 
 var Thread = require('./app-thread');
 var AppThreadList = React.createClass({
@@ -41,17 +41,28 @@ var AppThreadList = React.createClass({
         var styles = this._getStyles();
         return (
             <div>
-                <List style={styles["list"]}>
+
                     {
-                        this.props.threads.map(function(thread,index){
-                            return (<Thread markThreadRead={_this.props.markThreadRead}
-                                            key={thread.thread_id}
-                                            thread_index={index}
-                                            thread={thread}
-                                    />)
-                        })
+                        this.props.threads.length ?
+                            <List style={styles["list"]}>
+                            {
+                                this.props.threads.map(function(thread,index){
+                                    return (<Thread markThreadRead={_this.props.markThreadRead}
+                                                key={thread.thread_id}
+                                                thread_index={index}
+                                                thread={thread}
+                                        />)
+                                })
+                            }</List> : <Jumbotron style={{"backgroundColor":"#ffffff"}}>
+                            <center>
+                                <h3>
+                                    There are no Threads in Inbox.
+                                </h3>
+                            </center>
+
+                        </Jumbotron>
                     }
-                </List>
+
 
                 {/*<List>
                     <ListItem
