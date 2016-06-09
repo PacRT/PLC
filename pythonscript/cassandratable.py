@@ -1,6 +1,7 @@
 from cassandra import AlreadyExists
 from cassandra.cluster import Cluster
 import uuid
+import User from TableModels
 
 class CassandraClient(object):
     def __init__(self):
@@ -178,6 +179,17 @@ cs_cli.create_table(
     },
     primary_key =  'user_id'
 )
+
+print("creating Superuser!!!!")
+User.create(
+    "email" = "ronaldo7@pacrt.io",
+    "id"    = uuid.uuid4(),
+    "name"  = "Cristiano Ronaldo",
+    "password" = "$2a$10$jNQco9Xcu.k6KOPJjLEPj.CtmhepnXxAqryzuLK4sW9GT0alkZQN2",
+    "username" = "ronaldo7",
+    "status"   = "0"
+)
+print("created Superuser!!!!")
 # self.cli.insert(
 #     table_name = 'inbox',
 #     data = {
