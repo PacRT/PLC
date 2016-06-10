@@ -42,7 +42,7 @@ var AppInbox = React.createClass({
         });
     },
     _markThreadRead : function(threadIndex){
-      InboxActions.markThreadRead(threadIndex);
+        InboxActions.markThreadRead(threadIndex,this.state.store[threadIndex]["thread_id"]);
     },
     render : function(){
         return (

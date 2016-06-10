@@ -14,10 +14,12 @@ var InboxActions = {
             });
         });
     },
-    markThreadRead : function(thread_index){
-        AppDispatcher.handleViewAction({
-            actionType : AppConstants.MARK_THREAD_READ,
-            thread_index : thread_index
+    markThreadRead : function(thread_index,thread_id){
+        API.get(APIConstants.MARK_THREAD_READ.replace("#thread_id#",thread_id)).then(function(response){
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.MARK_THREAD_READ,
+                thread_index : thread_index
+            });
         });
     }
 }

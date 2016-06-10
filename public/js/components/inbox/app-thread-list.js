@@ -36,7 +36,6 @@ var AppThreadList = React.createClass({
       }
     },
     render : function(){
-        console.info(this.props.threads);
         var _this = this;
         var styles = this._getStyles();
         return (

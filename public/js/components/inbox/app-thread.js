@@ -73,7 +73,7 @@ var AppThread = React.createClass({
         var nested_list = this._getNestedThread();
         var thread = this.props.thread;
         var ThreadIcon="";
-        if(thread.isRead){
+        if(thread['is_read']){
             ThreadIcon = <ThreadRead/>;
         }else{
             ThreadIcon = <ThreadUnread style={{"fill":"rgb(66, 133, 244)"}} />;
