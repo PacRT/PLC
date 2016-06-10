@@ -39,6 +39,21 @@ var Inbox = {
                 }
             });
         });
+    },
+    mark_thread_read : function(data){
+        var client = new zerorpc.Client();
+        client.connect("tcp://127.0.0.1:4242");
+        return new Promise(function(resolve,reject){
+            client.invoke("markThreadRead", data, function(error, response) {
+                console.log(error);
+                console.log(response);
+                if(_.has(response,"error")){
+                    reject(response)
+                }else{
+                    resolve(response);
+                }
+            });
+        });
     }
 
 };

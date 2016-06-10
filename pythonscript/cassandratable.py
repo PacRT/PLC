@@ -1,11 +1,15 @@
 from cassandra import AlreadyExists
 from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
+
 import uuid
-import User from TableModels
+from TableModels import User
 
 class CassandraClient(object):
     def __init__(self):
-        cluster = Cluster(['127.0.0.1'])
+        auth_provider = PlainTextAuthProvider(
+                        username='cassandra', password='cassandra')
+        cluster = Cluster(['127.0.0.1'],auth_provider=auth_provider)
         self.session = cluster.connect()
 
     def create_keyspace(self, keyspace):
@@ -173,21 +177,22 @@ cs_cli.create_table(
 cs_cli.create_table(
     table_name = 'sender_list',
     columns = {
-        user_id : 'text',
-        list_id : 'text',
-        sender_list : 'set<text>'
+        'user_id' : 'text',
+        'list_id' : 'uuid',
+        'sender_list' : 'set<text>'
     },
     primary_key =  'user_id'
 )
 
 print("creating Superuser!!!!")
+
 User.create(
-    "email" = "ronaldo7@pacrt.io",
-    "id"    = uuid.uuid4(),
-    "name"  = "Cristiano Ronaldo",
-    "password" = "$2a$10$jNQco9Xcu.k6KOPJjLEPj.CtmhepnXxAqryzuLK4sW9GT0alkZQN2",
-    "username" = "ronaldo7",
-    "status"   = "0"
+    email    = "ronaldo7@pacrt.io",
+    id       = uuid.uuid4(),
+    name     = "Cristiano Ronaldo",
+    password = "$2a$10$jNQco9Xcu.k6KOPJjLEPj.CtmhepnXxAqryzuLK4sW9GT0alkZQN2",
+    username = "ronaldo7",
+    status   = "0"
 )
 print("created Superuser!!!!")
 # self.cli.insert(

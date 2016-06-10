@@ -54,6 +54,10 @@ router.use('/api/v1/inbox',require('./inbox/inbox_get_threads.js'));
  */
 router.use('/api/v1/inbox',require('./inbox/inbox_create_thread.js'));
 /**
+ * Update Thread Meta
+ */
+router.use('/api/v1/inbox',require('./inbox/update_thread.js'));
+/**
  * search docs index in elastic search
  */
 router.use('/api/v1/doc_search',require('./docs/search_docs'));
