@@ -21,6 +21,22 @@ var InboxActions = {
                 thread_index : thread_index
             });
         });
+    },
+    openPreview : function(url, file_name, open_preview){
+        var doc_url = APIURL.get(url);
+        AppDispatcher.handleViewAction({
+            actionType      : AppConstants.PREVIEW_INBOX_ITEM,
+            is_preview_open : open_preview,
+            doc_url         : doc_url,
+            file_name       : file_name
+        });
+    },
+    closePreview: function(open_preview){
+        AppDispatcher.handleViewAction({
+            actionType      : AppConstants.PREVIEW_INBOX_ITEM,
+            is_preview_open : open_preview,
+            doc_url         : ""
+        });
     }
 }
 

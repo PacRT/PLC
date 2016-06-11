@@ -45,6 +45,7 @@ module.exports = {
     "INBOX" : {
         INBOX_METADATA : "INBOX_METADATA",
         GET_THREADS : "GET_THREADS",
-        MARK_THREAD_READ : "MARK_THREAD_READ"
+        MARK_THREAD_READ : "MARK_THREAD_READ",
+        PREVIEW_INBOX_ITEM : "PREVIEW_INBOX_ITEM"
     }
 };

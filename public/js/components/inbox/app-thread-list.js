@@ -40,7 +40,6 @@ var AppThreadList = React.createClass({
         var styles = this._getStyles();
         return (
             <div>
-
                     {
                         this.props.threads.length ?
                             <List style={styles["list"]}>
@@ -50,6 +49,7 @@ var AppThreadList = React.createClass({
                                                 key={thread.thread_id}
                                                 thread_index={index}
                                                 thread={thread}
+                                                previewFile={_this.props.previewFile}
                                         />)
                                 })
                             }</List> : <Jumbotron style={{"backgroundColor":"#ffffff"}}>

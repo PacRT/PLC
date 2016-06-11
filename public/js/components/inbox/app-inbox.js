@@ -2,24 +2,10 @@
  * Created by Hardik on 4/3/16.
  */
 var React = require("react");
-var SearchBarApp = require('../mydocs/app-searchbar');
-var DocGrid = require('../mydocs/app-doc-grid');
-var Grid = require('react-bootstrap/lib/Grid');
-var Row = require('react-bootstrap/lib/Row');
-var Col = require('react-bootstrap/lib/Col');
-var DocPreview = require('../mydocs/app-doc-preview');
-var Table = require('material-ui/lib/table/table');
-var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableHeader= require('material-ui/lib/table/table-header');
-var TableRowColumn= require('material-ui/lib/table/table-row-column');
-var TableBody= require('material-ui/lib/table/table-body');
-
-
 var InboxActions = require('../../actions/app-inbox-actions');
 var InboxStore = require('../../stores/app-inbox-store');
-
 var AppThreadList = require('./app-thread-list');
+var AppInboxPreviewFile = require('./app-inbox-preview-file');
 var AppInbox = React.createClass({
     getInitialState : function(){
       return {
@@ -44,12 +30,17 @@ var AppInbox = React.createClass({
     _markThreadRead : function(threadIndex){
         InboxActions.markThreadRead(threadIndex,this.state.store[threadIndex]["thread_id"]);
     },
+    _previewFile : function(file_url,file_name,thread_index, pkg_index, doc_index){
+        InboxActions.openPreview(file_url, file_name,true);
+    },
     render : function(){
         return (
             <div>
                 <AppThreadList threads={this.state.store}
                                markThreadRead={this._markThreadRead}
+                               previewFile={this._previewFile}
                 />
+                <AppInboxPreviewFile/>
             </div>
         )
     }

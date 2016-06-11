@@ -36,30 +36,41 @@ var AppThread = React.createClass({
           }
       }
     },
-    _getDocList : function (package) {
+    _previewFile : function(url, file_name, thread_index, pkg_index, doc_index){
+       this.props.previewFile(url, file_name ,thread_index, pkg_index, doc_index);
+    },
+    _getDocList : function (package, thread_index, pkg_index) {
         var docList = [];
         var doc_item_style = this.getStyles()["doc_item"];
         for(var i=0; i < package.docs.length; i++){
+            var doc_index = i;
             var doc = package.docs[i];
-            var docItem = <ListItem   key={doc.docs_link}  innerDivStyle={doc_item_style} primaryText={<p> {doc.file_name} </p>}  />
+            var docItem = <ListItem insetChildren={true}
+                            key={doc.docs_link}
+                            innerDivStyle={doc_item_style}
+                            primaryText={<p> {doc.file_name} </p>}
+                            onTouchTap={this._previewFile.bind(null,doc.docs_link,doc.file_name,thread_index, pkg_index, doc_index)}
+                          />
             docList.push(docItem);
         }
         return docList;
     },
     _getNestedThread : function(){
         var nested_list = [];
+        var thread_index = this.props.thread_index;
         var doc_item_style = this.getStyles()["doc_item"];
         for(var i=0; i < this.props.thread.packages.length; i++){
+            var pkg_index = i;
             var pkg = this.props.thread.packages[i];
-            var docList = this._getDocList(pkg);
+            var docList = this._getDocList(pkg,thread_index, pkg_index);
             var listItem = <ListItem
                 key={pkg.package_id}
+                innerDivStyle={{"marginLeft":"72px"}}
                 primaryTogglesNestedList={true}
                 nestedItems={docList}
                 nestedListStyle={doc_item_style}
                 primaryText={<AppPrimaryText sender={pkg.package_name} thread_name={""} date_updated={pkg.date_updated} />}
             />;
-
             nested_list.push(listItem);
         }
 
