@@ -10,7 +10,7 @@ from TableModels import Thread
 from TableModels import SenderList
 from TableModels import User
 from TableModels import Package
-
+from TableModels import InboxCommentThread
 class MessageQueue(object):
     def __init__(self):
         self.cli = CassandraClient()
@@ -516,15 +516,30 @@ class MessageQueue(object):
         }
 
     def getComment(self,data):
-        print(data)
+        result = InboxCommentThread.objects(thread_id=uuid.UUID(data['thread_id'])).allow_filtering()
+        result = result.filter(package_id = data['pkg_id'] , doc_url= data['doc_url'])
+        comments = []
+        for comment in result:
+            comment_obj = {
+                'date_added' : str(comment['date_added'].strftime('%a %b %d %Y %H:%M:%S')),
+                'comment'    : comment['comment'],
+
+            }
+            comments.append(comment_obj)
         return {
-            "data" : "Here is your motherfucing comments"
+            "comments": comments,
+            "status": 200
         }
 
     def addComment(self,data):
-        print(data)
+        query = InboxCommentThread.create(
+            comment_id=uuid.uuid4(), thread_id=data['thread_id'],
+            package_id=data['pkg_id'],doc_url= data['doc_url'],
+            comment = data['comment'], date_added= datetime.datetime.now()
+        )
         return {
-            "data" : "areYouTheFucker???Bhenchod??Manchrchod??Bhosdina"
+            "status" : 200,
+             "message" : "Comment has been added"
         }
 
     @staticmethod
