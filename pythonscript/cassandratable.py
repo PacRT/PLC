@@ -184,6 +184,19 @@ cs_cli.create_table(
     primary_key =  'user_id'
 )
 
+cs_cli.create_table(
+    table_name = 'inbox_comment_thread',
+    columns = {
+        'thread_id' : 'uuid',
+        'comment_id' : 'uuid',
+        'package_id' : 'uuid',
+        'doc_url'    : 'text',
+        'comment'    : 'text',
+        'date_added' : 'timestamp'
+    },
+    primary_key =  'comment_id'
+)
+
 print("creating Superuser!!!!")
 
 User.create(
