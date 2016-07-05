@@ -22,13 +22,44 @@ var InboxActions = {
             });
         });
     },
-    openPreview : function(url, file_name, open_preview){
+    openPreview : function(url, file_name, open_preview,thread_id, pkg_id){
         var doc_url = APIURL.get(url);
         AppDispatcher.handleViewAction({
             actionType      : AppConstants.PREVIEW_INBOX_ITEM,
             is_preview_open : open_preview,
             doc_url         : doc_url,
-            file_name       : file_name
+            file_name       : file_name,
+            thread_id       : thread_id,
+            pkg_id          : pkg_id
+        });
+    },
+    getComment : function(doc_url, thread_id, pkg_id){
+        var data = {
+            "thread_id" : thread_id,
+            "pkg_id"    : pkg_id,
+            "doc_url"   : doc_url.split("/api/v1")[1]
+        };
+        API.post(APIConstants.GET_INBOX_COMMENTS,data).then(function(response){
+            var result = JSON.parse(response.text);
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.INBOX_THREAD_COMMENT,
+                comments : result["comments"]
+            });
+        });
+    },
+    addComment : function(thread_id, pkg_id, doc_url, comment){
+        var data = {
+            "thread_id" : thread_id,
+            "pkg_id"    : pkg_id,
+            "doc_url"   : doc_url.split("/api/v1")[1],
+            "comment"   : comment
+        };
+        API.post(APIConstants.ADD_INBOX_COMMENTS,data).then(function(response){
+            var result = JSON.parse(response.text);
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.UPDATE_THREAD_COMMENT,
+                comment : comment
+            });
         });
     },
     closePreview: function(open_preview){

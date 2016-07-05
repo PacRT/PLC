@@ -63,7 +63,10 @@ var AppInboxPreviewFile = React.createClass({
                                 {previewJSX}
                             </Col>
                             <Col xs={6} md={4}>
-                                <InboxDocNotes />
+                                <InboxDocNotes doc_url={this.state.store.doc_url}
+                                               thread_id={this.state.store.thread_id}
+                                               pkg_id={this.state.store.pkg_id}
+                                />
                             </Col>
                         </Row>
                     </Dialog>

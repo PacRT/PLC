@@ -31,7 +31,9 @@ var AppInbox = React.createClass({
         InboxActions.markThreadRead(threadIndex,this.state.store[threadIndex]["thread_id"]);
     },
     _previewFile : function(file_url,file_name,thread_index, pkg_index, doc_index){
-        InboxActions.openPreview(file_url, file_name,true);
+        var package_id = this.state.store[thread_index]["packages"][pkg_index]["package_id"];
+        var thread_id = this.state.store[thread_index]["thread_id"];
+        InboxActions.openPreview(file_url, file_name, true, package_id, thread_id);
     },
     render : function(){
         return (
