@@ -39,12 +39,12 @@ AppDispatcher.register(function(payload){
             InboxThreadCommentStore.emit(CHANGE_EVENT);
             break;
         case AppConstants.UPDATE_THREAD_COMMENT:
+            var time_stamp =  new Date().toString();
             var comment = {
                 "comment" : action.comment,
-                "user"    : localStorage.getItem("USER_NAME"),
-                "time_stamp" : new Date()
+                "date_added" : time_stamp.slice(0,time_stamp.indexOf(" GMT"))
             };
-            if(_inbox_thread_comment_store["comments"] && _inbox_thread_comment_store["comments"].length){
+            if(_.isArray(_inbox_thread_comment_store["comments"])){
                 _inbox_thread_comment_store["comments"].push(comment);
             }else{
                 _inbox_thread_comment_store["comments"] = [comment];
