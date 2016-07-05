@@ -229,8 +229,8 @@ class MessageQueue(object):
         }
 
     def createPackage(self, data):
-        print "create Package"
-        print data
+        print("create Package")
+        print(data)
         username = data["username"]
         package = json.loads(data["package"])
         package_ids = []
@@ -513,6 +513,18 @@ class MessageQueue(object):
         return {
             "message": "Thread Updated!",
             "status": 200
+        }
+
+    def getComment(self,data):
+        print(data)
+        return {
+            "data" : "Here is your motherfucing comments"
+        }
+
+    def addComment(self,data):
+        print(data)
+        return {
+            "data" : "areYouTheFucker???Bhenchod??Manchrchod??Bhosdina"
         }
 
     @staticmethod

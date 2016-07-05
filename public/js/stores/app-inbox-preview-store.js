@@ -11,7 +11,8 @@ var _inbox_preview_store = {
     "doc_url" : "",
     "file_name" : "",
     "is_preview_open" : false,
-    "notes"   : []
+    "pkg_id" : "",
+    "thread_id" : ""
 };
 
 var InboxPreviewStore  = ObjectAssign({},EventEmitter.prototype,{
@@ -28,7 +29,8 @@ var InboxPreviewStore  = ObjectAssign({},EventEmitter.prototype,{
         _inbox_preview_store = {
             "doc_url" : "",
             "is_preview_open" : false,
-            "notes"   : []
+            "pkg_id" : "",
+            "thread_id" : ""
         };
     }
 });
@@ -40,6 +42,8 @@ AppDispatcher.register(function(payload){
             _inbox_preview_store["is_preview_open"] = action.is_preview_open;
             _inbox_preview_store["doc_url"] = action.doc_url;
             _inbox_preview_store["file_name"] = action.file_name;
+            _inbox_preview_store["pkg_id"] = action.pkg_id;
+            _inbox_preview_store["thread_id"] = action.thread_id;
             InboxPreviewStore.emit(CHANGE_EVENT);
             break;
         default:

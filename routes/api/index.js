@@ -61,6 +61,15 @@ router.use('/api/v1/inbox',require('./inbox/update_thread.js'));
  * search docs index in elastic search
  */
 router.use('/api/v1/doc_search',require('./docs/search_docs'));
+/**
+ * Add Comment in Inbox Thread
+ */
+router.use('/api/v1/inbox',require('./inbox/inbox_add_comment'));
+/**
+ * Get Comments for Inbox Thread
+ */
+router.use('/api/v1/inbox',require('./inbox/inbox_get_comment'));
+
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})
 });

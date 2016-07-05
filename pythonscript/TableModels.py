@@ -39,3 +39,11 @@ class Package(Model):
     recepients = columns.List(columns.Text())
     sender_id = columns.Text()
     date_updated = columns.DateTime()
+
+class InboxCommentThread(Model):
+    comment_id = columns.UUID(primary_key= True)
+    thread_id  = columns.UUID()
+    package_id = columns.UUID()
+    doc_url    = columns.Text()
+    comment    = columns.Text()
+    date_added = columns.DateTime()

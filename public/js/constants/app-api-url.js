@@ -17,5 +17,7 @@ module.exports = {
     GET_DOC_BY_TYPE  : '/docs/#cursor#/#category#',
     CREATE_FORWARD_PACKAGE   : '/createPackage',
     FILTER_DOCS      : '/doc_search/#query#',
-    MARK_THREAD_READ    : '/inbox/markThreadRead/#thread_id#'
+    MARK_THREAD_READ    : '/inbox/markThreadRead/#thread_id#',
+    GET_INBOX_COMMENTS : '/inbox/getComment',
+    ADD_INBOX_COMMENTS : '/inbox/addComment'
 };
