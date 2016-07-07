@@ -33,9 +33,9 @@ var PROD_CONSTANTS = {
     "SEAWEEDFS_ENDPOINT" : "paperlessclub.org:9333"
 };
 var DEV_CONSTANTS = {
-    "NODE_SERVER" : "191.168.1.4",
+    "NODE_SERVER" : "127.0.0.1",
     "NODE_PORT"   : 3333,
-    "SEAWEEDFS_ENDPOINT" : "191.168.1.4:9333"
+    "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
 };
 var vendor_js_path = [
     "./node_modules/pdfjs-dist/build/pdf.combined.js",
