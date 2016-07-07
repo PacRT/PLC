@@ -26,6 +26,7 @@ passport.use('local-passport',new LocalStrategy({
     },function(user_name, password, done) {
     process.nextTick(function() {
         user_api.findByUserName(user_name).then(function(response){
+            console.log(user_name);
             return done(null,response);
         },function(error) {
             console.log(error);

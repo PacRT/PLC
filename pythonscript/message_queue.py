@@ -208,6 +208,7 @@ class MessageQueue(object):
         }
 
     def findByUserName(self, data):
+        print(data)
         rows = self.cli.select(table_name = "user")
         username = data["username"]
         for row in rows:
@@ -561,5 +562,5 @@ class MessageQueue(object):
 
 
 s = zerorpc.Server(MessageQueue())
-s.bind("tcp://0.0.0.0:4242")
+s.bind("tcp://127.0.0.1:4242")
 s.run()
