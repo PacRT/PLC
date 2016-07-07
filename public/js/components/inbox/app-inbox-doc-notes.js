@@ -7,6 +7,8 @@
 var React = require("react");
 var InboxActions = require('../../actions/app-inbox-actions');
 var InboxThreadCommentStore =  require('../../stores/app-inbox-thread-comment-store');
+var TextField = require('material-ui/lib/text-field');
+var FlatButton  = require('material-ui/lib/flat-button');
 
 var InboxDocNotes = React.createClass({
     getInitialState : function(){
@@ -43,8 +45,8 @@ var InboxDocNotes = React.createClass({
         return (
 
                 <div>
-                    <div className="card paper">
-                        <ul  className="list-group" style={{"overflowY": "scroll","maxHeight":"400px"}}>
+                    <div className="card">
+                        <ul  className="list-group" style={{"overflowY": "scroll","maxHeight":"300px",'minHeight':"300px"}}>
                             {
                                 _.has(this.state.store,"comments") ? this.state.store.comments.map(function(comment) {
                                     return (
@@ -62,16 +64,20 @@ var InboxDocNotes = React.createClass({
                             }
                         </ul>
 
-                            <fieldset className="form-group">
-                                <input type="text"
-                                       className="form-control"
-                                       id="exampleInputEmail1"
-                                       onChange={this.handleChangeInput}
-                                       placeholder="Add a comment"
-                                        value={this.state.comment}/>
-                            </fieldset>
-                            <button type="button" className="btn btn-sm btn-success" onTouchTap={this.addComment}>Post</button>
-                            <button type="button" className="btn btn-sm btn-secondary">Cancel</button>
+
+                                <TextField
+                                    style={{"display": "block"}}
+                                    onChange={this.handleChangeInput}
+                                    floatingLabelText="Post a comment"
+                                    value={this.state.comment}/>
+                        <div className="pull-right">
+                            <FlatButton
+                                label="Post"
+                                secondary={true}
+                                onTouchTap={this.addComment}
+                            />
+                        </div>
+
 
                     </div>
                 </div>

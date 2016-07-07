@@ -34,7 +34,7 @@ var AppInboxPreviewFile = React.createClass({
     render: function () {
         var  actions = [
             <FlatButton
-                label="Ok"
+                label="Close"
                 secondary={true}
                 disabled={false}
                 onTouchTap={this.handleClose}
@@ -54,6 +54,8 @@ var AppInboxPreviewFile = React.createClass({
             <div>
                     <Dialog
                         contentStyle={{ "maxHeight" :'100%','maxWidth':'none','width':'80%'}}
+                        style={{maxHeight:'100%','maxWidth':'100%'}}
+                        repositionOnUpdate={false}
                         title={this.state.store.file_name}
                         actions={actions}
                         modal={true}
