@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 12/22/15.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var RaisedButton = require('material-ui/lib/raised-button');
 var TextField = require('material-ui/lib/text-field');

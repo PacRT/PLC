@@ -2,8 +2,10 @@
  * Created by Hardik on 12/23/15.
  */
 
+'use strict';
 
 //Importing App Components
+var React = require('react');
 var APP         = require('./app').APP;
 var MyDocs      = require('./mydocs/app-mydocs');
 var HowTo       = require('./howto/app-howto');

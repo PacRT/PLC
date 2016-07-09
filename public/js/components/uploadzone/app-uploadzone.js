@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 2/7/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var Dropzone = require('react-dropzone');
 var Dropzone = require('react-dropzone');

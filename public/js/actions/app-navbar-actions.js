@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 2/20/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var browserHistory = require('react-router').browserHistory;
 
 var NavBarActions = {

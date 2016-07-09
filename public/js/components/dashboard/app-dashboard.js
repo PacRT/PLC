@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var ActionRemainder = require('../action-remainder/app-actionremainder');
 var UploadZone = require('../uploadzone/app-uploadzone');

@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 var React       = require('react');
 var NavBar      = require('./navbar/app-navbar');
 var Notification = require('./notification/app-notification');

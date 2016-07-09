@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 12/22/15.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var SearchBarApp = require('./app-searchbar');
 var ActionBarApp = require('./app-action-bar');

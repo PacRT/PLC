@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var SignUpForm = require('./signup-form.js');
 var Grid = require('react-bootstrap/lib/Grid');

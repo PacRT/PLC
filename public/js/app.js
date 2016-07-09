@@ -1,3 +1,5 @@
+'use strict';
+var React = require('react');
 var render = require('react-dom').render;
 var Router = require('react-router').Router;
 var browserHistory = require('react-router').browserHistory;

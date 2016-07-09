@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var EntityActions = require('../actions/app-entity');
 var EntityStore = require('../stores/app-entity');

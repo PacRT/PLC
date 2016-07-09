@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 2/4/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;

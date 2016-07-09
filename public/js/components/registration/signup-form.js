@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 1/9/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var Input = require('./../utils/Input.js');
 var _ = require('underscore');

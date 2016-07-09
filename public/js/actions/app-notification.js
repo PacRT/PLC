@@ -4,7 +4,7 @@
 /**
  * Created by Hardik on 1/19/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 

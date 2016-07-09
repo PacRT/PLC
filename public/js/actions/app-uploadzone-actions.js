@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 var AppConstants = require('../constants/app-constants.js');
 var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');

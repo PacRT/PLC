@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 12/22/15.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var UnderConstruction = require('../app-underconstruction')
 var HowTo = React.createClass({

@@ -4,7 +4,7 @@
 /**
  * Created by Hardik on 12/22/15.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');

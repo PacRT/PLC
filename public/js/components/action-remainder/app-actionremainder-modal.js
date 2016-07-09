@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 2/9/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var ModalStore =  require('../../stores/app-actionremainder-store');
 var Dialog  = require('material-ui/lib/dialog');

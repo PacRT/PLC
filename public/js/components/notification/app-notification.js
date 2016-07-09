@@ -1,7 +1,7 @@
 /**
  * Created by Hardik on 1/24/16.
  */
-/** @jsx React.DOM */
+'use strict';
 var React = require('react');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Snackbar = require('material-ui/lib/snackbar');
