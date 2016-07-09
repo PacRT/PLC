@@ -140,8 +140,8 @@ var CreatePackageApp = React.createClass({
         }
         else {
             var file_name = this.state.files_name[index];
-            packages_added = _.reject(packages_added, function (package) {
-                return package["file_name"] == file_name;
+            packages_added = _.reject(packages_added, function (package_added) {
+                return package_added["file_name"] == file_name;
             });
         };
         this.setState({
@@ -153,9 +153,9 @@ var CreatePackageApp = React.createClass({
         var packages = categories;
         var _this = this;
         var ListedItems = [];
-        _.each(this.state.packages, function (package, index) {
-            var package_type = package.package_type;
-            var packages_added = package.packages_added;
+        _.each(this.state.packages, function (package_1, index) {
+            var package_type = package_1.package_type;
+            var packages_added = package_1.packages_added;
             var nestedItems = [];
             //_.each(packages_added, function(package_added, j){})
             _.each(packages_added, function (package_added, j) {

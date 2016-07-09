@@ -39,12 +39,12 @@ var AppThread = React.createClass({
     _previewFile : function(url, file_name, thread_index, pkg_index, doc_index){
        this.props.previewFile(url, file_name ,thread_index, pkg_index, doc_index);
     },
-    _getDocList : function (package, thread_index, pkg_index) {
+    _getDocList : function (package_1, thread_index, pkg_index) {
         var docList = [];
         var doc_item_style = this.getStyles()["doc_item"];
-        for(var i=0; i < package.docs.length; i++){
+        for(var i=0; i < package_1.docs.length; i++){
             var doc_index = i;
-            var doc = package.docs[i];
+            var doc = package_1.docs[i];
             var docItem = <ListItem insetChildren={true}
                             key={doc.docs_link}
                             innerDivStyle={doc_item_style}

@@ -52,9 +52,9 @@ var ForwardPackageModal = React.createClass({
     _createAndForwardPkg : function(){
         var packages = this.state.store.packages;
         var _this = this;
-        packages.map(function(package){
-            package["recepients"] = $("#recipients").materialtags('items');
-            package["package_type"] = _this.state.package_name;
+        packages.map(function(package_1){
+            package_1["recepients"] = $("#recipients").materialtags('items');
+            package_1["package_type"] = _this.state.package_name;
         });
         createForwardPkgActions.createPackages(packages);
     },
