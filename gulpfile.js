@@ -20,9 +20,7 @@ var replace = require('gulp-replace');
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
 var dependencies = [
-    'jquery',
-    'react',
-    'materialize-tags'
+    'jquery'
 ];
 var PROD_CONSTANTS = {
     "NODE_SERVER" : "paperlessclub.org",
@@ -42,11 +40,6 @@ var browserifyTask = function (options) {
         transform: [[babelify, {presets: ['es2015','react']}]], // We want to convert JSX to normal javascript
         debug: options.development, // Gives us sourcemapping
         cache: {}, packageCache: {}, fullPaths: options.development // Requirement of watchify
-    });
-
-    // We set our dependencies as externals on our app bundler when developing
-    (options.development ? dependencies : []).forEach(function (dep) {
-        appBundler.external(dep);
     });
 
     // The rebundle process
