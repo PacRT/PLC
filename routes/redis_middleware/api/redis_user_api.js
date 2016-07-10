@@ -1,6 +1,3 @@
-var luaScriptManager = require('../lua_script/luaScriptManager');
-var SCRIPT_FOLDER = "user";
-var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["USER"];
 var zerorpc = require("zerorpc");
 var _ = require("underscore");
 

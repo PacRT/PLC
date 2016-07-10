@@ -1,7 +1,6 @@
 /**
  * Created by Hardik on 2/3/16.
  */
-var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["DOCS_API"];
 var zerorpc = require("zerorpc");
 

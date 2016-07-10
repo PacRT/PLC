@@ -1,7 +1,6 @@
 /**
  * Created by Hardik on 3/22/16.
  */
-var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["CREATE_PKG"];
 var zerorpc = require("zerorpc");
 

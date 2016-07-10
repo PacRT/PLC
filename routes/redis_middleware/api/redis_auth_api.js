@@ -1,11 +1,8 @@
 /**
  * Created by Hardik on 1/30/16.
  */
-var luaScriptManager = require('../lua_script/luaScriptManager');
 var SCRIPT_CONSTANTS = require('../../constants/lua_script_constants')["AUTH"];
 var zerorpc = require("zerorpc");
-
-
 var Auth = {
     /**
      * Adding AuhToken in DB

@@ -3,7 +3,7 @@
  */
 var express = require("express");
 var router = express.Router();
-var redis_client = require('../../redis_middleware/redis_client');
+
 var passport = require('passport');
 var LocalStrategy   = require('passport-local').Strategy;
 var user_api = require('../../redis_middleware/api/redis_user_api');

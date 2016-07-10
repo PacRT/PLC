@@ -7,8 +7,6 @@ var request = require("request");
 var uuid = require("../api-utils/generate-uuid");
 var create_forward_package_api = require('../../redis_middleware/api/redis_create_package');
 var error_codes = require('../../constants/error-constants');
-var redis_client = require('../../redis_middleware/redis_client');
-var client = redis_client.getClient();
 
 router.post('/createPackage',function(req,res,next){
     var packages = req.body["packages"];
