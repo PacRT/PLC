@@ -18,6 +18,8 @@ var Divider = require('material-ui/lib/divider');
 var Paper = require('material-ui/lib/paper');
 var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
 var IconButton = require('material-ui/lib/icon-button');
+
+require('materialize-tags');
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {

@@ -12,8 +12,9 @@ var logger = require('morgan'),
 // Module dependencies.
 module.exports = function(app, express) {
     var corsOptions = {
-        origin  : ['http://localhost:7979','http://paperlessclub.org:7979'],
-        methods : ['GET', 'PUT', 'POST']
+        "origin": "*",
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "preflightContinue": false
     };
     app.use(methodOverride());
     app.use(bodyParser.urlencoded({ extended: true }));
