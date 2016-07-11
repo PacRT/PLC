@@ -7,10 +7,16 @@ RUN sudo apt-get update
 RUN sudo apt-get --assume-yes install python
 #install python modules
 RUN sudo apt-get --assume-yes install -y python-pip
-
-RUN sudo pip install redis
-
+RUN sudo apt-get --assume-yes install python-dev
+#Install CURL
+RUN sudo apt-get --assume-yes install curl
+RUN sudo apt-get --assume-yes install wget
 RUN sudo apt-get --assume-yes install git
+
+#Install Easy_setup
+RUN wget http://peak.telecommunity.com/dist/ez_setup.py
+RUN sudo python ez_setup.py
+RUN sudo easy_install pyinotify
 
 WORKDIR /tmp
 RUN git clone https://github.com/mysql/mysql-connector-python.git
@@ -36,8 +42,11 @@ RUN echo "The present working directory is `pwd`"
 RUN ./autogen.sh && ./configure && make -j 4
 RUN make check && make install && sudo ldconfig
 
-#Install CURL
-RUN sudo apt-get --assume-yes install curl
+#Installing Python Dependencies
+RUN sudo pip install cassandra-driver
+RUN sudo pip install redis
+RUN sudo pip install cql-builder
+RUN sudo pip install zerorpc
 
 #Install Nodejs
 # gpg keys listed at https://github.com/nodejs/node
@@ -65,24 +74,14 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-RUN sudo apt-get --assume-yes install wget
-#Install Easy_setup
-RUN wget http://peak.telecommunity.com/dist/ez_setup.py
-RUN sudo python ez_setup.py
-RUN sudo easy_install pyinotify
-
-RUN sudo pip install cassandra-driver
-RUN sudo pip install redis
-RUN sudo pip install cql-builder
-RUN sudo apt-get --assume-yes install python-dev
-RUN sudo pip install zerorpc
-
 WORKDIR /
-RUN git clone -b develop https://hardik91:679d48accd5acab1e5b335977eefe0251ee01c2c@github.com/PacRT/PLC.git
+COPY PLC PLC
 WORKDIR PLC
 
 RUN npm install
 RUN npm install gulp -g
 RUN npm link gulp
 
+# sudo docker build -t plc .
+# sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
 ENTRYPOINT ["/bin/bash"]
