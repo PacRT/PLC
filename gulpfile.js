@@ -148,7 +148,7 @@ var nodemon = require('gulp-nodemon');
 function startNodeApp(options){
 
     gulp.src('routes/constants/constant.js')
-        .pipe(replace("#SEAWEEDFS_ENDPOINT#",DEV_CONSTANTS.SEAWEEDFS_ENDPOINT))
+        .pipe(gulpif(options.development,replace("#SEAWEEDFS_ENDPOINT#", DEV_CONSTANTS.NODE_SERVER)))
         .pipe(gulpif(!options.development,replace("#SEAWEEDFS_ENDPOINT#", PROD_CONSTANTS.NODE_SERVER)))
         .pipe(gulp.dest('routes/constants'));
     nodemon({ script: 'routes/node-app.js'})
