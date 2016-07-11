@@ -22,9 +22,9 @@ var dependencies = [
     'jquery'
 ];
 var PROD_CONSTANTS = {
-    "NODE_SERVER" : "paperlessclub.org",
+    "NODE_SERVER" : "52.36.241.238",
     "NODE_PORT"   : 3333,
-    "SEAWEEDFS_ENDPOINT" : "paperlessclub.org:9333"
+    "SEAWEEDFS_ENDPOINT" : "52.36.241.238:9333"
 };
 var DEV_CONSTANTS = {
     "NODE_SERVER" : "127.0.0.1",
