@@ -49,7 +49,9 @@ VOLUME /usr/share/elasticsearch/data
 COPY docker-entrypoint.sh /
 
 EXPOSE 9200 9300
+RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
 # sudo docker build -t plc-els .
-# sudo docker run --name plc-els -p 9200:9200 -p 9300:9300 -v config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -d plc-els
+# sudo docker run --name plc-els -p 9200:9200 -p 9300:9300 -v "$PWD/config":/usr/share/elasticsearch/config -d plc-els
 CMD ["elasticsearch"]
