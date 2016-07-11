@@ -51,5 +51,5 @@ COPY docker-entrypoint.sh /
 EXPOSE 9200 9300
 ENTRYPOINT ["/docker-entrypoint.sh"]
 # sudo docker build -t plc-els .
-# sudo docker run --name plc-els -p 9200:9200 -p 9300:9300 -v ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -d plc-els
+# sudo docker run --name plc-els -p 9200:9200 -p 9300:9300 -v config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml -d plc-els
 CMD ["elasticsearch"]
