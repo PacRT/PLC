@@ -3,20 +3,20 @@ FROM ubuntu:16.04
 # Docker Maintainer
 MAINTAINER hardik
 # get all the required base packages to build and make
-RUN sudo apt-get update
-RUN sudo apt-get --assume-yes install python
+RUN apt-get update
+RUN apt-get --assume-yes install python
 #install python modules
-RUN sudo apt-get --assume-yes install -y python-pip
-RUN sudo apt-get --assume-yes install python-dev
+RUN apt-get --assume-yes install -y python-pip
+RUN apt-get --assume-yes install python-dev
 #Install CURL
-RUN sudo apt-get --assume-yes install curl
-RUN sudo apt-get --assume-yes install wget
-RUN sudo apt-get --assume-yes install git
+RUN apt-get --assume-yes install curl
+RUN apt-get --assume-yes install wget
+RUN apt-get --assume-yes install git
 
 #Install Easy_setup
 RUN wget http://peak.telecommunity.com/dist/ez_setup.py
-RUN sudo python ez_setup.py
-RUN sudo easy_install pyinotify
+RUN python ez_setup.py
+RUN easy_install pyinotify
 
 WORKDIR /tmp
 RUN git clone https://github.com/mysql/mysql-connector-python.git
@@ -30,23 +30,23 @@ WORKDIR /tmp
 RUN git clone https://github.com/zeromq/libzmq
 
 #Installing zeromq Dependencies
-RUN sudo apt-get --assume-yes install libtool
-RUN sudo apt-get --assume-yes install pkg-config
-RUN sudo apt-get --assume-yes install build-essential
-RUN sudo apt-get --assume-yes install autoconf
-RUN sudo apt-get --assume-yes install automake
+RUN apt-get --assume-yes install libtool
+RUN apt-get --assume-yes install pkg-config
+RUN apt-get --assume-yes install build-essential
+RUN apt-get --assume-yes install autoconf
+RUN apt-get --assume-yes install automake
 
 #INSTALLING zeroMQ
 WORKDIR libzmq
 RUN echo "The present working directory is `pwd`"
 RUN ./autogen.sh && ./configure && make -j 4
-RUN make check && make install && sudo ldconfig
+RUN make check && make install && ldconfig
 
 #Installing Python Dependencies
-RUN sudo pip install cassandra-driver
-RUN sudo pip install redis
-RUN sudo pip install cql-builder
-RUN sudo pip install zerorpc
+RUN pip install cassandra-driver
+RUN pip install redis
+RUN pip install cql-builder
+RUN pip install zerorpc
 
 #Install Nodejs
 # gpg keys listed at https://github.com/nodejs/node
@@ -82,6 +82,6 @@ RUN npm install
 RUN npm install gulp -g
 RUN npm link gulp
 
-# sudo docker build -t plc .
+# docker build -t plc .
 # sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
 ENTRYPOINT ["/bin/bash"]
