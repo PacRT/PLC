@@ -146,11 +146,7 @@ gulp.task('copy-static',function(){
 var nodemon = require('gulp-nodemon');
 
 function startNodeApp(options){
-
-    gulp.src('routes/constants/constant.js')
-        .pipe(gulpif(options.development,replace("#SEAWEEDFS_ENDPOINT#", DEV_CONSTANTS.SEAWEEDFS_ENDPOINT)))
-        .pipe(gulpif(!options.development,replace("#SEAWEEDFS_ENDPOINT#", PROD_CONSTANTS.SEAWEEDFS_ENDPOINT)))
-        .pipe(gulp.dest('routes/constants'));
+    
     nodemon({ script: 'routes/node-app.js'})
         .on('restart', function () {
             console.log('restarted!')
