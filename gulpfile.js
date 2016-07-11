@@ -10,7 +10,6 @@ var notify = require('gulp-notify');
 var concat = require('gulp-concat');
 var cssmin = require('gulp-cssmin');
 var gutil = require('gulp-util');
-var glob = require('glob');
 var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');

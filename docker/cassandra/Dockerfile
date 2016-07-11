@@ -48,7 +48,7 @@ VOLUME /var/lib/cassandra
 # 9042: CQL
 # 9160: thrift service
 # sudo docker build -t plc-cassandra .
-# sudo docker run --name plc-cassandra -p 9042:9042 -p 9160:9160 -v /data/plc_cassandra:/var/lib/cassandra -d plc-cassandra
+# sudo docker run --name plc-cassandra -p 9042:9042 -p 9160:9160 -v /data/plc_cassandra:/var/lib/cassandra -d cassandra:latest
 
 EXPOSE 7000 7001 7199 9042 9160
 CMD ["cassandra", "-f"]

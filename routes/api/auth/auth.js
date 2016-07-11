@@ -10,7 +10,6 @@ var user_api = require('../../redis_middleware/api/redis_user_api');
 var auth_api = require('../../redis_middleware/api/redis_auth_api');
 var crypto = require('crypto');
 var bcrypt = require('bcrypt');
-var uuid = require('node-uuid');
 var _ = require('underscore');
 /**
  * need to change this
