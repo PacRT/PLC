@@ -53,5 +53,8 @@ RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # sudo docker build -t plc-els .
-# sudo docker run --name plc-els -p 9200:9200 -p 9300:9300 -v "$PWD/config":/usr/share/elasticsearch/config -d plc-els
+# sudo docker run -p 9200:9200 -p 9300:9300 -v /data/esdata:/usr/share/elasticsearch/data elasticsearch -d elasticsearch:2.1.2
+
+#working command
+#sudo docker run -p 9200:9200 -p 9300:9300 -v "/data/esdata":/usr/share/elasticsearch/data -d elasticsearch:2.1.2
 CMD ["elasticsearch"]
