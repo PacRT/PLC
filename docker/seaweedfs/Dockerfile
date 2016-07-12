@@ -31,4 +31,4 @@ RUN echo $(curl -s cydev.ru/ip)
 
 #sudo docker build --no-cache -t 'cydev/weed' .
 #sudo docker run --name weedfs -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed server -dir="/data" -max=10 -ip="$(curl -s cydev.ru/ip)"
-ENTRYPOINT ["weed"]
+ENTRYPOINT ["/bin/sh"]
