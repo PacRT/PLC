@@ -84,4 +84,5 @@ RUN npm link gulp
 
 # docker build -t plc .
 # sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
+# curl  http://localhost:9333/dir/assign
 ENTRYPOINT ["/bin/bash"]
