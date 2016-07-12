@@ -153,6 +153,12 @@ function startNodeApp(options){
         })
 }
 
+function startPLCServer(){
+    nodemon({ script: 'plc-server.js'})
+        .on('restart', function () {
+            console.log('restarted!')
+        })
+};
 gulp.task('default',['copy-static'], function () {
     livereload.listen();
 
