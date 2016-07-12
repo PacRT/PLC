@@ -22,18 +22,6 @@ ENV WEED_HOME /opt/weed
 ENV PATH ${PATH}:${WEED_HOME}/bin
 
 # sudo docker build --no-cache -t 'plc-weed' .
+# sudo docker run -p 9333:9333 -p 8080:8080 -d -v /opt/weedfs/data:/data plc-weed server -dir="/data"
 
-# sudo docker run -ti plc-weed
-# sudo docker run -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data plc-weed server -master.port=9333 -volume.max=100 -volume.port=8080 -dir="/data" -ip="$(curl -s cydev.ru/ip)"
-
-
-
-# curl -X POST http://localhost:9333/dir/assign
-
-# sudo docker run -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed volume -max=100 -mserver="localhost:9333" -dir="./data"
-
-
-#sudo docker build --no-cache -t 'cydev/weed' .
-
-#sudo docker run -ti --name weedfs -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed server -dir="/data"  -volume.port=8080  -volume.max=10 -ip="$(curl -s cydev.ru/ip)"
 ENTRYPOINT ["weed"]
