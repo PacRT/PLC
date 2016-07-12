@@ -17,9 +17,17 @@ EXPOSE 8080
 EXPOSE 9333
 
 VOLUME /data
-RUN mkdir /data
+
 ENV WEED_HOME /opt/weed
 ENV PATH ${PATH}:${WEED_HOME}/bin
+RUN echo $(curl -s cydev.ru/ip)
+
+# sudo docker build --no-cache -t 'cydev/weed' .
+# sudo docker run -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed server -master.port=9333 -volume.max=100 -volume.port=8080 -dir="/data" -ip="$(curl -s cydev.ru/ip)"
+# curl -X POST http://localhost:9333/dir/assign
+
+# sudo docker run -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed volume -max=100 -mserver="localhost:9333" -dir="./data"
+
 
 #sudo docker build --no-cache -t 'cydev/weed' .
 #sudo docker run --name weedfs -d -p 9333:9333 -p 8080:8080 -v /opt/weed/data:/data cydev/weed server -dir="/data" -max=10 -ip="$(curl -s cydev.ru/ip)"
