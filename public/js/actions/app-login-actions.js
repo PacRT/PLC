@@ -27,7 +27,6 @@ var LoginActions = {
             actionType : AppConstants.LOG_IN,
             response :{"user_name":user_name,"api_token":api_token}
         });
-        browserHistory.push('dashboard');
     },
     /**
      * Clear User Session
