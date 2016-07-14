@@ -19,7 +19,6 @@ router.post('/:file_name/:category',function(req, res, next){
     request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
         var uploadEndpoint, weedRes;
         console.log("http://"+weedMaster + "/dir/assign");
-        console.log(response);
         if (!error) {
             weedRes = JSON.parse(body);
             uploadEndpoint = "http://" + weedRes.publicUrl + "/" + weedRes.fid;

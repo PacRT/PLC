@@ -1,10 +1,10 @@
 /**
  * Created by hmistry on 7/9/16.
  */
-var fs = require('fs'),
-    https = require('https'),
-    express = require('express'),
-    app = express();
+var fs = require('fs');
+var https = require('https');
+var express = require('express');
+var app = express();
 
 
 var privateKey  = fs.readFileSync(__dirname+'/../sslcert/key.pem', 'utf8');

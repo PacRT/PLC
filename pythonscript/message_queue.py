@@ -11,6 +11,9 @@ from TableModels import SenderList
 from TableModels import User
 from TableModels import Package
 from TableModels import InboxCommentThread
+
+import subprocess
+
 class MessageQueue(object):
     def __init__(self):
         self.cli = CassandraClient()
@@ -148,6 +151,9 @@ class MessageQueue(object):
             },
             uuid = True
         )
+        print "syncing Elastic Search - start"
+        subprocess.Popen(["cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
+        print "Elastic Search - end"
         return {
             "status": 200
         }
