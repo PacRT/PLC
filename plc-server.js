@@ -17,7 +17,7 @@ var credentials = {key: privateKey, cert: certificate};
 
 https.createServer(credentials, app,function(){
     console.log("secure server started on 8181");
-}).listen(8181);
+}).listen(7979);
 
 app.get('*', function (req, res) {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
