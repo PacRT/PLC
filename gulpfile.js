@@ -143,22 +143,43 @@ gulp.task('copy-static',function(){
         .src('public/assets/css/vendorcss/fonts/*.*')
         .pipe(gulp.dest('dist/assets/fonts'));
 });
+
+/**
+ * Kick Off API server
+ */
 var nodemon = require('gulp-nodemon');
 
-function startNodeApp(options){
+function startAPIServer(options){
     
-    nodemon({ script: 'routes/node-app.js'})
+    nodemon({ script: 'routes/secure-node-app.js'})
         .on('restart', function () {
             console.log('restarted!')
         })
 }
-
-function startPLCServer(){
-    nodemon({ script: 'plc-server.js'})
-        .on('restart', function () {
-            console.log('restarted!')
-        })
+/**
+ * Kick Off UI server
+ */
+var    exec = require('child_process').exec;
+function startPLCServer(options){
+    if(options["development"]){
+        exec('node plc-server.js', function (err, stdout, stderr) {
+            console.log(stdout);
+            console.log(stderr);
+        });
+        return;
+    }
+    exec('node plc-server.js &', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
 };
+
+gulp.task('plc-api',function () {
+    startAPIServer({
+        development : true
+    });
+});
+
 gulp.task('default',['copy-static'], function () {
     livereload.listen();
 
@@ -175,7 +196,7 @@ gulp.task('default',['copy-static'], function () {
         dest: 'dist/assets/css'
     });
 
-    connect.server({
+   /* connect.server({
         root: 'dist',
         port: 7979,
         middleware: function(connect, opt){
@@ -183,12 +204,10 @@ gulp.task('default',['copy-static'], function () {
             return [historyApiFallback({
             })];
         }
-    });
-    startNodeApp({
+    });*/
+    startPLCServer({
         development : true
-    })
-
-
+    });
 });
 gulp.task('deploy', ['copy-static'] , function () {
 
@@ -204,7 +223,7 @@ gulp.task('deploy', ['copy-static'] , function () {
         dest: 'dist/assets/css'
     });
 
-    connect.server({
+    /*connect.server({
         root: 'dist',
         port: 7979,
         middleware: function(connect, opt){
@@ -212,10 +231,12 @@ gulp.task('deploy', ['copy-static'] , function () {
             return [historyApiFallback({
             })];
         }
-    });
-
-    startNodeApp({
+    });*/
+    startPLCServer({
         development : false
-    })
+    });
+    startAPIServer({
+        development : false
+    });
 
 });
