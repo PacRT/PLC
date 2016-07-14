@@ -1,7 +1,5 @@
 'use strict';
 var path = require('path');
-
-
 var logger = require('morgan'),
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),

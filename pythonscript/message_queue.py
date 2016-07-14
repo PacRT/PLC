@@ -443,6 +443,9 @@ class MessageQueue(object):
             query,args = update.statement()
             print(query,args)
             self.cli.queryBuilderInsert(query,args)
+            print "syncing Elastic Search - start"
+            subprocess.Popen(["cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
+            print "Elastic Search - end"
         else:
             return {
                 "error": "Invalid signup link.",
