@@ -6,7 +6,9 @@ http://stackoverflow.com/questions/6151695/ec2-instance-on-amazon-and-i-am-greet
 Here's an even easier method. (My m2.2xlarge instance was created with RedHat Linux 6.2, I discovered it had a paltry 6gb of it's 850gb available):
 
 Via ssh, check space under root: $df -h
+
 Filesystem            Size  Used Avail Use% Mounted on
+
 /dev/xvde1              6G    6G    0G   100% /
 none                   17G     0   17G   0% /dev/shm
 From aws console, stop the instance
