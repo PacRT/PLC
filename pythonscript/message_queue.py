@@ -152,7 +152,7 @@ class MessageQueue(object):
             uuid = True
         )
         print "syncing Elastic Search - start"
-        subprocess.Popen(["cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
+        subprocess.Popen(['/bin/sh', '-c', "cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
         print "Elastic Search - end"
         return {
             "status": 200
@@ -444,7 +444,7 @@ class MessageQueue(object):
             print(query,args)
             self.cli.queryBuilderInsert(query,args)
             print "syncing Elastic Search - start"
-            subprocess.Popen(["cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
+            subprocess.Popen(['/bin/sh', '-c', "cassandra-elasticsearch/elasticsearch-jdbc-2.1.1.2/bin/cassandra-points.sh"])
             print "Elastic Search - end"
         else:
             return {

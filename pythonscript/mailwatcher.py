@@ -10,7 +10,7 @@ import requests
 import updateredis
 
 def getFileId():
-    rawreply = urllib.request.urlopen('http://50.250.218.65:9333/dir/assign')
+    rawreply = urllib.request.urlopen('http://127.0.0.1:9333/dir/assign')
     content = rawreply.read()
     data = json.loads(content.decode('utf8'))
     pprint(data)

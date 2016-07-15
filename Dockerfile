@@ -35,7 +35,7 @@ RUN apt-get --assume-yes install pkg-config
 RUN apt-get --assume-yes install build-essential
 RUN apt-get --assume-yes install autoconf
 RUN apt-get --assume-yes install automake
-
+RUN apt-get --assume-yes install default-jre
 #INSTALLING zeroMQ
 WORKDIR libzmq
 RUN echo "The present working directory is `pwd`"
@@ -82,7 +82,7 @@ WORKDIR PLC
 #RUN npm install gulp -g
 #RUN npm link gulp
 
-# docker build -t plc .
+# sudo docker build -t plc .
 # sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
 # curl  http://localhost:9333/dir/assign
 ENTRYPOINT ["/bin/bash"]
