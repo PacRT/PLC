@@ -27,8 +27,8 @@ var AppRegistration = {
             AppDispatcher.handleViewAction({
                 actionType : AppConstants.SHOW_NOTIFICATION,
                 response :notification
-            })
-            browserHistory.push('dashboard');
+            });
+            browserHistory.push('login');
         });
     }
 }
