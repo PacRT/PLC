@@ -19,7 +19,7 @@ From aws console, detach the volume (though note the mount point under attachmen
 
 From aws console, take a snapshot of the volume
 
-From aws console, create a new volume using the snapshot (using all the remaining space for the instance type, eg 825gb in my m2.2xlarge case)
+From aws console, create a new volume using the snapshot (using all the remaining space for the instance type, eg 825gb in my m2.2xlarge case) -- Chiradip's note - use your judgment about how much disk space you need. More you allocate more you pay.
 
 From aws console, attach the new volume to original mount point /dev/sda1
 
