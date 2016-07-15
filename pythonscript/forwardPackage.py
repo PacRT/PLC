@@ -114,28 +114,29 @@ class PacketForward(object):
             print("&&&&&&&&&&&&&&&&&&&")
             print(recepient)
             print("&&&&&&&&&&&&&&&&&&&")
+            threads = Thread.objects(receiver = recepient, sender= self.sender_id).allow_filtering()
+            print(threads.count())
+            if threads.count() == 1:
+                 Thread.objects(thread_id=threads[0]["thread_id"]).update(
+                                                                        packages__append=[self.pkg_id],
+                                                                        date_updated=datetime.datetime.now(),
+                                                                        is_read=False
+                                                                   )
+            else:
+                thread_id = uuid.uuid4()
+                Thread.create(
+                    thread_id = thread_id,
+                    date_updated = datetime.datetime.now(),
+                    is_read = False,
+                    packages = [self.pkg_id],
+                    receiver = recepient,
+                    sender = self.sender_id,
+                    thread_name= "Thread_" + str(thread_id)
+                )
+
             users = User.objects(email=recepient)
             if users.count() == 1:
                 for user in users:
-                    threads = Thread.objects(receiver = user.email,sender= self.sender_id).allow_filtering()
-                    if threads.count() == 1:
-                         Thread.objects(thread_id=threads[0]["thread_id"]).update(
-                                                                                packages__append=[self.pkg_id],
-                                                                                date_updated=datetime.datetime.now(),
-                                                                                is_read=False
-                                                                           )
-                    else:
-                        thread_id = uuid.uuid4()
-                        Thread.create(
-                            thread_id = thread_id,
-                            date_updated = datetime.datetime.now(),
-                            is_read = False,
-                            packages = [self.pkg_id],
-                            receiver = user.email,
-                            sender = self.sender_id,
-                            thread_name= "Thread_" + str(thread_id)
-                        )
-
                     sender_list = SenderList.objects(user_id = user.username)
                     if sender_list.count() == 0:
                         SenderList.create(
@@ -146,6 +147,15 @@ class PacketForward(object):
                     else:
                         SenderList.objects(user_id=user.username).update(sender_list__add = {self.sender_id})
             else:
+                sender_list = SenderList.objects(user_id = recepient)
+                if sender_list.count() == 0:
+                    SenderList.create(
+                        user_id = recepient,
+                        list_id = uuid.uuid4(),
+                        sender_list = {self.sender_id}
+                    )
+                else:
+                    SenderList.objects(user_id=recepient).update(sender_list__add = {self.sender_id})
                 id = str(uuid.uuid4())
                 self.add_invitation(id, recepient)
                 TO = recepient

@@ -47,3 +47,17 @@ class InboxCommentThread(Model):
     doc_url    = columns.Text()
     comment    = columns.Text()
     date_added = columns.DateTime()
+
+class Docs(Model):
+    id = columns.UUID(primary_key = True)
+    owner_id = columns.Text()
+    score = columns.Text()
+    category = columns.Text()
+    filename = columns.Text()
+    issuer_id = columns.Text()
+    doc_url = columns.Text()
+    doc_link = columns.Text()
+
+class Authentication(Model):
+    username = columns.Text(primary_key= True)
+    auth_token = columns.Text()

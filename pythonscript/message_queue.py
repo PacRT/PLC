@@ -11,6 +11,8 @@ from TableModels import SenderList
 from TableModels import User
 from TableModels import Package
 from TableModels import InboxCommentThread
+from TableModels import Docs
+from TableModels import Authentication
 
 import subprocess
 
@@ -76,21 +78,16 @@ class MessageQueue(object):
             },
             uuid = True
         )
-        self.cli.insert(
-            table_name = "username",
-            data = {
-                "username": username
-            },
-            uuid = True
 
-        )
-        self.cli.insert(
-            table_name = "email",
-            data = {
-                "email": email
-            },
-            uuid = True
-        )
+        sender_list = SenderList.objects(user_id= email)
+        if sender_list.count() != 0:
+            for sender in sender_list:
+                SenderList.create(
+                    user_id = username,
+                    list_id = uuid.uuid4(),
+                    sender_list = sender["sender_list"]
+                )
+            SenderList.objects(user_id= email).delete()
         return {
             "status": 200
         }
@@ -159,7 +156,7 @@ class MessageQueue(object):
         }
 
     def addAuthToken(self, data):
-        rows = self.cli.select(table_name = "authentication")
+        rows = Authentication.objects(username = data['username']).allow_filtering()
         for row in rows:
             if row.username == data["username"]:
                 return {
@@ -167,23 +164,18 @@ class MessageQueue(object):
                     "auth_token": row.auth_token
                 }
         auth_token = str(uuid.uuid4())
-        self.cli.insert(
-            table_name = "authentication",
-            data = {
-                "username": data["username"],
-                "auth_token": auth_token
-            },
-            ttl = 3600
-        )
+        query = Authentication.create(
+                            username=  data["username"], auth_token= auth_token
+                        ).ttl(3600)
         return {
             "status": 200,
             "auth_token" : auth_token
         }
 
     def verifyAuthToken(self, data):
-        rows = self.cli.select(table_name = "authentication")
+        rows = Authentication.objects(username = data['username']).allow_filtering()
         for row in rows:
-            if row.username == data["username"] and row.add_auth_token == data["auth_token"]:
+            if row.auth_token == data["auth_token"]:
                 return {
                     "status": 200
                 }
@@ -347,12 +339,10 @@ class MessageQueue(object):
     def get_user_docs(self, data):
         docs_link = []
         files_name = []
-        rows = self.cli.select(table_name="docs")
-        owner_id = data["user_id"]
+        rows = Docs.objects(owner_id = data['user_id']).allow_filtering()
         for row in rows:
-            if str(row.owner_id) == owner_id:
-                docs_link.append(row.doc_url)
-                files_name.append(row.filename)
+            docs_link.append(row.doc_url)
+            files_name.append(row.filename)
         result = {
          "docs_link": docs_link,
          "files_name" : files_name
