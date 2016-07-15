@@ -349,9 +349,7 @@ class MessageQueue(object):
         files_name = []
         rows = self.cli.select(table_name="docs")
         owner_id = data["user_id"]
-        print(owner_id);
         for row in rows:
-            print(row.owner_id)
             if str(row.owner_id) == owner_id:
                 docs_link.append(row.doc_url)
                 files_name.append(row.filename)
