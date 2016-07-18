@@ -30,13 +30,13 @@ RUN ./autogen.sh && ./configure && make -j 4
 RUN make check && make install && ldconfig
 
 #Installing Python Dependencies
-RUN pip install cassandra-driver
-RUN pip install redis
-RUN pip install cql-builder
 RUN pip install zerorpc
 
 WORKDIR /
 COPY test_server.py PLC
 WORKDIR PLC
 
+
+# sudo docker build -t zerorpc_server .
+# sudo docker run -ti -p 4242:4242 --net=host zerorpc_server
 ENTRYPOINT ["/bin/bash"]
