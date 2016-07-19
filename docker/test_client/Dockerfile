@@ -43,4 +43,4 @@ WORKDIR script
 
 # sudo docker build -t zerorpc_client docker/test_client
 # sudo docker run -ti --net=host zerorpc_client
-ENTRYPOINT ["/bin/bash"]
+CMD ["python", "createUserVmail.py"]
