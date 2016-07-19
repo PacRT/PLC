@@ -57,7 +57,7 @@ def processPart(part, owner, issuer, issdname):
         Load(ctype, fname, owner, issuer, issdname)
 
 def ExtractAndLoad(obj):
-    fp = email.parser.BytesFeedParser()
+    fp = email.parser.BytesParser()
     try:
         fp.feed(open(obj, "rb").read())
         msg = fp.close()
