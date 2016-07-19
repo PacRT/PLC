@@ -5,7 +5,7 @@ import email.parser
 import email.utils
 import os
 import json
-import urllib.request
+import urllib
 import requests
 import zerorpc
 import datetime
