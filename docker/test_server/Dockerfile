@@ -31,12 +31,20 @@ RUN make check && make install && ldconfig
 
 #Installing Python Dependencies
 RUN pip install zerorpc
+RUN pip install pyinotify
+
+WORKDIR /tmp
+RUN git clone https://github.com/mysql/mysql-connector-python.git
+WORKDIR mysql-connector-python
+RUN chmod +x setup.py
+RUN python ./setup.py install
 
 WORKDIR /
-COPY test_server.py PLC
-WORKDIR PLC
+COPY . script
+WORKDIR script
+
 
 
 # sudo docker build -t zerorpc_server .
-# sudo docker run -ti -p 4242:4242 --net=host zerorpc_server
+# sudo docker run -ti -p 4242:4242 -v /home/vmail/:/data --net=host zerorpc_server
 ENTRYPOINT ["/bin/bash"]
