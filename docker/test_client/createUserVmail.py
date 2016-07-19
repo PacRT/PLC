@@ -1,6 +1,6 @@
 from __future__ import print_function
 from datetime import date, datetime, timedelta
-import mysql.connector,json
+import mysql,json
 import zerorpc
 
 
