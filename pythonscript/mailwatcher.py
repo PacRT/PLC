@@ -1,8 +1,8 @@
 __author__ = 'chiradip'
 from pprint import pprint
 import pyinotify
-import email.parser
-import email.utils
+import email
+from email.feedparser import FeedParser
 import os
 import json
 import urllib
@@ -57,7 +57,7 @@ def processPart(part, owner, issuer, issdname):
         Load(ctype, fname, owner, issuer, issdname)
 
 def ExtractAndLoad(obj):
-    fp = email.parser.BytesParser()
+    fp = FeedParser()
     try:
         fp.feed(open(obj, "rb").read())
         msg = fp.close()
