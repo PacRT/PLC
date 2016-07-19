@@ -5,13 +5,13 @@ import email.parser
 import email.utils
 import os
 import json
-import urllib.request
+import urllib
 import requests
 import zerorpc
 import datetime
 
 def getFileId():
-    rawreply = urllib.request.urlopen('http://52.38.25.88:9333/dir/assign')
+    rawreply = urllib.urlopen('http://52.38.25.88:9333/dir/assign')
     content = rawreply.read()
     data = json.loads(content.decode('utf8'))
     pprint(data)
