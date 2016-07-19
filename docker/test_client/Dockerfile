@@ -33,9 +33,9 @@ RUN make check && make install && ldconfig
 RUN pip install zerorpc
 
 WORKDIR /
-COPY test_client.py PLC
-WORKDIR PLC
+COPY . script
+WORKDIR script
 
-# sudo docker build -t zerorpc_client .
+# sudo docker build -t zerorpc_client docker/test_client
 # sudo docker run -ti --net=host zerorpc_client
 ENTRYPOINT ["/bin/bash"]
