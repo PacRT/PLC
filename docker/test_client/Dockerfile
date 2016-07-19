@@ -34,10 +34,8 @@ RUN pip install zerorpc
 
 
 WORKDIR /tmp
-RUN git clone https://github.com/mysql/mysql-connector-python.git
-WORKDIR mysql-connector-python
-RUN chmod +x setup.py
-RUN python ./setup.py install
+RUN wget http://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python_2.1.3-1ubuntu15.04_all.deb
+RUN dpkg -i mysql-connector-python_2.1.3-1ubuntu15.04_all.deb
 
 WORKDIR /
 COPY . script
