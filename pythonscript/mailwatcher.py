@@ -7,10 +7,11 @@ import os
 import json
 import urllib.request
 import requests
-import updateredis
+import zerorpc
+import datetime
 
 def getFileId():
-    rawreply = urllib.request.urlopen('http://127.0.0.1:9333/dir/assign')
+    rawreply = urllib.request.urlopen('http://52.38.25.88:9333/dir/assign')
     content = rawreply.read()
     data = json.loads(content.decode('utf8'))
     pprint(data)
@@ -31,8 +32,18 @@ def Load(type, fname, owner, issuer, issdname):
     print("Final URL: " + finalurl)
     print(r.text)
     doc_url = "/docs/"+finalurl.split("//")[1].replace(":",'/')
-    print(doc_url)
-    updateredis.update_redis(owner, issuer, finalurl, issdname,fname,doc_url)
+    rpc_client = zerorpc.Client()
+    rpc_client.connect("tcp://52.38.25.88:4242")
+    data = {
+        'category' : '---',
+        'file_name' : fname,
+        'doc_url' : finalurl,
+        'owner_id' : owner,
+        'issuer_id' : issuer,
+        'score' : datetime.datetime.now(),
+        'doc_link' : doc_url
+    }
+    rpc_client.createDoc(data)
 
 def processPart(part, owner, issuer, issdname):
     ctype = part.get_content_type()

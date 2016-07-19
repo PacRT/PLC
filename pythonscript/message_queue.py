@@ -88,6 +88,10 @@ class MessageQueue(object):
                     sender_list = sender["sender_list"]
                 )
             SenderList.objects(user_id= email).delete()
+
+        rpc_client = zerorpc.Client()
+        rpc_client.connect("tcp://50.250.218.65:4242")
+        print rpc_client.createDirectory(username, email)
         return {
             "status": 200
         }
