@@ -32,6 +32,13 @@ RUN make check && make install && ldconfig
 #Installing Python Dependencies
 RUN pip install zerorpc
 
+
+WORKDIR /tmp
+RUN git clone https://github.com/mysql/mysql-connector-python.git
+WORKDIR mysql-connector-python
+RUN chmod +x setup.py
+RUN python ./setup.py install
+
 WORKDIR /
 COPY . script
 WORKDIR script
