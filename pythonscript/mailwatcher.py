@@ -16,7 +16,7 @@ def getFileId():
     data = json.loads(content.decode('utf8'))
     pprint(data)
     fid = data["fid"]
-    url = data["url"]
+    url = data["url"].replace("localhost","52.38.25.88")
     final_url = "http://" + url + "/" + fid
     print(final_url)
     return final_url
