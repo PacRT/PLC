@@ -563,5 +563,5 @@ class MessageQueue(object):
 
 
 s = zerorpc.Server(MessageQueue())
-s.bind("tcp://127.0.0.1:4242")
+s.bind("tcp://0.0.0.0:4242")
 s.run()
