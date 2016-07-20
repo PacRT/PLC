@@ -47,4 +47,4 @@ WORKDIR script
 
 # sudo docker build -t zerorpc_server docker/test_server
 # sudo docker run -ti -p 4242:4242 -v /home/vmail/:/data --net=host zerorpc_server
-ENTRYPOINT ["/bin/bash"]
+CMD ["python", "mailwatcher.py"]
