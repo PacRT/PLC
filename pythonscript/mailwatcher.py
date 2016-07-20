@@ -73,7 +73,7 @@ def ExtractAndLoad(obj):
         print(issuer)
         for part in msg.walk():
             processPart(part, owner, issuer, issdname)
-    except IsADirectoryError:
+    except OSError:
         print("No Need to parse the event..")
         print("New Directory created!")
 
