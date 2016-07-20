@@ -92,6 +92,6 @@ class EventHandler(pyinotify.ProcessEvent):
 
 handler = EventHandler()
 notifier = pyinotify.Notifier(wm, handler)
-wdd = wm.add_watch('/home/vmail/', mask, auto_add=True, rec=True)
+wdd = wm.add_watch('/data/', mask, auto_add=True, rec=True)
 
 notifier.loop()
