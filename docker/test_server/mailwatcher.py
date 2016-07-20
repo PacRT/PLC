@@ -40,7 +40,7 @@ def Load(type, fname, owner, issuer, issdname):
         'doc_url' : finalurl,
         'owner_id' : owner,
         'issuer_id' : issuer,
-        'score' : datetime.datetime.now(),
+        'score' : str(datetime.datetime.now()),
         'doc_link' : doc_url
     }
     rpc_client.createDoc(data)
