@@ -78,9 +78,9 @@ WORKDIR /
 COPY . PLC
 WORKDIR PLC
 
-#RUN npm install
-#RUN npm install gulp -g
-#RUN npm link gulp
+RUN npm install
+RUN npm install gulp -g
+RUN npm link gulp
 
 # sudo docker build -t plc .
 # sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
