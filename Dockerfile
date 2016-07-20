@@ -83,6 +83,6 @@ RUN npm install gulp -g
 RUN npm link gulp
 
 # sudo docker build -t plc .
-# sudo docker run -ti -p 7979:7979 -p 3333:3333 --net=host plc
+# sudo docker run -ti -p 7979:7979 -p 3333:3333 -p 4242:4242 --net=host plc
 # curl  http://localhost:9333/dir/assign
 ENTRYPOINT ["/bin/bash"]
