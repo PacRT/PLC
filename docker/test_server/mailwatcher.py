@@ -24,13 +24,13 @@ def getFileId():
 def Load(type, fname, owner, issuer, issdname):
     url = getFileId()
     files = {'file': open(fname, 'rb')}
-    r = requests.post(url, files=files)
+    #r = requests.post(url, files=files)
     print("File is uploading the type is: ", type)
     extension = type.split('/')[1]
     print("Extension: " + extension)
     finalurl = url+ "." +extension
     print("Final URL: " + finalurl)
-    print(r.text)
+    #print(r.text)
     doc_url = "/docs/"+finalurl.split("//")[1].replace(":",'/')
     rpc_client = zerorpc.Client()
     rpc_client.connect("tcp://52.38.25.88:4242")
