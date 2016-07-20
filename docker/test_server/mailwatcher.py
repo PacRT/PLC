@@ -1,8 +1,8 @@
 __author__ = 'chiradip'
 from pprint import pprint
 import pyinotify
-import email.parser
-import email.utils
+import email
+from email.feedparser import FeedParser
 import os
 import json
 import urllib
@@ -11,12 +11,12 @@ import zerorpc
 import datetime
 
 def getFileId():
-    rawreply = urllib.request.urlopen('http://52.38.25.88:9333/dir/assign')
+    rawreply = urllib.urlopen('http://52.38.25.88:9333/dir/assign')
     content = rawreply.read()
     data = json.loads(content.decode('utf8'))
     pprint(data)
     fid = data["fid"]
-    url = data["url"]
+    url = data["url"].replace("localhost","52.38.25.88")
     final_url = "http://" + url + "/" + fid
     print(final_url)
     return final_url
@@ -57,7 +57,7 @@ def processPart(part, owner, issuer, issdname):
         Load(ctype, fname, owner, issuer, issdname)
 
 def ExtractAndLoad(obj):
-    fp = email.parser.BytesFeedParser()
+    fp = FeedParser()
     try:
         fp.feed(open(obj, "rb").read())
         msg = fp.close()
@@ -73,7 +73,7 @@ def ExtractAndLoad(obj):
         print(issuer)
         for part in msg.walk():
             processPart(part, owner, issuer, issdname)
-    except IsADirectoryError:
+    except OSError:
         print("No Need to parse the event..")
         print("New Directory created!")
 
