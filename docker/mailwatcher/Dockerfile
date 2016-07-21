@@ -43,8 +43,6 @@ WORKDIR /
 COPY . script
 WORKDIR script
 
-# su vmail
-# vmail : vmail098123
-# sudo docker build -t zerorpc_server docker/test_server
-# sudo docker run -ti -p 4242:4242 -v /home/vmail/:/data --net=host zerorpc_server
+# sudo docker build -t mailwatcher docker/mailwatcher
+# sudo docker run -ti -d -p 4242:4242 -v /home/vmail/:/data --net=host mailwatcher
 CMD ["python", "mailwatcher.py"]
