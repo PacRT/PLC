@@ -27,6 +27,7 @@ def Load(type, fname, owner, issuer, issdname):
     r = requests.post(url, files=files)
     print("File is uploading the type is: ", type)
     extension = type.split('/')[1]
+    url = url.replace("52.38.25.88","localhost")
     print("Extension: " + extension)
     finalurl = url+ "." +extension
     print("Final URL: " + finalurl)
@@ -36,12 +37,12 @@ def Load(type, fname, owner, issuer, issdname):
     rpc_client.connect("tcp://52.38.25.88:4242")
     data = {
         'category' : '---',
-        'file_name' : fname,
-        'doc_url' : finalurl,
-        'owner_id' : owner,
+        'file_name' : fname.split(":")[2],
+        'doc_url' : doc_url,
+        'owner_id' : owner.split("@")[0],
         'issuer_id' : issuer,
         'score' : str(datetime.datetime.now()),
-        'doc_link' : doc_url
+        'doc_link' : finalurl
     }
     rpc_client.createDoc(data)
 
