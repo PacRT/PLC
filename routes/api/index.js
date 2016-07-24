@@ -69,6 +69,10 @@ router.use('/api/v1/inbox',require('./inbox/inbox_add_comment'));
  * Get Comments for Inbox Thread
  */
 router.use('/api/v1/inbox',require('./inbox/inbox_get_comment'));
+/**
+ *
+ */
+router.use('/api/v1/sentItems',require('./sentitems/get_sentItems'));
 
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})

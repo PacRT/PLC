@@ -2,7 +2,6 @@ import urllib
 import os
 import shutil
 import smtplib
-import redis
 import json
 import uuid
 import datetime
@@ -35,10 +34,6 @@ packages['recepients'] = cjson.decode(recepients[1])
 packages['packages_added'] = cjson.decode(packages_added[1])
 return cjson.encode(packages)
 '''
-
-r = redis.Redis()
-p = r.pubsub()
-
 
 class PacketForward(object):
     def __init__(self, package_id):
@@ -202,19 +197,3 @@ class PacketForward(object):
         query, args = insert.statement();
         cli.queryBuilderInsert(query,args);
 
-def main():
-    p.subscribe("forwardPackage")
-    fetcher = r.register_script(LUA)
-    for message in p.listen():
-        if type(message['data']) == str:
-            data = json.loads(message['data'])['packages']
-            forwarder = PacketForward(data, fetcher)
-            forwarder.fetch_packages()
-            forwarder.forward_packet()
-            dir_name = forwarder.dir_name
-            shutil.rmtree(dir_name)
-            os.remove(dir_name + '.zip')
-
-
-if __name__ == '__main__':
-    main()
