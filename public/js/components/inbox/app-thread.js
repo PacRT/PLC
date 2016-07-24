@@ -98,7 +98,7 @@ var AppThread = React.createClass({
                     leftIcon={ThreadIcon}
                     initiallyOpen={false}
                     primaryTogglesNestedList={true}
-                    primaryText={ <AppPrimaryText sender={thread.sender} thread_name={thread.thread_name} date_updated={thread.date_updated} /> }
+                    primaryText={ <AppPrimaryText sender={_.has(thread,"receiver") ? thread.receiver : thread.sender }  thread_name={thread.thread_name} date_updated={thread.date_updated} /> }
                     nestedItems={ nested_list }
                 />
                 <Divider/>

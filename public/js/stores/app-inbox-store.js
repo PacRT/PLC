@@ -31,6 +31,10 @@ AppDispatcher.register(function(payload){
             _inbox_store = action.threads;
             Inbox_Store.emit(CHANGE_EVENT);
             break;
+        case AppConstants.GET_SENT_ITEMS:
+            _inbox_store = action.threads;
+            Inbox_Store.emit(CHANGE_EVENT);
+            break;
         case AppConstants.MARK_THREAD_READ:
             _inbox_store[action.thread_index]["is_read"] = true;
             Inbox_Store.emit(CHANGE_EVENT);

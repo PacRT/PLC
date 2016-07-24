@@ -19,5 +19,6 @@ module.exports = {
     FILTER_DOCS      : '/doc_search/#query#',
     MARK_THREAD_READ    : '/inbox/markThreadRead/#thread_id#',
     GET_INBOX_COMMENTS : '/inbox/getComment',
-    ADD_INBOX_COMMENTS : '/inbox/addComment'
+    ADD_INBOX_COMMENTS : '/inbox/addComment',
+    GET_SENT_ITEMS     : '/sentItems/getSentItems'
 };

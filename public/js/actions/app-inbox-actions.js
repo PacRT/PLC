@@ -68,7 +68,17 @@ var InboxActions = {
             is_preview_open : open_preview,
             doc_url         : ""
         });
+    },
+    getSentItems : function(){
+        API.get(APIConstants.GET_SENT_ITEMS).then(function(response){
+            var result = JSON.parse(response.text);
+            AppDispatcher.handleViewAction({
+                actionType : AppConstants.GET_SENT_ITEMS,
+                threads : result
+            });
+        });
     }
+
 }
 
 module.exports = InboxActions;
