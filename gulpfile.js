@@ -13,7 +13,6 @@ var gutil = require('gulp-util');
 var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');
-var historyApiFallback = require('connect-history-api-fallback');
 var replace = require('gulp-replace');
 
 // External dependencies you do not want to rebundle while developing,
@@ -196,15 +195,6 @@ gulp.task('default',['copy-static'], function () {
         dest: 'dist/assets/css'
     });
 
-   /* connect.server({
-        root: 'dist',
-        port: 7979,
-        middleware: function(connect, opt){
-            console.log("in history fallback!!!")
-            return [historyApiFallback({
-            })];
-        }
-    });*/
     startPLCServer({
         development : true
     });
@@ -222,16 +212,7 @@ gulp.task('deploy', ['copy-static'] , function () {
         src:css_path ,
         dest: 'dist/assets/css'
     });
-
-    /*connect.server({
-        root: 'dist',
-        port: 7979,
-        middleware: function(connect, opt){
-            console.log("in history fallback!!!")
-            return [historyApiFallback({
-            })];
-        }
-    });*/
+    
     startPLCServer({
         development : false
     });
