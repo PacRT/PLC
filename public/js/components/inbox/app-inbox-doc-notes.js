@@ -55,7 +55,7 @@ var InboxDocNotes = React.createClass({
                                                 <img src="http://bigbeehive.com/demo/orientplay-angular/img/user/vector4.png" alt="user"/>
                                             </span>
                                             <span className="title">
-                                                <a href="#">{localStorage.getItem('USER_NAME') }</a> <time>{comment['date_added']}</time>
+                                                <a href="#">{ comment['author'] }</a> <time>{comment['date_added']}</time>
                                                 <p>{comment['comment']}</p>
                                             </span>
                                         </li>

@@ -52,7 +52,8 @@ var InboxActions = {
             "thread_id" : thread_id,
             "pkg_id"    : pkg_id,
             "doc_url"   : doc_url.split("/api/v1")[1],
-            "comment"   : comment
+            "comment"   : comment,
+            "author"   : localStorage.getItem('USER_NAME')
         };
         API.post(APIConstants.ADD_INBOX_COMMENTS,data).then(function(response){
             var result = JSON.parse(response.text);

@@ -42,7 +42,8 @@ AppDispatcher.register(function(payload){
             var time_stamp =  new Date().toString();
             var comment = {
                 "comment" : action.comment,
-                "date_added" : time_stamp.slice(0,time_stamp.indexOf(" GMT"))
+                "date_added" : time_stamp.slice(0,time_stamp.indexOf(" GMT")),
+                "author"   : localStorage.getItem('USER_NAME')
             };
             if(_.isArray(_inbox_thread_comment_store["comments"])){
                 _inbox_thread_comment_store["comments"].push(comment);

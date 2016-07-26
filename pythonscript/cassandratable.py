@@ -192,7 +192,8 @@ cs_cli.create_table(
         'package_id' : 'uuid',
         'doc_url'    : 'text',
         'comment'    : 'text',
-        'date_added' : 'timestamp'
+        'date_added' : 'timestamp',
+        'author'     : 'text'
     },
     primary_key =  'comment_id'
 )

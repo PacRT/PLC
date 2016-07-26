@@ -554,6 +554,7 @@ class MessageQueue(object):
             comment_obj = {
                 'date_added' : str(comment['date_added'].strftime('%a %b %d %Y %H:%M:%S')),
                 'comment'    : comment['comment'],
+                'author'     : comment['author']
 
             }
             comments.append(comment_obj)
@@ -566,7 +567,8 @@ class MessageQueue(object):
         query = InboxCommentThread.create(
             comment_id=uuid.uuid4(), thread_id=data['thread_id'],
             package_id=data['pkg_id'],doc_url= data['doc_url'],
-            comment = data['comment'], date_added= datetime.datetime.now()
+            comment = data['comment'], date_added= datetime.datetime.now(),
+            author = data['author']
         )
         return {
             "status" : 200,

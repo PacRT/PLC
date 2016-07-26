@@ -47,6 +47,7 @@ class InboxCommentThread(Model):
     doc_url    = columns.Text()
     comment    = columns.Text()
     date_added = columns.DateTime()
+    author     = columns.Text()
 
 class Docs(Model):
     id = columns.UUID(primary_key = True)
