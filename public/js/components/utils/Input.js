@@ -3,7 +3,7 @@
  */
 'use strict';
 var React = require('react');
-var _ = require('underscore');
+var _ = require('lodash');
 var Icon = require('./Icon.js');
 var InputError = require('./InputError.js');
 var PasswordValidator = require('./PasswordValidator.js');

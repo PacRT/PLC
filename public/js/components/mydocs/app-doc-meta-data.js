@@ -11,7 +11,7 @@ var EditMetaDataActions = require('../../actions/app-metadata-actions');
 var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableRow= require('material-ui/lib/table/table-row');
 var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-
+var _ = require('lodash');
 
 var AppDocMetaData = React.createClass({
     getInitialState: function () {

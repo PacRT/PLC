@@ -16,6 +16,7 @@ var CardMedia =  require('material-ui/lib/card/card-media');
 var FlatButton =  require('material-ui/lib/flat-button');
 var CardText =  require('material-ui/lib/card/card-text');
 var Colors = require('material-ui/lib/styles/colors');
+var _ = require('lodash');
 
 var Login = React.createClass({
     getInitialState: function(){

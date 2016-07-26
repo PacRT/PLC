@@ -16,6 +16,7 @@ var ForwardPkgModal = require('./forward-package-modal');
 var SelectGridContainer = require("./app-select-grid-container");
 var DocTile = require("../mydocs/app-doc-tile");
 var categories = require('../../constants/app-upload-categories-constants');
+var _ = require('lodash');
 
 var CreatePackageApp = React.createClass({
     getInitialState: function () {

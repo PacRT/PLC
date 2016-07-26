@@ -4,6 +4,7 @@ var ThreadUnread = require('material-ui/lib/svg-icons/communication/email');
 var ThreadRead = require('material-ui/lib/svg-icons/communication/mail-outline');
 var Divider = require('material-ui/lib/divider');
 var AppPrimaryText = require('./app-list-primary-text');
+var _ = require('lodash');
 
 var AppThread = React.createClass({
     getInitialState : function(){

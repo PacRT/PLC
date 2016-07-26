@@ -3,7 +3,6 @@ var React = require('react');
 var render = require('react-dom').render;
 var Router = require('react-router').Router;
 var browserHistory = require('react-router').browserHistory;
-_ = require('lodash');
 /*var useRouterHistory = require('react-router');
 var createHashHistory = require('history');
 var appHistory = useRouterHistory(createHashHistory)({ queryKey: false });*/

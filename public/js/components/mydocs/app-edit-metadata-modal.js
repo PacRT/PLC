@@ -12,10 +12,11 @@ var TextField = require('material-ui/lib/text-field');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var DocPreview = require('./app-doc-preview');
-
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
+var _ = require('lodash');
+
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
         return  {

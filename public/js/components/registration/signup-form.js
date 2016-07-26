@@ -4,7 +4,7 @@
 'use strict';
 var React = require('react');
 var Input = require('./../utils/Input.js');
-var _ = require('underscore');
+var _ = require('lodash');
 var Icon = require('./../utils/Icon.js');
 var UserStore = require('../../stores/app-registration-store');
 var RegistrationActions = require('../../actions/app-registration-actions');
