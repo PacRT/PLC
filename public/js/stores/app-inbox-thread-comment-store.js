@@ -9,6 +9,7 @@ var AppConstants = require('../constants/app-constants')["INBOX"];
 var EventEmitter = require('events').EventEmitter;
 var ObjectAssign = require('object-assign');
 var CHANGE_EVENT = "change";
+var _ = require('lodash');
 
 var _inbox_thread_comment_store = {
     "comments" : []

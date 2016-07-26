@@ -6,6 +6,8 @@ var API = require('../utils/API.js');
 var API_URL = require('../utils/getAPIURL');
 var request = require('superagent-bluebird-promise');
 var Promise = require('bluebird');
+var _ = require('lodash');
+
 /**
  *
  * @type {{getUploadRequest: UploadzoneActions.getUploadRequest, uploadDocs: UploadzoneActions.uploadDocs}}
