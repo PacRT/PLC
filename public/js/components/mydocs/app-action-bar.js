@@ -45,9 +45,10 @@ var ActionBarApp = React.createClass({
 
         };
         for(var index in this.state.store.selected_docs){
+            var file_index = this.state.store.selected_docs[index];
             var doc_json = {
-                "file_name" : this.state.store.files_name[index],
-                "docs_link" : "/docs" + this.state.store.docs_link[index].split("/docs")[1]
+                "file_name" : this.state.store.files_name[file_index],
+                "docs_link" : "/docs" + this.state.store.docs_link[file_index].split("/docs")[1]
             }
             pkg_json["packages_added"].push(doc_json);
         }
