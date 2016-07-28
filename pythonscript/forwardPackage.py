@@ -161,7 +161,7 @@ class PacketForward(object):
                 If you like to access the assets beyond these limits, please create a free PLC account using the link below and
                 continue accessing these assets while experiencing a rich set of other features securely on the site.
                 '''
-                body = body + "http://paperlessclub.org:7979/registration#/{0}".format(id)
+                body = body + "https://52.38.25.88:7979/registration#/{0}".format(id)
                 msg.attach(MIMEText(body, 'plain'))
                 # Attach file
                 part = MIMEBase('application', "octet-stream")
