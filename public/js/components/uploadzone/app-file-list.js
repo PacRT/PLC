@@ -11,8 +11,23 @@ var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
 var FontIcon = require('material-ui/lib/font-icon');
 var FlatButton = require('material-ui/lib/flat-button');
+var SelectFileCategory = require('./app-select-file-category');
+var PopularCategories = require('./app-popular-categories');
+var Grid = require('react-bootstrap/lib/Grid');
+var Row = require('react-bootstrap/lib/Row');
+var Col = require('react-bootstrap/lib/Col');
+var Card = require('material-ui/lib/card/card');
 
 var FileList = React.createClass({
+    getInitialState : function() {
+        return {
+            category: []
+        }
+    },
+    handleChange:function(fileIndex,event, index, value){
+        this.props.handleChange(event,index,value, fileIndex);
+
+    },
     getFileList :function(){
         var text_field_style = {
             "width" : "80%",
@@ -41,22 +56,30 @@ var FileList = React.createClass({
                 function iterator( file ,index) {
                     return(
                         <div key={"file"+index}>
-                            <input disabled value={file.name} style={text_field_style}/>
-                            <FontIcon
-                                onTouchTap={this.props.removeHandle.bind(null,index)}
-                                className="fa fa-remove pull-right"
-                                style={remove_icon_style}
-                            />
-                            <Divider style={divider_style}/>
+                            <Col md={12} xs={12} >
+                                <Col md={6} xs={12}>
+                                    <input disabled value={file.name} style={text_field_style}/>
+                                </Col>
+                                <Col md={4} xs={12}>
+                                    <PopularCategories category={file["category"]} handle={this.handleChange.bind(null,index)}/>
+                                </Col>
+                                <Col md={2} xs={12}>
+                                    <FontIcon
+                                        onTouchTap={this.props.removeHandle.bind(null,index)}
+                                        className="fa fa-remove pull-right"
+                                        style={remove_icon_style}
+                                    />
+                                </Col>
+                                <Divider style={divider_style}/>
+                            </Col>
+
                         </div>
                     );
                 },this);
             return (
-                <Paper zDepth={1}>
-                    {file_rows}
-                    <FlatButton onTouchTap={this.props.cancelHandle} label="Cancel" style={button_style} />
-                    <FlatButton onTouchTap={this.props.uploadHandle} label="Upload Files" style={button_style} secondary={true} />
-                </Paper>
+                <Card zDepth={1} style={{"boxShadow": "none"}}>
+                    { file_rows }
+                </Card>
             )
         }else{
             return "";
@@ -66,7 +89,14 @@ var FileList = React.createClass({
         var fileList = this.getFileList();
         return (
             <div>
-                {fileList}
+                <SelectFileCategory progress={this.props.progress}
+                                    handleChange={this.props.handleChange}
+                                    selectCat={true}
+                                    getFileList={this.getFileList}
+                                    modal_open={this.props.open_modal}
+                                    cancelHandle={this.props.cancelHandle}
+                                    uploadHandle={this.props.uploadHandle}>
+                </SelectFileCategory>
             </div>
         );
     }

@@ -4,7 +4,6 @@
 'use strict';
 var React = require('react');
 var Dropzone = require('react-dropzone');
-var Dropzone = require('react-dropzone');
 var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
 var Grid = require('react-bootstrap/lib/Grid');
@@ -14,7 +13,6 @@ var Card = require('material-ui/lib/card/card');
 var LinearProgress = require('material-ui/lib/linear-progress');
 var CardHeader = require('material-ui/lib/card/card-header');
 var FileList = require('./app-file-list');
-var PopularCategories = require('./app-popular-categories');
 var UploadzoneStore = require('../../stores/app-uploadzone-store');
 var UploadzoneActions = require('../../actions/app-uploadzone-actions');
 
@@ -24,7 +22,8 @@ var UploadZone = React.createClass({
             category: "",
             files: [],
             super_request: {},
-            progress : UploadzoneStore.getProgress()
+            progress : UploadzoneStore.getProgress(),
+            open_modal : true
         }
     },
     componentDidMount: function() {
@@ -37,10 +36,13 @@ var UploadZone = React.createClass({
         this.setState({
             progress : UploadzoneStore.getProgress()
         });
+        console.log( UploadzoneStore.getProgress());
     },
-    handleChange:function(event, index, value){
+    handleChange:function(event, index, value,fileIndex){
+        var files = this.state.files;
+        files[fileIndex]["category"] = value;
         this.setState({
-            "category" : value
+           "files" : files
         });
     },
     removeFile : function(index){
@@ -56,9 +58,10 @@ var UploadZone = React.createClass({
         if(isFilePresent){
             present_files = this.state.files;
             files = present_files.concat(files);
-        }
+        };
         this.setState({
-            files: files
+            files: files,
+            open_modal : true
         });
     },
     updateProgress:function(percent){
@@ -67,17 +70,40 @@ var UploadZone = React.createClass({
         });
     },
     uploadFiles:function(){
-        if(this.state.files.length)
-            UploadzoneActions.uploadDocs(this.state.files,this.state.category);
-        this.setState({
-            files : [],
-            progress : 0
-        });
+        var result = "";
+        var _this = this;
+        if(this.state.files.length){
+            result = UploadzoneActions.uploadDocs(this.state.files);
+            result.then(function(res){
+                if(_.has(res[0],"err")){
+                    _this.setState({
+                        progress : 0,
+                        open_modal: false
+                    });
+                }
+                _this.setState({
+                    progress : 0,
+                    open_modal: true
+                });
+            },function(err){
+                _this.setState({
+                    progress : 0,
+                    open_modal: false
+                });
+            }).catch(function(err){
+                _this.setState({
+                    progress : 0,
+                    open_modal: false
+                });
+            });
+        }
+
     },
     cancelUpload:function(){
         this.setState({
             files:[],
             progress :0,
+            open_modal : false
         })
     },
     render: function () {
@@ -107,19 +133,18 @@ var UploadZone = React.createClass({
                                         title="Document Upload Zone"
                                     />
                                 </Card>
-                                {this.state.progress > 0 ? (
-                                    <LinearProgress mode="determinate" value={this.state.progress}/>
-                                ) : null}
+                                
                             </Dropzone>
-
-                                <PopularCategories category={this.state.category} handle={this.handleChange}/>
-                                {
+                             {
                                     this.state.is_upload_complete ? null :
                                         (
                                             <FileList files={this.state.files}
                                                       removeHandle={this.removeFile}
                                                       cancelHandle={this.cancelUpload}
                                                       uploadHandle={this.uploadFiles}
+                                                      open_modal={this.state.open_modal}
+                                                      handleChange={this.handleChange}
+                                                      progress={this.state.progress}
                                             />
                                         )
                                 }

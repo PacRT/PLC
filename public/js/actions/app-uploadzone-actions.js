@@ -40,14 +40,14 @@ var UploadzoneActions = {
      * Upload Docs
      * @param files
      */
-    uploadDocs : function(files,category){
+    uploadDocs : function(files){
         var api_url = API_URL.get(APIConstants.UPLOAD_DOCS);
-        api_url = api_url.replace("#category#",category);
         var super_requests = [];
         var promise;
         var _this = this;
         _.each(files, function(file){
             var file_api_url = api_url.replace("#file_name#",file.name);
+            file_api_url = file_api_url.replace("#category#",_.has(file,"category") ? file.category: "--");
             promise = request
                 .post(file_api_url)
                 .attach(file.name, file)
@@ -70,7 +70,7 @@ var UploadzoneActions = {
                 });
             super_requests.push(promise);
         });
-        Promise
+        return Promise
             .all(super_requests)
             .then(function(res){
                 if(_.has(res[0],"err")){

@@ -20,7 +20,8 @@ var PopularCategories = React.createClass({
     },
     render: function () {
         var drop_menu_style = {
-            "marginBottom" : "20px"
+            "marginBottom" : "20px",
+            "top" : "-32px"
         };
 
         return (
