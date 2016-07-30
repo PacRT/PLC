@@ -69,6 +69,7 @@
     "gulp-util": "^3.0.7",
     "lodash.assign": "^4.0.2",
     "morgan": "^1.7.0",
+    "nodemon": "^1.10.0",
     "reactify": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

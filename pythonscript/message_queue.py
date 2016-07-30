@@ -5,6 +5,7 @@ from forwardPackage import PacketForward
 from cql_builder.condition import all_eq,eq
 from TableModels import Thread
 import datetime
+import re
 
 from TableModels import Thread
 from TableModels import SenderList
@@ -15,6 +16,8 @@ from TableModels import Docs
 from TableModels import Authentication
 
 import subprocess
+
+EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 class MessageQueue(object):
     def __init__(self):
@@ -514,29 +517,30 @@ class MessageQueue(object):
         receiver_list = SenderList.objects.filter(sender_list__contains=data['user_id']).allow_filtering()
         q = Thread.objects(Thread.sender == data['user_id']).allow_filtering();
         for receiver_id in receiver_list:
-            user_email = User.objects(username = receiver_id["user_id"]).allow_filtering()[0]['email'];
-            filter_row = q.filter(receiver= user_email)
-            for thread in filter_row:
-                thread_obj = {}
-                thread_obj['sender'] = data['user_id']
-                thread_obj['receiver'] = receiver_id["user_id"]
-                thread_obj['date_updated'] = str(thread['date_updated'].strftime('%d, %b %Y'))
-                thread_obj['thread_id'] = str(thread['thread_id'])
-                thread_obj['packages'] = []
-                thread_obj['is_read'] = thread['is_read']
-                for pkg_id in thread['packages']:
-                    package_obj = {}
-                    package_result = Package.objects(package_id = pkg_id).allow_filtering()
-                    for pkg in package_result:
-                        package_obj = {
-                            'package_name' : pkg['package_type'],
-                            'package_id'   : str(pkg['package_id']),
-                            'docs'         : json.loads(str(pkg['packages_added'])),
-                            'date_updated' : str(pkg['date_updated'].strftime('%d, %b %Y'))
-                        }
-                        thread_obj['packages'].append(package_obj)
-            threads.append(thread_obj)
-        return json.dumps(threads)
+            if not EMAIL_REGEX.match(receiver_id["user_id"]):
+                user_email = User.objects(username = receiver_id["user_id"]).allow_filtering()[0]['email'];
+                filter_row = q.filter(receiver= user_email)
+                for thread in filter_row:
+                    thread_obj = {}
+                    thread_obj['sender'] = data['user_id']
+                    thread_obj['receiver'] = receiver_id["user_id"]
+                    thread_obj['date_updated'] = str(thread['date_updated'].strftime('%d, %b %Y'))
+                    thread_obj['thread_id'] = str(thread['thread_id'])
+                    thread_obj['packages'] = []
+                    thread_obj['is_read'] = thread['is_read']
+                    for pkg_id in thread['packages']:
+                        package_obj = {}
+                        package_result = Package.objects(package_id = pkg_id).allow_filtering()
+                        for pkg in package_result:
+                            package_obj = {
+                                'package_name' : pkg['package_type'],
+                                'package_id'   : str(pkg['package_id']),
+                                'docs'         : json.loads(str(pkg['packages_added'])),
+                                'date_updated' : str(pkg['date_updated'].strftime('%d, %b %Y'))
+                            }
+                            thread_obj['packages'].append(package_obj)
+                threads.append(thread_obj)
+                return json.dumps(threads)
 
     def markThreadRead(self,data):
         query = Thread.objects(thread_id=uuid.UUID(data['thread_id'])).update(is_read=True)

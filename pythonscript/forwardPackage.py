@@ -6,6 +6,7 @@ import json
 import uuid
 import datetime
 import random
+import re
 
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
@@ -25,7 +26,7 @@ GMAIL_PASSWORD = 'paperlessclub'
 GMAIL_SERVER = 'smtp.gmail.com'
 PAPERLESS_USERNAME = 'registrar@paperlessclub.org'
 PAPERLESS_SERVER = 'paperlessclub.org'
-
+EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 LUA = '''
 local recepients = redis.call('HMGET', "package:"..KEYS[1], "recepients")
 local packages_added = redis.call('HMGET', "package:" ..KEYS[1], "packages_added")
@@ -105,76 +106,93 @@ class PacketForward(object):
         return s, msg
 
     def forward_packet(self):
-        for recepient in self.recepients:
-            print("&&&&&&&&&&&&&&&&&&&")
-            print(recepient)
-            print("&&&&&&&&&&&&&&&&&&&")
-            threads = Thread.objects(receiver = recepient, sender= self.sender_id).allow_filtering()
-            print(threads.count())
-            if threads.count() == 1:
-                 Thread.objects(thread_id=threads[0]["thread_id"]).update(
-                                                                        packages__append=[self.pkg_id],
-                                                                        date_updated=datetime.datetime.now(),
-                                                                        is_read=False
-                                                                   )
+        for receiver in self.recepients:
+            recepient = ""
+            # This check retreives email from paprelessId.. receiever's value will be userid/plc id in this case
+            if not EMAIL_REGEX.match(receiver):
+                recepient = User.objects(username= receiver).allow_filtering()
+                if recepient.count() == 1:
+                    recepient = recepient[0]["email"]
+                    print(recepient)
+                else:
+                    print("User Not Found!!")
+                    recepient = receiver
             else:
-                thread_id = uuid.uuid4()
-                Thread.create(
-                    thread_id = thread_id,
-                    date_updated = datetime.datetime.now(),
-                    is_read = False,
-                    packages = [self.pkg_id],
-                    receiver = recepient,
-                    sender = self.sender_id,
-                    thread_name= "Thread_" + str(thread_id)
-                )
+                #it is going to be a email id.
+                recepient = receiver
 
-            users = User.objects(email=recepient)
-            if users.count() == 1:
-                for user in users:
-                    sender_list = SenderList.objects(user_id = user.username)
+            if EMAIL_REGEX.match(recepient):
+                threads = Thread.objects(receiver = recepient, sender= self.sender_id).allow_filtering()
+                print(threads.count())
+                 # check if thread alreadu exists, if user has already received a pkg from anothre user
+                if threads.count() == 1:
+                     #update thread with new pkg_id
+                     Thread.objects(thread_id=threads[0]["thread_id"]).update(
+                                                                            packages__append=[self.pkg_id],
+                                                                            date_updated=datetime.datetime.now(),
+                                                                            is_read=False
+                                                                       )
+                else:
+                    #create a new thread if it's the first time if user has received a pkg
+                    thread_id = uuid.uuid4()
+                    Thread.create(
+                        thread_id = thread_id,
+                        date_updated = datetime.datetime.now(),
+                        is_read = False,
+                        packages = [self.pkg_id],
+                        receiver = recepient,
+                        sender = self.sender_id,
+                        thread_name= "Thread_" + str(thread_id)
+                    )
+                #Fetch user by email Id
+                users = User.objects(email=recepient)
+                if users.count() == 1:
+                    #When user is registered
+                    for user in users:
+                        sender_list = SenderList.objects(user_id = user.username)
+                        if sender_list.count() == 0:
+                            SenderList.create(
+                                user_id = user.username,
+                                list_id = uuid.uuid4(),
+                                sender_list = {self.sender_id}
+                            )
+                        else:
+                            SenderList.objects(user_id=user.username).update(sender_list__add = {self.sender_id})
+                else:
+                    #when user is yet to register , update sender_list and forward attachment via email
+                    sender_list = SenderList.objects(user_id = recepient)
                     if sender_list.count() == 0:
                         SenderList.create(
-                            user_id = user.username,
+                            user_id = recepient,
                             list_id = uuid.uuid4(),
                             sender_list = {self.sender_id}
                         )
                     else:
-                        SenderList.objects(user_id=user.username).update(sender_list__add = {self.sender_id})
-            else:
-                sender_list = SenderList.objects(user_id = recepient)
-                if sender_list.count() == 0:
-                    SenderList.create(
-                        user_id = recepient,
-                        list_id = uuid.uuid4(),
-                        sender_list = {self.sender_id}
-                    )
-                else:
-                    SenderList.objects(user_id=recepient).update(sender_list__add = {self.sender_id})
-                id = str(uuid.uuid4())
-                self.add_invitation(id, recepient)
-                TO = recepient
-                s, msg = self.get_email_settings(server='GMAIL')
-                msg['To'] = TO
-                body = '''
-                To keep your sender's assets secure, PLC allows access via secure email link only for a limited time of 24 hours.
-                If you like to access the assets beyond these limits, please create a free PLC account using the link below and
-                continue accessing these assets while experiencing a rich set of other features securely on the site.
-                '''
-                body = body + "https://52.38.25.88:7979/registration#/{0}".format(id)
-                msg.attach(MIMEText(body, 'plain'))
-                # Attach file
-                part = MIMEBase('application', "octet-stream")
-                part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
-                Encoders.encode_base64(part)
-                part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
-                msg.attach(part)
+                        SenderList.objects(user_id=recepient).update(sender_list__add = {self.sender_id})
+                    id = str(uuid.uuid4())
+                    self.add_invitation(id, recepient)
+                    TO = recepient
+                    s, msg = self.get_email_settings(server='GMAIL')
+                    msg['To'] = TO
+                    body = '''
+                    To keep your sender's assets secure, PLC allows access via secure email link only for a limited time of 24 hours.
+                    If you like to access the assets beyond these limits, please create a free PLC account using the link below and
+                    continue accessing these assets while experiencing a rich set of other features securely on the site.
+                    '''
+                    body = body + "https://52.38.25.88:7979/registration#/{0}".format(id)
+                    msg.attach(MIMEText(body, 'plain'))
+                    # Attach file
+                    part = MIMEBase('application', "octet-stream")
+                    part.set_payload(open('/tmp/'+self.dir_name + '.zip', 'rb').read())
+                    Encoders.encode_base64(part)
+                    part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename('/tmp/'+self.dir_name + '.zip'))
+                    msg.attach(part)
 
-                try:
-                    s.sendmail(msg['From'], TO, msg.as_string())
-                except:
-                    pass
-                s.close()
+                    try:
+                        s.sendmail(msg['From'], TO, msg.as_string())
+                    except:
+                        pass
+                    s.close()
 
     @staticmethod
     def add_invitation(id, email):
