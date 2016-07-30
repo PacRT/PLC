@@ -57,6 +57,31 @@ var AppCreateForwardPackage = {
     createPackages : function(packages){
         var data = {
             "packages" : packages
+        };
+        if(!packages[0]["packages_added"].length){
+            var notification = {
+                open : true,
+                message : "Please select Documents."
+            }
+            AppDispatcher.handleViewAction({
+                actionType : GlobalConstants.SHOW_NOTIFICATION,
+                response   : notification
+            });
+            return;
+        }
+        if(!packages[0]["recepients"].length){
+            var notification = {
+                open : true,
+                message : "Please add Email Id/PaperlessIds."
+            }
+            AppDispatcher.handleViewAction({
+                actionType : GlobalConstants.SHOW_NOTIFICATION,
+                response   : notification
+            });
+            return;
+        }
+        for(var index in packages[0]["recepients"]){
+            packages[0]["recepients"][index]  = packages[0]["recepients"][index].trim().toLowerCase();
         }
         API.post(APIConstants.CREATE_FORWARD_PACKAGE,data).then(function(response){
             var notification = {
