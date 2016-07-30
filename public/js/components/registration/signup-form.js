@@ -125,12 +125,12 @@ var SignUpForm = React.createClass({
     },
     _registerUser: function () {
         var user = [
-            this.state.email,
+            this.state.email.trim().toLowerCase(),
             this.state.firstName,
             this.state.lastName,
             this.state.password,
             this.state.phoneNumber,
-            this.state.userName,
+            this.state.userName.trim().toLowerCase(),
             0,
             this.props.invitationId.split("#/")[1]
         ];
