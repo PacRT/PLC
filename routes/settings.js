@@ -11,7 +11,7 @@ var logger = require('morgan'),
 module.exports = function(app, express) {
     var corsOptions = {
         "origin": "*",
-        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "methods": "GET,POST",
         "preflightContinue": false
     };
     app.use(methodOverride());
