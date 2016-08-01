@@ -16,15 +16,25 @@ var MenuItem = require('material-ui/lib/menus/menu-item');
 var LoginStore = require('../../stores/app-login-store');
 var LoginActions = require('../../actions/app-login-actions');
 var NavBarActions = require('../../actions/app-navbar-actions');
+var AccountCircle =  require('material-ui/lib/svg-icons/action/account-box');
+var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
+var Badge = require('material-ui/lib/badge');
+var IconButton =  require('material-ui/lib/icon-button');
+var Colors = require('material-ui/lib/styles/colors');
+
 var NavBar = React.createClass({
     getInitialState: function () {
-        return this.state = this._getLoginState();
+        return {
+            userLoggedIn: this._getLoginState(),
+            user_full_name : ""
+        }
     },
     _getLoginState: function () {
         return {
             userLoggedIn: LoginStore.isLoggedIn(),
+            user_full_name :  LoginStore.getUserFullName(),
             isOpen : false
-        };
+        }
     },
     componentDidMount: function () {
         LoginStore.addChangeListener(this._onChange);
@@ -63,35 +73,69 @@ var NavBar = React.createClass({
     _goToLocation : function (location) {
         NavBarActions.goToLocation(location)
     },
+    getClassName : function(currentPath){
+       if(location.pathname === "/"+currentPath){
+           return "active";
+       }
+      return "";
+    },
     getNavBar: function () {
+        var cardHeaderStyle = {
+            "marginTop" : "15px",
+            "fill"      : "rgb(255, 255, 255)"
+        };
+        var full_name_style = {
+            position: "relative",
+            color: "rgb(255,255,255)",
+            top: "-0.75em",
+            right: "10px"
+        }
         if (!this.state.userLoggedIn) {
             return ( "" )
         } else {
             return (
-                <Nav>
-                    {/* <ul>
-                        <li><Link to="/mydocs">My Docs</Link></li>
-                        <li><Link to="/howto">How to</Link></li>
-                        <li><Link to="/invite">Invite</Link></li>
-                        <li><Link to="/devzone">Dev Zone</Link></li>
-                        <li><Link to="/mythings">My Things</Link></li>
-                        <li><Link to="/logout" onClick={this.logout}>Log out</Link></li>
-
-                     <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
-                     <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
-                    </ul>*/}
+                <div>
                     <Nav>
-                        <NavItem eventKey={1}  onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
-                        <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
-                        <NavItem eventKey={2}  onClick={this.logout}>Logout</NavItem>
-                    </Nav>
+                        {/* <ul>
+                         <li><Link to="/mydocs">My Docs</Link></li>
+                         <li><Link to="/howto">How to</Link></li>
+                         <li><Link to="/invite">Invite</Link></li>
+                         <li><Link to="/devzone">Dev Zone</Link></li>
+                         <li><Link to="/mythings">My Things</Link></li>
+                         <li><Link to="/logout" onClick={this.logout}>Log out</Link></li>
 
-                </Nav>
+                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
+                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
+                         </ul>*/}
+                        <Nav>
+                            <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
+                            <NavItem className={this.getClassName('inbox')}     onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
+                            <NavItem className={this.getClassName('sentitems')} onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
+                            <NavItem onClick={this.logout}>Logout</NavItem>
+                        </Nav>
+
+                    </Nav>
+                    <div className="pull-right">
+                       <span style={full_name_style}>Welcome, { localStorage.getItem("FULL_NAME") } ! </span>
+                        <Badge
+                            badgeContent={10}
+                            secondary={true}
+                            badgeStyle={{top:0, right: 18}}
+                            style={{padding: "0px 27px 0px 0px"}}
+                        >
+                            <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }}>
+                                <NotificationsIcon   color={Colors.white} />
+                            </IconButton>
+                        </Badge>
+                        <AccountCircle style={cardHeaderStyle}/>
+                    </div>
+                </div>
+
             )
         }
     },
     render: function () {
+        console.log("render nabar");
         return (
             <Navbar inverse className="navbar-fixed-top">
                 <Navbar.Header>
