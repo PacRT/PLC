@@ -17,15 +17,15 @@ var LoginActions = {
             var result = JSON.parse(response.text);
             AppDispatcher.handleViewAction({
                 actionType : AppConstants.LOG_IN,
-                response :result
+                response :{"user_name":result.user.username,"api_token":result.api_token, "full_name" : result.user.name}
             });
             browserHistory.push('dashboard');
         });
     },
-    continueSession:function(api_token,user_name){
+    continueSession:function(api_token,user_name, full_name){
         AppDispatcher.handleViewAction({
             actionType : AppConstants.LOG_IN,
-            response :{"user_name":user_name,"api_token":api_token}
+            response :{"user_name":user_name,"api_token":api_token, "full_name": full_name}
         });
     },
     /**

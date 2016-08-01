@@ -56,9 +56,8 @@ router.post('',function(req, res, next){
         });
         function generateAuthToken(){
             auth_api.addAuthToken(user["user"]["username"]).then(function(response){
-                console.log("asdfasdfasdfasdfdsaf");
                 res.send({
-                    "user_name" : user["user"]["username"],
+                    "user" : user["user"],
                     "api_token" : response["auth_token"]
                 });
             },function(error){

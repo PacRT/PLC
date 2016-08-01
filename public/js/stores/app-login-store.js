@@ -10,7 +10,8 @@ var CHANGE_EVENT = "change";
 
 var _login = {
     api_token: null,
-    user_name: null
+    user_name: null,
+    full_name : ""
 };
 
 var LoginStore  = ObjectAssign({},EventEmitter.prototype,{
@@ -28,6 +29,9 @@ var LoginStore  = ObjectAssign({},EventEmitter.prototype,{
     },
     isLoggedIn:function(){
        return !!_login.user_name;
+    },
+    getUserFullName : function () {
+        return _login.full_name;
     }
 });
 
@@ -37,15 +41,19 @@ AppDispatcher.register(function(payload){
         case AppConstants.LOG_IN:
             _login.api_token = action.response.api_token;
             _login.user_name = action.response.user_name;
+            _login.full_name = action.response.full_name;
             localStorage.setItem(AppConstants.API_TOKEN,_login.api_token);
             localStorage.setItem(AppConstants.USER_NAME,_login.user_name);
+            localStorage.setItem(AppConstants.FULL_NAME,_login.full_name);
             LoginStore.emit(CHANGE_EVENT);
             break;
         case AppConstants.LOG_OUT:
             _login.api_token = null;
             _login.user_name = null;
+            _login.full_name = "";
             localStorage.removeItem(AppConstants.API_TOKEN);
             localStorage.removeItem(AppConstants.USER_NAME);
+            localStorage.removeItem(AppConstants.FULL_NAME);
             LoginStore.emit(CHANGE_EVENT);
             break;
         default:

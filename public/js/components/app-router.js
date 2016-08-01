@@ -53,6 +53,7 @@ var AppRouter = {
 
 var api_token = localStorage.getItem(AppConstants.API_TOKEN);
 var user_name = localStorage.getItem(AppConstants.USER_NAME);
-if(api_token && user_name)
-    LoginActions.continueSession(api_token,user_name);
+var full_name = localStorage.getItem(AppConstants.FULL_NAME);
+if(api_token && user_name != null && full_name != null)
+    LoginActions.continueSession(api_token,user_name, full_name);
 module.exports = AppRouter
