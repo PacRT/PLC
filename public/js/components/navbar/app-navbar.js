@@ -108,7 +108,7 @@ var NavBar = React.createClass({
                             badgeContent={10}
                             secondary={true}
                             badgeStyle={{top:0, right: 18}}
-                            style={{padding: "0px 27px 0px 0px";  top : "-8px"}}
+                            style={{padding: "0px 27px 0px 0px",  top : "-8px"}}
                         >
                             <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }}>
                                 <NotificationsIcon   color={Colors.white} />
