@@ -24,10 +24,8 @@ var Colors = require('material-ui/lib/styles/colors');
 
 var NavBar = React.createClass({
     getInitialState: function () {
-        return {
-            userLoggedIn: this._getLoginState(),
-            user_full_name : ""
-        }
+        return this._getLoginState();
+
     },
     _getLoginState: function () {
         return {
@@ -96,17 +94,6 @@ var NavBar = React.createClass({
             return (
                 <div>
                     <Nav>
-                        {/* <ul>
-                         <li><Link to="/mydocs">My Docs</Link></li>
-                         <li><Link to="/howto">How to</Link></li>
-                         <li><Link to="/invite">Invite</Link></li>
-                         <li><Link to="/devzone">Dev Zone</Link></li>
-                         <li><Link to="/mythings">My Things</Link></li>
-                         <li><Link to="/logout" onClick={this.logout}>Log out</Link></li>
-
-                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'devzone')}>Dev Zone</NavItem>
-                         <NavItem eventKey={2}  onClick={this._goToLocation.bind(null, 'mythings')}>My Things</NavItem>
-                         </ul>*/}
                         <Nav>
                             <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
                             <NavItem className={this.getClassName('inbox')}     onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
@@ -135,7 +122,6 @@ var NavBar = React.createClass({
         }
     },
     render: function () {
-        console.log("render nabar");
         return (
             <Navbar inverse className="navbar-fixed-top">
                 <Navbar.Header>
