@@ -102,13 +102,13 @@ var NavBar = React.createClass({
                         </Nav>
 
                     </Nav>
-                    <div className="pull-right">
+                    <div className="pull-right" style={{ "height" : "0px"}}>
                        <span style={full_name_style}>Welcome, { localStorage.getItem("FULL_NAME") } ! </span>
                         <Badge
                             badgeContent={10}
                             secondary={true}
                             badgeStyle={{top:0, right: 18}}
-                            style={{padding: "0px 27px 0px 0px"}}
+                            style={{padding: "0px 27px 0px 0px";  top : "-8px"}}
                         >
                             <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }}>
                                 <NotificationsIcon   color={Colors.white} />
