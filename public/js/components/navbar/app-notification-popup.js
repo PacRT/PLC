@@ -29,7 +29,7 @@ var NotificationPopUp = React.createClass({
     render : function(){
         var styles = {
             popover: {
-                top : "55px"
+                "marginTop" : "3px"
             }
         }
         return (

@@ -25,7 +25,8 @@ var NavBar = React.createClass({
         return {
             userLoggedIn: LoginStore.isLoggedIn(),
             user_full_name :  LoginStore.getUserFullName(),
-            isOpen : false
+            isOpen : false,
+            welcome_msg : "Welcome, "+ localStorage.getItem("FULL_NAME") + "!"
         }
     },
     componentDidMount: function () {
@@ -73,41 +74,35 @@ var NavBar = React.createClass({
     },
     getNavBar: function () {
         var cardHeaderStyle = {
-            "marginTop" : "15px",
             "fill"      : "rgb(255, 255, 255)"
         };
         var full_name_style = {
-            position: "relative",
-            color: "rgb(255,255,255)",
-            top: "-0.75em",
-            right: "10px"
+            color: "rgb(255,255,255)"
         }
         if (!this.state.userLoggedIn) {
             return ( "" )
         } else {
             return (
                 <div>
+
                     <Nav>
-                        <Nav>
-                            <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
-                            <NavItem className={this.getClassName('inbox')}     onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
-                            <NavItem className={this.getClassName('sentitems')} onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
-                            <NavItem onClick={this.logout}>Logout</NavItem>
-                        </Nav>
-
+                        <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
+                        <NavItem className={this.getClassName('inbox')}     onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
+                        <NavItem className={this.getClassName('sentitems')} onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
+                        <NavItem onClick={this.logout}>Logout</NavItem>
                     </Nav>
-
-                    <div className="pull-right" style={{ "height" : "0px"}}>
-                       <span style={full_name_style}>Welcome, { localStorage.getItem("FULL_NAME") } ! </span>
+                    <div className="pull-right" style={{"height" : "0px"}}>
+                       <span style={full_name_style}> {this.state.welcome_msg} </span>
                         <Badge
-                            badgeContent={10}
-                            secondary={true}
-                            badgeStyle={{top:0, right: 18}}
-                            style={{padding: "0px 27px 0px 0px",  top : "-8px"}}
-                        >
-                         <NotificationPopUp/>
-                        </Badge>
+                                badgeContent={10}
+                                secondary={true}
+                                badgeStyle={{top:0, right: 18}}
+                                style={{padding: "0px 15px 0px 0px" }}
+                            >
+                                <NotificationPopUp/>
+                            </Badge>
                         <AccountCircle style={cardHeaderStyle}/>
+
                     </div>
                 </div>
 
