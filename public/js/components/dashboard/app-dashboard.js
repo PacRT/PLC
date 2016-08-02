@@ -17,7 +17,6 @@ var Dashboard = React.createClass({
                                 <UploadZone/>
                             </Col>
                             <Col md={3} xs={12} mdPush={6}  >
-                                <ActionRemainder/>
                             </Col>
                         </Col>
                     </Row>

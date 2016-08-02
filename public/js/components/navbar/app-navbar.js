@@ -9,18 +9,12 @@ var ReactBoostrap = require("react-bootstrap")
 var Navbar = ReactBoostrap.Navbar;
 var Nav = ReactBoostrap.Nav;
 var NavItem = ReactBoostrap.NavItem;
-var MenuItem = ReactBoostrap.MenuItem;
-var NavDropdown = ReactBoostrap.NavDropdown;
-var LeftNav = require('material-ui/lib/left-nav');
-var MenuItem = require('material-ui/lib/menus/menu-item');
 var LoginStore = require('../../stores/app-login-store');
 var LoginActions = require('../../actions/app-login-actions');
 var NavBarActions = require('../../actions/app-navbar-actions');
 var AccountCircle =  require('material-ui/lib/svg-icons/action/account-box');
-var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
 var Badge = require('material-ui/lib/badge');
-var IconButton =  require('material-ui/lib/icon-button');
-var Colors = require('material-ui/lib/styles/colors');
+var NotificationPopUp = require('./app-notification-popup');
 
 var NavBar = React.createClass({
     getInitialState: function () {
@@ -102,6 +96,7 @@ var NavBar = React.createClass({
                         </Nav>
 
                     </Nav>
+
                     <div className="pull-right" style={{ "height" : "0px"}}>
                        <span style={full_name_style}>Welcome, { localStorage.getItem("FULL_NAME") } ! </span>
                         <Badge
@@ -110,9 +105,7 @@ var NavBar = React.createClass({
                             badgeStyle={{top:0, right: 18}}
                             style={{padding: "0px 27px 0px 0px",  top : "-8px"}}
                         >
-                            <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }}>
-                                <NotificationsIcon   color={Colors.white} />
-                            </IconButton>
+                         <NotificationPopUp/>
                         </Badge>
                         <AccountCircle style={cardHeaderStyle}/>
                     </div>
