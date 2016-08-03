@@ -4,15 +4,13 @@
 var React = require('react');
 var Toolbar = require('material-ui/lib/toolbar/toolbar');
 var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var ToolbarSeparator = require('material-ui/lib/toolbar/toolbar-separator');
-var ToolbarTitle = require('material-ui/lib/toolbar/toolbar-title');
-var TextField = require('material-ui/lib/text-field');
-var FlatButton = require('material-ui/lib/flat-button');
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var ForwardPkgModalStore = require('../../stores/app-forward-package-modal-store');
 var ForwardPkgModal = require('../create-forward-package/forward-package-modal');
-
+var Tooltip = require("react-bootstrap/lib/Tooltip");
+var OverlayTrigger = require("react-bootstrap/lib/OverlayTrigger");
+var CreateFwdPkgTT =  <Tooltip id="tooltip"><strong>Create & Forward Package</strong></Tooltip>;
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
@@ -70,7 +68,10 @@ var ActionBarApp = React.createClass({
                                 <ul>
                                     <li><a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a></li>
                                     <li>
-                                        <a onClick={this._createPkg}><img  src="/assets/css/images/send-button.png" alt="Forward Docs"></img>
+                                        <a onClick={this._createPkg}>
+                                            <OverlayTrigger placement="top" overlay={CreateFwdPkgTT}>
+                                                <img  src="/assets/css/images/send-button.png" alt="Forward Docs"></img>
+                                            </OverlayTrigger>
                                         </a>
 
                                     </li>

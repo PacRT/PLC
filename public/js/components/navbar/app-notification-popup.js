@@ -2,12 +2,9 @@
 var React = require('react');
 var Popover = require('material-ui/lib/popover/popover');
 var IconButton =  require('material-ui/lib/icon-button');
-var Colors = require('material-ui/lib/styles/colors');
 var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
-var RaisedButton = require('material-ui/lib/raised-button');
 var ActionRemainderBar = require('../action-remainder/app-actionremainder');
 var Colors = require('material-ui/lib/styles/colors');
-var DropDown = require('material-ui/lib/svg-icons/navigation/arrow-drop-down');
 
 var NotificationPopUp = React.createClass({
     getInitialState : function () {
@@ -31,7 +28,7 @@ var NotificationPopUp = React.createClass({
             popover: {
                 "marginTop" : "3px"
             }
-        }
+        };
         return (
             <div>
                 <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }} onTouchTap={this.handleTouchTap}>
