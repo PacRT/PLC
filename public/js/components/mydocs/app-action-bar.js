@@ -60,7 +60,7 @@ var ActionBarApp = React.createClass({
     render :function(){
         return(
          <div>
-             <div style={{paddingLeft:'1em',position:"fixed",width:"77.2%","bottom":0}}>
+             <div style={{paddingLeft:'1em',position:"fixed",width:"77.2%","bottom":0}} className="hidden-sm hidden-xs">
                 <Toolbar style={{"background":"none"}}>
                     <ToolbarGroup>
                         <div style={{paddingLeft:'1em',position:"fixed",width:"66.2%","bottom":0,"textAlign": "center"}}>

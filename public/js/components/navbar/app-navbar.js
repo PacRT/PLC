@@ -91,19 +91,18 @@ var NavBar = React.createClass({
                         <NavItem className={this.getClassName('sentitems')} onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
                         <NavItem onClick={this.logout}>Logout</NavItem>
                     </Nav>
-                    <div className="pull-right" style={{"height" : "0px"}}>
-                       <span style={full_name_style}> {this.state.welcome_msg} </span>
-                        <Badge
-                                badgeContent={10}
-                                secondary={true}
-                                badgeStyle={{top:0, right: 18}}
-                                style={{padding: "0px 15px 0px 0px" }}
-                            >
-                                <NotificationPopUp/>
-                            </Badge>
-                        <AccountCircle style={cardHeaderStyle}/>
-
-                    </div>
+                    <Nav pullRight>
+                           <span style={full_name_style}> {this.state.welcome_msg} </span>
+                            <Badge
+                                    badgeContent={10}
+                                    secondary={true}
+                                    badgeStyle={{top:0, right: 18}}
+                                    style={{padding: "0px 15px 0px 0px" }}
+                                >
+                                    <NotificationPopUp/>
+                                </Badge>
+                            <AccountCircle style={cardHeaderStyle}/>
+                    </Nav>
                 </div>
 
             )
