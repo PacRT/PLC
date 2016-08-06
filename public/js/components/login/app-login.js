@@ -25,6 +25,12 @@ var Login = React.createClass({
             password : ""
         }
     },
+    componentDidMount : function () {
+        document.getElementById("login_form").addEventListener("keydown",this._handleEnterKey);
+    },
+    componentWillUnMount : function(){
+        document.getElementById("login_form").removeEventListener("keydown",this._handleEnterKey);
+    },
     handleUserNameInput : function(event){
         this.setState({
             userName : event.target.value
@@ -34,6 +40,13 @@ var Login = React.createClass({
         this.setState({
             password : event.target.value
         });
+    },
+    _handleEnterKey: function(event){
+        switch(event.keyCode){
+            case 13:
+                this._handleSubmit();
+                break;
+        }
     },
     isEmpty: function (value) {
         return !_.isNull(value);
@@ -57,11 +70,16 @@ var Login = React.createClass({
             color: "#505050"
         };
         var CardBackGround = {
-            "background" : "#eee"
+            "background" : "#eee",
+            "borderWidth" : "0px",
+            "borderColor" : "none",
+            "borderStyle" : "none",
+            "borderRadius" : "0px"
         };
         var cardHeaderStyle = {
             "height" : "50px",
-            "marginTop" : "20px"
+            "marginTop" : "20px",
+
         };
         var underlineStyle = {
             "borderColor" : Colors.orange500
@@ -75,7 +93,7 @@ var Login = React.createClass({
         }
         return (
             <div>
-                <Card style={CardBackGround}>
+                <Card style={CardBackGround} id="login_form">
                     <CardMedia >
                         <AccountCircle style={cardHeaderStyle}/>
                     </CardMedia>
