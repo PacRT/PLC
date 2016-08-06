@@ -11,6 +11,10 @@ var ForwardPkgModal = require('../create-forward-package/forward-package-modal')
 var Tooltip = require("react-bootstrap/lib/Tooltip");
 var OverlayTrigger = require("react-bootstrap/lib/OverlayTrigger");
 var CreateFwdPkgTT =  <Tooltip id="tooltip"><strong>Create & Forward Package</strong></Tooltip>;
+var UploadTT =  <Tooltip id="tooltip"><strong>Upload Docs</strong></Tooltip>;
+var ReportsTT =  <Tooltip id="tooltip"><strong>Reports</strong></Tooltip>;
+var MessageTT =  <Tooltip id="tooltip"><strong>Messages</strong></Tooltip>;
+
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
@@ -66,16 +70,37 @@ var ActionBarApp = React.createClass({
                         <div style={{paddingLeft:'1em',position:"fixed",width:"66.2%","bottom":0,"textAlign": "center"}}>
                             <div className="dock">
                                 <ul>
-                                    <li><a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a></li>
-                                    <li>
-                                        <a onClick={this._createPkg}>
-                                            <OverlayTrigger placement="top" overlay={CreateFwdPkgTT}>
-                                                <img  src="/assets/css/images/send-button.png" alt="Forward Docs"></img>
-                                            </OverlayTrigger>
-                                        </a>
+                                    <OverlayTrigger placement="top" overlay={ReportsTT}>
+                                        <li>
 
-                                    </li>
-                                    <li><a><img src="/assets/css/images/envelope.png" alt="Messages"/></a></li>
+                                                <a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a>
+
+                                        </li>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={CreateFwdPkgTT}>
+                                        <li>
+                                            <a onClick={this._createPkg}>
+
+                                                    <img  src="/assets/css/images/export.svg" alt="Forward Docs"></img>
+                                            </a>
+
+                                        </li>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={UploadTT}>
+                                        <li>
+                                            <a>
+                                                    <img  src="/assets/css/images/upload.svg" alt="Upload Docs"></img>
+                                            </a>
+
+                                        </li>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger placement="top" overlay={MessageTT}>
+                                        <li>
+                                                <a>
+                                                    <img src="/assets/css/images/envelope.svg" alt="Messages"/>
+                                                </a>
+                                        </li>
+                                    </OverlayTrigger>
                                 </ul>
                             </div>
                         </div>
