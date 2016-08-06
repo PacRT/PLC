@@ -7,7 +7,7 @@ var API_URL = require('../utils/getAPIURL');
 var request = require('superagent-bluebird-promise');
 var Promise = require('bluebird');
 var _ = require('lodash');
-
+var MyDocsAction = require("./app-mydocs-actions");
 /**
  *
  * @type {{getUploadRequest: UploadzoneActions.getUploadRequest, uploadDocs: UploadzoneActions.uploadDocs}}
@@ -77,6 +77,7 @@ var UploadzoneActions = {
                    return _this.showNotification(res[0]["err"]);
                 }
                 _this.showNotification("Upload Complete.");
+                MyDocsAction.getMyDocs(0,"MY_DOCS");
             },function(err){
                 _this.showNotification(err.toString());
             })
@@ -84,7 +85,13 @@ var UploadzoneActions = {
                 console.log(err);
                 _this.showNotification(err.toString());
             });
+    },
+    openCloseUploadDrawer : function(openUploadDrawer){
+        AppDispatcher.handleViewAction({
+            actionType: AppConstants.OPEN_UPLOAD_DRAWER,
+            response: openUploadDrawer
+        });
     }
-}
+};
 
 module.exports = UploadzoneActions;

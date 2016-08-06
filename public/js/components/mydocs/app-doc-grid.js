@@ -8,9 +8,6 @@ var DocTile = require('./app-doc-tile');
 var DocGridContainer = require('./app-doc-grid-container');
 var TableBody= require('material-ui/lib/table/table-body');
 var Table = require('material-ui/lib/table/table');
-var TableHeaderColumn = require('material-ui/lib/table/table-header-column');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableHeader= require('material-ui/lib/table/table-header');
 
 var DocGrid = React.createClass({
     getInitialState: function(){

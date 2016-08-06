@@ -15,6 +15,10 @@ var CardHeader = require('material-ui/lib/card/card-header');
 var FileList = require('./app-file-list');
 var UploadzoneStore = require('../../stores/app-uploadzone-store');
 var UploadzoneActions = require('../../actions/app-uploadzone-actions');
+var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
+var Drawer = require('material-ui/lib/left-nav');
+var AppBar = require('material-ui/lib/app-bar');
+var IconButton = require('material-ui/lib/icon-button');
 
 var UploadZone = React.createClass({
     getInitialState:function() {
@@ -23,7 +27,8 @@ var UploadZone = React.createClass({
             files: [],
             super_request: {},
             progress : UploadzoneStore.getProgress(),
-            open_modal : true
+            open_modal : false,
+            open_upload_drawer : UploadzoneStore.isUploadDrawOpen()
         }
     },
     componentDidMount: function() {
@@ -34,9 +39,9 @@ var UploadZone = React.createClass({
     },
     _onChange: function() {
         this.setState({
-            progress : UploadzoneStore.getProgress()
+            progress : UploadzoneStore.getProgress(),
+            open_upload_drawer : UploadzoneStore.isUploadDrawOpen()
         });
-        console.log( UploadzoneStore.getProgress());
     },
     handleChange:function(event, index, value,fileIndex){
         var files = this.state.files;
@@ -106,6 +111,9 @@ var UploadZone = React.createClass({
             open_modal : false
         })
     },
+    _closeDrawer : function(){
+        UploadzoneActions.openCloseUploadDrawer(false);
+    },
     render: function () {
         var cardheader_style = {
             "height" : "100px",
@@ -121,39 +129,49 @@ var UploadZone = React.createClass({
             "borderStyle" : "none",
             "borderRadius" : "0px",
         };
+        var drawerStyle = {
+            "height" : "65%",
+            "width"  : "400px",
+            "top"    : "garbage",
+            "right"  : "2em",
+            "bottom" : "0",
+            "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms"
+        };
+        var appBar = {
+                "backgroundColor" : "#222"
+        }
         return (
             <div>
-                <Grid>
-                    <Row>
-                        <Col xs={12} md={3}>
-                            <Dropzone onDrop={this.onDrop} style={dropzone_style}>
-                                <Card style={{"boxShadow": "none"}}>
-                                    <CardHeader
-                                        style={cardheader_style}
-                                        title="Document Upload Zone"
-                                    />
-                                </Card>
-                                
-                            </Dropzone>
-                             {
-                                    this.state.is_upload_complete ? null :
-                                        (
-                                            <FileList files={this.state.files}
-                                                      removeHandle={this.removeFile}
-                                                      cancelHandle={this.cancelUpload}
-                                                      uploadHandle={this.uploadFiles}
-                                                      open_modal={this.state.open_modal}
-                                                      handleChange={this.handleChange}
-                                                      progress={this.state.progress}
-                                            />
-                                        )
-                                }
+                <Drawer id="popup" width={500} style={drawerStyle} openRight={true} open={this.state.open_upload_drawer}>
+                    <AppBar id="appBar" style={appBar} title="Upload Docs"
+                            iconElementLeft={<IconButton onTouchTap={this._closeDrawer}><NavigationClose/></IconButton>}
+                    />
+                    <Col xs={12} md={12}>
+                                <Dropzone onDrop={this.onDrop} style={dropzone_style}>
+                                    <Card>
+                                        <CardHeader
+                                            style={cardheader_style}
+                                            title="Document Upload Zone"
+                                        />
+                                    </Card>
 
-                        </Col>
-                        <Col xs={12} md={9}>
-                        </Col>
-                    </Row>
-                </Grid>
+                                </Dropzone>
+                                 {
+                                        this.state.is_upload_complete ? null :
+                                            (
+                                                <FileList files={this.state.files}
+                                                          removeHandle={this.removeFile}
+                                                          cancelHandle={this.cancelUpload}
+                                                          uploadHandle={this.uploadFiles}
+                                                          open_modal={this.state.open_modal}
+                                                          handleChange={this.handleChange}
+                                                          progress={this.state.progress}
+                                                />
+                                            )
+                                    }
+
+                            </Col>
+                    </Drawer>
             </div>
         );
     }

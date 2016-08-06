@@ -14,7 +14,7 @@ var CreateFwdPkgTT =  <Tooltip id="tooltip"><strong>Create & Forward Package</st
 var UploadTT =  <Tooltip id="tooltip"><strong>Upload Docs</strong></Tooltip>;
 var ReportsTT =  <Tooltip id="tooltip"><strong>Reports</strong></Tooltip>;
 var MessageTT =  <Tooltip id="tooltip"><strong>Messages</strong></Tooltip>;
-
+var UploadAction = require('../../actions/app-uploadzone-actions');
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
@@ -61,6 +61,9 @@ var ActionBarApp = React.createClass({
             "is_drawer_open" : !is_open
         })
     },
+    _openUploadDrawer : function(){
+        UploadAction.openCloseUploadDrawer(true);
+    },
     render :function(){
         return(
          <div>
@@ -72,26 +75,21 @@ var ActionBarApp = React.createClass({
                                 <ul>
                                     <OverlayTrigger placement="top" overlay={ReportsTT}>
                                         <li>
-
-                                                <a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a>
-
+                                            <a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a>
                                         </li>
                                     </OverlayTrigger>
                                     <OverlayTrigger placement="top" overlay={CreateFwdPkgTT}>
                                         <li>
                                             <a onClick={this._createPkg}>
-
-                                                    <img  src="/assets/css/images/export.svg" alt="Forward Docs"></img>
+                                                <img  src="/assets/css/images/export.svg" alt="Forward Docs"></img>
                                             </a>
-
                                         </li>
                                     </OverlayTrigger>
                                     <OverlayTrigger placement="top" overlay={UploadTT}>
                                         <li>
-                                            <a>
-                                                    <img  src="/assets/css/images/upload.svg" alt="Upload Docs"></img>
+                                            <a  onClick={this._openUploadDrawer}>
+                                                <img  src="/assets/css/images/upload.svg" alt="Upload Docs"></img>
                                             </a>
-
                                         </li>
                                     </OverlayTrigger>
                                     <OverlayTrigger placement="top" overlay={MessageTT}>

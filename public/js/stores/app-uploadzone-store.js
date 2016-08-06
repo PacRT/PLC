@@ -9,7 +9,8 @@ var ObjectAssign = require('object-assign');
 var CHANGE_EVENT = "change";
 
 var _uploadZoneStore = {
-    "progress" : 0
+    "progress" : 0,
+    "open_upload_drawer" : false
 };
 
 var UploadZoneStore  = ObjectAssign({},EventEmitter.prototype,{
@@ -21,6 +22,9 @@ var UploadZoneStore  = ObjectAssign({},EventEmitter.prototype,{
     },
     getProgress:function(){
         return _uploadZoneStore.progress;
+    },
+    isUploadDrawOpen : function () {
+        return _uploadZoneStore.open_upload_drawer;
     }
 
 });
@@ -30,6 +34,10 @@ AppDispatcher.register(function(payload){
     switch (action.actionType){
         case AppConstants.UPDATE_PROGRESS:
             _uploadZoneStore.progress = action.response;
+            UploadZoneStore.emit(CHANGE_EVENT);
+            break;
+        case AppConstants.OPEN_UPLOAD_DRAWER:
+            _uploadZoneStore.open_upload_drawer = action.response;
             UploadZoneStore.emit(CHANGE_EVENT);
             break;
         default:
