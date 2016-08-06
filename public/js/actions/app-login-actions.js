@@ -19,7 +19,7 @@ var LoginActions = {
                 actionType : AppConstants.LOG_IN,
                 response :{"user_name":result.user.username,"api_token":result.api_token, "full_name" : result.user.name}
             });
-            browserHistory.push('dashboard');
+            browserHistory.push('mydocs');
         });
     },
     continueSession:function(api_token,user_name, full_name){
@@ -28,7 +28,7 @@ var LoginActions = {
             response :{"user_name":user_name,"api_token":api_token, "full_name": full_name}
         });
         if(location.pathname === "/"){
-            browserHistory.push('dashboard');
+            browserHistory.push('mydocs');
         }
 
     },

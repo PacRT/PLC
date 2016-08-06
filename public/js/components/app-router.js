@@ -12,7 +12,6 @@ var HowTo       = require('./howto/app-howto');
 var Invite      = require('./invite/app-invite');
 var Login       = require('./login/app-login');
 var Registration= require('./registration/app-registration');
-var DashBoard  = require('./dashboard/app-dashboard');
 var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
 var CreateForwardPackage   = require('./create-forward-package/app-create-forward-package');
@@ -39,14 +38,13 @@ var AppRouter = {
     component: APP,
     childRoutes: [
         { path : "login"        ,component: Login},
-        { path : 'dashboard'    ,component:DashBoard   ,onEnter:requireAuth},
         { path : "howto"        ,component: HowTo       ,onEnter:requireAuth},
         { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
         { path : "invite"       ,component: Invite      ,onEnter:requireAuth},
         { path : "registration" ,component: Registration},
-        { path : "createpackage" ,component: CreateForwardPackage},
-        { path : "inbox" ,component: Inbox},
-        { path : "sentitems" ,component: SentItems}
+        { path : "createpackage" ,component: CreateForwardPackage, onEnter:requireAuth},
+        { path : "inbox"         ,component: Inbox, onEnter:requireAuth},
+        { path : "sentitems"       ,component: SentItems, onEnter:requireAuth}
 
     ]
 };

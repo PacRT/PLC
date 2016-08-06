@@ -59,7 +59,7 @@ var NavBar = React.createClass({
             )
         } else {
             return (
-                <Link to="dashboard"><i className="fa fa-paper-plane-o"></i>PaperLess Club</Link>
+                <Link to="mydocs"><i className="fa fa-paper-plane-o"></i>PaperLess Club</Link>
             )
         }
     },
