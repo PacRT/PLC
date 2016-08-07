@@ -58,6 +58,8 @@ class Docs(Model):
     issuer_id = columns.Text()
     doc_url = columns.Text()
     doc_link = columns.Text()
+    meta_fields = columns.Map(columns.Text(), columns.Text())
+
 
 class Authentication(Model):
     username = columns.Text(primary_key= True)

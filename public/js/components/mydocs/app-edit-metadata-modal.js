@@ -13,6 +13,7 @@ var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var _ = require('lodash');
 var MetaCategory = require('./app-meta-category');
+
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
         return  {

@@ -101,7 +101,8 @@ cs_cli.create_table(
         'filename': 'text',
         'issuer_id': 'text',
         'doc_url': 'text',
-        'doc_link' : 'text'
+        'doc_link' : 'text',
+        'meta_fields' : 'map<text, text>'
     },
     primary_key = 'id'
 )
