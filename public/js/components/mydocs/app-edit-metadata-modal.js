@@ -6,21 +6,18 @@ var EditMetaDataStore= require('../../stores/app-edit-metadata-store');
 var EditMetaDataActions = require('../../actions/app-metadata-actions');
 var FlatButton  = require('material-ui/lib/flat-button');
 var Dialog  = require('material-ui/lib/dialog');
-var EditIcon = require('material-ui/lib/svg-icons/editor/mode-edit');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var TextField = require('material-ui/lib/text-field');
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
 var DocPreview = require('./app-doc-preview');
-var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var _ = require('lodash');
-
+var MetaCategory = require('./app-meta-category');
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
         return  {
             "store" : EditMetaDataStore.getStore(),
+            "category" : "",
             "is_modal_open"  : EditMetaDataStore.is_modal_open()
         }
     },
@@ -88,6 +85,7 @@ var AppEditMedataModal = React.createClass({
 
         var _this = this;
         var styles = this._getStyles();
+        var meta_category = "";
         var  actions = [
             <FlatButton
                 label="Close"
@@ -117,7 +115,8 @@ var AppEditMedataModal = React.createClass({
                       </div>
                   )
                 }
-            })
+            });
+            meta_category =  <MetaCategory category={this.state.store["_values"][0]}/>
         }
         return (
             <Dialog
@@ -132,6 +131,7 @@ var AppEditMedataModal = React.createClass({
                         </Col>
                         <Col xs={6} md={4}>
                             {DialogBody}
+                            {meta_category}
                         </Col>
                     </Row>
             </Dialog>
@@ -140,4 +140,4 @@ var AppEditMedataModal = React.createClass({
 
 });
 
-module .exports = AppEditMedataModal;
+module.exports = AppEditMedataModal;
