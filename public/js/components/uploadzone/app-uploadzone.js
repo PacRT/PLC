@@ -146,7 +146,7 @@ var UploadZone = React.createClass({
                     <AppBar id="appBar" style={appBar} title="Upload Docs"
                             iconElementLeft={<IconButton onTouchTap={this._closeDrawer}><NavigationClose/></IconButton>}
                     />
-                    <Col xs={12} md={12}>
+                    <Col xs={12} md={12} style={{ "marginTop" : "100px"}}>
                                 <Dropzone onDrop={this.onDrop} style={dropzone_style}>
                                     <Card>
                                         <CardHeader
