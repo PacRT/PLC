@@ -7,6 +7,8 @@ var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
 var APIURL = require('../utils/getAPIURL');
 var MyDocsActions = require('./app-mydocs-actions');
+var MetaFieldsConstants = require('../constants/app-meta-catergory-constants');
+
 var EditMetaDataActions = {
     openEditMetaDataModal:function(doc_url, meta_data){
         AppDispatcher.handleViewAction({
@@ -37,6 +39,19 @@ var EditMetaDataActions = {
         API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
             MyDocsActions.getMyDocs(0,"MY_DOCS");
         })
+    },
+    populateMetaFieldStore : function(category){
+        console.log(category);
+        var meta_fields = {}
+        var keys = MetaFieldsConstants[category][0]["fields"];
+        keys.forEach(function(key){
+           meta_fields[key] = ""
+        });
+        AppDispatcher.handleViewAction({
+            actionType : AppConstants.POPULATE_META_FIELDS,
+            meta_fields : meta_fields
+        });
+        console.log(meta_fields);
     }
 }
 

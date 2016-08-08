@@ -5,7 +5,6 @@ var AppDispatcher = require('../dispatchers/app-dispatcher');
 var AppConstants = require('../constants/app-constants');
 var EventEmitter = require('events').EventEmitter;
 var ObjectAssign = require('object-assign');
-var _ = require("underscore");
 var CHANGE_EVENT = "change";
 
 var _login = {
