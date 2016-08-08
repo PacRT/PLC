@@ -24,7 +24,7 @@ var AppEditMedataModal = React.createClass({
     },
     componentDidMount: function() {
         EditMetaDataStore.addChangeListener(this._onChange);
-        if(this.state.store["_values"].length)
+        if(this.state.store.hasOwnProperty("_values") && this.state.store["_values"].length)
             EditMetaDataActions.populateMetaFieldStore();
     },
     componentWillUnmount: function() {
