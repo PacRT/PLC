@@ -19,10 +19,12 @@ var InboxDocNotes = React.createClass({
         }
     },
     componentDidMount: function() {
+        document.getElementById("add_comment").addEventListener("keydown",this._handleEnterKey);
         InboxActions.getComment(this.props.doc_url, this.props.thread_id, this.props.pkg_id);
         InboxThreadCommentStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function() {
+        document.getElementById("add_comment").removeEventListener("keydown",this._handleEnterKey);
         InboxThreadCommentStore.resetStore();
         InboxThreadCommentStore.removeChangeListener(this._onChange);
     },
@@ -32,6 +34,13 @@ var InboxDocNotes = React.createClass({
             "store" : comment_store,
             "comment" : ""
         });
+    },
+    _handleEnterKey: function(event){
+        switch(event.keyCode){
+            case 13:
+                this.addComment();
+                break;
+        }
     },
     handleChangeInput : function(event){
         this.setState({
@@ -70,8 +79,10 @@ var InboxDocNotes = React.createClass({
                                     style={{"display": "block"}}
                                     onChange={this.handleChangeInput}
                                     floatingLabelText="Post a comment"
-                                    value={this.state.comment}/>
-                        <div className="pull-right">
+                                    value={this.state.comment}
+                                    id="add_comment"
+                                />
+                        <div className="pull-right" >
                             <FlatButton
                                 label="Post"
                                 secondary={true}
