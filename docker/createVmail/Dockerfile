@@ -41,6 +41,6 @@ WORKDIR /
 COPY . script
 WORKDIR script
 
-# sudo docker build -t createVmail docker/createVmail
-# sudo docker run -ti -d --net=host createVmail
+# sudo docker build -t createvmail docker/createVmail
+# sudo docker run -ti -d --net=host createvmail
 CMD ["python", "createUserVmail.py"]
