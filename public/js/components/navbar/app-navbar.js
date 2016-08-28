@@ -87,6 +87,7 @@ var NavBar = React.createClass({
 
                     <Nav>
                         <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
+                        <NavItem className={this.getClassName('invite')}     onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
                         <NavItem className={this.getClassName('inbox')}     onClick={this._goToLocation.bind(null, 'inbox')}>Inbox</NavItem>
                         <NavItem className={this.getClassName('sentitems')} onClick={this._goToLocation.bind(null, 'sentitems')}>Sent Items</NavItem>
                         <NavItem onClick={this.logout}>Logout</NavItem>
