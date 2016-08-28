@@ -12,7 +12,7 @@ var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var TableRow= require('material-ui/lib/table/table-row');
 var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
 var _ = require('lodash');
-
+var PopularCategories = require('../uploadzone/app-popular-categories');
 var AppDocMetaData = React.createClass({
     getInitialState: function () {
         return {
@@ -44,13 +44,13 @@ var AppDocMetaData = React.createClass({
         var values = this.state.store[this.props.doc_url]["_values"];
         if(this.state.category != ''){
             meta['category'] = this.state.category;
-            meta['doc_url'] = this.state.doc_url;
+            meta['doc_url'] = this.props.doc_url;
             meta['file_name'] = values[1];
             change = true;
         };
         if(this.state.file_name != ''){
             meta['file_name'] = this.state.file_name;
-            meta['doc_url'] = this.state.doc_url;
+            meta['doc_url'] = this.props.doc_url;
             meta['category'] = values[0];
             change = true;
         };
@@ -98,6 +98,16 @@ var AppDocMetaData = React.createClass({
             "hover" : showIcon
         })
     },
+    _handleSelectBoxChange : function(doc_index,event, index, value){
+        var store = this.state.store;
+        store[this.props.doc_url]["_values"][doc_index] = value;
+        this.setState({
+            store :  store,
+            doc_url: this.props.doc_url,
+            show_button :  true,
+            category : value
+        })
+    },
     _handleTextFieldChange: function(key, doc_url, event){
         if(key=='Category'){
             this.setState({
@@ -137,7 +147,7 @@ var AppDocMetaData = React.createClass({
                 if(_this.props.view != "INBOX"){
                     return (
                         <div style={styles.meta_container} key={index}>
-                            <TextField
+                            { key !== "Category" ?  <TextField
                                 disabled={_this.props.view == "INBOX"}
                                 defaultValue={ values[index] }
                                 floatingLabelText={ key }
@@ -148,7 +158,9 @@ var AppDocMetaData = React.createClass({
                                 onFocus={_this._showEditIcon.bind(null,true)}
                                 onBlur={_this._showEditIcon.bind(null,false)}
 
-                            />
+                                /> : <PopularCategories drop_menu_style={false} category={values[index]} handle={_this._handleSelectBoxChange.bind(null,index)}/>
+                            }
+
                             <Edit style={styles['editIcon']}/>
 
                         </div>
