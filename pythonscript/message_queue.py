@@ -562,6 +562,7 @@ class MessageQueue(object):
 
             }
             comments.append(comment_obj)
+            
         return {
             "comments": sorted(comments, key=lambda k: k['date_added']),
             "status": 200
