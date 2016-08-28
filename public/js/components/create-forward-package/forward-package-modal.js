@@ -8,7 +8,6 @@ var FlatButton = require('material-ui/lib/flat-button');
 var Dialog = require('material-ui/lib/dialog');
 var TextField = require('material-ui/lib/text-field');
 var SendContent = require('material-ui/lib/svg-icons/content/send');
-var Tags = require('materialize-tags');
 var Drawer = require('material-ui/lib/left-nav');
 var AppBar = require('material-ui/lib/app-bar');
 var TextField = require('material-ui/lib/text-field');
@@ -18,11 +17,12 @@ var Divider = require('material-ui/lib/divider');
 var Paper = require('material-ui/lib/paper');
 var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
 var IconButton = require('material-ui/lib/icon-button');
+var ReactTags =  require('react-tag-input').WithContext;
 
-require('materialize-tags');
 var ForwardPackageModal = React.createClass({
     getInitialState: function(){
         return  {
+            "emails" : [],
             "store" : CreateForwardPkgStore.getStore(),
             "is_modal_open"  : CreateForwardPkgStore.isModalOpen(),
             "package_name"   : ""
@@ -51,11 +51,28 @@ var ForwardPackageModal = React.createClass({
             "package_name" : event.target.value
         })
     },
+    _addEmails : function(email){
+        var emails = this.state.emails;
+        emails.push({
+            id:new Date().getTime(),
+            text: email
+        });
+        this.setState({emails: emails});
+    },
+    _handleDeleteEmails : function(i){
+        var emails = this.state.emails;
+        emails.splice(i, 1);
+        this.setState({emails: emails});
+    },
     _createAndForwardPkg : function(){
         var packages = this.state.store.packages;
         var _this = this;
+        var recipients = [];
+        this.state.emails.forEach(function(item){
+            recipients.push(item.text);
+        });
         packages.map(function(package_1){
-            package_1["recepients"] = $("#recipients").materialtags('items');
+            package_1["recepients"] = recipients;
             package_1["package_type"] = _this.state.package_name;
         });
         createForwardPkgActions.createPackages(packages);
@@ -82,32 +99,13 @@ var ForwardPackageModal = React.createClass({
         };
     },
     render : function(){
-        console.log("rendering");
-        setTimeout(function(){
-            $('#recipients').materialtags({});
-        },500)
-        var  actions = [
-            <FlatButton
-                label="Close"
-                onTouchTap={this._closeModal}
-            />,
-            <FlatButton
-                secondary={true}
-                disabled={false}
-                icon={<SendContent />}
-                onTouchTap={this._createAndForwardPkg}
-            />
-        ];
-        var DialogBody = <TextField
-            floatingLabelText={"Recipients' Email"}
-            ref={"recipients"}
-            defaultValue={""}
-        />;
+        var placeHolder = "Add Email Ids/Paperless Ids";
         var NoDocsMessage =  <div>
             <ListItem primaryText="No Docs.">
             </ListItem>
         </div>
         var styles = this.getStyles();
+        var emails = this.state.emails;
         return(
 
             <Drawer id="popup" width={500} style={styles["drawerStyle"]} openRight={true} open={this.state.is_modal_open}>
@@ -138,10 +136,11 @@ var ForwardPackageModal = React.createClass({
                         defaultvalue={this.state.package_name}
                         floatingLabelText="Package Name To Save"
                     />
-                    <div className="input-field">
-                        <label for="tags" className="hola">Email/Paperless Ids</label>
-                        <input type="text" id="recipients" value="" />
-                    </div>
+                    <ReactTags tags={emails}
+                               handleAddition={this._addEmails}
+                               handleDelete={this._handleDeleteEmails}
+                               placeholder={placeHolder}
+                               />
                 </div>
 
                 {/*<Dialog
