@@ -20,5 +20,6 @@ module.exports = {
     MARK_THREAD_READ    : '/inbox/markThreadRead/#thread_id#',
     GET_INBOX_COMMENTS : '/inbox/getComment',
     ADD_INBOX_COMMENTS : '/inbox/addComment',
-    GET_SENT_ITEMS     : '/sentItems/getSentItems'
+    GET_SENT_ITEMS     : '/sentItems/getSentItems',
+    SEND_INVITES    : '/sendInvites'
 };

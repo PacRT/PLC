@@ -23,10 +23,15 @@ var PopularCategories = React.createClass({
             "marginBottom" : "20px",
             "top" : "-32px"
         };
-
+        /**
+         * to Disable Style on Doc Meta Data Style
+         */
+        if(this.props.hasOwnProperty("drop_menu_style") && !this.props["drop_menu_style"] ){
+            drop_menu_style = {};
+        }
         return (
             <div>
-                <SelectField floatingLabelStyle={{"color": "rgba(0, 0, 0, 0.870588)","fontWeight":"500"}}
+                <SelectField floatingLabelStyle={{"color": "rgba(0, 0, 0, 0.870588)","fontWeight":"500", "zIndex" : 0}}
                              underlineStyle={{"border-color" : "rgba(0, 0, 0, 0.87)"}}
                              iconStyle={{"fill": "rgba(0, 0, 0, 0.870588)"}}
                              value={this.props.category} onChange={this.props.handle}

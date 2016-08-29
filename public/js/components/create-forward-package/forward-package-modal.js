@@ -4,9 +4,6 @@
 var React = require('react');
 var CreateForwardPkgStore = require('../../stores/app-forward-package-modal-store');
 var createForwardPkgActions = require('../../actions/app-create-forward-package-actions');
-var FlatButton = require('material-ui/lib/flat-button');
-var Dialog = require('material-ui/lib/dialog');
-var TextField = require('material-ui/lib/text-field');
 var SendContent = require('material-ui/lib/svg-icons/content/send');
 var Drawer = require('material-ui/lib/left-nav');
 var AppBar = require('material-ui/lib/app-bar');
@@ -14,7 +11,6 @@ var TextField = require('material-ui/lib/text-field');
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var Divider = require('material-ui/lib/divider');
-var Paper = require('material-ui/lib/paper');
 var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
 var IconButton = require('material-ui/lib/icon-button');
 var ReactTags =  require('react-tag-input').WithContext;

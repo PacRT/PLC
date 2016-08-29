@@ -15,6 +15,8 @@ from TableModels import InboxCommentThread
 from TableModels import Docs
 from TableModels import Authentication
 
+from sendInvitation import SendInvitation
+
 import subprocess
 
 EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
@@ -579,6 +581,14 @@ class MessageQueue(object):
              "message" : "Comment has been added"
         }
 
+    def sendInvites(self, email):
+        invitation_sender = SendInvitation(email)
+        invitation_sender.sendInvitationEmail()
+        return{
+            "status" : 200,
+            "message" : "Your Invitations has been sent!"
+        }
+
     @staticmethod
     def checkUserExists(email_id):
         rows = self.cli.select(table_name = "email")
@@ -591,6 +601,7 @@ class MessageQueue(object):
                     if row.id == user_id:
                         username = row.username
         return username
+
 
     @staticmethod
     def stringify(data):
