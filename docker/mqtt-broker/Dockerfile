@@ -13,3 +13,6 @@ RUN apk update && \
 EXPOSE 1883
 
 ENTRYPOINT ["mosca", "-d", "/db", "-v"]
+
+#sudo docker build -t mosca .
+#sudo docker run -p 1883:1883 -t mosca 
