@@ -16,7 +16,8 @@ var InviteActions = {
         });
     },
     sendInvites : function(emails){
-        API.post(APIConstants.SEND_INVITES,{ emails : emails}).then(function(response){
+        var api_promise = API.post(APIConstants.SEND_INVITES,{ emails : emails});
+        api_promise.then(function(response){
             var notification = {
                 open : true,
                 message : "Cool! Your Invitations has been sent."
@@ -26,6 +27,7 @@ var InviteActions = {
                 response :notification
             });
         });
+        return api_promise;
     }
 }
 

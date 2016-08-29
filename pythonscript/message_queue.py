@@ -581,11 +581,9 @@ class MessageQueue(object):
              "message" : "Comment has been added"
         }
 
-    def sendInvites(self, data):
-        for email in data:
-            print(email)
-            invitation_sender = SendInvitation(email)
-            invitation_sender.sendInvitationEmail()
+    def sendInvites(self, email):
+        invitation_sender = SendInvitation(email)
+        invitation_sender.sendInvitationEmail()
         return{
             "status" : 200,
             "message" : "Your Invitations has been sent!"

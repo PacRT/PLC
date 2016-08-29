@@ -12,10 +12,13 @@ var CardActions = require('material-ui/lib/card/card-actions');
 var CardHeader = require('material-ui/lib/card/card-header');
 var CardText = require('material-ui/lib/card/card-text');
 var NotificationActions = require('../../actions/app-notification');
+var CircularProgress = require('material-ui/lib/circular-progress');
+
 var Invite = React.createClass({
     getInitialState: function(){
         return  {
-            "invitation_emails_tag" : []
+            "invitation_emails_tag" : [],
+            "show_spinner" : false
         }
     },
     _addEmails : function(email){
@@ -47,31 +50,50 @@ var Invite = React.createClass({
         var emails = this.state.invitation_emails_tag.map(function(item){return item['text']})
 
         if(emails.length > 0){
-            InviteActions.sendInvites(emails);
+            var api_promise = InviteActions.sendInvites(emails);
+            this.setState({
+                show_spinner : true
+            });
+            api_promise.then(function(response){
+                this.setState({
+                    show_spinner : false,
+                    invitation_emails_tag : []
+                });
+            }.bind(this));
         }else{
             var notification = {
                 open : true,
                 message : "Please add Email Ids"
             }
-            NotificationActions.showNotification(notification);
+             NotificationActions.showNotification(notification);
         }
     },
     render: function () {
         var placeHolder = "Add Emails!";
+        var styles = {
+            circularProgressStyle : {
+                display: "block",
+                margin: "auto"
+            }
+        }
         return (
             <div>
                 <Grid>
-                    <Card style={{"box-shadow": "none"}}>
+                    <Card style={{"boxShadow": "none"}}>
                         <CardHeader
                             title="Invite People You know"
                             avatar="http://lorempixel.com/100/100/nature/"
                         />
                         <CardText>
-                            <ReactTags tags={this.state.invitation_emails_tag}
-                                       handleAddition={this._addEmails}
-                                       handleDelete={this._handleDeleteEmails}
-                                       placeholder={placeHolder}
-                            />
+                            {
+                                this.state.show_spinner ?
+                                    <CircularProgress style={styles.circularProgressStyle}/> :
+                                    <ReactTags tags={this.state.invitation_emails_tag}
+                                           handleAddition={this._addEmails}
+                                           handleDelete={this._handleDeleteEmails}
+                                           placeholder={placeHolder}
+                                    />
+                            }
                         </CardText>
                         <CardActions>
                             <FlatButton
@@ -82,7 +104,6 @@ var Invite = React.createClass({
                             />
                         </CardActions>
                     </Card>
-
                 </Grid>
             </div>
         );
