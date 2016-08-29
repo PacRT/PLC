@@ -20,6 +20,7 @@ from TableModels import User
 from TableModels import Thread
 from TableModels import SenderList
 from TableModels import Package
+from TableModels import Invitation
 
 GMAIL_USERNAME = 'paperlessclub91@gmail.com'
 GMAIL_PASSWORD = 'paperlessclub'
@@ -196,22 +197,5 @@ class PacketForward(object):
 
     @staticmethod
     def add_invitation(id, email):
-        cli = CassandraClient()
-        rows = cli.select(table_name = 'invitation')
-        for row in rows:
-            if row.email == email:
-                return {
-                    'error': 'Email already exists.',
-                    'status': 400
-                }
-
-        insert = (QueryBuilder.insert_into("invitation")
-            .values(
-                id = uuid.uuid4(),
-                email = email,
-                token_id = id
-            )
-        )
-        query, args = insert.statement();
-        cli.queryBuilderInsert(query,args);
+        Invitation.create(id=uuid.uuid4(), email= email, token_id= id)
 

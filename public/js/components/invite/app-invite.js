@@ -3,21 +3,15 @@
  */
 'use strict';
 var React = require('react');
-var Badge = require('material-ui/lib/badge');
-var IconButton = require('material-ui/lib/icon-button');
 var Grid = require('react-bootstrap/lib/Grid');
-var Row = require('react-bootstrap/lib/Row');
-var Col = require('react-bootstrap/lib/Col');
 var ReactTags =  require('react-tag-input').WithContext;
 var FlatButton  = require('material-ui/lib/flat-button');
 var InviteActions = require('../../actions/app-invite-actions');
 var Card = require('material-ui/lib/card/card');
 var CardActions = require('material-ui/lib/card/card-actions');
 var CardHeader = require('material-ui/lib/card/card-header');
-var CardMedia = require('material-ui/lib/card/card-media');
-var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
-
+var NotificationActions = require('../../actions/app-notification');
 var Invite = React.createClass({
     getInitialState: function(){
         return  {
@@ -49,6 +43,19 @@ var Invite = React.createClass({
         emails.splice(i, 1);
         this.setState({invitation_emails_tag: emails});
     },
+    _sendInvites : function(){
+        var emails = this.state.invitation_emails_tag.map(function(item){return item['text']})
+
+        if(emails.length > 0){
+            InviteActions.sendInvites(emails);
+        }else{
+            var notification = {
+                open : true,
+                message : "Please add Email Ids"
+            }
+            NotificationActions.showNotification(notification);
+        }
+    },
     render: function () {
         var placeHolder = "Add Emails!";
         return (
@@ -71,7 +78,7 @@ var Invite = React.createClass({
                                 label="Invite"
                                 className="pull-right"
                                 secondary={true}
-                                onTouchTap={this.addComment}
+                                onTouchTap={this._sendInvites}
                             />
                         </CardActions>
                     </Card>

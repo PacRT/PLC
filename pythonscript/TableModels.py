@@ -64,3 +64,8 @@ class Docs(Model):
 class Authentication(Model):
     username = columns.Text(primary_key= True)
     auth_token = columns.Text()
+
+class Invitation(Model):
+    id = columns.UUID()
+    token_id =  columns.Text()
+    email = columns.Text(primary_key = True)
