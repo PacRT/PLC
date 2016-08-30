@@ -19,23 +19,20 @@ var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
             store: MyDocsStore.getDocStore(),
-            is_drawer_open : false
-
+            upload_drawer : false,
+            package_drawer : false
         }
     },
     componentDidMount: function () {
         MyDocsStore.addChangeListener(this._onChange);
-        ForwardPkgModalStore.addChangeListener(this._onChange);
     },
     componentWillUnmount: function () {
         MyDocsStore.resetDocStore();
         MyDocsStore.removeChangeListener(this._onChange);
-        ForwardPkgModalStore.removeChangeListener(this._onChange);
     },
     _onChange: function () {
         this.setState({
-            store: MyDocsStore.getDocStore(),
-            is_drawer_open : ForwardPkgModalStore.isModalOpen()
+            store: MyDocsStore.getDocStore()
         });
     },
     _createPkg : function(){
@@ -55,14 +52,23 @@ var ActionBarApp = React.createClass({
             pkg_json["packages_added"].push(doc_json);
         }
         packages.push(pkg_json);
-        var is_open = this.state.is_drawer_open;
-        CreateForwardPkgActions.openForwardPkgModal(packages,!is_open);
+        CreateForwardPkgActions.openForwardPkgModal(packages,!this.state.package_drawer);
+        if(!this.state.package_drawer)
+            UploadAction.openCloseUploadDrawer(false);
         this.setState({
-            "is_drawer_open" : !is_open
+            "package_drawer" : !this.state.package_drawer,
+            "upload_drawer"  : false
         })
     },
     _openUploadDrawer : function(){
-        UploadAction.openCloseUploadDrawer(true);
+        UploadAction.openCloseUploadDrawer(!this.state.upload_drawer);
+        if(!this.state.upload_drawer)
+            CreateForwardPkgActions.closeForwardPkgModal();
+        this.setState({
+            "package_drawer" : false,
+            "upload_drawer" : !this.state.upload_drawer
+        });
+
     },
     render :function(){
         return(
