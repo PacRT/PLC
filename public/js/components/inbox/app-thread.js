@@ -4,12 +4,15 @@ var ThreadUnread = require('material-ui/lib/svg-icons/communication/email');
 var ThreadRead = require('material-ui/lib/svg-icons/communication/mail-outline');
 var Divider = require('material-ui/lib/divider');
 var AppPrimaryText = require('./app-list-primary-text');
+var RightChevron = require('material-ui/lib/svg-icons/hardware/keyboard-arrow-right');
+var ArrowDropDown = require('material-ui/lib/svg-icons/navigation/arrow-drop-down-circle');
 var _ = require('lodash');
 
 var AppThread = React.createClass({
     getInitialState : function(){
         return {
-            "key" : Math.random()
+            "key" : Math.random(),
+            "expanded_list" : {}
         }
     },
     componentDidMount:function(){
@@ -22,9 +25,18 @@ var AppThread = React.createClass({
           "doc_item" : {
               "paddingBottom" : "10px",
               "paddingRight" : "0px",
-              "paddingTop" : "10px"
+              "paddingTop" : "10px",
+              "paddingLeft":"40px",
+              "marginLeft" : "0px"
           }
       }
+    },
+    _expandList : function(pkg_id){
+        var expanded_list = this.state.expanded_list;
+        expanded_list[pkg_id]  = expanded_list.hasOwnProperty(pkg_id) ? !expanded_list[pkg_id] : true;
+        this.setState({
+            expanded_list : expanded_list
+        });
     },
     _previewFile : function(url, file_name, thread_index, pkg_index, doc_index){
        this.props.previewFile(url, file_name ,thread_index, pkg_index, doc_index);
@@ -53,10 +65,16 @@ var AppThread = React.createClass({
             var pkg_index = i;
             var pkg = this.props.thread.packages[i];
             var docList = this._getDocList(pkg,thread_index, pkg_index);
+            var ListIcon = <RightChevron/>;
+            if(this.state.expanded_list.hasOwnProperty(pkg.package_id) && this.state.expanded_list[pkg["package_id"]]){
+                ListIcon = <ArrowDropDown style={{"fill":"rgb(66, 133, 244)"}} />
+            }
             var listItem = <ListItem
                 key={pkg.package_id}
-                innerDivStyle={{"marginLeft":"72px"}}
+                innerDivStyle={{"marginLeft":"50px","paddingLeft": "50px"}}
                 primaryTogglesNestedList={true}
+                onNestedListToggle={this._expandList.bind(null, pkg.package_id)}
+                leftIcon={ListIcon}
                 nestedItems={docList}
                 nestedListStyle={doc_item_style}
                 primaryText={<AppPrimaryText sender={pkg.package_name} thread_name={""} date_updated={pkg.date_updated} />}

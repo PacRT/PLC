@@ -108,12 +108,6 @@ var ActionBarApp = React.createClass({
                                 </ul>
                             </div>
                         </div>
-                        {/* <FlatButton label="Reports"  />
-                        <FlatButton label="Forward"  />
-                        <FlatButton label="Forward Docs" onTouchTap={this._createPkg}  />
-                        <FlatButton label="FedEx"  />
-                        <FlatButton label="UPS"  />
-                        <FlatButton label="Messages"  />*/}
                     </ToolbarGroup>
                 </Toolbar>
                 <ForwardPkgModal/>
