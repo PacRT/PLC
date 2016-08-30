@@ -111,5 +111,5 @@
   (def texts (find-text-containing-price text-list))
   (println (str/join "\n" (doall (map #(do %)  texts)))) (flush)
   (doall (map println (html-to-text-list (slurp "my.html"))))
-  (.start (Thread. (fn [] (listen "new.pdf"))))
-  (.start (Thread. (fn [] (listen "new.html")))))
+  (.start (Thread. (fn [] (listen "new.html"))))
+  (.start (Thread. (fn [] (listen "new.pdf")))))
