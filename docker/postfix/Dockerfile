@@ -46,7 +46,7 @@ RUN postconf compatibility_level=2
 
 COPY main.cf /etc/postfix/main.cf
 
-COPY docker-entrypoint.sh /usr/local/bin/
+#COPY docker-entrypoint.sh /usr/local/bin/
 
 #ENTRYPOINT ["docker-entrypoint.sh"]
 
