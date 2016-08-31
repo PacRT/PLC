@@ -81,9 +81,6 @@ var Login = React.createClass({
             "marginTop" : "20px",
 
         };
-        var underlineStyle = {
-            "borderColor" : Colors.orange500
-        };
         var TextFieldStyle = {
             "width" : "100%"
         };
@@ -104,7 +101,6 @@ var Login = React.createClass({
                             style={TextFieldStyle}
                             floatingLabelText="Email or Username"
                             floatingLabelStyle={floatingLableStyle}
-                            underlineFocusStyle={underlineStyle}
                         />
                         <TextField
                             value={this.state.password}
@@ -112,11 +108,11 @@ var Login = React.createClass({
                             style={TextFieldStyle}
                             floatingLabelText="Password"
                             floatingLabelStyle={floatingLableStyle}
-                            underlineFocusStyle={underlineStyle}
                             type="password"
                         />
                     </CardText>
                     <CardActions style={LoginButtonStyle}>
+                        <a className="pull-left" href="/forgotPassword" style={{paddingLeft: "10px", "lineHeight" : "41px","cursor": "pointer"}}>Forgot Password?</a>
                         <FlatButton className="pull-right" label="Login" onTouchTap={this._handleSubmit}/>
                         {/*   <FlatButton className="pull-right" label="Sign Up" onTouchTap={this._openSignup}x/>*/}
 

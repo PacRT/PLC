@@ -76,6 +76,8 @@ router.use('/api/v1/sentItems',require('./sentitems/get_sentItems'));
 
 router.use('/api/v1/sendInvites',require('./invitation/invitation'));
 
+router.use('/api/v1',require('./reset-password/reset-password'));
+
 router.get('/', function(req, res) {
     res.send({status : 200,mesasge: "App is up and running!!"})
 });

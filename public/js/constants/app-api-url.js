@@ -21,5 +21,6 @@ module.exports = {
     GET_INBOX_COMMENTS : '/inbox/getComment',
     ADD_INBOX_COMMENTS : '/inbox/addComment',
     GET_SENT_ITEMS     : '/sentItems/getSentItems',
-    SEND_INVITES    : '/sendInvites'
+    SEND_INVITES    : '/sendInvites',
+    SEND_RESET_PWD_LINK  : '/sendResetPasswordLink'
 };

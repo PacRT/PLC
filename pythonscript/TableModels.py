@@ -69,3 +69,8 @@ class Invitation(Model):
     id = columns.UUID()
     token_id =  columns.Text()
     email = columns.Text(primary_key = True)
+
+class ResetPassword(Model):
+    id = columns.UUID()
+    token_id =  columns.Text()
+    email_id = columns.Text(primary_key = True)

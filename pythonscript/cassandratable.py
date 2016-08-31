@@ -199,6 +199,16 @@ cs_cli.create_table(
     primary_key =  'comment_id'
 )
 
+cs_cli.create_table(
+    table_name = 'reset_password',
+    columns = {
+        id : 'uuid',
+        email_id : 'text',
+        token_id : 'text'
+    },
+    primary_key =  'email_id'
+)
+
 print("creating Superuser!!!!")
 
 User.create(

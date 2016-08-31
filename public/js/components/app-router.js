@@ -18,7 +18,7 @@ var CreateForwardPackage   = require('./create-forward-package/app-create-forwar
 var AppConstants = require('../constants/app-constants');
 var Inbox = require('./inbox/app-inbox');
 var SentItems = require('./sentitems/app-sentitems');
-
+var ForgotPassword =  require('./forgot-password/app-forgot-password');
 /**
  * middleware to check if user is logged in or not.
  * @param nextState
@@ -37,14 +37,15 @@ var AppRouter = {
     path: '/',
     component: APP,
     childRoutes: [
-        { path : "login"        ,component: Login},
-        { path : "howto"        ,component: HowTo       ,onEnter:requireAuth},
-        { path : "mydocs"       ,component: MyDocs      ,onEnter:requireAuth},
-        { path : "invite"       ,component: Invite      ,onEnter:requireAuth},
-        { path : "registration" ,component: Registration},
-        { path : "createpackage" ,component: CreateForwardPackage, onEnter:requireAuth},
-        { path : "inbox"         ,component: Inbox, onEnter:requireAuth},
-        { path : "sentitems"       ,component: SentItems, onEnter:requireAuth}
+        { path : "login"          ,component: Login},
+        { path : "howto"          ,component: HowTo       ,onEnter:requireAuth},
+        { path : "mydocs"         ,component: MyDocs      ,onEnter:requireAuth},
+        { path : "invite"         ,component: Invite      ,onEnter:requireAuth},
+        { path : "registration"   ,component: Registration},
+        { path : "createpackage"  ,component: CreateForwardPackage, onEnter:requireAuth},
+        { path : "inbox"          ,component: Inbox, onEnter:requireAuth},
+        { path : "sentitems"      ,component: SentItems, onEnter:requireAuth},
+        { path : "forgotPassword" ,component: ForgotPassword}
 
     ]
 };

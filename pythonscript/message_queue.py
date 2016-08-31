@@ -16,7 +16,7 @@ from TableModels import Docs
 from TableModels import Authentication
 
 from sendInvitation import SendInvitation
-
+from resetPassword import ResetPasswordClass
 import subprocess
 
 EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
@@ -584,6 +584,14 @@ class MessageQueue(object):
     def sendInvites(self, email):
         invitation_sender = SendInvitation(email)
         invitation_sender.sendInvitationEmail()
+        return{
+            "status" : 200,
+            "message" : "Your Invitations has been sent!"
+        }
+
+    def sendResetPwdLink(self, email):
+        reset_link_sender = ResetPasswordClass(email)
+        reset_link_sender.sendPasswordResetLink()
         return{
             "status" : 200,
             "message" : "Your Invitations has been sent!"

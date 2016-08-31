@@ -6,6 +6,7 @@ var AppDispatcher = require('../dispatchers/app-dispatcher.js');
 var APIConstants = require('../constants/app-api-url.js');
 var API = require('../utils/API.js');
 var browserHistory = require('react-router').browserHistory;
+var NotificationAction = require('./app-notification');
 
 var LoginActions = {
     loginUser:function(user_name,password){
@@ -45,6 +46,17 @@ var LoginActions = {
     },
     openSignUpForm:function(){
         browserHistory.push('registration');
+    },
+    sendPasswordResetLink : function(email){
+        var data= { "email": email.toLowerCase()}
+        var api_promise = API.post(APIConstants.SEND_RESET_PWD_LINK,data).then(function(response){
+            var notification = {
+                open : true,
+                message : "Your reset password link has been sent to your email."
+            }
+            NotificationAction.showNotification(notification);
+        });
+        return api_promise;
     }
 }
 
