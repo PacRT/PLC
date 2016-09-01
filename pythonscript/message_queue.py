@@ -14,6 +14,7 @@ from TableModels import Package
 from TableModels import InboxCommentThread
 from TableModels import Docs
 from TableModels import Authentication
+from TableModels import ResetPassword
 
 from sendInvitation import SendInvitation
 from resetPassword import ResetPasswordClass
@@ -596,6 +597,30 @@ class MessageQueue(object):
             "status" : 200,
             "message" : "Your Invitations has been sent!"
         }
+    def resetPassword(self, data):
+        password = data["password"]
+        token = data["token"]
+        is_token_exists = ResetPassword.objects(token_id= token).allow_filtering().count()
+        if(is_token_exists == 0):
+            return{
+                "status" : 400,
+                "error" : "Password Reset Link Expired/Invalid. Please use another one."
+            }
+        if(is_token_exists == 1):
+            reset_pwd_row = ResetPassword.objects(token_id= token).allow_filtering()
+            is_user_exist = User.objects(email= reset_pwd_row[0]["email_id"]).count()
+            if(is_user_exist == 0):
+                return{
+                    "status" : 400,
+                    "error" : "Password Reset Link Expired/Invalid. Please use another one."
+                }
+            else:
+                User.objects(email= reset_pwd_row[0]["email_id"]).update(password= password)
+                ResetPassword(email_id=  reset_pwd_row[0]["email_id"]).timeout(None).delete()
+                return{
+                    "status" : 200,
+                    "message" : "Your Password has been changed. Please try to login."
+                }
 
     @staticmethod
     def checkUserExists(email_id):

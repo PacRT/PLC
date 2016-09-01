@@ -19,6 +19,7 @@ var AppConstants = require('../constants/app-constants');
 var Inbox = require('./inbox/app-inbox');
 var SentItems = require('./sentitems/app-sentitems');
 var ForgotPassword =  require('./forgot-password/app-forgot-password');
+var ResetPassword = require('./reset-password/app-reset-password');
 /**
  * middleware to check if user is logged in or not.
  * @param nextState
@@ -45,7 +46,8 @@ var AppRouter = {
         { path : "createpackage"  ,component: CreateForwardPackage, onEnter:requireAuth},
         { path : "inbox"          ,component: Inbox, onEnter:requireAuth},
         { path : "sentitems"      ,component: SentItems, onEnter:requireAuth},
-        { path : "forgotPassword" ,component: ForgotPassword}
+        { path : "forgotPassword" ,component: ForgotPassword },
+        { path : "resetPassword"  ,component: ResetPassword  }
 
     ]
 };
