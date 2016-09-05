@@ -306,3 +306,55 @@ form{
 	text-align: center;
 	color: #FFFFFF;
 }
+
+.ius-default-paragraph {
+	display: block;
+	padding-bottom: 15px;
+}
+
+.ius-emphasis {
+	font-weight: 700;
+}
+
+.ius-default-paragraph {
+	display: block;
+	padding-bottom: 15px;
+}
+
+#ius-try-again-link{
+	 color: #00bcd4;
+ }
+
+#ius-try-again-link:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+ .ius-display-block {
+	display: block;
+}
+.ius-default-paragraph ul {
+	list-style-type: none;
+	padding-left: 0px;
+}
+.ius-default-paragraph ul{
+	list-style: none;
+	list-style-image: none;
+}
+
+.ius-header {
+	font-size: 30px;
+	font-weight: 300;
+	display: block;
+}
+
+.ius-header-container {
+	padding-bottom: 20px;
+}
+.ius-sub-header {
+	word-wrap: break-word;
+	padding-top: 20px;
+	font-size: 1.4em;
+	font-weight: 300;
+	line-height: 1.2;
+	display: block;
+}

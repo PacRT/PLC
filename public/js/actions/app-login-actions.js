@@ -57,7 +57,22 @@ var LoginActions = {
             NotificationAction.showNotification(notification);
         });
         return api_promise;
-    }
+    },
+    resetPassword: function(token, password){
+        var data = {
+            "token" : token,
+            "password": password
+        }
+        var api_promise = API.post(APIConstants.RESET_PASSWORD, data).then(function(response){
+            browserHistory.push('/');
+            var notification = {
+                open : true,
+                message : "Your Password Has been Reset. Please try to login."
+            }
+            NotificationAction.showNotification(notification);
+        });
+        return api_promise;
+    },
 }
 
 module.exports = LoginActions;

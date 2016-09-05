@@ -7,7 +7,7 @@ var TextField = require('material-ui/lib/text-field');
 var Card =  require('material-ui/lib/card/card');
 var CardActions =  require('material-ui/lib/card/card-actions');
 var CardMedia =  require('material-ui/lib/card/card-media');
-var FlatButton =  require('material-ui/lib/raised-button');
+var RaisedButton =  require('material-ui/lib/raised-button');
 var CardText =  require('material-ui/lib/card/card-text');
 var Col = require('react-bootstrap/lib/Col');
 var LoginActions = require('../../actions/app-login-actions');
@@ -17,7 +17,11 @@ var ForgotPassword = React.createClass({
     getInitialState: function(){
         return {
             "email" : "",
-            "show_spinner" : false
+            "show_spinner" : false,
+            "reset_view" : false,
+            "show_check_email_msg" : false,
+            "show_send_link_form" : true,
+            "send_email" : ""
         }
     },
     componentDidMount : function () {
@@ -32,9 +36,14 @@ var ForgotPassword = React.createClass({
             show_spinner : true
         });
         api_promise.then(function(response){
+            var split_mail = this.state.email.split("@");
+            var user_name = split_mail[0];
             this.setState({
                 show_spinner : false,
-                email : ""
+                email : "",
+                send_email : user_name[0]+"*****"+user_name[user_name.length - 1]+"@"+split_mail[1],
+                show_check_email_msg : true,
+                show_send_link_form : false
             });
         }.bind(this));
     },
@@ -50,25 +59,46 @@ var ForgotPassword = React.createClass({
             email : event.target.value
         });
     },
-    render: function () {
+    _resetView : function(){
+        this.setState({
+            "email" : "",
+            "send_email": "",
+            "show_spinner" : false,
+            "reset_view" : false,
+            "show_check_email_msg" : false,
+            "show_send_link_form" : true
+        });
+    },
+    _getCheckEmailMessageJSX : function(){
+        return(
+            <section id="ius-check-email-message" className="ius-section">
+                <header className="ius-header-container"><span id="ius-check-email-header" className="ius-header">Check your email</span>
+                    <span id="ius-check-email-sub-header" className="ius-sub-header">
+                        We sent a verification email for your security. It might take a few minutes to arrive.
+                    </span></header>
+                <div>
+                    <div className="ius-default-paragraph">
+                        <span id="ius-email-address-send-header">We sent it to:</span>
+                        <ul id="ius-email-addresses-sent" className="ius-emphasis ius-display-block">
+                            <li data-type="data-row"> {this.state.send_email} </li>
+                        </ul>
+                    </div>
+                    <span className="ius-default-paragraph">
+                        <span id="ius-didnt-receive-email-text">Didn't get it?</span>
+                        <a id="ius-try-again-link" onTouchTap={this._resetView}>Try again</a>
+                    </span>
+                </div>
+            </section>
+        )
+    },
+    _getSendPwdResetLinkForm : function(){
         var floatingLableStyle = {
             "fontWeight" : "500",
             color: "#505050"
         };
-        var CardBackGround = {
-            "background" : "#eee",
-            "borderWidth" : "0px",
-            "borderColor" : "none",
-            "borderStyle" : "none",
-            "borderRadius" : "0px"
-        };
         var TextFieldStyle = {
             "width" : "100%"
         };
-        var LoginButtonStyle = {
-            "marginBottom" : "10px",
-            "height" : "50px"
-        }
         var styles = {
             circularProgressStyle : {
                 display: "block",
@@ -77,8 +107,55 @@ var ForgotPassword = React.createClass({
         }
         return (
             <div>
+                <p className="text-center">
+                    To reset your password, enter the email address you use to sign in to PaperlessClub.
+                </p>
+                {
+                    this.state.show_spinner ?
+                        <CircularProgress style={styles.circularProgressStyle}/> :
+                        <TextField
+                            onChange={this.handleEmailInput}
+                            value={this.state.email}
+                            style={TextFieldStyle}
+                            type="email"
+                            floatingLabelText="Email Id"
+                            floatingLabelStyle={floatingLableStyle}
+                        />
+                }
+            </div>
+        )
+    },
+    render: function () {
+        var CardBackGround = {
+            "background" : "#eee",
+            "borderWidth" : "0px",
+            "borderColor" : "none",
+            "borderStyle" : "none",
+            "borderRadius" : "0px"
+        };
+
+        var LoginButtonStyle = {
+            "marginBottom" : "10px",
+            "height" : "50px"
+        }
+        var cardBody = "";
+        var cardAction = "";
+        if(this.state.show_send_link_form){
+            cardBody = this._getSendPwdResetLinkForm();
+            cardAction =  <CardActions style={LoginButtonStyle}>
+            <RaisedButton style={{ "width" : "100%"}}
+            disabled={this.state.show_spinner}
+            label="Send Me My Password"
+            secondary={true} onTouchTap={this._sendPasswordResetLink}/>
+            </CardActions>
+
+        }
+        if(this.state.show_check_email_msg){
+            cardBody = this._getCheckEmailMessageJSX();
+        }
+        return (
+            <div>
                 <Col md={4} mdPush={4}>
-                    <center>
                         <Card style={CardBackGround} id="send_reset_link">
                             <CardMedia >
                                 <div className="login-icon" style={{width: "120px", height: "120px","maxWidth" : "120px","minWidth": "0px"}}>
@@ -86,27 +163,10 @@ var ForgotPassword = React.createClass({
                                 </div>
                             </CardMedia>
                             <CardText>
-                                <p className="text-center">
-                                    To reset your password, enter the email address you use to sign in to PaperlessClub.
-                                </p>
-                                {
-                                    this.state.show_spinner ?
-                                        <CircularProgress style={styles.circularProgressStyle}/> :
-                                        <TextField
-                                            onChange={this.handleEmailInput}
-                                            value={this.state.email}
-                                            style={TextFieldStyle}
-                                            type="email"
-                                            floatingLabelText="Email Id"
-                                            floatingLabelStyle={floatingLableStyle}
-                                        />
-                                }
+                                {cardBody}
                             </CardText>
-                            <CardActions style={LoginButtonStyle}>
-                                <FlatButton style={{ "width" : "100%"}}  disabled={this.state.show_spinner} label="Send Me My Password" secondary={true} onTouchTap={this._sendPasswordResetLink}/>
-                            </CardActions>
+                            {cardAction}
                         </Card>
-                    </center>
                 </Col>
             </div>
         );

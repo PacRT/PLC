@@ -40,8 +40,8 @@ var DocPreview = React.createClass({
             />
         ];
         var previewJSX = "";
-        if(this.state.preview_store.document_url.indexOf(".pdf") != -1){
-            previewJSX =<div className="embed-responsive embed-responsive-16by9"> <iframe width="700px" src={this.state.preview_store.document_url}  frameBorder="0" scrolling="yes">
+        if(this.state.preview_store.document_url.indexOf(".pdf") != -1 || this.state.preview_store.document_url.indexOf(".html") != -1){
+            previewJSX = <div className="embed-responsive embed-responsive-16by9"> <iframe width="700px" src={this.state.preview_store.document_url}  frameBorder="0" scrolling="yes">
                 <p>It appears your web browser doesn't support iframes.</p>
             </iframe></div>
 

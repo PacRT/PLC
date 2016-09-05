@@ -49,8 +49,11 @@ def Load(type, fname, owner, issuer, issdname):
 def processPart(part, owner, issuer, issdname):
     ctype = part.get_content_type()
     print("CTYPE: " +ctype)
-    if ctype in ['image/jpeg','image/jpg', 'image/png','application/pdf']:
-        fw = open(issuer + ":" + owner + ":" + part.get_filename(), 'wb')
+    if ctype in ['image/jpeg','image/jpg', 'image/png','application/pdf', 'text/html']:
+        if(ctype != "text/html"):
+            fw = open(issuer + ":" + owner + ":" + part.get_filename(), 'wb')
+        else:
+            fw = open(issuer + ":" + owner + ":embedded_html", 'wb')
         fw.write(part.get_payload(decode=True))
         fname=fw.name
         fw.close()
