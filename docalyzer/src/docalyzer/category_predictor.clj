@@ -18,9 +18,9 @@ already transformed content - returns a map of category and score
 (defn predict-category [{key :key content :content sub :sub}]
   (def email-score-map (predict-category-from-email key))
   (def content-score-map (delay (predict-category-from-content {:key key :content content})))
-  (def merged-score-map (delay (merge-with + email-score-map content-score-map)))
+  (def merged-score-map (delay (merge-with + email-score-map @content-score-map)))
   (def email-max-score (apply max-key val email-score-map))
-  (def merged-max-score (delay apply max-key val merged-score-map))
+  (def merged-max-score (delay apply max-key val @merged-score-map))
   (if
     (= 100 (val email-max-score))
-    (key email-max-score) (key merged-max-score)))
+    (key email-max-score) (key @merged-max-score)))
