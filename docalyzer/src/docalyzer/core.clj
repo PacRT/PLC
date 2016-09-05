@@ -136,6 +136,7 @@
   (println (guess-total text-list))
   (def texts (find-text-containing-price text-list)))
   (try
+    (println "trying to update all categories predicted by email..")
     (cp/update-all-categories-by-email)
     (catch Exception e (str "Issues updating all categories.." (.getMessage e))))
   ;;(println (str/join "\n" (doall (map #(do %)  texts)))) (flush)

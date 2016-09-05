@@ -21,6 +21,7 @@
         (let [doc_link (:doc_link x)
               id (:id x)
               category (predict-category-from-email doc_link)]
+              (println (str "doc_link: " doc_link "id: " id "category: " category))
               (if (not (nil? category))
                 (dh/update-category-by-id id category)))))
     (dh/get-all-ids-doclinks)))
