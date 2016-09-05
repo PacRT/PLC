@@ -10,9 +10,11 @@
           [org.jsoup.nodes Document]))
 
 (defn text-of-pdf [url]
- (with-open [pd (PDDocument/load url)]
-   (let [stripper (PDFTextStripper.)]
-    (.getText stripper pd))))
+  (try
+    (with-open [pd (PDDocument/load url)]
+      (let [stripper (PDFTextStripper.)]
+        (.getText stripper pd)))
+    (catch Exception e (str "Problem reading/opening pdf: " (.getMessage e)))))
 
 (def price-pattern (re-pattern "\\d{1,3}(?:[.,]\\d{3})*(?:[.,]\\d{2,3})"))
 
@@ -36,8 +38,10 @@
   [html]
   (println "html-to-text-list is called")
   (def doc (Jsoup/parse html))
-  (str/split
-    (.text (.body doc)) #"\n"))
+  (try
+    (str/split
+      (.text (.body doc)) #"\n")
+    (catch Exception e (str "" (.getMessage e)))))
 
 (defn find-text-containing-price
   "finds the text that has price but also more text"
@@ -80,6 +84,17 @@
     (sort
       (map price-to-number prices))))
 
+(defn ts-slurp[url]
+  (try
+    (println "Trying to slurp")
+    (slurp url)
+    (catch Exception e (str "Issues opening/readig URL: " url "=>" (.getMessage e)))))
+
+(defn my-input-stream [url]
+  (try
+    (io/input-stream url)
+    (catch Exception e (str "Issues opening InputStream from: " url (.getMessage e)))))
+
 (defn listen [topic]
   (let [conn (mh/connect "tcp://127.0.0.1:1883" (str (rand-int 99999)))]
     (if (mh/connected? conn)
@@ -90,12 +105,13 @@
               (println "here we are")
               (println (String. payload "UTF-8"))
               (let [text-list
-                    (cond
-                      (= topic "new.pdf") (pdf-to-text-list (io/input-stream (.trim (String. payload "UTF-8"))))
-                      (= topic "new.html") (html-to-text-list (slurp (.trim (String. payload "UTF-8"))))
-                      :else (throw (Exception. "not a supported topic")))
+                    (condp = topic
+                      "new.html" (do (println "processing html req")
+                        (html-to-text-list (ts-slurp (.trim (String. payload "UTF-8")))))
+                      "new.pdf" (pdf-to-text-list (my-input-stream (.trim (String. payload "UTF-8"))))
+                      :else (do (println "throwing exception") (throw (Exception. "not a supported topic"))))
                     guessed-total
-                    (guess-total text-list)
+                    (do (println "are we here yet?") (guess-total text-list))
                     meta-text (find-text-containing-price text-list)]
                 (println "Guessed total: " guessed-total)
                 (doall (map println meta-text)))
@@ -104,12 +120,16 @@
 (defn -main
   "I'm the main and I should, probably, exist in production environment."
   [& args]
-  (def text-list
+  (comment (def text-list
     (pdf-to-text-list
       (io/input-stream "/Users/chiradip/Downloads/BH_542220530.pdf")))
+  (println (type text-list))
   (println (guess-total text-list))
-  (def texts (find-text-containing-price text-list))
-  (println (str/join "\n" (doall (map #(do %)  texts)))) (flush)
-  (doall (map println (html-to-text-list (slurp "my.html"))))
+  (def texts (find-text-containing-price text-list)))
+  ;;(println (str/join "\n" (doall (map #(do %)  texts)))) (flush)
+  ;;(doall (map println (html-to-text-list (slurp "my.html"))))
+  ;;(println (guess-total (html-to-text-list (slurp "my.html"))))
+  ;;(println (guess-total (html-to-text-list (slurp "my.html"))))
+  (.start (Thread. (fn [] (listen "new.pdf"))))
   (.start (Thread. (fn [] (listen "new.html"))))
-  (.start (Thread. (fn [] (listen "new.pdf")))))
+  )
