@@ -6,9 +6,12 @@
 (defn predict-category-from-email
  "Email address can be found using the key from the database
 - returns a map of ctaegory and score (between 1 to 100)"
-  [key]
-  (let [sender-info (dh/get-sender-info [key])]
-    (:category-scores sender-info)))
+  [doc_link]
+  (try
+    (let [issuer-id (dh/get-sender-info doc_link)]
+      ;; TODO: do it soon 
+      )
+    (catch Exception e (str "Issues in predict-category-from-email: " (.getMessage e)))))
 
 (defn predict-category-from-content
  "Raw content can be found from database but to reduce processing time, use the

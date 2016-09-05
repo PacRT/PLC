@@ -7,7 +7,8 @@
   (:require [clojurewerkz.machine-head.client :as mh])
   (use [clojure.java.shell :only [sh]])
   (:import [org.jsoup Jsoup]
-          [org.jsoup.nodes Document]))
+          [org.jsoup.nodes Document])
+  (require [docalyzer.datahandler :as dh]))
 
 (defn text-of-pdf [url]
   (try
@@ -104,16 +105,22 @@
             (do
               (println "here we are")
               (println (String. payload "UTF-8"))
-              (let [text-list
+              (let [url (.trim (String. payload "UTF-8"))
+                text-list
                     (condp = topic
                       "new.html" (do (println "processing html req")
-                        (html-to-text-list (ts-slurp (.trim (String. payload "UTF-8")))))
-                      "new.pdf" (pdf-to-text-list (my-input-stream (.trim (String. payload "UTF-8"))))
-                      :else (do (println "throwing exception") (throw (Exception. "not a supported topic"))))
+                        (html-to-text-list (ts-slurp url)))
+                      "new.pdf" (pdf-to-text-list (my-input-stream url))
+                      :else (do (println "throwing exception")
+                        (throw (Exception. "not a supported topic"))))
                     guessed-total
                     (do (println "are we here yet?") (guess-total text-list))
                     meta-text (find-text-containing-price text-list)]
                 (println "Guessed total: " guessed-total)
+                (try ;; try to post/update the price
+                  (println "Trying to post/update price")
+                  (dh/update-price url guessed-total)
+                  (catch Exception e (str "Issues post/update-ing total: " (.getMessage e))))
                 (doall (map println meta-text)))
               (flush))))))))
 
@@ -132,5 +139,4 @@
   ;;(println (guess-total (html-to-text-list (slurp "my.html"))))
   ;;(println (guess-total (html-to-text-list (slurp "my.html"))))
   (.start (Thread. (fn [] (listen "new.pdf"))))
-  (.start (Thread. (fn [] (listen "new.html"))))
-  )
+  (.start (Thread. (fn [] (listen "new.html")))))
