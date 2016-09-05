@@ -17,13 +17,13 @@
 (defn update-all-categories-by-email []
   (map
     (fn [x]
-      (do
-        (let [doc_link (:doc_link x)
-              id (:id x)
-              category (predict-category-from-email doc_link)]
-              (println (str "doc_link: " doc_link "id: " id "category: " category))
-              (if (not (nil? category))
-                (dh/update-category-by-id id category)))))
+      (println (str "Element: " x))
+      (let [doc_link (:doc_link x)
+            id (:id x)
+            category (predict-category-from-email doc_link)]
+            (println (str "doc_link: " doc_link "id: " id "category: " category))
+            (if (not (nil? category))
+              (dh/update-category-by-id id category))))
     (dh/get-all-ids-doclinks)))
 
 (defn predict-category-from-content
