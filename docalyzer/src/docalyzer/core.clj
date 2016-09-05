@@ -8,7 +8,8 @@
   (use [clojure.java.shell :only [sh]])
   (:import [org.jsoup Jsoup]
           [org.jsoup.nodes Document])
-  (require [docalyzer.datahandler :as dh]))
+  (require [docalyzer.datahandler :as dh])
+  (require [docalyzer.category-predictor :as cp]))
 
 (defn text-of-pdf [url]
   (try
@@ -134,6 +135,9 @@
   (println (type text-list))
   (println (guess-total text-list))
   (def texts (find-text-containing-price text-list)))
+  (try
+    (cp/update-all-categories-by-email)
+    (catch Exception e (str "Issues updating all categories.." (.getMessage e))))
   ;;(println (str/join "\n" (doall (map #(do %)  texts)))) (flush)
   ;;(doall (map println (html-to-text-list (slurp "my.html"))))
   ;;(println (guess-total (html-to-text-list (slurp "my.html"))))

@@ -12,7 +12,7 @@
   (try
     (println "get-id-by-doc-link [doc_link] - is called ")
     (:id (first (client/execute @session
-      (str "SELCT id from docs where doc_link = '" doc_link "' allow filtering"))))
+      (str "SELCT id from plc.docs where doc_link = '" doc_link "' allow filtering"))))
     (catch Exception e (str "Exception in executing query contining doc_link: "
    doc_link "=>" (.getMessage e)))))
 
@@ -20,10 +20,9 @@
   (try
     (println "get-id-by-doc-url [doc_link] - is called ")
     (:id (first (client/execute @session
-      (str "SELCT id from docs where doc_url = '" doc_url "' allow filtering"))))
+      (str "SELCT id from plc.docs where doc_url = '" doc_url "' allow filtering"))))
     (catch Exception e (str "Exception in executing query contining doc_url: "
    doc_url "=>" (.getMessage e)))))
-
 
 (defn update-price [doc_link price]
   (try
@@ -31,7 +30,7 @@
     (def id (get-id-by-doc-link doc_link))
     (println (str "id(doc): " id))
     (client/execute @session
-      (str "UPDATE docs SET meta_fields['guessed_price'] ='" price "' where id = " id))
+      (str "UPDATE plc.docs SET meta_fields['guessed_price'] ='" price "' where id = " id))
     (catch Exception e (str "Issues updating price: " (.getMessage e)))))
 
 (defn update-suggestive-text [doc_link text]
@@ -40,20 +39,19 @@
     (def id (get-id-by-doc-link doc_link))
     (println (str "id(doc): " id))
     (client/execute @session
-      (str "UPDATE docs SET meta_fields['suggestive_text'] ='" text "' where
+      (str "UPDATE plc.docs SET meta_fields['suggestive_text'] ='" text "' where
         id = " id ))
     (catch Exception e (str "Issues updating suggestive-text: " (.getMessage e)))))
-
 
 (defn get-sender-info
   "key: is mostly the uri/url. Look up the appropriate tables to gather sender
   info. Create a map with key :category-scores with a nested map with Category
   as the key and score as the value - multiple categories are possible - one
-  Category is desirable, no Cateogory is allowed too "
+  Category is desirable, no Category is allowed too "
   [doc_link]
   (try
     (:issuer_id (first (client/execute @session
-      (str "SELECT issuer_id from docs where doc_link = '" doc_link "' ALLOW FILTERING"))))
+      (str "SELECT issuer_id from plc.docs where doc_link = '" doc_link "' ALLOW FILTERING"))))
     (catch Exception e (str "Issues getting sender-info from doc_link: "
       doc_link " =>" (.getMessage e)))))
   ;;(def ids-links (client/execute @session
@@ -62,8 +60,21 @@
   ;; "SELECT issuer_id from doc where doc_link = doc_link allow filtering"
 
 (defn get-category-score-map [email]
-  (keywordize-keys (:category_score (first (client/execute @session (str "SELECT category_score email_category where
-        email = '" email "' ALLOW FILTERING"))))))
+  (try
+    (:category_score (first (client/execute @session (str "SELECT
+          category_score from plc.email_category where email = '" email "'
+          ALLOW FILTERING"))))
+    (catch Exception e (str "" (.getMessage e)))))
+
+(defn get-all-ids-doclinks[]
+  (try
+    (client/execute @session "select id, doc_link from plc.docs")
+    (catch Exception e (str "Issues getting ids-doc-links: " (.getMessage e)))))
+
+(defn update-category-by-id [id category]
+  (try
+    (client/execute @session (str "update plc.docs set category = '" category "' where id = " id))
+    (catch Exception e (str "Issues updating Category: " (.getMessage e)))))
 
 (defn get-whole-mime-data
   "MIME data may become useful in certain types of deep analysis"

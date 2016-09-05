@@ -1,6 +1,5 @@
 (ns docalyzer.category-predictor
   (:gen-class)
-  (:require [clojurewerkz.cassaforte.client :as client])
   (:require [docalyzer.datahandler :as dh]))
 
 (defn predict-category-from-email
@@ -8,10 +7,23 @@
 - returns a map of ctaegory and score (between 1 to 100)"
   [doc_link]
   (try
-    (let [issuer-id (dh/get-sender-info doc_link)]
-      ;; TODO: do it soon 
-      )
+    (let [issuer-id (dh/get-sender-info doc_link)
+          score-map (first (sort-by val > (dh/get-category-score-map issuer-id)))
+          top-score (val score-map)
+          top-category (key score-map)]
+          (if (> top-score 69) top-category nil))
     (catch Exception e (str "Issues in predict-category-from-email: " (.getMessage e)))))
+
+(defn update-all-categories-by-email []
+  (map
+    (fn [x]
+      (do
+        (let [doc_link (:doc_link x)
+              id (:id x)
+              category (predict-category-from-email doc_link)]
+              (if (not (nil? category))
+                (dh/update-category-by-id id category)))))
+    (dh/get-all-ids-doclinks)))
 
 (defn predict-category-from-content
  "Raw content can be found from database but to reduce processing time, use the
