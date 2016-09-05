@@ -16,3 +16,5 @@ ENTRYPOINT ["mosca", "-d", "/db", "-v"]
 
 #sudo docker build -t mosca .
 #sudo docker run -p 1883:1883 -t mosca 
+# you can also run the following command - no Dockerfile required for that 
+#docker run -p 1883:1883 -v /var/db/mosca:/db matteocollina/mosca

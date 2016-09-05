@@ -37,7 +37,7 @@ RUN mkdir -p $LEIN_INSTALL \
 ENV PATH=$PATH:$LEIN_INSTALL
 ENV LEIN_ROOT 1
 
-COPY ../../docalyzer /docalyzer
+COPY docalyzer /docalyzer
 
 WORKDIR /docalyzer
 
