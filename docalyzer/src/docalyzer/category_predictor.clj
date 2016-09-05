@@ -1,4 +1,5 @@
 (ns docalyzer.category-predictor
+  (:gen-class)
   (:require [clojurewerkz.cassaforte.client :as client])
   (:require [docalyzer.datahandler :as dh]))
 

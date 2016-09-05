@@ -120,6 +120,7 @@
 (defn -main
   "I'm the main and I should, probably, exist in production environment."
   [& args]
+  (println "Docalyzer is ready for its Business... :)")
   (comment (def text-list
     (pdf-to-text-list
       (io/input-stream "/Users/chiradip/Downloads/BH_542220530.pdf")))
