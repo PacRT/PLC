@@ -9,6 +9,9 @@ var formidable = require('formidable');
 var upload_api = require('../../redis_middleware/api/redis_upload_api');
 var auth_checker = require('../middleware/auth_checker');
 var util = require("util");
+var PDFJS = require("pdfjs-dist");
+var Canvas = require('canvas');
+var XMLHttpRequest = require('xhr2');
 /**
  *
  */
@@ -49,6 +52,8 @@ function dbentry(req) {
     console.log('associate_doc');
     upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url).then(function(response){
         console.log(response);
+        if(docUrl.indexOf(".pdf") != -1)
+            createPDFThumbnail(doc_link);
     },function(error) {
         console.log(error);
     });
@@ -84,5 +89,38 @@ function fileupload(req, res, uploadEndpoint, fn) {
     });
     return req.pipe(poster).pipe(res);
 };
+function createPDFThumbnail(url){
+  var oReq = new XMLHttpRequest();
+  oReq.open("GET", url+'?_=' + new Date().getTime(), true)
+  oReq.onerror = function() { alert('error'); };
+  oReq.responseType = "arraybuffer";
 
+  oReq.onload = function (oEvent) {
+      var arrayBuffer = oReq.response; // Note: not oReq.responseText
+      if (arrayBuffer) {
+          var byteArray = new Uint8Array(arrayBuffer);
+          PDFJS.getDocument(byteArray).then(function(pdf) {
+              pdf.getPage(1).then(function(page) {
+                  var canvas = new Canvas();
+                  var desiredHeight = 400;
+                  var viewport = page.getViewport(1);
+                  var scale = desiredHeight / viewport.height;
+                  var scaledViewport = page.getViewport(scale);
+                  var canvas = new Canvas(scaledViewport.width, scaledViewport.height);
+                  var context = canvas.getContext('2d');
+                  var renderContext = {
+                      canvasContext: context,
+                      viewport:scaledViewport
+                  };
+                  page.render(renderContext).promise.then(function(response){
+                      console.log(canvas.toDataURL());
+                  },function(error){
+                      console.log("Error Occurred while rendering pdf page!!!");
+                  });
+              })
+          });
+      }
+  };
+  oReq.send(null);
+}
 module.exports = router;

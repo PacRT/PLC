@@ -12,6 +12,7 @@
     "bcrypt": "^0.8.5",
     "bluebird": "^3.4.1",
     "body-parser": "^1.14.1",
+    "canvas": "^1.4.0",
     "classnames": "^2.2.3",
     "cors": "^2.7.1",
     "crypto": "0.0.3",
@@ -34,7 +35,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "pdfjs-dist": "^1.5.334",
+    "pdfjs-dist": "^1.5.434",
     "random-js": "^1.0.8",
     "react": "^0.14.8",
     "react-bootstrap": "^0.30.1",
@@ -48,6 +49,7 @@
     "superagent": "^1.7.2",
     "superagent-bluebird-promise": "^3.0.0",
     "underscore": "^1.8.3",
+    "xhr2": "^0.1.3",
     "zerorpc": "^0.9.6"
   },
   "devDependencies": {
