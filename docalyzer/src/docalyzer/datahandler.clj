@@ -13,7 +13,7 @@
     (println "get-id-by-doc-link [doc_link] - is called ")
     (:id (first (client/execute @session
       (str "SELCT id from plc.docs where doc_link = '" doc_link "' allow filtering"))))
-    (catch Exception e (str "Exception in executing query contining doc_link: "
+    (catch Exception e (str "Exception in executing query containing doc_link: "
    doc_link "=>" (.getMessage e)))))
 
 (defn get-id-by-doc-url [doc_url]

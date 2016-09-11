@@ -11,7 +11,7 @@
           score-map (first (sort-by val > (dh/get-category-score-map issuer-id)))
           top-score (val score-map)
           top-category (key score-map)]
-          (if (> top-score 69) top-category nil))
+          (if (and (not (nil? top-score)) (> top-score 69)) top-category nil))
     (catch Exception e (str "Issues in predict-category-from-email: " (.getMessage e)))))
 
 (defn update-all-categories-by-email []
