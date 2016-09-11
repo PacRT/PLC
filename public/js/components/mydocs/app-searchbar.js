@@ -55,6 +55,7 @@ var  SearchBarApp = React.createClass({
                 <Toolbar>
                     <ToolbarTitle text={this.props.title} float="left" />
 
+                      <ToolbarGroup float="right">
 			<DatePicker
     selected={this.state.startDate}
     startDate={this.state.startDate}
@@ -65,7 +66,6 @@ var  SearchBarApp = React.createClass({
     startDate={this.state.startDate}
     endDate={this.state.endDate}
     onChange={this.handleChangeEnd} />
-                      <ToolbarGroup float="right">
                         <ToolbarSeparator />
                           {/*<FlatButton
                               icon={<Search color={orange500} />}
