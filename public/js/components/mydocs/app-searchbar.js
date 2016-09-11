@@ -11,6 +11,8 @@ var orange500 = require('material-ui/lib/styles/colors');
 var FlatButton = require('material-ui/lib/flat-button');
 var MyDocsActions = require('../../actions/app-mydocs-actions');
 
+var DatePicker  = require('material-ui/lib/date-picker/date-picker');
+
 var AutoComplete = require('material-ui/lib/auto-complete');
 var categories = require('../../constants/app-upload-categories-constants');
 
@@ -54,6 +56,16 @@ var  SearchBarApp = React.createClass({
                     <ToolbarTitle text={this.props.title} float="left" />
 
                       <ToolbarGroup float="right">
+			<DatePicker
+    selected={this.state.startDate}
+    startDate={this.state.startDate}
+    endDate={this.state.endDate}
+    onChange={this.handleChangeStart} />
+<DatePicker
+    selected={this.state.endDate}
+    startDate={this.state.startDate}
+    endDate={this.state.endDate}
+    onChange={this.handleChangeEnd} />
                         <ToolbarSeparator />
                           {/*<FlatButton
                               icon={<Search color={orange500} />}
