@@ -12,18 +12,19 @@
           top-score (val score-map)
           top-category (key score-map)]
           (if (and (not (nil? top-score)) (> top-score 69)) top-category nil))
-    (catch Exception e (str "Issues in predict-category-from-email: " (.getMessage e)))))
+    (catch Exception e (throw (Exception. (str "Issues in predict-category-from-email: " (.getMessage e)))))))
 
 (defn update-all-categories-by-email []
   (map
     (fn [x]
       (println (str "Element: " x))
-      (let [doc_link (:doc_link x)
+      (try (let [doc_link (:doc_link x)
             id (:id x)
             category (predict-category-from-email doc_link)]
             (println (str "doc_link: " doc_link "id: " id "category: " category))
             (if (not (nil? category))
-              (dh/update-category-by-id id category))))
+              (dh/update-category-by-id id category)))
+              (catch Exception e (str "Issue: " (.getMessage e)))))
     (dh/get-all-ids-doclinks)))
 
 (defn predict-category-from-content

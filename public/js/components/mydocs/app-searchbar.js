@@ -54,18 +54,21 @@ var  SearchBarApp = React.createClass({
             <div style={{paddingLeft:'44px'}}>
                 <Toolbar>
                     <ToolbarTitle text={this.props.title} float="left" />
-
-                      <ToolbarGroup float="right">
+		    <ToolBarGroup>
 			<DatePicker
-    selected={this.state.startDate}
-    startDate={this.state.startDate}
-    endDate={this.state.endDate}
-    onChange={this.handleChangeStart} />
-<DatePicker
-    selected={this.state.endDate}
-    startDate={this.state.startDate}
-    endDate={this.state.endDate}
-    onChange={this.handleChangeEnd} />
+			    selected={this.state.startDate}
+			    startDate={this.state.startDate}
+			    endDate={this.state.endDate}
+			    onChange={this.handleChangeStart} />
+	      	    </ToolBarGroup>
+	            <ToolBarGroup>
+			<DatePicker
+			    selected={this.state.endDate}
+			    startDate={this.state.startDate}
+			    endDate={this.state.endDate}
+			    onChange={this.handleChangeEnd} />
+		      </ToolBarGroup>
+                      <ToolbarGroup float="right">
                         <ToolbarSeparator />
                           {/*<FlatButton
                               icon={<Search color={orange500} />}
