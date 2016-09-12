@@ -24,7 +24,7 @@
             (println (str "doc_link: " doc_link "id: " id "category: " category))
             (if (not (nil? category))
               (dh/update-category-by-id id category)))
-              (catch Exception e (str "Issue: " (.getMessage e)))))
+          (catch Exception e (str "Issue: " (.getMessage e)))))
     (dh/get-all-ids-doclinks)))
 
 (defn predict-category-from-content

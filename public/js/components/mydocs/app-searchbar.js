@@ -53,7 +53,9 @@ var  SearchBarApp = React.createClass({
         return(
             <div style={{paddingLeft:'44px'}}>
                 <Toolbar>
-                    <ToolbarTitle text={this.props.title} float="left" />
+		    <ToolbarGroup firstChild={true}>
+                    	<ToolbarTitle text={this.props.title} float="left" />
+		    </ToolbarGroup>
 		    <ToolbarGroup>
 			<DatePicker
 			    selected={this.state.startDate}
