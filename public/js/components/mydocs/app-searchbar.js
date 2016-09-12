@@ -52,7 +52,7 @@ var  SearchBarApp = React.createClass({
 
         return(
             <div style={{paddingLeft:'44px'}}>
-i		<Toolbar>
+		<Toolbar>
                     <ToolbarGroup firstChild={true}>
                         <ToolbarTitle text={this.props.title} float="left" />
                     </ToolbarGroup>
