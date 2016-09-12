@@ -52,43 +52,49 @@ var  SearchBarApp = React.createClass({
 
         return(
             <div style={{paddingLeft:'44px'}}>
-                <Toolbar>
-		    <ToolbarGroup firstChild={true}>
-                    	<ToolbarTitle text={this.props.title} float="left" />
-		    </ToolbarGroup>
-		    <ToolbarGroup>
-			<DatePicker
-			    selected={this.state.startDate}
-			    startDate={this.state.startDate}
-			    endDate={this.state.endDate}
-			    onChange={this.handleChangeStart} />
-	      	    </ToolbarGroup>
-	            <ToolbarGroup>
-			<DatePicker
-			    selected={this.state.endDate}
-			    startDate={this.state.startDate}
-			    endDate={this.state.endDate}
-			    onChange={this.handleChangeEnd} />
-		      </ToolbarGroup>
-                      <ToolbarGroup float="right">
-                        <ToolbarSeparator />
-                          {/*<FlatButton
-                              icon={<Search color={orange500} />}
-                          />*/
-                         /* <DropDownMenu menuStyle={{color:"red"}} className="pull-left" value={this.state.value} onChange={this.handleChange}>
-                              <MenuItem value={1} primaryText="Document Name" />
-                              <MenuItem value={2} primaryText="Category" />
-                          </DropDownMenu>*/}
-                        <TextField
-                            value={this.state.filter_value}
-                            onChange={this.handleFilterValueChange}
-                            hintText="Search In My Docs"
-                            style={{"paddingLeft": "1em"}}
-                            underlineStyle={{"borderColor":"rgba(0, 0, 0, 0.870588)"}}
-                            hintStyle={{"color":"rgba(0, 0, 0, 0.870588)"}}
-                        />
+i		<Toolbar>
+                    <ToolbarGroup firstChild={true}>
+                        <ToolbarTitle text={this.props.title} float="left" />
                     </ToolbarGroup>
-                    
+                    <ToolbarGroup>
+                        <ToolbarSeparator/>
+                    </ToolbarGroup>
+                    <ToolbarGroup float="right">
+			    <ToolbarGroup>
+				<DatePicker
+				    hintText = "Start Date"
+				    selected={this.state.startDate}
+				    startDate={this.state.startDate}
+				    endDate={this.state.endDate}
+				    onChange={this.handleChangeStart} />
+			    </ToolbarGroup>
+			    <ToolbarGroup>
+				<DatePicker
+				    hintText= "End Date"
+				    selected={this.state.endDate}
+				    startDate={this.state.startDate}
+				    endDate={this.state.endDate}
+				    onChange={this.handleChangeEnd} />
+			      </ToolbarGroup>
+			      <ToolbarGroup float="right">
+				<ToolbarSeparator />
+				  {/*<FlatButton
+				      icon={<Search color={orange500} />}
+				  />*/
+				 /* <DropDownMenu menuStyle={{color:"red"}} className="pull-left" value={this.state.value} onChange={this.handleChange}>
+				      <MenuItem value={1} primaryText="Document Name" />
+				      <MenuItem value={2} primaryText="Category" />
+				  </DropDownMenu>*/}
+				<TextField
+				    value={this.state.filter_value}
+				    onChange={this.handleFilterValueChange}
+				    hintText="Search In My Docs"
+				    style={{"paddingLeft": "1em"}}
+				    underlineStyle={{"borderColor":"rgba(0, 0, 0, 0.870588)"}}
+				    hintStyle={{"color":"rgba(0, 0, 0, 0.870588)"}}
+				/>
+			    </ToolbarGroup>
+		    </ToolbarGroup>
                 </Toolbar>
             </div>
         )
