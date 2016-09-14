@@ -110,40 +110,7 @@ class MessageQueue(object):
         issuer_id = data["issuer_id"]
         score = data["score"]
         doc_link = data["doc_link"]
-        # Insert in owner table
-        self.cli.insert(
-            table_name = "owner",
-            data = {
-                "owner_id": owner_id,
-                "score": score,
-                "doc_url": doc_url
-            },
-            uuid = True
-        )
-        # Insert in issuer table
-        self.cli.insert(
-            table_name = "issuer",
-            data = {
-
-                "issuer_id": issuer_id,
-                "score": score,
-                "doc_url": doc_url
-            },
-            uuid = True
-        )
-        # Insert in doc table
-        self.cli.insert(
-            table_name = "doc",
-            data = {
-                "owner_id": owner_id,
-                "issuer_id": issuer_id,
-                "doc_url": doc_url,
-                "category": category,
-                "filename": file_name,
-                "doc_link" :  doc_link
-            },
-            uuid = True
-        )
+        thumbnail =  data["thumbnail"]
         # Insert in docs table
         self.cli.insert(
             table_name = "docs",
@@ -154,7 +121,8 @@ class MessageQueue(object):
                 "filename": file_name,
                 "issuer_id": issuer_id,
                 "doc_url": doc_url,
-                "doc_link" : doc_link
+                "doc_link" : doc_link,
+                "thumbnail" : thumbnail
             },
             uuid = True
         )

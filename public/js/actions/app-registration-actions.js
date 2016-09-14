@@ -28,7 +28,7 @@ var AppRegistration = {
                 actionType : AppConstants.SHOW_NOTIFICATION,
                 response :notification
             });
-            browserHistory.push('login');
+            browserHistory.push('/');
         });
     }
 }

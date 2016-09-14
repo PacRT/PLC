@@ -14,7 +14,7 @@ var upload_doc = {
      * @param doc_link
      * @returns {Promise}
      */
-    associate_doc : function(owner_id,user_id,timestamp,doc_link,category,file_name,doc_url) {
+    associate_doc : function(owner_id,user_id,timestamp,doc_link,category,file_name,doc_url, thumbnail) {
         var client = new zerorpc.Client();
         client.connect("tcp://127.0.0.1:4242");
         var data = {
@@ -24,7 +24,8 @@ var upload_doc = {
             'doc_link': doc_link,
             'category': category,
             'file_name': file_name,
-            'doc_url': doc_url
+            'doc_url': doc_url,
+            'thumbnail' : thumbnail
         };
         // var data = [owner_id, user_id, timestamp, doc_link, category, file_name, doc_url];
         console.log(data);

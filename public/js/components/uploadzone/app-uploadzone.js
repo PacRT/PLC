@@ -88,6 +88,7 @@ var UploadZone = React.createClass({
                 }
                 _this.setState({
                     progress : 0,
+                    files: [],
                     open_modal: true
                 });
             },function(err){

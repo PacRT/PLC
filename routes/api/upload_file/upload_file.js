@@ -12,6 +12,7 @@ var util = require("util");
 var PDFJS = require("pdfjs-dist");
 var Canvas = require('canvas');
 var XMLHttpRequest = require('xhr2');
+var fs = require("fs");
 /**
  *
  */
@@ -19,6 +20,9 @@ router.post('/:file_name/:category',function(req, res, next){
     /**
      * Rest API to save file to Weedfs
      */
+    console.log("@@@@@@@@@@@@@@@@");
+    console.log(req.body);
+    console.log("@@@@@@@@@@@@@@@@");
     request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
         var uploadEndpoint, weedRes;
         console.log("http://"+weedMaster + "/dir/assign");
@@ -41,7 +45,6 @@ router.post('/:file_name/:category',function(req, res, next){
  * @param req
  */
 function dbentry(req) {
-    var time_stamp = new Date().getTime();
     var doc_link = req.docurl;
     var doc1 = doc_link.substring(doc_link.indexOf("://") + 3);
     var doc2 = doc1.substring(0, doc1.indexOf("/"));
@@ -50,13 +53,23 @@ function dbentry(req) {
     var docFid = doc1.substring(doc1.indexOf("/") + 1);
     var doc_api_url = "/docs/" + docUrl + "/" + docPort + "/" + docFid;
     console.log('associate_doc');
-    upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url).then(function(response){
-        console.log(response);
-        if(docUrl.indexOf(".pdf") != -1)
+    if(doc_link.indexOf(".pdf") != -1){
+        createPDFThumbnail(req, doc_link, doc_api_url, create_doc)
+    }else{
+        var thumbnail = new Buffer(fs.readFileSync(req.files.path)).toString("base64");
+        create_doc(req, doc_link, doc_api_url, thumbnail);
+    }
+    function create_doc(req, doc_link, doc_api_url,thumbnail){
+        var time_stamp = new Date().getTime();
+        upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],
+            req.params["file_name"],doc_api_url, atob(thumbnail)).then(function(response){
+            console.log(response);
             createPDFThumbnail(doc_link);
-    },function(error) {
-        console.log(error);
-    });
+        },function(error) {
+            console.log(error);
+        });
+    }
+
 };
 /**
  * Upload file to endpoint provided by SeeWeedFs
@@ -101,7 +114,6 @@ function createPDFThumbnail(url){
           var byteArray = new Uint8Array(arrayBuffer);
           PDFJS.getDocument(byteArray).then(function(pdf) {
               pdf.getPage(1).then(function(page) {
-                  var canvas = new Canvas();
                   var desiredHeight = 400;
                   var viewport = page.getViewport(1);
                   var scale = desiredHeight / viewport.height;

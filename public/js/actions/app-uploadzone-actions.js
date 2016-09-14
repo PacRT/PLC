@@ -46,6 +46,13 @@ var UploadzoneActions = {
         var promise;
         var _this = this;
         _.each(files, function(file){
+            var arrayBuffer;
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                arrayBuffer = this.result;
+                _this.createPDFThumbnail(this.result);
+            };
+            fileReader.readAsArrayBuffer(file);
             var file_api_url = api_url.replace("#file_name#",file.name);
             file_api_url = file_api_url.replace("#category#",_.has(file,"category") ? file.category: "--");
             promise = request
