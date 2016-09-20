@@ -9,10 +9,6 @@ var formidable = require('formidable');
 var upload_api = require('../../redis_middleware/api/redis_upload_api');
 var auth_checker = require('../middleware/auth_checker');
 var util = require("util");
-var PDFJS = require("pdfjs-dist");
-var Canvas = require('canvas');
-var XMLHttpRequest = require('xhr2');
-var fs = require("fs");
 /**
  *
  */
@@ -20,9 +16,6 @@ router.post('/:file_name/:category',function(req, res, next){
     /**
      * Rest API to save file to Weedfs
      */
-    console.log("@@@@@@@@@@@@@@@@");
-    console.log(req.body);
-    console.log("@@@@@@@@@@@@@@@@");
     request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
         var uploadEndpoint, weedRes;
         console.log("http://"+weedMaster + "/dir/assign");
@@ -45,6 +38,7 @@ router.post('/:file_name/:category',function(req, res, next){
  * @param req
  */
 function dbentry(req) {
+    var time_stamp = new Date().getTime();
     var doc_link = req.docurl;
     var doc1 = doc_link.substring(doc_link.indexOf("://") + 3);
     var doc2 = doc1.substring(0, doc1.indexOf("/"));
@@ -52,24 +46,12 @@ function dbentry(req) {
     var docPort = doc2.substring(doc2.indexOf(":") + 1);
     var docFid = doc1.substring(doc1.indexOf("/") + 1);
     var doc_api_url = "/docs/" + docUrl + "/" + docPort + "/" + docFid;
-    console.log('associate_doc');
-    if(doc_link.indexOf(".pdf") != -1){
-        createPDFThumbnail(req, doc_link, doc_api_url, create_doc)
-    }else{
-        var thumbnail = new Buffer(fs.readFileSync(req.files.path)).toString("base64");
-        create_doc(req, doc_link, doc_api_url, thumbnail);
-    }
-    function create_doc(req, doc_link, doc_api_url,thumbnail){
-        var time_stamp = new Date().getTime();
-        upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],
-            req.params["file_name"],doc_api_url, atob(thumbnail)).then(function(response){
-            console.log(response);
-            createPDFThumbnail(doc_link);
-        },function(error) {
-            console.log(error);
-        });
-    }
-
+    var thumbnail = req.get("thumbnail");
+    upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url, thumbnail).then(function(response){
+        console.log(response);
+    },function(error) {
+        console.log(error);
+    });
 };
 /**
  * Upload file to endpoint provided by SeeWeedFs
@@ -102,37 +84,5 @@ function fileupload(req, res, uploadEndpoint, fn) {
     });
     return req.pipe(poster).pipe(res);
 };
-function createPDFThumbnail(url){
-  var oReq = new XMLHttpRequest();
-  oReq.open("GET", url+'?_=' + new Date().getTime(), true)
-  oReq.onerror = function() { alert('error'); };
-  oReq.responseType = "arraybuffer";
 
-  oReq.onload = function (oEvent) {
-      var arrayBuffer = oReq.response; // Note: not oReq.responseText
-      if (arrayBuffer) {
-          var byteArray = new Uint8Array(arrayBuffer);
-          PDFJS.getDocument(byteArray).then(function(pdf) {
-              pdf.getPage(1).then(function(page) {
-                  var desiredHeight = 400;
-                  var viewport = page.getViewport(1);
-                  var scale = desiredHeight / viewport.height;
-                  var scaledViewport = page.getViewport(scale);
-                  var canvas = new Canvas(scaledViewport.width, scaledViewport.height);
-                  var context = canvas.getContext('2d');
-                  var renderContext = {
-                      canvasContext: context,
-                      viewport:scaledViewport
-                  };
-                  page.render(renderContext).promise.then(function(response){
-                      console.log(canvas.toDataURL());
-                  },function(error){
-                      console.log("Error Occurred while rendering pdf page!!!");
-                  });
-              })
-          });
-      }
-  };
-  oReq.send(null);
-}
 module.exports = router;
