@@ -123,35 +123,13 @@ var DocTile = React.createClass({
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
         }
-        if(this.props.view == "INBOX"){
-            imgStyles["width"] =  "34%";
-            imgStyles["height"] = "92px";
-        }
-        var encoded_id = encodeURIComponent(this.props.img);
-        if (this.props.img.indexOf(".pdf") == -1) {
-            imgStyles["backgroundImage"] = "url(" + this.props.img + ")";
+
+        if (this.props.thumbnail) {
+            imgStyles["backgroundImage"] = "url(" + atob(this.props.thumbnail) + ")";
             this.setState({
-                tile: <div style={imgStyles} id={encoded_id}></div>
+                tile: <div style={imgStyles}></div>
             })
-        } else {
-            this.setState({
-                tile: <div id={encoded_id}></div>
-            });
-            function convertCanvasToImage(canvas, id) {
-                var div1 = document.getElementById(id);
-                //div1.style = imgStyles;
-                div1.style["backgroundImage"] = "url(" + canvas.toDataURL() + ")";
-                div1.style["position"] = "relative";
-                div1.style["width"] = "100%";
-                div1.style["height"] = "175px";
-                div1.style["backgroundRepeat"] = "no-repeat";
-                div1.style["backgroundSize"] = "cover";
-            }
-
-            DocTileActions.createPDFThumbnail(this.props.img, encoded_id, convertCanvasToImage);
-
-        }
-        ;
+        };
     },
     _getMyDocsView : function(){
         var styles = this.getStyles();

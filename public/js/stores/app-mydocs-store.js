@@ -11,6 +11,7 @@ var CHANGE_EVENT = "change";
 var _myDocs = {
     "docs_link" : [],
     "files_name" : [],
+    "thumbnails" :[],
     "cursor" : 0,
     "selected_docs" : []
 };
@@ -43,6 +44,7 @@ AppDispatcher.register(function(payload){
             _myDocs.cursor = 0;
             _myDocs.docs_link = action.response.docs_link;
             _myDocs.files_name = action.response.files_name;
+            _myDocs.thumbnails = action.response.thumbnails;
             MyDocsStore.emit(CHANGE_EVENT);
             break;
         case AppConstants["DOCS"]["UPDATE_DOC_SELECTION"]:

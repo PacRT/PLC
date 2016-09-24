@@ -48,9 +48,12 @@ var UploadzoneActions = {
         _.each(files, function(file){
             var file_api_url = api_url.replace("#file_name#",file.name);
             file_api_url = file_api_url.replace("#category#",_.has(file,"category") ? file.category: "--");
+            var formData = new FormData();
+            formData.append("thumbnail", file["thumbnail"]);
+            formData.append("file", file);
             promise = request
                 .post(file_api_url)
-                .attach(file.name, file)
+                .send(formData)
                 .set("API_TOKEN",localStorage.getItem(AppConstants.API_TOKEN))
                 .set("USER_NAME",localStorage.getItem(AppConstants.USER_NAME))
                 .on('progress', function(e) {

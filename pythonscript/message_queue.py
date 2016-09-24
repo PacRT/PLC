@@ -317,13 +317,17 @@ class MessageQueue(object):
     def get_user_docs(self, data):
         docs_link = []
         files_name = []
+        thumbnails  = []
         rows = Docs.objects(owner_id = data['user_id']).allow_filtering()
         for row in rows:
             docs_link.append(row.doc_url)
             files_name.append(row.filename)
+            thumbnails.append(row.thumbnail)
+
         result = {
-         "docs_link": docs_link,
-         "files_name" : files_name
+            "docs_link": docs_link,
+            "files_name" : files_name,
+            "thumbnails" : thumbnails
         }
         return {
             "status": 200,
