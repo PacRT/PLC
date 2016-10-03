@@ -21,7 +21,8 @@ var dependencies = [
     'jquery'
 ];
 var PROD_CONSTANTS = {
-    "NODE_SERVER" : "52.38.25.88",
+    "NODE_SERVER" : "paperlessclub.com"
+    "NODE_SERVER_IP" : "52.38.25.88",
     "NODE_PORT"   : 3333,
     "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
 };
