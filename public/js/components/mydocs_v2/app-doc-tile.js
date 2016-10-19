@@ -13,7 +13,7 @@ var VerticalMenu = require('./app-tile-action-menu');
 var DocMetaData = require('./app-doc-meta-data');
 var TableRow= require('material-ui/lib/table/table-row');
 var TableRowColumn= require('material-ui/lib/table/table-row-column');
-
+var DocMetaData = require('./app-doc-meta-data');
 
 var DocTile = React.createClass({
     getInitialState: function () {
@@ -122,36 +122,18 @@ var DocTile = React.createClass({
             height: "175px",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover"
-        }
-        if(this.props.view == "INBOX"){
-            imgStyles["width"] =  "34%";
-            imgStyles["height"] = "92px";
-        }
-        var encoded_id = encodeURIComponent(this.props.img);
-        if (this.props.img.indexOf(".pdf") == -1) {
-            imgStyles["backgroundImage"] = "url(" + this.props.img + ")";
+        };
+        if (this.props.thumbnail) {
+            imgStyles["backgroundImage"] = "url(" + atob(this.props.thumbnail) + ")";
             this.setState({
-                tile: <div style={imgStyles} id={encoded_id}></div>
+                tile: <div style={imgStyles}></div>
             })
-        } else {
-            this.setState({
-                tile: <div id={encoded_id}></div>
-            });
-            function convertCanvasToImage(canvas, id) {
-                var div1 = document.getElementById(id);
-                //div1.style = imgStyles;
-                div1.style["backgroundImage"] = "url(" + canvas.toDataURL() + ")";
-                div1.style["position"] = "relative";
-                div1.style["width"] = "100%";
-                div1.style["height"] = "175px";
-                div1.style["backgroundRepeat"] = "no-repeat";
-                div1.style["backgroundSize"] = "cover";
-            }
-
-            DocTileActions.createPDFThumbnail(this.props.img, encoded_id, convertCanvasToImage);
-
+        };
+    },
+    _selectDoc:function(index, event){
+        if(['thumbnail'].indexOf(event.target.parentElement.getAttribute("id")) !== -1){
+            this.props._selectDoc(index);
         }
-        ;
     },
     _getMyDocsView : function(){
         var styles = this.getStyles();
@@ -167,59 +149,38 @@ var DocTile = React.createClass({
         return (
             <Paper>
                 <Col md={6} xs={12}>
-                    <div style={styles.tile_div}>
+                    <div style={styles.tile_div} onTouchTap={this._selectDoc.bind(null, this.props.doc_index)}>
                         <Paper
+                            id="thumbnail"
                             zDepth={this.props.isSelected?4:0}
                             style={styles.root}
-                            onTouchTap={this.props.selectThisTile.bind(null,this.props.tile_index)}
                         >
                             {this.state.tile}
-                            <div style={styles.tile_label}>
-                                <VerticalMenu view={this.props.view}  doc_url={this.props.img} title={this.props.heading} isPreviewMode={this.props.isPreviewMode}/>
+                            <div style={styles.tile_label} id="verticalMenu">
+                                <VerticalMenu
+                                    openPreview={this.props.openPreview}
+                                    doc_index={this.props.doc_index}
+                                />
                             </div>
                         </Paper>
                     </div>
-                    {
-                        this.props.isPreviewMode ? "" :
-                            <div style={styles["meta-data-div"]}>
-                                <DocMetaData view={this.props.view}  doc_url={this.props.img}/>
-                            </div>
-                    }
-
+                    <div style={styles["meta-data-div"]}>
+                        <DocMetaData
+                            category={this.props.category}
+                            docname={this.props.docname}
+                            doc_index={this.props.doc_index}
+                            doc_url={this.props.img}
+                            updateDocMetaData={this.props.updateDocMetaData}
+                            saveMetaData={this.props.saveMetaData}
+                        />
+                    </div>
                 </Col>
             </Paper>
         )
     },
-    _getInboxView:function(){
-        var styles = this.getStyles();
-        if(this.props.isSelected && this.props.isPreviewMode){
-            styles["tile_label"]["backgroundColor"] = "black" ;
-            styles["text_field_style"]["color"] = grey200;
-            styles["tile_label"]["opacity"] = 0.7;
-        }
-        else{
-            styles["tile_label"]["backgroundColor"] = grey200;
-            styles["text_field_style"]["color"] = "black";
-        }
-        return (
-            <div>
-                <TableRowColumn>
-                    <Col md={4} xs={12}>
-
-                            {this.state.tile}
-
-                    </Col>
-                    <DocMetaData view={this.props.view}  doc_url={this.props.img}/>
-                </TableRowColumn>
-
-            </div>
-
-        )
-    },
     render: function () {
-        var styles = this.getStyles();
         return (
-            this.props.view == "INBOX" ? this._getInboxView() : this._getMyDocsView()
+          this._getMyDocsView()
         )
     }
 });

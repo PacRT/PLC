@@ -34,7 +34,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
-    "pdfjs-dist": "^1.5.334",
+    "pdfjs-dist": "^1.5.434",
     "random-js": "^1.0.8",
     "react": "^0.14.8",
     "react-bootstrap": "^0.30.1",

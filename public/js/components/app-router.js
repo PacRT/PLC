@@ -7,7 +7,7 @@
 //Importing App Components
 var React = require('react');
 var APP         = require('./app').APP;
-var MyDocs      = require('./mydocs/app-mydocs');
+var MyDocs      = require('./mydocs_v2/app-mydocs');
 var HowTo       = require('./howto/app-howto');
 var Invite      = require('./invite/app-invite');
 var Login       = require('./login/app-login');

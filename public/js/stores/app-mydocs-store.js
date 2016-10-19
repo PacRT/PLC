@@ -8,12 +8,7 @@ var ObjectAssign = require('object-assign');
 
 var CHANGE_EVENT = "change";
 
-var _myDocs = {
-    "docs_link" : [],
-    "files_name" : [],
-    "cursor" : 0,
-    "selected_docs" : []
-};
+var _myDocs = [];
 
 var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
     addChangeListener:function(cb){
@@ -26,12 +21,7 @@ var MyDocsStore  = ObjectAssign({},EventEmitter.prototype,{
         return _myDocs;
     },
     resetDocStore : function(){
-        _myDocs = {
-            "docs_link" : [],
-            "files_name" : [],
-            "cursor" : 0,
-            "selected_docs" : []
-        }
+       _myDocs = [];
     }
 
 });
@@ -40,22 +30,13 @@ AppDispatcher.register(function(payload){
     var action = payload.action;
     switch (action.actionType){
         case AppConstants.MY_DOCS_URL:
-            _myDocs.cursor = 0;
-            _myDocs.docs_link = action.response.docs_link;
-            _myDocs.files_name = action.response.files_name;
+            _myDocs = action.response;
             MyDocsStore.emit(CHANGE_EVENT);
             break;
         case AppConstants["DOCS"]["UPDATE_DOC_SELECTION"]:
-            _myDocs.selected_docs = action.selected_docs;
-            MyDocsStore.emit(CHANGE_EVENT);
             break;
         case AppConstants["DOCS"]["RESET_DOC_STORE"]:
-            _myDocs = {
-                "docs_link" : [],
-                "files_name" : [],
-                "cursor" : 0,
-                "selected_docs" : []
-            }
+            _myDocs = [];
             MyDocsStore.emit(CHANGE_EVENT);
         default:
             return true;

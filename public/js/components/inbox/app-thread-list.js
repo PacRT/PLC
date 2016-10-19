@@ -1,6 +1,7 @@
 var React = require("react");
 var List = require('material-ui/lib/lists/list');
 var Jumbotron = require('react-bootstrap').Jumbotron;
+var CircularProgress = require('material-ui/lib/circular-progress');
 
 var Thread = require('./app-thread');
 var AppThreadList = React.createClass({
@@ -28,8 +29,7 @@ var AppThreadList = React.createClass({
             <div>
                     {
                         this.props.threads.length ?
-                            <List style={styles["list"]}>
-                            {
+                            <List style={styles["list"]}>{
                                 this.props.threads.map(function(thread,index){
                                     return (<Thread markThreadRead={_this.props.markThreadRead}
                                                 key={thread.thread_id}
@@ -38,14 +38,7 @@ var AppThreadList = React.createClass({
                                                 previewFile={_this.props.previewFile}
                                         />)
                                 })
-                            }</List> : <Jumbotron style={{"backgroundColor":"#ffffff"}}>
-                            <center>
-                                <h3>
-                                    There are no Threads in Inbox.
-                                </h3>
-                            </center>
-
-                        </Jumbotron>
+                            }</List> : ""
                     }
             </div>
         )

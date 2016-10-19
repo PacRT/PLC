@@ -110,40 +110,7 @@ class MessageQueue(object):
         issuer_id = data["issuer_id"]
         score = data["score"]
         doc_link = data["doc_link"]
-        # Insert in owner table
-        self.cli.insert(
-            table_name = "owner",
-            data = {
-                "owner_id": owner_id,
-                "score": score,
-                "doc_url": doc_url
-            },
-            uuid = True
-        )
-        # Insert in issuer table
-        self.cli.insert(
-            table_name = "issuer",
-            data = {
-
-                "issuer_id": issuer_id,
-                "score": score,
-                "doc_url": doc_url
-            },
-            uuid = True
-        )
-        # Insert in doc table
-        self.cli.insert(
-            table_name = "doc",
-            data = {
-                "owner_id": owner_id,
-                "issuer_id": issuer_id,
-                "doc_url": doc_url,
-                "category": category,
-                "filename": file_name,
-                "doc_link" :  doc_link
-            },
-            uuid = True
-        )
+        thumbnail =  data["thumbnail"]
         # Insert in docs table
         self.cli.insert(
             table_name = "docs",
@@ -154,7 +121,8 @@ class MessageQueue(object):
                 "filename": file_name,
                 "issuer_id": issuer_id,
                 "doc_url": doc_url,
-                "doc_link" : doc_link
+                "doc_link" : doc_link,
+                "thumbnail" : thumbnail
             },
             uuid = True
         )
@@ -347,19 +315,19 @@ class MessageQueue(object):
         }
 
     def get_user_docs(self, data):
-        docs_link = []
-        files_name = []
+        docs = []
         rows = Docs.objects(owner_id = data['user_id']).allow_filtering()
         for row in rows:
-            docs_link.append(row.doc_url)
-            files_name.append(row.filename)
-        result = {
-         "docs_link": docs_link,
-         "files_name" : files_name
-        }
+            doc = {}
+            doc["doc_url"] = row.doc_url
+            doc["filename"] = row.filename
+            doc["thumbnail"] = row.thumbnail
+            doc["category"] = row.category
+            doc["docname"] = row.filename
+            docs.append(doc)
         return {
             "status": 200,
-            "result" : result
+            "result" : docs
         }
 
     def get_doc_metadata(self, data):

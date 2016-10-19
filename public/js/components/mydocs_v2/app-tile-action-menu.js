@@ -2,12 +2,8 @@
  * Created by Hardik on 2/26/16.
  */
 var React = require('react');
-var IconMenu = require('material-ui/lib/menus/icon-menu');
-var MenuItem = require('material-ui/lib/menus/menu-item');
 var IconButton = require('material-ui/lib/icon-button');
-var MoreVertIcon = require('material-ui/lib/svg-icons/navigation/more-vert');
 var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-var Delete = require('material-ui/lib/svg-icons/action/delete');
 var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
 var TileActions = require('../../actions/app-doc-tile-actions');
 var MetaDataActions = require('../../actions/app-metadata-actions');
@@ -15,8 +11,9 @@ var DocMetaDataStore = require('../../stores/app-metadata-store');
 
 var TileActionsMenu = React.createClass({
     _openPreview : function(){
-        var hybrid = false;
-        TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)
+        this.props.openPreview(this.props.doc_index);
+        /*var hybrid = false;
+        TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)*/
     },
     _openEditModal : function(doc_url){
         var hybrid = true;
@@ -43,10 +40,10 @@ var TileActionsMenu = React.createClass({
         }
         return(
             <div>
-                <IconButton onTouchTap={this._openPreview} style={{"float":"right"}}  tooltip="Preview" tooltipPosition="bottom-center"  iconStyle={{"fill" : "#ffffff"}}>
+                <IconButton id="previewIcon" onTouchTap={this._openPreview} style={{"float":"right"}}  tooltip="Preview" tooltipPosition="bottom-center"  iconStyle={{"fill" : "#ffffff"}}>
                     <RemoveRedEye />
                 </IconButton>
-                <IconButton onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} style={{"float":"right"}} tooltip="Edit" tooltipPosition="bottom-center" iconStyle={{"fill" : "#ffffff"}}>
+                <IconButton id="editIcon__1" onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} style={{"float":"right"}} tooltip="Edit" tooltipPosition="bottom-center" iconStyle={{"fill" : "#ffffff"}}>
                     <Edit/>
                 </IconButton>
                 {/* <IconMenu

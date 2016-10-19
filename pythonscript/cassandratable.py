@@ -102,7 +102,8 @@ cs_cli.create_table(
         'issuer_id': 'text',
         'doc_url': 'text',
         'doc_link' : 'text',
-        'meta_fields' : 'map<text, text>'
+        'meta_fields' : 'map<text, text>',
+        'thumbnail': 'text'
     },
     primary_key = 'id'
 )
@@ -202,9 +203,9 @@ cs_cli.create_table(
 cs_cli.create_table(
     table_name = 'reset_password',
     columns = {
-        id : 'uuid',
-        email_id : 'text',
-        token_id : 'text'
+        'id' : 'uuid',
+        'email_id' : 'text',
+        'token_id' : 'text'
     },
     primary_key =  'email_id'
 )

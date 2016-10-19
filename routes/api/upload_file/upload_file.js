@@ -9,6 +9,7 @@ var formidable = require('formidable');
 var upload_api = require('../../redis_middleware/api/redis_upload_api');
 var auth_checker = require('../middleware/auth_checker');
 var util = require("util");
+var fs = require("fs");
 /**
  *
  */
@@ -16,19 +17,22 @@ router.post('/:file_name/:category',function(req, res, next){
     /**
      * Rest API to save file to Weedfs
      */
-    request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
-        var uploadEndpoint, weedRes;
-        console.log("http://"+weedMaster + "/dir/assign");
-        if (!error) {
-            weedRes = JSON.parse(body);
-            uploadEndpoint = "http://" + weedRes.publicUrl + "/" + weedRes.fid;
-            console.log("Upload Endpoint: " + uploadEndpoint);
-            console.log("URL: " + req.url + "  and Original URL: " + req.originalUrl);
-            fileupload(req, res ,uploadEndpoint, dbentry);
-        } else {
-            console.log("error: " + error);
-            return res.send(error);
-        }
+    var form = new formidable.IncomingForm();
+    form.parse(req, function(err, fields, files) {
+        request("http://"+weedMaster + "/dir/assign", function(error, response, body) {
+            var uploadEndpoint, weedRes;
+            console.log("http://"+weedMaster + "/dir/assign");
+            if (!error) {
+                weedRes = JSON.parse(body);
+                uploadEndpoint = "http://" + weedRes.publicUrl + "/" + weedRes.fid;
+                console.log("Upload Endpoint: " + uploadEndpoint);
+                console.log("URL: " + req.url + "  and Original URL: " + req.originalUrl);
+                fileupload(req, res ,uploadEndpoint, dbentry, fields, files);
+            } else {
+                console.log("error: " + error);
+                return res.send(error);
+            }
+        });
     });
 
 });
@@ -37,7 +41,7 @@ router.post('/:file_name/:category',function(req, res, next){
  * Update reference in Redis
  * @param req
  */
-function dbentry(req) {
+function dbentry(req, fields) {
     var time_stamp = new Date().getTime();
     var doc_link = req.docurl;
     var doc1 = doc_link.substring(doc_link.indexOf("://") + 3);
@@ -46,8 +50,7 @@ function dbentry(req) {
     var docPort = doc2.substring(doc2.indexOf(":") + 1);
     var docFid = doc1.substring(doc1.indexOf("/") + 1);
     var doc_api_url = "/docs/" + docUrl + "/" + docPort + "/" + docFid;
-    console.log('associate_doc');
-    upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url).then(function(response){
+    upload_api.associate_doc(req.get('USER_NAME'),req.get('USER_NAME'),time_stamp,doc_link,req.params["category"],req.params["file_name"],doc_api_url, fields["thumbnail"]).then(function(response){
         console.log(response);
     },function(error) {
         console.log(error);
@@ -61,9 +64,13 @@ function dbentry(req) {
  * @function fn
  * @returns {Stream|*}
  */
-function fileupload(req, res, uploadEndpoint, fn) {
+function fileupload(req, res, uploadEndpoint, fn, fields, files) {
     var poster;
-    poster = request.post(uploadEndpoint, function(err, response, body) {
+    var formData = {
+        my_file: fs.createReadStream(files["file"]["path"])
+    };
+
+    request.post({url: uploadEndpoint, formData: formData}, function(err, response, body) {
         var extension, jsonbody, jsonstring;
         if (!err) {
             jsonbody = JSON.parse(body);
@@ -75,14 +82,13 @@ function fileupload(req, res, uploadEndpoint, fn) {
             if (!jsonbody.error) {
                 if (fn !== 'undefined') {
                     req.docurl = uploadEndpoint + extension;
-                    return fn(req);
+                    return fn(req, fields);
                 }
             }
         } else {
             console.log("Error ::: " + err);
         }
-    });
-    return req.pipe(poster).pipe(res);
+    }).pipe(res);
 };
 
 module.exports = router;

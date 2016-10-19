@@ -7,7 +7,9 @@ function search_docs(query_string, user_name) {
         body: {
             "_source": [
                 "doc_url",
-                "filename"
+                "filename",
+                "thumbnail",
+                "category"
             ],
             "query":{
                 "filtered":{

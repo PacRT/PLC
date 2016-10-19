@@ -57,6 +57,47 @@ var UploadZone = React.createClass({
             "files" : files
         });
     },
+    getThumbnail : function(file, index){
+      return  new Promise(function(resolve, reject){
+          var reader = new FileReader();
+          // Closure to capture the file information.
+          reader.onload = function(e) {
+                  if(["image/jpeg","image/png","image/gif"].indexOf(file.type) != -1){
+                      file["thumbnail"] = btoa(e.target.result);
+                      resolve(file);
+                  }else if(["application/pdf"].indexOf(file.type) != -1){
+                      var arrayBuffer = e.target.result;
+                      var byteArray = new Uint8Array(arrayBuffer);
+                      PDFJS.getDocument(byteArray).then(function(pdf) {
+                          pdf.getPage(1).then(function(page) {
+                              var canvas = document.createElement('canvas');
+                              var desiredHeight = 400;
+                              var viewport = page.getViewport(1);
+                              var scale = desiredHeight / viewport.height;
+                              var scaledViewport = page.getViewport(scale);
+                              var context = canvas.getContext('2d')
+                              var renderContext = {
+                                  canvasContext: context,
+                                  viewport:scaledViewport
+                              };
+                              page.render(renderContext).promise.then(function(){
+                                 file["thumbnail"] = btoa(canvas.toDataURL());
+                                  resolve(file);
+                              },function(error){
+                                  console.log("Error Occurred while rendering pdf page!!!");
+                              });
+                          })
+                      });
+                  }
+              };
+          // Read in the image file as a data URL.
+          if(["image/jpeg","image/png","image/gif"].indexOf(file.type) != -1){
+              reader.readAsDataURL(file);
+          }else if(["application/pdf"].indexOf(file.type) != -1){
+              reader.readAsArrayBuffer(file);
+          }
+      });
+    },
     onDrop: function (files) {
         var isFilePresent = this.state.files.length;
         var present_files = [];
@@ -64,10 +105,21 @@ var UploadZone = React.createClass({
             present_files = this.state.files;
             files = present_files.concat(files);
         };
-        this.setState({
-            files: files,
-            open_modal : true
+        var that = this;
+        var promises = [];
+        for (var i = 0, f; f = files[i]; i++) {
+            var thumbnailPromise = this.getThumbnail(f, i);
+            promises.push(thumbnailPromise);
+        }
+        Promise.all(promises).then(function(updatedFiles){
+            updateFiles(updatedFiles);
         });
+        function updateFiles(files_with_thumbnails){
+            that.setState({
+                files: files_with_thumbnails,
+                open_modal : true
+            });
+        };
     },
     updateProgress:function(percent){
         this.setState({
@@ -88,6 +140,7 @@ var UploadZone = React.createClass({
                 }
                 _this.setState({
                     progress : 0,
+                    files: [],
                     open_modal: true
                 });
             },function(err){
