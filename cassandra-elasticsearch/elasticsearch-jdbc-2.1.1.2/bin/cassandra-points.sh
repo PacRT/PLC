@@ -14,7 +14,7 @@ echo '
         "user" : "cassandra",
 	"password" : "cassandra",
         "locale" : "en_US",
-        "sql" : "SELECT id as \"_id\",category,doc_link,doc_url,filename,issuer_id,owner_id,score FROM plc.docs",
+        "sql" : "SELECT id as \"_id\",category,doc_link,doc_url,filename,issuer_id,owner_id,score,thumbnail FROM docs",
         "elasticsearch" : {
              "hosts" : "localhost",
              "port" : 9300
