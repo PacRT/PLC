@@ -3,14 +3,14 @@
  */
 'use strict';
 var React = require('react');
-var SearchBarApp = require('./app-searchbar');
-var ActionBarApp = require('./app-action-bar');
+var SearchBarApp = require('./../mydocs_v2/app-searchbar');
+var ActionBarApp = require('./../mydocs_v2/app-action-bar');
 
 var DocGrid = require('./app-doc-grid');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
-var DocPreview = require('./app-doc-preview');
+var DocPreview = require('./../mydocs_v2/app-doc-preview');
 var EditMetaData = require('./app-edit-metadata-modal');
 var Table = require('material-ui/lib/table/table');
 var UploadZone = require('../uploadzone/app-uploadzone');
@@ -25,7 +25,6 @@ var MyDocs = React.createClass({
                             <DocGrid view="MY_DOCS"/>
                             <ActionBarApp title="Take An Action"/>
                         </Col>
-
                     </Grid>
                     <DocPreview hybridView={false}/>
                 <EditMetaData/>

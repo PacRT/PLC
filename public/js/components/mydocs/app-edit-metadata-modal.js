@@ -8,7 +8,7 @@ var FlatButton  = require('material-ui/lib/flat-button');
 var Dialog  = require('material-ui/lib/dialog');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var TextField = require('material-ui/lib/text-field');
-var DocPreview = require('./app-doc-preview');
+var DocPreview = require('./../mydocs_v2/app-doc-preview');
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var _ = require('lodash');
@@ -17,9 +17,6 @@ var MetaCategory = require('./app-meta-category');
 var AppEditMedataModal = React.createClass({
     getInitialState: function(){
         return  {
-            "store" : EditMetaDataStore.getStore(),
-            "category" : "",
-            "is_modal_open"  : EditMetaDataStore.is_modal_open()
         }
     },
     componentDidMount: function() {
@@ -29,15 +26,6 @@ var AppEditMedataModal = React.createClass({
     },
     componentWillUnmount: function() {
         EditMetaDataStore.removeChangeListener(this._onChange);
-    },
-    _editModal : function(){
-        var meta = {
-            'category' : this.state.store["_values"][0],
-            'file_name' : this.state.store["_values"][1],
-            'doc_url' : EditMetaDataStore.getDocURL()
-        };
-        EditMetaDataActions.updateDocMetaData(meta);
-        EditMetaDataActions.closeEditMetaDataModal();
     },
     _closeModal : function(){
         EditMetaDataActions.closeEditMetaDataModal();

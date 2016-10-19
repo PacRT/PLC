@@ -35,11 +35,6 @@ var EditMetaDataActions = {
             });
         });
     },
-    updateDocMetaData : function(meta){
-        API.post(APIConstants.UPDATE_DOC_METADATA, meta).then(function(response){
-            MyDocsActions.getMyDocs(0,"MY_DOCS");
-        })
-    },
     populateMetaFieldStore : function(category){
         console.log(category);
         var meta_fields = {}

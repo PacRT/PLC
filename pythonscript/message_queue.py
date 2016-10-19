@@ -315,23 +315,19 @@ class MessageQueue(object):
         }
 
     def get_user_docs(self, data):
-        docs_link = []
-        files_name = []
-        thumbnails  = []
+        docs = []
         rows = Docs.objects(owner_id = data['user_id']).allow_filtering()
         for row in rows:
-            docs_link.append(row.doc_url)
-            files_name.append(row.filename)
-            thumbnails.append(row.thumbnail)
-
-        result = {
-            "docs_link": docs_link,
-            "files_name" : files_name,
-            "thumbnails" : thumbnails
-        }
+            doc = {}
+            doc["doc_url"] = row.doc_url
+            doc["filename"] = row.filename
+            doc["thumbnail"] = row.thumbnail
+            doc["category"] = row.category
+            doc["docname"] = row.filename
+            docs.append(doc)
         return {
             "status": 200,
-            "result" : result
+            "result" : docs
         }
 
     def get_doc_metadata(self, data):

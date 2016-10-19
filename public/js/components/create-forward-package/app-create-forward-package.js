@@ -14,7 +14,7 @@ var RaisedButton = require('material-ui/lib/raised-button');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var ForwardPkgModal = require('./forward-package-modal');
 var SelectGridContainer = require("./app-select-grid-container");
-var DocTile = require("../mydocs/app-doc-tile");
+var DocTile = require("../mydocs_v2/app-doc-tile");
 var categories = require('../../constants/app-upload-categories-constants');
 var _ = require('lodash');
 
