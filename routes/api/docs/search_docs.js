@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var doc_search = require('../../elasticSearch/docs');
-router.get('/:search_term',function(req, res, next){
-    doc_search.search(req.params["search_term"], req.get("USER_NAME")).then(function (resp) {
+router.post('/:search_term',function(req, res, next){
+    doc_search.search(req.params["search_term"], req.get("USER_NAME"), req.body).then(function (resp) {
         var docs = [];
         var hits = resp.hits.hits;
         for(var i =0 ; i < hits.length; i++){
