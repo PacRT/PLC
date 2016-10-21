@@ -4,81 +4,63 @@
 'use strict';
 var React = require('react');
 var Grid = require('react-bootstrap/lib/Grid');
-var ReactTags =  require('react-tag-input').WithContext;
-var FlatButton  = require('material-ui/lib/flat-button');
+var FlatButton = require('material-ui').FlatButton;
 var InviteActions = require('../../actions/app-invite-actions');
-var Card = require('material-ui/lib/card/card');
-var CardActions = require('material-ui/lib/card/card-actions');
-var CardHeader = require('material-ui/lib/card/card-header');
-var CardText = require('material-ui/lib/card/card-text');
+var Card = require('material-ui').Card;
+var CardActions = require('material-ui').CardActions;
+var CardHeader = require('material-ui').CardHeader;
+var CardText = require('material-ui').CardText;
 var NotificationActions = require('../../actions/app-notification');
-var CircularProgress = require('material-ui/lib/circular-progress');
+var Chip = require('material-ui/Chip').default;
+var Col = require('react-bootstrap').Col;
+var TextField = require('material-ui/TextField').default;
+var CircularProgress = require('material-ui/CircularProgress').default;
+var ChipCmp = require('../utils/Chip');
 
 var Invite = React.createClass({
-    getInitialState: function(){
-        return  {
-            "invitation_emails_tag" : [],
-            "show_spinner" : false
+    getInitialState: function () {
+        return {
+            "show_spinner": false,
+            "emails": []
         }
     },
-    _addEmails : function(email){
-        email = email.toLowerCase();
-        var invitation_emails_tag = this.state.invitation_emails_tag;
-        var emails = invitation_emails_tag.filter(function(email_tag){return email_tag["text"] === email});
-        if(this.validateEmail(email)){
-            if(!emails.length){
-                invitation_emails_tag.push({
-                    id:new Date().getTime(),
-                    text: email.toLowerCase()
-                });
-                this.setState({invitation_emails_tag: invitation_emails_tag});
-            }
-        }else{
-            InviteActions.enterValidEmailNotification();
-        }
+    _updateEmails: function(emails){
+        this.setState({
+            emails: emails
+        })
     },
-    validateEmail : function(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    },
-    _handleDeleteEmails : function(i){
-        var emails = this.state.invitation_emails_tag;
-        emails.splice(i, 1);
-        this.setState({invitation_emails_tag: emails});
-    },
-    _sendInvites : function(){
-        var emails = this.state.invitation_emails_tag.map(function(item){return item['text']})
-
-        if(emails.length > 0){
+    _sendInvites: function () {
+        var emails = this.state.emails;
+        if (emails.length > 0) {
             var api_promise = InviteActions.sendInvites(emails);
             this.setState({
-                show_spinner : true
+                show_spinner: true
             });
-            api_promise.then(function(response){
+            api_promise.then(function (response) {
                 this.setState({
-                    show_spinner : false,
-                    invitation_emails_tag : []
+                    show_spinner: false,
+                    emails: []
                 });
+                document.getElementById("addEmails").addEventListener("keydown",this._handleEnterKey);
             }.bind(this));
-        }else{
+        } else {
             var notification = {
-                open : true,
-                message : "Please add Email Ids"
-            }
-             NotificationActions.showNotification(notification);
+                open: true,
+                message: "Please add Email Ids"
+            };
+            NotificationActions.showNotification(notification);
+        }
+    },
+    styles: {
+        circularProgress: {
+            display: "block",
+            margin: "auto"
         }
     },
     render: function () {
-        var placeHolder = "Add Emails!";
-        var styles = {
-            circularProgressStyle : {
-                display: "block",
-                margin: "auto"
-            }
-        }
         return (
             <div>
-                <Grid>
+                <Col md={6} xs={12} mdOffset={3}>
                     <Card style={{"boxShadow": "none"}}>
                         <CardHeader
                             title="Invite People You know"
@@ -87,15 +69,14 @@ var Invite = React.createClass({
                         <CardText>
                             {
                                 this.state.show_spinner ?
-                                    <CircularProgress style={styles.circularProgressStyle}/> :
-                                    <ReactTags tags={this.state.invitation_emails_tag}
-                                           handleAddition={this._addEmails}
-                                           handleDelete={this._handleDeleteEmails}
-                                           placeholder={placeHolder}
-                                    />
+                                    <CircularProgress size={60} thickness={5} style={this.styles.circularProgress}/> :
+                                    <ChipCmp
+                                        placeholder={'Add Emails'}
+                                        updateList={this._updateEmails}/>
                             }
                         </CardText>
                         <CardActions>
+                            <FlatButton label="Action1" className="invisible"/>
                             <FlatButton
                                 label="Invite"
                                 className="pull-right"
@@ -104,7 +85,7 @@ var Invite = React.createClass({
                             />
                         </CardActions>
                     </Card>
-                </Grid>
+                </Col>
             </div>
         );
     }
