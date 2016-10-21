@@ -12,8 +12,9 @@ var SearchBarApp = React.createClass({
     getInitialState: function () {
         return {
             value: 1,
-            startDate: '',
-            endDate: ''
+            focusedInput: null,
+            startDate: null,
+            endDate: null
         }
     },
     handleChange: function (event, index, value) {
@@ -39,17 +40,27 @@ var SearchBarApp = React.createClass({
         clearTimeout(this.state.timeout);
         var filter_value = event.target.value;
         var _this = this;
+        var dateRange = {
+            'gte': this.state.startDate.unix()+'',
+            'lte': this.state.endDate.unix()+''
+        }
         // Make a new timeout set to go off in 800ms
         this.state.timeout = setTimeout(function () {
             if (filter_value.length >= 4)
-                MyDocsActions.filterDocs(filter_value);
-        }, 500, filter_value);
+                MyDocsActions.filterDocs(filter_value, dateRange);
+        }, 500, filter_value, dateRange);
     },
-    onDatesChange: function (startDate, endDate) {
-        console.log(startDate, endDate);
+    onDatesChange: function (dateRange) {
+        this.setState({
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate
+        });
     },
     onFocusChange: function (focusedInput) {
-        console.log(focusedInput);
+        this.setState({focusedInput: focusedInput});
+    },
+    isOutsideRange: function(){
+        return false;
     },
     render: function () {
 
@@ -63,7 +74,17 @@ var SearchBarApp = React.createClass({
                         <ToolbarGroup>
                         </ToolbarGroup>
                         <ToolbarGroup>
-                            <ToolbarSeparator />
+                            <div className="hidden-sm hidden-xs">
+                                <DateRangePicker
+                                    showClearDates
+                                    isOutsideRange={this.isOutsideRange}
+                                    onDatesChange={this.onDatesChange}
+                                    onFocusChange={this.onFocusChange}
+                                    focusedInput={this.state.focusedInput}
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                />
+                            </div>
                             {/*<FlatButton
                              icon={<Search color={orange500} />}
                              />*/
