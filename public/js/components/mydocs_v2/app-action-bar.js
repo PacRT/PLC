@@ -2,19 +2,21 @@
  * Created by hmistry on 5/22/16.
  */
 var React = require('react');
-var Toolbar = require('material-ui/lib/toolbar/toolbar');
-var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var MyDocsStore = require('../../stores/app-mydocs-store');
-var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
-var ForwardPkgModalStore = require('../../stores/app-forward-package-modal-store');
-var ForwardPkgModal = require('../create-forward-package/forward-package-modal');
+var Toolbar = require('material-ui/Toolbar').Toolbar;
+var ToolbarGroup = require('material-ui/Toolbar').ToolbarGroup;
 var Tooltip = require("react-bootstrap/lib/Tooltip");
 var OverlayTrigger = require("react-bootstrap/lib/OverlayTrigger");
+
+var MyDocsStore = require('../../stores/app-mydocs-store');
+var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
+var ForwardPkgModal = require('../create-forward-package/forward-package-modal');
+
 var CreateFwdPkgTT =  <Tooltip id="tooltip"><strong>Create & Forward Package</strong></Tooltip>;
 var UploadTT =  <Tooltip id="tooltip"><strong>Upload Docs</strong></Tooltip>;
 var ReportsTT =  <Tooltip id="tooltip"><strong>Reports</strong></Tooltip>;
 var MessageTT =  <Tooltip id="tooltip"><strong>Messages</strong></Tooltip>;
 var UploadAction = require('../../actions/app-uploadzone-actions');
+
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {

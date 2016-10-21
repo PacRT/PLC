@@ -2,9 +2,8 @@
  * Created by Hardik on 2/26/16.
  */
 var React = require('react');
-var DocPreviewStore =  require('../../stores/app-doc-preview-store');
-var Dialog  = require('material-ui/lib/dialog');
-var FlatButton  = require('material-ui/lib/flat-button');
+var Dialog  = require('material-ui').Dialog;
+var FlatButton  = require('material-ui').FlatButton;
 
 var DocPreview = React.createClass({
     handleClose: function(){

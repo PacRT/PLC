@@ -2,21 +2,10 @@
  * Created by hmistry on 6/5/16.
  */
 var React = require("react");
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var ActionGrade = require('material-ui/lib/svg-icons/action/grade');
-var ContentInbox = require('material-ui/lib/svg-icons/content/inbox');
-var ContentDrafts = require('material-ui/lib/svg-icons/content/drafts');
-var ContentSend = require('material-ui/lib/svg-icons/content/send');
-var ThreadUnread = require('material-ui/lib/svg-icons/communication/email');
-var ThreadRead = require('material-ui/lib/svg-icons/communication/mail-outline');
-var Colors = require('material-ui/lib/styles/colors');
-var Badge = require('material-ui/lib/badge');
-var Divider = require('material-ui/lib/divider');
+var Colors = require('material-ui//styles/colors');
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
-var Checkbox = require('material-ui/lib/checkbox');
 
 var AppPrimaryText = React.createClass({
     getInitialState : function(){

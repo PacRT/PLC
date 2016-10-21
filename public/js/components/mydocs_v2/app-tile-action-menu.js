@@ -2,12 +2,9 @@
  * Created by Hardik on 2/26/16.
  */
 var React = require('react');
-var IconButton = require('material-ui/lib/icon-button');
-var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-var RemoveRedEye = require('material-ui/lib/svg-icons/image/remove-red-eye');
-var TileActions = require('../../actions/app-doc-tile-actions');
-var MetaDataActions = require('../../actions/app-metadata-actions');
-var DocMetaDataStore = require('../../stores/app-metadata-store');
+var IconButton = require('material-ui/IconButton').default;
+var Edit = require('material-ui/svg-icons/editor/mode-edit').default;
+var RemoveRedEye = require('material-ui/svg-icons/image/remove-red-eye').default;
 
 var TileActionsMenu = React.createClass({
     _openPreview : function(){
@@ -16,9 +13,6 @@ var TileActionsMenu = React.createClass({
         TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)*/
     },
     _openEditModal : function(doc_url){
-        var hybrid = true;
-        TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)
-        MetaDataActions.openEditMetaDataModal(doc_url, DocMetaDataStore.getStore()[doc_url]);
     },
     render: function(){
         var style = {

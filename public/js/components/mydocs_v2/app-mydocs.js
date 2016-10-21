@@ -103,7 +103,7 @@ var MyDocs = React.createClass({
             <div>
                 <SearchBarApp title="My Docs"/>
                 <Grid>
-                    <Col md={12} xs={12} style={{"paddingBottom" : "5em"}}>
+                    <Col md={12} xs={12} style={{"paddingBottom" : "9.5em"}}>
                         {docsJSX}
                     </Col>
                 </Grid>
