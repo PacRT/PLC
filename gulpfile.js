@@ -126,6 +126,7 @@ var root_css_path = './public/assets/css/';
 var css_path = [
     root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
     root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
+    root_css_path + "vendorcss/" + "/_datepicker.css",
     root_css_path + "registration.css",
     root_css_path + "react-tags.css",
     root_css_path + "base.css"
