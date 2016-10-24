@@ -28,6 +28,20 @@ var DEV_CONSTANTS = {
     "NODE_PORT"   : 3333,
     "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
 };
+
+var libs = [
+    'bluebird',
+    'lodash',
+    'react',
+    'material-ui',
+    'react-bootstrap',
+    'react-dom',
+    'react-dropzone',
+    'react-router',
+    'react-tap-event-plugin',
+    'superagent',
+    'superagent-bluebird-promise'
+];
 var browserifyTask = function (options) {
 
     // Our app bundler
@@ -36,6 +50,9 @@ var browserifyTask = function (options) {
         transform: [[babelify, {presets: ['es2015','react']}]], // We want to convert JSX to normal javascript
         debug: options.development, // Gives us sourcemapping
         cache: {}, packageCache: {}, fullPaths: options.development // Requirement of watchify
+    });
+    libs.forEach(function(dependency){
+        appBundler.external(dependency)
     });
     if(!options.development){
         appBundler.transform('uglifyify', { global: true })
@@ -142,6 +159,26 @@ gulp.task('plc-api',function () {
         development : true
     });
 });
+
+gulp.task('vendor-bundle', function () {
+    var start = new Date();
+    console.log('Started building Vendor bundle');
+    var vendorBundle = browserify({
+        debug: false
+    });
+    vendorBundle.transform('uglifyify', { global: true });
+    libs.forEach(function(lib) {
+        vendorBundle.require(lib);
+    });
+    return vendorBundle.bundle()
+        .on('error', gutil.log)
+        .pipe(source('vendor.min.js'))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(notify(function () {
+            console.log('Vendor bundle built in ' + (Date.now() - start)/1000 + 's');
+        }));
+});
+
 
 gulp.task('default',['copy-static'], function () {
     livereload.listen();
