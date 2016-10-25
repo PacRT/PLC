@@ -4,139 +4,128 @@
 var React = require('react');
 var CreateForwardPkgStore = require('../../stores/app-forward-package-modal-store');
 var createForwardPkgActions = require('../../actions/app-create-forward-package-actions');
-var SendContent = require('material-ui/lib/svg-icons/content/send');
-var Drawer = require('material-ui/lib/left-nav');
-var AppBar = require('material-ui/lib/app-bar');
-var TextField = require('material-ui/lib/text-field');
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var Divider = require('material-ui/lib/divider');
-var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
-var IconButton = require('material-ui/lib/icon-button');
-var ReactTags =  require('react-tag-input').WithContext;
+var SendContent = require('material-ui/svg-icons/content/send').default;
+var Drawer = require('material-ui/Drawer').default;
+var AppBar = require('material-ui/AppBar').default;
+var TextField = require('material-ui/TextField').default;
+var List = require('material-ui/List').default;
+var ListItem = require('material-ui/List').ListItem;
+var Divider = require('material-ui/Divider').default;
+var NavigationClose = require('material-ui/svg-icons/navigation/close').default;
+var IconButton = require('material-ui/IconButton').default;
+var Subheader = require('material-ui/Subheader').default;
+var ChipCmp = require('../utils/Chip');
 
 var ForwardPackageModal = React.createClass({
-    getInitialState: function(){
-        return  {
-            "emails" : [],
-            "store" : CreateForwardPkgStore.getStore(),
-            "is_modal_open"  : CreateForwardPkgStore.isModalOpen(),
-            "package_name"   : ""
+    getInitialState: function () {
+        return {
+            "emails": [],
+            "store": CreateForwardPkgStore.getStore(),
+            "is_modal_open": CreateForwardPkgStore.isModalOpen(),
+            "package_name": ""
         }
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         CreateForwardPkgStore.addChangeListener(this._onChange);
     },
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
         CreateForwardPkgStore.removeChangeListener(this._onChange);
     },
-    _closeModal : function(){
+    _closeModal: function () {
         createForwardPkgActions.closeForwardPkgModal();
     },
-    _onChange : function(){
-      var store = CreateForwardPkgStore.getStore();
+    _onChange: function () {
+        var store = CreateForwardPkgStore.getStore();
 
         var is_modal_open = CreateForwardPkgStore.isModalOpen();
         this.setState({
-            store :  store,
-            is_modal_open : is_modal_open
+            store: store,
+            is_modal_open: is_modal_open
         })
     },
-    _handleTextFieldChange : function (event) {
+    _handleTextFieldChange: function (event) {
         this.setState({
-            "package_name" : event.target.value
+            "package_name": event.target.value
         })
     },
-    _addEmails : function(email){
-        var emails = this.state.emails;
-        emails.push({
-            id:new Date().getTime(),
-            text: email
-        });
+    _updateEmails: function (emails) {
         this.setState({emails: emails});
     },
-    _handleDeleteEmails : function(i){
-        var emails = this.state.emails;
-        emails.splice(i, 1);
-        this.setState({emails: emails});
-    },
-    _createAndForwardPkg : function(){
+    _createAndForwardPkg: function () {
         var packages = this.state.store.packages;
         var _this = this;
         var recipients = [];
-        this.state.emails.forEach(function(item){
-            recipients.push(item.text);
-        });
-        packages.map(function(package_1){
-            package_1["recepients"] = recipients;
+        packages.map(function (package_1) {
+            package_1["recepients"] =  this.state.emails;
             package_1["package_type"] = _this.state.package_name;
-        });
+        }.bind(this));
         createForwardPkgActions.createPackages(packages);
     },
-    getStyles:function(){
-      var drawerStyle = {
-          "height" : "65%",
-          "width"  : "400px",
-          "top"    : "garbage",
-          "right"  : "2em",
-          "bottom" : "0",
-          "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms"
-      }
+    getStyles: function () {
+        var drawerStyle = {
+            "height": "65%",
+            "width": "400px",
+            "top": "garbage",
+            "right": "2em",
+            "bottom": "0",
+            "transition": "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms"
+        }
         return {
-            "drawerStyle" : drawerStyle,
-            "appBar" : {
-                "backgroundColor" : "#222"
+            "drawerStyle": drawerStyle,
+            "appBar": {
+                "backgroundColor": "#222"
             },
-            "send" : {
-                "fill" : "#ffffff",
-                "marginTop" : "1.1em"
+            "send": {
+                "fill": "#ffffff",
+                "marginTop": "1.1em"
             }
 
         };
     },
-    render : function(){
+    render: function () {
         var placeHolder = "Add Email Ids/Paperless Ids";
-        var NoDocsMessage =  <div>
+        var NoDocsMessage = <div>
             <ListItem primaryText="No Docs.">
             </ListItem>
         </div>
         var styles = this.getStyles();
         var emails = this.state.emails;
-        return(
+        return (
 
-            <Drawer id="popup" width={500} style={styles["drawerStyle"]} openRight={true} open={this.state.is_modal_open}>
+            <Drawer id="popup" width={500} containerStyle={styles["drawerStyle"]} openSecondary={true}
+                    open={this.state.is_modal_open}>
                 <AppBar id="appBar" style={styles["appBar"]} title="Forward Docs"
                         iconElementRight={<SendContent style={styles["send"]}
-                        onTouchTap={this._createAndForwardPkg} />}
+                                                       onTouchTap={this._createAndForwardPkg}/>}
                         iconElementLeft={<IconButton onTouchTap={this._closeModal}><NavigationClose  /></IconButton>}
                 />
                 <div className="col-md-12">
-                        <List subheader="Added Docs">
-                            {
-                                this.state.store.packages[0]["packages_added"].length  ? this.state.store.packages[0].packages_added.map(function(pkg){
-                                    return(
-                                        <div>
-                                            <ListItem primaryText={pkg.file_name}>
-                                            </ListItem>
-                                            <Divider />
-                                        </div>
-                                    )
-                                }) : NoDocsMessage
+                    <List>
+                        <Subheader>Added Docs</Subheader>
+                        {
+                            this.state.store.packages[0]["packages_added"].length ? this.state.store.packages[0].packages_added.map(function (pkg, index) {
+                                return (
+                                    <div key={'packages_'+ index}>
+                                        <ListItem primaryText={pkg.file_name}>
+                                        </ListItem>
+                                        <Divider />
+                                    </div>
+                                )
+                            }) : NoDocsMessage
 
-                            }
+                        }
 
-                        </List>
+                    </List>
                     <TextField
                         fullWidth={true}
                         onChange={ this._handleTextFieldChange }
-                        defaultvalue={this.state.package_name}
+                        defaultValue={this.state.package_name}
                         floatingLabelText="Package Name To Save"
                     />
-                    <ReactTags tags={emails}
-                               handleAddition={this._addEmails}
-                               handleDelete={this._handleDeleteEmails}
-                               placeholder={placeHolder}
-                               />
+                    <ChipCmp updateList={this._updateEmails}
+                             placeholder={placeHolder}
+                             validateEmail={false}
+                    />
                 </div>
 
                 {/*<Dialog

@@ -9,6 +9,7 @@ var UploadZone = require('../uploadzone/app-uploadzone');
 var DocTile = require('./app-doc-tile');
 var ActionBarApp = require('./app-action-bar');
 var DocPreview = require('./app-doc-preview');
+var EditMetaData = require('./app-edit-metadata-modal');
 
 var MyDocs = React.createClass({
     getInitialState: function(){
@@ -19,7 +20,8 @@ var MyDocs = React.createClass({
                 "title": "",
                 "doc_url": ""
             },
-            is_preview_open: false
+            is_preview_open: false,
+            is_edit_modal_open: false
         }
     },
     componentDidMount: function() {
@@ -45,14 +47,25 @@ var MyDocs = React.createClass({
                 "title": store[doc_index]["filename"],
                 "doc_url":store[doc_index]["doc_url"]
             }
-        })
+        });
     },
     _closePreview: function(){
         this.setState({
             is_preview_open: false,
+            is_edit_modal_open: false,
             "preview": {
                 "title": "",
                 "doc_url": ""
+            }
+        })
+    },
+    openEditModal: function(doc_index){
+        var store = this.state.store;
+        this.setState({
+            is_edit_modal_open: true,
+            "preview": {
+                "title": store[doc_index]["filename"],
+                "doc_url":store[doc_index]["doc_url"]
             }
         })
     },
@@ -92,6 +105,7 @@ var MyDocs = React.createClass({
                     updateDocMetaData={this.updateDocMetaData}
                     _selectDoc={this._selectDoc}
                     openPreview={this._openPreview}
+                    openEditModal={this.openEditModal}
                     saveMetaData={this.saveMetaData}
                 />
         }.bind(this));
@@ -103,12 +117,20 @@ var MyDocs = React.createClass({
             <div>
                 <SearchBarApp title="My Docs"/>
                 <Grid>
-                    <Col md={12} xs={12} style={{"paddingBottom" : "5em"}}>
+                    <Col md={12} xs={12} style={{"paddingBottom" : "9.5em"}}>
                         {docsJSX}
                     </Col>
                 </Grid>
                 <UploadZone/>
-                <ActionBarApp title="Take An Action"/>
+                <ActionBarApp
+                    mydocs={this.state.store}
+                    title="Take An Action"/>
+                <EditMetaData
+                    title={this.state.preview.title}
+                    doc_url={this.state.preview.doc_url}
+                    closePreview={this._closePreview}
+                    is_edit_modal_open={this.state.is_edit_modal_open}
+                />
                 <DocPreview is_preview_open={this.state.is_preview_open}
                             title={this.state.preview.title}
                             doc_url={this.state.preview.doc_url}

@@ -2,16 +2,9 @@
  * Created by Hardik on 3/4/16.
  */
 var React = require('react');
-var CircularProgress = require('material-ui/lib/circular-progress');
-var MetaDataActions = require('../../actions/app-metadata-actions');
-var MetaDataStore = require('../../stores/app-metadata-store');
-var TextField = require('material-ui/lib/text-field');
-var FlatButton  = require('material-ui/lib/flat-button');
-var EditMetaDataActions = require('../../actions/app-metadata-actions');
-var TableRowColumn= require('material-ui/lib/table/table-row-column');
-var TableRow= require('material-ui/lib/table/table-row');
-var Edit = require('material-ui/lib/svg-icons/editor/mode-edit');
-var _ = require('lodash');
+var TextField = require('material-ui/TextField').default;
+var FlatButton  = require('material-ui/FlatButton').default;
+var Edit = require('material-ui/svg-icons/editor/mode-edit').default;
 var PopularCategories = require('../uploadzone/app-popular-categories');
 var AppDocMetaData = React.createClass({
     getInitialState: function(){

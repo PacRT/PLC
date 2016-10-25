@@ -3,15 +3,15 @@
  */
 'use strict';
 var React = require('react');
-var TextField = require('material-ui/lib/text-field');
-var Card =  require('material-ui/lib/card/card');
-var CardActions =  require('material-ui/lib/card/card-actions');
-var CardMedia =  require('material-ui/lib/card/card-media');
-var RaisedButton =  require('material-ui/lib/raised-button');
-var CardText =  require('material-ui/lib/card/card-text');
+var TextField = require('material-ui/TextField').default;
+var Card =  require('material-ui').Card;
+var CardActions =  require('material-ui').CardActions;
+var CardMedia =  require('material-ui').CardMedia;
+var RaisedButton =  require('material-ui').RaisedButton;
+var CardText =  require('material-ui').CardText;
 var Col = require('react-bootstrap/lib/Col');
 var LoginActions = require('../../actions/app-login-actions');
-var CircularProgress = require('material-ui/lib/circular-progress');
+var CircularProgress = require('material-ui').CircularProgress;
 
 var ForgotPassword = React.createClass({
     getInitialState: function(){

@@ -14,12 +14,10 @@ var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
+var clean = require('gulp-clean');
 
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
-var dependencies = [
-    'jquery'
-];
 var PROD_CONSTANTS = {
     "NODE_SERVER" : "paperlessclub.com",
     "NODE_SERVER_IP" : "52.38.25.88",
@@ -36,28 +34,25 @@ var browserifyTask = function (options) {
     // Our app bundler
     var appBundler = browserify({
         entries: [options.src], // Only need initial file, browserify finds the rest
-        transform: [[babelify, {presets: ['es2015','react']}]], // We want to convert JSX to normal javascript
+        transform: [[babelify, {presets: ['es2015','react']}]], //
+        // We want to convert JSX to normal javascript
         debug: options.development, // Gives us sourcemapping
+        fullPaths: false,
         cache: {}, packageCache: {}, fullPaths: options.development // Requirement of watchify
     });
-
+    if(!options.development){
+        appBundler.transform('uglifyify', { global: true })
+    }
     // The rebundle process
     var rebundle = function () {
         var start = Date.now();
-        console.log('Building APP bundle');
+        console.log('Bundling PLC app');
         appBundler.bundle()
             .on('error', gutil.log)
-            .pipe(source('app.js'))
-            .pipe(gulpif(options.development,replace("#NODE_SERVER#", DEV_CONSTANTS.NODE_SERVER)))
-            .pipe(gulpif(options.development,replace("#NODE_PORT#", DEV_CONSTANTS.NODE_PORT)))
-            .pipe(gulpif(!options.development,replace("#NODE_SERVER#", PROD_CONSTANTS.NODE_SERVER)))
-            .pipe(gulpif(!options.development,replace("#NODE_PORT#", PROD_CONSTANTS.NODE_PORT)))
-            .pipe(gulpif(!options.development, streamify(uglify())))
-            .pipe(rename({suffix: '.min'}))
+            .pipe(source('app.min.js'))
             .pipe(gulp.dest(options.dest))
-            .pipe(gulpif(options.development, livereload()))
             .pipe(notify(function () {
-                console.log('APP bundle built in ' + (Date.now() - start) + 'ms');
+                console.log('PLC bundle built in ' + (Date.now() - start)/1000 + 's');
             }));
     };
 
@@ -66,56 +61,26 @@ var browserifyTask = function (options) {
         appBundler = watchify(appBundler);
         appBundler.on('update', rebundle);
     }
-
-    rebundle();
-
-    // We create a separate bundle for our dependencies as they
-    // should not rebundle on file changes. This only happens when
-    // we develop. When deploying the dependencies will be included
-    // in the application bundle
-
-
-        var vendorsBundler = browserify({
-            debug: true,
-            require: dependencies
-        });
-
-        // Run the vendor bundle
-        var start = new Date();
-        console.log('Building VENDORS bundle');
-        vendorsBundler.bundle()
-            .on('error', gutil.log)
-            .pipe(source('vendors.js'))
-            .pipe(gulpif(!options.development, streamify(uglify())))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest(options.dest))
-            .pipe(notify(function () {
-                console.log('VENDORS bundle built in ' + (Date.now() - start) + 'ms');
-            }));
-
-
+    return rebundle();
 }
 
 var cssTask = function (options) {
     if (options.development) {
         var run = function () {
-            console.log(arguments);
             var start = new Date();
             console.log('Building CSS bundle');
             gulp.src(options.src)
-                .pipe(concat('app.css'))
-                .pipe(rename({suffix: '.min'}))
+                .pipe(concat('app.min.css'))
                 .pipe(gulp.dest(options.dest))
                 .pipe(notify(function () {
-                    console.log('CSS bundle built in ' + (Date.now() - start) + 'ms');
+                    console.log('CSS bundle built in ' + (Date.now() - start)/1000 + 's');
                 }));
         };
         run();
         gulp.watch(options.src, run);
     } else {
         gulp.src(options.src)
-            .pipe(concat('app.css'))
-            .pipe(rename({suffix: '.min'}))
+            .pipe(concat('app.min.css'))
             .pipe(cssmin())
             .pipe(gulp.dest(options.dest));
     }
@@ -126,8 +91,8 @@ var root_css_path = './public/assets/css/';
 var css_path = [
     root_css_path + "vendorcss/" + "/bootstrap/bootstrap.min.css",
     root_css_path + "vendorcss/" + "/font-awesome/font-awesome.min.css",
+    root_css_path + "vendorcss/" + "/_datepicker.css",
     root_css_path + "registration.css",
-    root_css_path + "react-tags.css",
     root_css_path + "base.css"
 ];
 
@@ -180,7 +145,48 @@ gulp.task('plc-api',function () {
     });
 });
 
-gulp.task('default',['copy-static'], function () {
+gulp.task('clean', function () {
+    return gulp.src('dist/js', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('vendor-bundle:prod', function () {
+    var start = new Date();
+    console.log('Started building Vendor bundle');
+    var vendorBundle = browserify({
+        debug: false
+    });
+    vendorBundle.transform('uglifyify', { global: true });
+    libs.forEach(function(lib) {
+        vendorBundle.require(lib);
+    });
+    return vendorBundle.bundle()
+        .on('error', gutil.log)
+        .pipe(source('vendor.min.js'))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(notify(function () {
+            console.log('Vendor bundle built in ' + (Date.now() - start)/1000 + 's');
+        }));
+});
+
+gulp.task('vendor-bundle:dev', function () {
+    var start = new Date();
+    console.log('Started building Vendor bundle');
+    var vendorBundle = browserify({
+        debug: false
+    });
+    libs.forEach(function(lib) {
+        vendorBundle.require(lib);
+    });
+    return vendorBundle.bundle()
+        .on('error', gutil.log)
+        .pipe(source('vendor.min.js'))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(notify(function () {
+            console.log('Vendor bundle built in ' + (Date.now() - start)/1000 + 's');
+        }));
+});
+gulp.task('default',['clean', 'copy-static'], function () {
     livereload.listen();
 
     browserifyTask({
@@ -200,7 +206,7 @@ gulp.task('default',['copy-static'], function () {
         development : true
     });
 });
-gulp.task('deploy', ['copy-static'] , function () {
+gulp.task('deploy', ['clean', 'copy-static'] , function () {
 
     browserifyTask({
         development: false,

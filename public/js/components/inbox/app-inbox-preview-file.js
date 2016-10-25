@@ -3,8 +3,8 @@
  */
 var React = require('react');
 var InboxPreviewStore =  require('../../stores/app-inbox-preview-store');
-var Dialog  = require('material-ui/lib/dialog');
-var FlatButton  = require('material-ui/lib/flat-button');
+var Dialog  = require('material-ui/Dialog').default;
+var FlatButton  = require('material-ui').FlatButton;
 var InboxActions = require('../../actions/app-inbox-actions');
 var InboxDocNotes = require('./app-inbox-doc-notes');
 var Row = require('react-bootstrap').Row;

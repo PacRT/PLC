@@ -2,41 +2,19 @@
  * Created by Hardik on 3/5/16.
  */
 var React = require('react');
-var EditMetaDataStore= require('../../stores/app-edit-metadata-store');
-var EditMetaDataActions = require('../../actions/app-metadata-actions');
-var FlatButton  = require('material-ui/lib/flat-button');
-var Dialog  = require('material-ui/lib/dialog');
-var CircularProgress = require('material-ui/lib/circular-progress');
-var TextField = require('material-ui/lib/text-field');
-var DocPreview = require('./../mydocs_v2/app-doc-preview');
+var FlatButton  = require('material-ui/FlatButton').default;
+var Dialog  = require('material-ui/Dialog').default;
+var CircularProgress = require('material-ui/CircularProgress').default;
+var TextField = require('material-ui/TextField').default;
+var DocPreview = require('./app-doc-preview');
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;
 var _ = require('lodash');
 var MetaCategory = require('./app-meta-category');
 
 var AppEditMedataModal = React.createClass({
-    getInitialState: function(){
-        return  {
-        }
-    },
-    componentDidMount: function() {
-        EditMetaDataStore.addChangeListener(this._onChange);
-        if(this.state.store.hasOwnProperty("_values") && this.state.store["_values"].length)
-            EditMetaDataActions.populateMetaFieldStore();
-    },
-    componentWillUnmount: function() {
-        EditMetaDataStore.removeChangeListener(this._onChange);
-    },
-    _closeModal : function(){
-        EditMetaDataActions.closeEditMetaDataModal();
-    },
-    _onChange : function(){
-        var metadata_store = EditMetaDataStore.getStore();
-        var is_modal_open =  EditMetaDataStore.is_modal_open();
-        this.setState({
-            "store" : metadata_store,
-            "is_modal_open" : is_modal_open
-        });
+    handleClose: function(){
+        this.props.closePreview();
     },
     _handleTextFieldChange:function(index,event){
         var updated_value = event.target.value;
@@ -80,17 +58,17 @@ var AppEditMedataModal = React.createClass({
         var  actions = [
             <FlatButton
                 label="Close"
-                onTouchTap={this._closeModal}
+                onTouchTap={this.handleClose}
             />,
             <FlatButton
                 label="Save"
                 disabled={false}
                 secondary={true}
-                onTouchTap={this._editModal}
+                onTouchTap={this.handleClose}
             />
         ];
         var DialogBody = "";
-        if(_.isEmpty(this.state.store)){
+        /*if(_.isEmpty(this.state.store)){
             DialogBody = <CircularProgress style={styles.circularProgressStyle}/>
         }else{
             DialogBody =  this.state.store["_keys"].map(function (key, index) {
@@ -108,17 +86,18 @@ var AppEditMedataModal = React.createClass({
                 }
             });
             meta_category =  <MetaCategory category={this.state.store["_values"][0]}/>
-        }
+        }*/
         return (
             <Dialog
                 contentStyle={{ "maxHeight" :'100%','maxWidth':'none','width':'80%'}}
                 title="Edit"
                 actions={actions}
                 modal={true}
-                open={this.state.is_modal_open}>
+                open={this.props.is_edit_modal_open}>
                     <Row className="show-grid">
                         <Col xs={6} md={8}>
-                            <DocPreview  hybridView={true}/>
+                            <DocPreview doc_url={this.props.doc_url}
+                                        hybridView={true}/>
                         </Col>
                         <Col xs={6} md={4}>
                             {DialogBody}

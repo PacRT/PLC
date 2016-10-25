@@ -358,3 +358,22 @@ form{
 	line-height: 1.2;
 	display: block;
 }
+.DateRangePicker{
+	position: relative;
+	display: inline-block;
+	top: 8px;
+}
+.DateRangePicker .DateRangePickerInput {
+	background-color: #fff;
+	border: none;
+	display: inline-block;
+}
+.DateRangePicker .DateRangePickerInput .DateInput{
+	line-height: 10px;
+}
+.DateRangePicker .DateRangePickerInput .DateInput .DateInput__label{
+	color: rgba(0, 0, 0, 0.870588)
+}
+#extraMenuItem{
+	padding: 0px;
+}

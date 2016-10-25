@@ -9,16 +9,15 @@ var Image = require('react-bootstrap/lib/Image');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var ProgressBar = require('react-bootstrap/lib/ProgressBar');
-var Card = require('material-ui/lib/card/card');
-var LinearProgress = require('material-ui/lib/linear-progress');
-var CardHeader = require('material-ui/lib/card/card-header');
+var Card = require('material-ui').Card;
+var CardHeader = require('material-ui').CardHeader;
 var FileList = require('./app-file-list');
 var UploadzoneStore = require('../../stores/app-uploadzone-store');
 var UploadzoneActions = require('../../actions/app-uploadzone-actions');
-var NavigationClose = require('material-ui/lib/svg-icons/navigation/close');
-var Drawer = require('material-ui/lib/left-nav');
-var AppBar = require('material-ui/lib/app-bar');
-var IconButton = require('material-ui/lib/icon-button');
+var NavigationClose = require('material-ui/svg-icons/navigation/close').default;
+var Drawer = require('material-ui').Drawer;
+var AppBar = require('material-ui').AppBar;
+var IconButton = require('material-ui').IconButton;
 
 var UploadZone = React.createClass({
     getInitialState:function() {
@@ -135,6 +134,7 @@ var UploadZone = React.createClass({
                 if(_.has(res[0],"err")){
                     _this.setState({
                         progress : 0,
+                        files: [],
                         open_modal: false
                     });
                 }
@@ -174,7 +174,7 @@ var UploadZone = React.createClass({
             "display"  : "block",
             "textAlign" : "center",
             "verticalAlign" : "middle",
-            "padding" : "0px"
+            "padding": "0px"
         };
         var dropzone_style={
             "borderWidth" : "0px",
@@ -193,9 +193,10 @@ var UploadZone = React.createClass({
         var appBar = {
                 "backgroundColor" : "#222"
         }
+        console.log(this.state.files);
         return (
             <div>
-                <Drawer id="popup" width={500} style={drawerStyle} openRight={true} open={this.state.open_upload_drawer}>
+                <Drawer id="popup" width={500} docked={true} containerStyle={drawerStyle} openSecondary={true} open={this.state.open_upload_drawer}>
                     <AppBar id="appBar" style={appBar} title="Upload Docs"
                             iconElementLeft={<IconButton onTouchTap={this._closeDrawer}><NavigationClose/></IconButton>}
                     />
@@ -204,6 +205,7 @@ var UploadZone = React.createClass({
                                     <Card>
                                         <CardHeader
                                             style={cardheader_style}
+                                            textStyle={{paddingRight: '0px'}}
                                             title="Document Upload Zone"
                                         />
                                     </Card>

@@ -2,17 +2,10 @@
  * Created by Hardik on 2/20/16.
  */
 var React = require("react");
-var grey200 = require('material-ui/lib/styles/colors').grey200;
-var Paper = require('material-ui/lib/paper');
-var Spacing = require('material-ui/lib/styles').Spacing;
-var Transitions = require('material-ui/lib/styles').Transitions;
-var Typography = require('material-ui/lib/styles').Typography;
+var grey200 = require('material-ui/styles/colors').grey200;
+var Paper = require('material-ui/Paper').default;
 var Col = require('react-bootstrap/lib/Col');
-var DocTileActions = require('../../actions/app-doc-tile-actions');
 var VerticalMenu = require('./app-tile-action-menu');
-var DocMetaData = require('./app-doc-meta-data');
-var TableRow= require('material-ui/lib/table/table-row');
-var TableRowColumn= require('material-ui/lib/table/table-row-column');
 var DocMetaData = require('./app-doc-meta-data');
 
 var DocTile = React.createClass({
@@ -22,20 +15,12 @@ var DocTile = React.createClass({
         }
     },
     getStyles: function () {
-        var desktopKeylineIncrement = Spacing.desktopKeylineIncrement;
-
         var styles = {
             root: {
-                transition: Transitions.easeOut,
                 margin: '15px 15px 15px 0px',
                 maxHeight: '175px',
                 width: '100%',
                 "position" : "relative"
-            },
-            rootWhenMedium: {
-                float: 'left',
-                width: '100%',
-                margin: "15px 15px 15px 0px"
             },
             image: {
                 //Not sure why this is needed but it fixes a display
@@ -46,30 +31,6 @@ var DocTile = React.createClass({
                 maxHeight: "175px",
                 width: "auto",
                 height: "auto"
-            },
-            heading: {
-                fontSize: 14,
-                paddingTop: 19,
-                marginBottom: 13,
-                letterSpacing: 0,
-                "maxWidth": "auto",
-                fontWeight: Typography.fontWeightMedium,
-                color: Typography.textDarkBlack,
-                backgroundColor: grey200,
-                textAlign: 'center',
-                margin: 0,
-                padding: 0,
-                lineHeight: desktopKeylineIncrement + 'px',
-            },
-            rootWhenLastChild: {
-                marginBottom: 0
-            },
-            rootWhenMediumAndLastChild: {
-                marginRight: 0,
-                marginBottom: 0
-            },
-            rootWhenMediumAndFirstChild: {
-                marginLeft: 0
             },
             text_field_style: {
                 "textOverflow": "ellipsis",
@@ -93,11 +54,11 @@ var DocTile = React.createClass({
             tile_menu: {
                 width: "20%"
             },
-            tile_div:{
+            tile_div: {
                 width: "50%",
                 float: "left"
             },
-            "meta-data-div":{
+            "meta-data-div": {
                 "width" : "50%",
                 "float" : "left",
                 "margin" : "15px 0px 15px 0px",
@@ -159,12 +120,14 @@ var DocTile = React.createClass({
                             <div style={styles.tile_label} id="verticalMenu">
                                 <VerticalMenu
                                     openPreview={this.props.openPreview}
+                                    openEditModal={this.props.openEditModal}
                                     doc_index={this.props.doc_index}
                                 />
                             </div>
                         </Paper>
                     </div>
                     <div style={styles["meta-data-div"]}>
+
                         <DocMetaData
                             category={this.props.category}
                             docname={this.props.docname}
@@ -173,6 +136,7 @@ var DocTile = React.createClass({
                             updateDocMetaData={this.props.updateDocMetaData}
                             saveMetaData={this.props.saveMetaData}
                         />
+
                     </div>
                 </Col>
             </Paper>

@@ -35,12 +35,12 @@ var MyDocActions = {
             actionType : AppConstants["DOCS"]["RESET_DOC_STORE"]
         })
     },
-    filterDocs : function(query_string){
+    filterDocs : function(query_string, dateRange){
         var FILTER_DOCS = APIConstants.FILTER_DOCS.replace("#query#",query_string);
         AppDispatcher.handleViewAction({
             actionType: AppConstants["DOCS"]["RESET_DOC_STORE"]
         });
-        API.get(FILTER_DOCS).then(function(response){
+        API.post(FILTER_DOCS, dateRange).then(function(response){
             var docs = JSON.parse(response.text);
             docs.map(function(doc){
                 doc.doc_url = APIURL.get(doc.doc_url);

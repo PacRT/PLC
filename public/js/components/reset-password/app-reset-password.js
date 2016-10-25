@@ -1,16 +1,13 @@
 'use strict';
 var React = require('react');
 var Grid = require('react-bootstrap/lib/Grid');
-var RaisedButton =  require('material-ui/lib/raised-button');
-var Card = require('material-ui/lib/card/card');
-var CardActions = require('material-ui/lib/card/card-actions');
-var CardHeader = require('material-ui/lib/card/card-header');
-var CardText = require('material-ui/lib/card/card-text');
-var NotificationActions = require('../../actions/app-notification');
-var CircularProgress = require('material-ui/lib/circular-progress');
-var Input = require('./../utils/Input.js');
+var RaisedButton =  require('material-ui').RaisedButton;
+var Card = require('material-ui').Card;
+var CardActions = require('material-ui').CardActions;
+var CardText = require('material-ui').CardText;
+var CustomInput = require('./../utils/Input.js');
 var Col = require('react-bootstrap/lib/Col');
-var CardMedia =  require('material-ui/lib/card/card-media');
+var CardMedia =  require('material-ui').CardMedia;
 var _ = require('lodash');
 var LoginActions = require('../../actions/app-login-actions');
 
@@ -93,7 +90,7 @@ var ResetPassword = React.createClass({
                                     Create a password you've never used before. This will help keep your account safe.
                                 </span>
                             </header>
-                            <Input
+                            <CustomInput
                                 text="Password"
                                 type="password"
                                 ref="password"
@@ -107,7 +104,7 @@ var ResetPassword = React.createClass({
                                 onChange={this.handlePasswordInput.bind(null,1)}
                             />
 
-                            <Input
+                            <CustomInput
                                 text="Confirm password"
                                 ref="confirmPassword"
                                 type="password"

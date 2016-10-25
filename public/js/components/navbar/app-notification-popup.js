@@ -1,10 +1,10 @@
 'use strict';
 var React = require('react');
-var Popover = require('material-ui/lib/popover/popover');
-var IconButton =  require('material-ui/lib/icon-button');
-var NotificationsIcon = require('material-ui/lib/svg-icons/social/notifications');
+var Popover = require('material-ui/Popover').default;
+var IconButton =  require('material-ui/IconButton').default;
+var NotificationsIcon = require('material-ui/svg-icons/social/notifications').default;
 var ActionRemainderBar = require('../action-remainder/app-actionremainder');
-var Colors = require('material-ui/lib/styles/colors');
+var Colors = require('material-ui/styles/colors');
 
 var NotificationPopUp = React.createClass({
     getInitialState : function () {
@@ -32,7 +32,7 @@ var NotificationPopUp = React.createClass({
         return (
             <div>
                 <IconButton tooltip="Notifications"  style={{ "fill": "rgb(255,255,255)" }} onTouchTap={this.handleTouchTap}>
-                    <NotificationsIcon   color={Colors.white} />
+                    <NotificationsIcon   color={Colors.fullWhite} />
                 </IconButton>
                 <Popover
                     open={this.state.open_popup}

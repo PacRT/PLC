@@ -5,18 +5,18 @@
  * Created by Hardik on 12/20/15.
  */
 var React = require('react');
-var Paper = require('material-ui/lib/paper');
-var Divider = require('material-ui/lib/divider');
+var Paper = require('material-ui').Paper;
+var Divider = require('material-ui').Divider;
 var Col = require('react-bootstrap/lib/Col');
 var Image = require('react-bootstrap/lib/Image');
-var FontIcon = require('material-ui/lib/font-icon');
-var FlatButton = require('material-ui/lib/flat-button');
+var FontIcon = require('material-ui').FontIcon;
+var FlatButton = require('material-ui').FlatButton;
 var SelectFileCategory = require('./app-select-file-category');
 var PopularCategories = require('./app-popular-categories');
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
-var Card = require('material-ui/lib/card/card');
+var Card = require('material-ui').Card;
 
 var FileList = React.createClass({
     getInitialState : function() {
@@ -26,7 +26,6 @@ var FileList = React.createClass({
     },
     handleChange:function(fileIndex,event, index, value){
         this.props.handleChange(event,index,value, fileIndex);
-
     },
     getFileList :function(){
         var text_field_style = {

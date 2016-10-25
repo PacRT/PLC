@@ -4,8 +4,8 @@
 'use strict';
 var React = require('react');
 var ModalStore =  require('../../stores/app-actionremainder-store');
-var Dialog  = require('material-ui/lib/dialog');
-var FlatButton  = require('material-ui/lib/flat-button');
+var Dialog  = require('material-ui/Dialog').default;
+var FlatButton  = require('material-ui/FlatButton').default;
 
 var ActionRemainderModal = React.createClass({
     getInitialState: function(){
@@ -28,7 +28,7 @@ var ActionRemainderModal = React.createClass({
     handleClose: function(){
         var modal_store = {
             is_modal_open : false
-        }
+        };
         this.setState({modal_store : modal_store});
     },
     render: function () {

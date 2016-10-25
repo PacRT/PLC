@@ -7,8 +7,8 @@
 var React = require("react");
 var InboxActions = require('../../actions/app-inbox-actions');
 var InboxThreadCommentStore =  require('../../stores/app-inbox-thread-comment-store');
-var TextField = require('material-ui/lib/text-field');
-var FlatButton  = require('material-ui/lib/flat-button');
+var TextField = require('material-ui/TextField').default;
+var FlatButton  = require('material-ui/FlatButton').default;
 var _ = require('lodash');
 
 var InboxDocNotes = React.createClass({

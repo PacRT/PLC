@@ -7,15 +7,13 @@ var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
 var Input = require('../utils/Input.js');
 var LoginActions = require('../../actions/app-login-actions');
-var _ = require("underscore");
-var TextField = require('material-ui/lib/text-field');
-var AccountCircle =  require('material-ui/lib/svg-icons/action/account-circle');
-var Card =  require('material-ui/lib/card/card');
-var CardActions =  require('material-ui/lib/card/card-actions');
-var CardMedia =  require('material-ui/lib/card/card-media');
-var FlatButton =  require('material-ui/lib/flat-button');
-var CardText =  require('material-ui/lib/card/card-text');
-var Colors = require('material-ui/lib/styles/colors');
+var TextField = require('material-ui/TextField').default;
+var AccountCircle =  require('material-ui/svg-icons/action/account-circle').default;
+var Card =  require('material-ui/Card').default;
+var CardActions =  require('material-ui/Card').CardActions;
+var CardMedia =  require('material-ui/Card').CardMedia;
+var FlatButton =  require('material-ui/FlatButton').default;
+var CardText =  require('material-ui/Card').CardText;
 var _ = require('lodash');
 
 var Login = React.createClass({
@@ -70,7 +68,7 @@ var Login = React.createClass({
             color: "#505050"
         };
         var CardBackGround = {
-            "background" : "#eee",
+            "backgroundColor" : "#eee",
             "borderWidth" : "0px",
             "borderColor" : "none",
             "borderStyle" : "none",
