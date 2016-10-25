@@ -52,7 +52,6 @@ var upload_doc = {
         return new Promise(function (resolve, reject) {
             client.invoke("get_user_docs", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{

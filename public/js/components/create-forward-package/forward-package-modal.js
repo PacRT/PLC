@@ -13,8 +13,9 @@ var ListItem = require('material-ui/List').ListItem;
 var Divider = require('material-ui/Divider').default;
 var NavigationClose = require('material-ui/svg-icons/navigation/close').default;
 var IconButton = require('material-ui/IconButton').default;
-var ReactTags = require('react-tag-input').WithContext;
 var Subheader = require('material-ui/Subheader').default;
+var ChipCmp = require('../utils/Chip');
+
 var ForwardPackageModal = React.createClass({
     getInitialState: function () {
         return {
@@ -47,30 +48,17 @@ var ForwardPackageModal = React.createClass({
             "package_name": event.target.value
         })
     },
-    _addEmails: function (email) {
-        var emails = this.state.emails;
-        emails.push({
-            id: new Date().getTime(),
-            text: email
-        });
-        this.setState({emails: emails});
-    },
-    _handleDeleteEmails: function (i) {
-        var emails = this.state.emails;
-        emails.splice(i, 1);
+    _updateEmails: function (emails) {
         this.setState({emails: emails});
     },
     _createAndForwardPkg: function () {
         var packages = this.state.store.packages;
         var _this = this;
         var recipients = [];
-        this.state.emails.forEach(function (item) {
-            recipients.push(item.text);
-        });
         packages.map(function (package_1) {
-            package_1["recepients"] = recipients;
+            package_1["recepients"] =  this.state.emails;
             package_1["package_type"] = _this.state.package_name;
-        });
+        }.bind(this));
         createForwardPkgActions.createPackages(packages);
     },
     getStyles: function () {
@@ -115,9 +103,9 @@ var ForwardPackageModal = React.createClass({
                     <List>
                         <Subheader>Added Docs</Subheader>
                         {
-                            this.state.store.packages[0]["packages_added"].length ? this.state.store.packages[0].packages_added.map(function (pkg) {
+                            this.state.store.packages[0]["packages_added"].length ? this.state.store.packages[0].packages_added.map(function (pkg, index) {
                                 return (
-                                    <div>
+                                    <div key={'packages_'+ index}>
                                         <ListItem primaryText={pkg.file_name}>
                                         </ListItem>
                                         <Divider />
@@ -134,10 +122,9 @@ var ForwardPackageModal = React.createClass({
                         defaultValue={this.state.package_name}
                         floatingLabelText="Package Name To Save"
                     />
-                    <ReactTags tags={emails}
-                               handleAddition={this._addEmails}
-                               handleDelete={this._handleDeleteEmails}
-                               placeholder={placeHolder}
+                    <ChipCmp updateList={this._updateEmails}
+                             placeholder={placeHolder}
+                             validateEmail={false}
                     />
                 </div>
 

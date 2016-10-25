@@ -13,7 +13,7 @@ var UserNameValidator = require('./UserNameValidator.js');
 var cx = require('classnames');
 
 
-var Input = React.createClass({
+var CustomInput = React.createClass({
 
     getInitialState: function(){
         var valid = (this.props.isValid && this.props.isValid()) || true;
@@ -257,7 +257,7 @@ var Input = React.createClass({
                     specialCharacters={this.props.specialCharacters}
                 />
         }
-
+        console.log(this.props);
         return (
             <div className={inputGroupClasses}>
 
@@ -266,16 +266,16 @@ var Input = React.createClass({
         </label>
 
         <input
-        {...this.props}
-        placeholder={this.props.placeholder}
-        className="input"
-        id={this.props.text}
-        defaultValue={this.props.defaultValue}
-        value={this.state.value}
-        onChange={this.handleChange}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        autoComplete="off"
+            type={this.props.type}
+            placeholder={this.props.placeholder}
+            className="input"
+            id={this.props.text}
+            defaultValue={this.props.defaultValue}
+            value={this.state.value || ''}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            autoComplete="off"
         />
 
         <InputError
@@ -295,4 +295,4 @@ var Input = React.createClass({
     }
 });
 
-module.exports = Input;
+module.exports = CustomInput;

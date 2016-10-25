@@ -1,8 +1,5 @@
 var React = require("react");
-var List = require('material-ui/lib/lists/list');
-var Jumbotron = require('react-bootstrap').Jumbotron;
-var CircularProgress = require('material-ui/lib/circular-progress');
-
+var List = require('material-ui/List').default;
 var Thread = require('./app-thread');
 var AppThreadList = React.createClass({
     getInitialState : function(){
@@ -18,7 +15,8 @@ var AppThreadList = React.createClass({
     _getStyles : function(){
       return {
           "list" : {
-              "paddingBottom" : "0px"
+              "paddingBottom" : "0px",
+              "backgroundColor": "white"
           }
       }
     },
@@ -27,19 +25,19 @@ var AppThreadList = React.createClass({
         var styles = this._getStyles();
         return (
             <div>
-                    {
-                        this.props.threads.length ?
-                            <List style={styles["list"]}>{
-                                this.props.threads.map(function(thread,index){
-                                    return (<Thread markThreadRead={_this.props.markThreadRead}
-                                                key={thread.thread_id}
-                                                thread_index={index}
-                                                thread={thread}
-                                                previewFile={_this.props.previewFile}
-                                        />)
-                                })
-                            }</List> : ""
-                    }
+                {
+                    this.props.threads.length ?
+                        <List style={styles["list"]}>{
+                            this.props.threads.map(function(thread,index){
+                                return (<Thread markThreadRead={_this.props.markThreadRead}
+                                            key={thread.thread_id}
+                                            thread_index={index}
+                                            thread={thread}
+                                            previewFile={_this.props.previewFile}
+                                    />)
+                            })
+                        }</List> : ""
+                }
             </div>
         )
     }

@@ -14,7 +14,6 @@ var Login       = require('./login/app-login');
 var Registration= require('./registration/app-registration');
 var LoginStore  = require('../stores/app-login-store');
 var LoginActions = require('../actions/app-login-actions');
-var CreateForwardPackage   = require('./create-forward-package/app-create-forward-package');
 var AppConstants = require('../constants/app-constants');
 var Inbox = require('./inbox/app-inbox');
 var SentItems = require('./sentitems/app-sentitems');
@@ -43,7 +42,6 @@ var AppRouter = {
         { path : "mydocs"         ,component: MyDocs      ,onEnter:requireAuth},
         { path : "invite"         ,component: Invite      ,onEnter:requireAuth},
         { path : "registration"   ,component: Registration},
-        { path : "createpackage"  ,component: CreateForwardPackage, onEnter:requireAuth},
         { path : "inbox"          ,component: Inbox, onEnter:requireAuth},
         { path : "sentitems"      ,component: SentItems, onEnter:requireAuth},
         { path : "forgotPassword" ,component: ForgotPassword },

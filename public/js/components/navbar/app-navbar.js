@@ -12,8 +12,8 @@ var NavItem = ReactBoostrap.NavItem;
 var LoginStore = require('../../stores/app-login-store');
 var LoginActions = require('../../actions/app-login-actions');
 var NavBarActions = require('../../actions/app-navbar-actions');
-var AccountCircle =  require('material-ui/lib/svg-icons/action/account-box');
-var Badge = require('material-ui/lib/badge');
+var AccountCircle =  require('material-ui/svg-icons/action/account-box').default;
+var Badge = require('material-ui/Badge').default;
 var NotificationPopUp = require('./app-notification-popup');
 
 var NavBar = React.createClass({
@@ -84,7 +84,6 @@ var NavBar = React.createClass({
         } else {
             return (
                 <div>
-
                     <Nav>
                         <NavItem className={this.getClassName('mydocs')}    onClick={this._goToLocation.bind(null, 'mydocs')}>My Docs</NavItem>
                         <NavItem className={this.getClassName('invite')}     onClick={this._goToLocation.bind(null, 'invite')}>Invite</NavItem>
@@ -93,16 +92,20 @@ var NavBar = React.createClass({
                         <NavItem onClick={this.logout}>Logout</NavItem>
                     </Nav>
                     <Nav pullRight>
-                           <span style={full_name_style}> {this.state.welcome_msg} </span>
+                        <NavItem>
+                            <span style={full_name_style}> {this.state.welcome_msg} </span>
+                        </NavItem>
+                        <NavItem id="extraMenuItem" style={{padding: "0px"}}>
                             <Badge
-                                    badgeContent={10}
-                                    secondary={true}
-                                    badgeStyle={{top:0, right: 18}}
-                                    style={{padding: "0px 15px 0px 0px" }}
-                                >
-                                    <NotificationPopUp/>
-                                </Badge>
+                                badgeContent={10}
+                                secondary={true}
+                                badgeStyle={{top:0, right: 18}}
+                                style={{padding: "0px 15px 0px 0px" }}
+                            >
+                                <NotificationPopUp/>
+                            </Badge>
                             <AccountCircle style={cardHeaderStyle}/>
+                        </NavItem>
                     </Nav>
                 </div>
 

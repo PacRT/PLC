@@ -12,7 +12,8 @@ var TileActionsMenu = React.createClass({
         /*var hybrid = false;
         TileActions.openPreview({url:this.props.doc_url,title:this.props.title},hybrid)*/
     },
-    _openEditModal : function(doc_url){
+    _openEditModal : function(){
+        this.props.openEditModal(this.props.doc_index)
     },
     render: function(){
         var style = {
@@ -37,7 +38,7 @@ var TileActionsMenu = React.createClass({
                 <IconButton id="previewIcon" onTouchTap={this._openPreview} style={{"float":"right"}}  tooltip="Preview" tooltipPosition="bottom-center"  iconStyle={{"fill" : "#ffffff"}}>
                     <RemoveRedEye />
                 </IconButton>
-                <IconButton id="editIcon__1" onTouchTap={this._openEditModal.bind(null,this.props.doc_url)} style={{"float":"right"}} tooltip="Edit" tooltipPosition="bottom-center" iconStyle={{"fill" : "#ffffff"}}>
+                <IconButton id="editIcon_1" onTouchTap={this._openEditModal} style={{"float":"right"}} tooltip="Edit" tooltipPosition="bottom-center" iconStyle={{"fill" : "#ffffff"}}>
                     <Edit/>
                 </IconButton>
                 {/* <IconMenu

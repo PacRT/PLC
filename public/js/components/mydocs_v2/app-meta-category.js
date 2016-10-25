@@ -2,32 +2,14 @@
  * Created by Hardik on 8/7/16.
  */
 var React = require('react');
-var TextField = require('material-ui/lib/text-field');
+var TextField = require('material-ui/TextField').default;
 var MetaCategory = require('../../constants/app-meta-catergory-constants');
-var DatePicker  = require('material-ui/lib/date-picker/date-picker');
+var DatePicker  = require('material-ui/DatePicker').default;
 var _ = require('lodash');
-var SelectField = require('material-ui/lib/select-field');
-var MenuItem = require('material-ui/lib/menus/menu-item')
-var MetaFieldStore = require('../../stores/app-meta-category-store');
+var SelectField = require('material-ui/SelectField').default;
+var MenuItem = require('material-ui/Menu').MenuItem;
 
 var AppMetaCategory = React.createClass({
-    getInitialState : function(){
-      return {
-          category : MetaCategory.hasOwnProperty(this.props.category) ? MetaCategory[this.props.category] : [],
-          store : MetaFieldStore.getStore()
-      }
-    },
-    componentDidMount: function() {
-        MetaFieldStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function() {
-        MetaFieldStore.removeChangeListener(this._onChange);
-    },
-    _onChange : function(){
-        this.setState({
-            "store" : MetaFieldStore.getStore()
-        });
-    },
     _handleTextFieldChange : function(key, value, event){
         var store = this.state.store;
         store[key] = event.target.value;

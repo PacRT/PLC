@@ -2,7 +2,7 @@
  * Created by hmistry on 6/5/16.
  */
 var React = require("react");
-var Colors = require('material-ui//styles/colors');
+var Colors = require('material-ui/styles/colors');
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
 var Col = require('react-bootstrap').Col;

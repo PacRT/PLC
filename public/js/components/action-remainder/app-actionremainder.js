@@ -6,13 +6,13 @@
  */
 'use strict';
 var React = require('react');
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var ActionInfo = require('material-ui/lib/svg-icons/action/info');
-var Announcement = require('material-ui/lib/svg-icons/action/announcement');
-var Divider = require('material-ui/lib/divider');
-var ActionRemainderActions = require('../../actions/app-actionremainder-actions');
+var List = require('material-ui/List').default;
+var ListItem = require('material-ui/List').ListItem;
+var ActionInfo = require('material-ui/svg-icons/action/info').default;
+var Announcement = require('material-ui/svg-icons/action/announcement').default;
+var Divider = require('material-ui').Divider;
 var ModalApp = require('./app-actionremainder-modal');
+var Subheader = require('material-ui/Subheader').default;
 
 var ActionRemainder = React.createClass({
     /**
@@ -39,22 +39,24 @@ var ActionRemainder = React.createClass({
         };
         return (
             <div>
-                <List subheader="Action Remainder">
+                <List>
+                    <Subheader>{"Action Remainder"}</Subheader>
                     <ListItem onTouchTap={this.handleActionRemainder.bind(null,true)} style={list_style} primaryText="Car Insurance Renewal"
                               secondaryTextLines={1} secondaryText="2/6"
                               rightIcon={<Announcement style={immediate_action} />}  />
                     <ListItem style={list_style} primaryText="Property"
                               secondaryTextLines={1} secondaryText="Your status is visible to everyone you use with"
-                              rightIcon={<Announcement style={warning} tooltip="Please Take Actions"/>}  />
+                              rightIcon={<Announcement style={warning}/>}  />
                     <ListItem style={list_style} primaryText="Boat Registration"
                               secondaryTextLines={1} secondaryText="Your status is visible to everyone you use with"
-                              rightIcon={<Announcement style={warning} tooltip="Please Take Actions" />}  />
+                              rightIcon={<Announcement style={warning} />}  />
                     <ListItem style={list_style} primaryText="Qtly Estimated Tax"
                               secondaryTextLines={1} secondaryText="Your status is visible to everyone you use with"
-                              rightIcon={<Announcement style={info} tooltip="Please Take Actions" />}  />
+                              rightIcon={<Announcement style={info} />}  />
                 </List>
                 <Divider />
-                <List subheader="Warranty Status">
+                <List>
+                    <Subheader>{"Warranty Status"}</Subheader>
                     <ListItem style={list_style} primaryText="All mail" rightIcon={<ActionInfo />} />
                     <ListItem style={list_style} primaryText="Trash" rightIcon={<ActionInfo />} />
                     <ListItem style={list_style} primaryText="Spam" rightIcon={<ActionInfo />} />

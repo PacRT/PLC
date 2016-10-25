@@ -120,12 +120,14 @@ var DocTile = React.createClass({
                             <div style={styles.tile_label} id="verticalMenu">
                                 <VerticalMenu
                                     openPreview={this.props.openPreview}
+                                    openEditModal={this.props.openEditModal}
                                     doc_index={this.props.doc_index}
                                 />
                             </div>
                         </Paper>
                     </div>
                     <div style={styles["meta-data-div"]}>
+
                         <DocMetaData
                             category={this.props.category}
                             docname={this.props.docname}
@@ -134,6 +136,7 @@ var DocTile = React.createClass({
                             updateDocMetaData={this.props.updateDocMetaData}
                             saveMetaData={this.props.saveMetaData}
                         />
+
                     </div>
                 </Col>
             </Paper>

@@ -16,7 +16,6 @@ var Inbox = {
         return new Promise(function(resolve,reject){
             client.invoke("createThread", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{
@@ -31,7 +30,6 @@ var Inbox = {
         return new Promise(function(resolve,reject){
             client.invoke("getThreads", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{
@@ -46,7 +44,6 @@ var Inbox = {
         return new Promise(function(resolve,reject){
             client.invoke("markThreadRead", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{
@@ -61,7 +58,6 @@ var Inbox = {
         return new Promise(function(resolve,reject){
             client.invoke("addComment", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{
@@ -76,7 +72,6 @@ var Inbox = {
         return new Promise(function(resolve,reject){
             client.invoke("getComment", data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{

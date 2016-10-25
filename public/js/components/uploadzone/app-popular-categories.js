@@ -2,8 +2,8 @@
  * Created by Hardik on 12/20/15.
  */
 var React = require('react');
-var SelectField = require('material-ui/lib/select-field');
-var MenuItem = require('material-ui/lib/menus/menu-item');
+var SelectField = require('material-ui').SelectField;
+var MenuItem = require('material-ui').MenuItem;
 var categories = require('../../constants/app-upload-categories-constants');
 
 var PopularCategories = React.createClass({
@@ -32,7 +32,7 @@ var PopularCategories = React.createClass({
         return (
             <div>
                 <SelectField floatingLabelStyle={{"color": "rgba(0, 0, 0, 0.870588)","fontWeight":"500", "zIndex" : 0}}
-                             underlineStyle={{"border-color" : "rgba(0, 0, 0, 0.87)"}}
+                             underlineStyle={{"borderColor" : "rgba(0, 0, 0, 0.87)"}}
                              iconStyle={{"fill": "rgba(0, 0, 0, 0.870588)"}}
                              value={this.props.category} onChange={this.props.handle}
                              style={drop_menu_style} floatingLabelText="Categories">

@@ -1,7 +1,7 @@
 var React = require('react');
-var Dialog = require('material-ui/lib/dialog');
-var FlatButton = require('material-ui/lib/flat-button');
-var LinearProgress = require('material-ui/lib/linear-progress');
+var Dialog = require('material-ui').Dialog;
+var FlatButton = require('material-ui').FlatButton;
+var LinearProgress = require('material-ui').LinearProgress;
 
 var SelectFileCategory = React.createClass({
     getInitialState : function(){

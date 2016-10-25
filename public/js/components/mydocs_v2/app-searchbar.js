@@ -39,10 +39,12 @@ var SearchBarApp = React.createClass({
          }*/
         clearTimeout(this.state.timeout);
         var filter_value = event.target.value;
-        var _this = this;
-        var dateRange = {
-            'gte': this.state.startDate.unix()+'',
-            'lte': this.state.endDate.unix()+''
+        var dateRange = {};
+        if( this.state.startDate && this.state.endDate){
+             dateRange = {
+                'gte': this.state.startDate.unix()+'',
+                'lte': this.state.endDate.unix()+''
+            }
         }
         // Make a new timeout set to go off in 800ms
         this.state.timeout = setTimeout(function () {
@@ -55,6 +57,16 @@ var SearchBarApp = React.createClass({
             startDate: dateRange.startDate,
             endDate: dateRange.endDate
         });
+        if(dateRange || this.state.value.length >=4 ){
+            var dateRange = {};
+            if(dateRange.startDate){
+                dateRange = {
+                    'gte': this.state.startDate.unix()+'',
+                    'lte': this.state.endDate.unix()+''
+                };
+            };
+            MyDocsActions.filterDocs( this.state.value, dateRange);
+        }
     },
     onFocusChange: function (focusedInput) {
         this.setState({focusedInput: focusedInput});
@@ -67,7 +79,7 @@ var SearchBarApp = React.createClass({
         return (
             <div style={{paddingLeft: '44px'}}>
                 <Toolbar>
-                    <ToolbarGroup firstChild={true}>
+                    <ToolbarGroup firstChild={true} style={{marginLeft: "-10px"}}>
                         <ToolbarTitle text={this.props.title}/>
                     </ToolbarGroup>
                     <ToolbarGroup>
@@ -77,6 +89,8 @@ var SearchBarApp = React.createClass({
                             <div className="hidden-sm hidden-xs">
                                 <DateRangePicker
                                     showClearDates
+                                    startDatePlaceholderText={'From'}
+                                    endDatePlaceholderText={'To'}
                                     isOutsideRange={this.isOutsideRange}
                                     onDatesChange={this.onDatesChange}
                                     onFocusChange={this.onFocusChange}

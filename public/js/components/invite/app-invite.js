@@ -72,7 +72,9 @@ var Invite = React.createClass({
                                     <CircularProgress size={60} thickness={5} style={this.styles.circularProgress}/> :
                                     <ChipCmp
                                         placeholder={'Add Emails'}
-                                        updateList={this._updateEmails}/>
+                                        updateList={this._updateEmails}
+                                        validateEmail={true}
+                                    />
                             }
                         </CardText>
                         <CardActions>

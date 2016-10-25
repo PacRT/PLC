@@ -14,6 +14,7 @@ var livereload = require('gulp-livereload');
 var connect = require('gulp-connect');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
+var clean = require('gulp-clean');
 
 // External dependencies you do not want to rebundle while developing,
 // but include in your application deployment
@@ -28,31 +29,16 @@ var DEV_CONSTANTS = {
     "NODE_PORT"   : 3333,
     "SEAWEEDFS_ENDPOINT" : "127.0.0.1:9333"
 };
-
-var libs = [
-    'bluebird',
-    'lodash',
-    'react',
-    'material-ui',
-    'react-bootstrap',
-    'react-dom',
-    'react-dropzone',
-    'react-router',
-    'react-tap-event-plugin',
-    'superagent',
-    'superagent-bluebird-promise'
-];
 var browserifyTask = function (options) {
 
     // Our app bundler
     var appBundler = browserify({
         entries: [options.src], // Only need initial file, browserify finds the rest
-        transform: [[babelify, {presets: ['es2015','react']}]], // We want to convert JSX to normal javascript
+        transform: [[babelify, {presets: ['es2015','react']}]], //
+        // We want to convert JSX to normal javascript
         debug: options.development, // Gives us sourcemapping
+        fullPaths: false,
         cache: {}, packageCache: {}, fullPaths: options.development // Requirement of watchify
-    });
-    libs.forEach(function(dependency){
-        appBundler.external(dependency)
     });
     if(!options.development){
         appBundler.transform('uglifyify', { global: true })
@@ -81,7 +67,6 @@ var browserifyTask = function (options) {
 var cssTask = function (options) {
     if (options.development) {
         var run = function () {
-            console.log(arguments);
             var start = new Date();
             console.log('Building CSS bundle');
             gulp.src(options.src)
@@ -160,7 +145,12 @@ gulp.task('plc-api',function () {
     });
 });
 
-gulp.task('vendor-bundle', function () {
+gulp.task('clean', function () {
+    return gulp.src('dist/js', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('vendor-bundle:prod', function () {
     var start = new Date();
     console.log('Started building Vendor bundle');
     var vendorBundle = browserify({
@@ -179,8 +169,24 @@ gulp.task('vendor-bundle', function () {
         }));
 });
 
-
-gulp.task('default',['copy-static'], function () {
+gulp.task('vendor-bundle:dev', function () {
+    var start = new Date();
+    console.log('Started building Vendor bundle');
+    var vendorBundle = browserify({
+        debug: false
+    });
+    libs.forEach(function(lib) {
+        vendorBundle.require(lib);
+    });
+    return vendorBundle.bundle()
+        .on('error', gutil.log)
+        .pipe(source('vendor.min.js'))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(notify(function () {
+            console.log('Vendor bundle built in ' + (Date.now() - start)/1000 + 's');
+        }));
+});
+gulp.task('default',['clean', 'copy-static'], function () {
     livereload.listen();
 
     browserifyTask({
@@ -200,7 +206,7 @@ gulp.task('default',['copy-static'], function () {
         development : true
     });
 });
-gulp.task('deploy', ['copy-static'] , function () {
+gulp.task('deploy', ['clean', 'copy-static'] , function () {
 
     browserifyTask({
         development: false,

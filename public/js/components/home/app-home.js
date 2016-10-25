@@ -1,7 +1,7 @@
 'use strict';
 var React = require('react');
 var Jumbotron = require('react-bootstrap/lib/Jumbotron');
-var RaisedButton = require('material-ui/lib/raised-button');
+var RaisedButton = require('material-ui').RaisedButton;
 var Grid = require('react-bootstrap/lib/Grid');
 var Row = require('react-bootstrap/lib/Row');
 var Col = require('react-bootstrap/lib/Col');
@@ -23,6 +23,7 @@ var HomePage = React.createClass({
                         <Col md={4} xs={12}>
                             <LoginApp/>
                         </Col>
+                        {this.props.children}
                     </Row>
                 </Grid>
             </div>

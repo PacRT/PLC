@@ -30,7 +30,7 @@ var ChipCmp = React.createClass({
         var emails = chipData.filter(function (email_tag) {
             return email_tag.label === email
         });
-        if (this.validateEmail(email)) {
+        if (this.validateEmail(email) || !this.props.validateEmail) {
             if (!emails.length) {
                 chipData.push({
                     key: new Date().getTime(),

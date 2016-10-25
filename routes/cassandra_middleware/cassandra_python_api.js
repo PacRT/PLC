@@ -16,7 +16,6 @@ var PythonBridge = {
         return new Promise(function(resolve,reject){
             client.invoke(method, data, function(error, response) {
                 console.log(error);
-                console.log(response);
                 if(_.has(response,"error")){
                     reject(response)
                 }else{

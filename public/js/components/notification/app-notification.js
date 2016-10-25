@@ -3,8 +3,8 @@
  */
 'use strict';
 var React = require('react');
-var RaisedButton = require('material-ui/lib/raised-button');
-var Snackbar = require('material-ui/lib/snackbar');
+var RaisedButton = require('material-ui').RaisedButton;
+var Snackbar = require('material-ui').Snackbar;
 var NotificationStore = require('../../stores/app-notification-store');
 var NotificationActions = require('../../actions/app-notification');
 

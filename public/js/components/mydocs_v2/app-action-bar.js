@@ -5,37 +5,28 @@ var React = require('react');
 var Toolbar = require('material-ui/Toolbar').Toolbar;
 var ToolbarGroup = require('material-ui/Toolbar').ToolbarGroup;
 var Tooltip = require("react-bootstrap/lib/Tooltip");
+var Popover = require("react-bootstrap/lib/Popover");
 var OverlayTrigger = require("react-bootstrap/lib/OverlayTrigger");
 
 var MyDocsStore = require('../../stores/app-mydocs-store');
 var CreateForwardPkgActions = require('../../actions/app-create-forward-package-actions');
 var ForwardPkgModal = require('../create-forward-package/forward-package-modal');
 
-var CreateFwdPkgTT =  <Tooltip id="tooltip"><strong>Create & Forward Package</strong></Tooltip>;
-var UploadTT =  <Tooltip id="tooltip"><strong>Upload Docs</strong></Tooltip>;
-var ReportsTT =  <Tooltip id="tooltip"><strong>Reports</strong></Tooltip>;
-var MessageTT =  <Tooltip id="tooltip"><strong>Messages</strong></Tooltip>;
+var CreateFwdPkgTT = <Tooltip id="tooltip2"><strong>Forward Packages</strong></Tooltip>;
+var UploadTT =  <Tooltip id="tooltip3"><strong>Upload Docs</strong></Tooltip>;
+var ReportsTT =  <Tooltip id="tooltip4"><strong>Reports</strong></Tooltip>;
+var MessageTT =  <Tooltip id="tooltip5"><strong>Messages</strong></Tooltip>;
 var UploadAction = require('../../actions/app-uploadzone-actions');
 
 var ActionBarApp = React.createClass({
     getInitialState: function () {
         return {
-            store: MyDocsStore.getDocStore(),
             upload_drawer : false,
             package_drawer : false
         }
     },
-    componentDidMount: function () {
-        MyDocsStore.addChangeListener(this._onChange);
-    },
-    componentWillUnmount: function () {
-        MyDocsStore.resetDocStore();
-        MyDocsStore.removeChangeListener(this._onChange);
-    },
-    _onChange: function () {
-        this.setState({
-            store: MyDocsStore.getDocStore()
-        });
+    componentWillReceiveProps: function(newProps, oldProps){
+        console.log(newProps, oldProps);
     },
     _createPkg : function(){
         var packages = [];
@@ -45,11 +36,13 @@ var ActionBarApp = React.createClass({
             "recepients" : []
 
         };
-        for(var index in this.state.store.selected_docs){
-            var file_index = this.state.store.selected_docs[index];
+        var selectedDocs = this.props.mydocs.filter(function(docs){
+            return docs.isSelected;
+        })
+        for(var index in selectedDocs){
             var doc_json = {
-                "file_name" : this.state.store.files_name[file_index],
-                "docs_link" : "/docs" + this.state.store.docs_link[file_index].split("/docs")[1]
+                "file_name": selectedDocs[index].docname,
+                "docs_link": selectedDocs[index].doc_url.split("/api/v1")[1]
             }
             pkg_json["packages_added"].push(doc_json);
         }
@@ -74,25 +67,25 @@ var ActionBarApp = React.createClass({
     },
     render :function(){
         return(
-         <div>
+         <div >
              <div style={{paddingLeft:'1em',position:"fixed",width:"77.2%","bottom":0}} className="hidden-sm hidden-xs">
                 <Toolbar style={{"background":"none"}}>
                     <ToolbarGroup>
                         <div style={{paddingLeft:'1em',position:"fixed",width:"66.2%","bottom":0,"textAlign": "center"}}>
                             <div className="dock">
                                 <ul>
-                                    <OverlayTrigger placement="top" overlay={ReportsTT}>
                                         <li>
-                                            <a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a>
+                                            <OverlayTrigger placement="top" overlay={ReportsTT}>
+                                                <a><img src="/assets/css/images/seo-report.svg" alt="Reports"/></a>
+                                            </OverlayTrigger>
                                         </li>
-                                    </OverlayTrigger>
-                                    <OverlayTrigger placement="top" overlay={CreateFwdPkgTT}>
-                                        <li>
-                                            <a onClick={this._createPkg}>
-                                                <img  src="/assets/css/images/export.svg" alt="Forward Docs"></img>
-                                            </a>
+                                        <li id="forwardPackages">
+                                            <OverlayTrigger container={document.getElementsByClassName('actionBar')[0]} placement="top" overlay={CreateFwdPkgTT}>
+                                                <a onClick={this._createPkg}>
+                                                    <img  src="/assets/css/images/export.svg" alt="Forward Docs"></img>
+                                                </a>
+                                            </OverlayTrigger>
                                         </li>
-                                    </OverlayTrigger>
                                     <OverlayTrigger placement="top" overlay={UploadTT}>
                                         <li>
                                             <a  onClick={this._openUploadDrawer}>

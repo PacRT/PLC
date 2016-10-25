@@ -1,11 +1,11 @@
 var React = require("react");
-var ListItem = require('material-ui/lib/lists/list-item');
-var ThreadUnread = require('material-ui/lib/svg-icons/communication/email');
-var ThreadRead = require('material-ui/lib/svg-icons/communication/mail-outline');
-var Divider = require('material-ui/lib/divider');
+var ListItem = require('material-ui/List').ListItem;
+var ThreadUnread = require('material-ui/svg-icons/communication/email').default;
+var ThreadRead = require('material-ui/svg-icons/communication/mail-outline').default;
+var Divider = require('material-ui/Divider').default;
 var AppPrimaryText = require('./app-list-primary-text');
-var RightChevron = require('material-ui/lib/svg-icons/hardware/keyboard-arrow-right');
-var ArrowDropDown = require('material-ui/lib/svg-icons/navigation/arrow-drop-down-circle');
+var RightChevron = require('material-ui/svg-icons/hardware/keyboard-arrow-right').default;
+var ArrowDropDown = require('material-ui/svg-icons/navigation/arrow-drop-down-circle').default;
 var _ = require('lodash');
 
 var AppThread = React.createClass({
